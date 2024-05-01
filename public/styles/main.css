@@ -1,0 +1,93 @@
+:root {
+    font-family: "Rokkitt", serif;
+    font-size: 16px;
+
+    color-scheme: light dark;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    --v-spacing: 1rem;
+    --h-spacing: 1rem;
+}
+
+body {
+    margin: 0;
+}
+
+a, a:visited {
+    color: blue;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+main {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+.tiles {
+    display: flex;
+    align-items: last baseline;
+    justify-content: left;
+    gap: var(--v-spacing) var(--h-spacing);
+}
+
+.tiles.compact {
+    flex-wrap: nowrap;
+    overflow: auto hidden;
+}
+
+.tiles.spread {
+    justify-content: space-between;
+}
+
+.hero {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.unit {
+    font-family: "Kode Mono", monospace;
+}
+
+header {
+    font-weight: bold;
+}
+
+ol.forecast {
+    list-style: none;
+    padding: 0;
+}
+
+ol.forecast li:not(:last-child) {
+    margin-bottom: var(--v-spacing);
+}
+
+form.place-search {
+    display: flex;
+}
+
+form.place-search input {
+    flex-grow: 1;
+    font-family: "Rokkitt", serif;
+    font-size: 20px;
+    padding: var(--h-spacing) var(--v-spacing);
+    background-color: white;
+    border: 1px solid #888;
+    border-radius: 8px;
+}
+
+ol.places {
+    list-style: none;
+    padding: 0;
+}
+
+ol.places li:not(:last-child) {
+    margin-bottom: var(--v-spacing);
+}

@@ -3,11 +3,13 @@
     "target": "es2016",
     "module": "commonjs",
     "outDir": "./dist",
-    "esModuleInterop": true,
+    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
   }
 }

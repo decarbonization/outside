@@ -1,0 +1,83 @@
+{
+    "forecast": {
+        "measurementLabels": {
+            "humidity": "Humidity",
+            "uvIndex": "UV Index",
+            "wind": "Wind",
+            "visibility": "Visibility",
+            "pressure": "Pressure",
+            "feelsLike": "Feels Like"
+        },
+        "weatherCondition": {
+            "BlowingDust": "Blowing Dust",
+            "Clear": "Clear",
+            "Cloudy": "Cloudy",
+            "Foggy": "Foggy",
+            "Haze": "Haze",
+            "MostlyClear": "Mostly Clear",
+            "MostlyCloudy": "Mostly Cloudy",
+            "PartlyCloudy": "Partly Cloudy",
+            "Smoky": "Smoky",
+            "Breezy": "Breezy",
+            "Windy": "Windy",
+            "Drizzle": "Drizzle",
+            "HeavyRain": "Heavy Rain",
+            "IsolatedThunderstorms": "Isolated Thunderstorms",
+            "Rain": "Rain",
+            "SunShowers": "Sun Showers",
+            "ScatteredThunderstorms": "Scattered Thunderstorms",
+            "StrongStorms": "StrongStorms",
+            "Thunderstorms": "Thunderstorms",
+            "Frigid": "Frigid",
+            "Hail": "Hail",
+            "Hot": "Hot",
+            "Flurries": "Flurries",
+            "Sleet": "Sleet",
+            "Snow": "Snow",
+            "SunFlurries": "Sun Flurries",
+            "WintryMix": "Wintry Mix",
+            "Blizzard": "Blizzard",
+            "BlowingSnow": "Blowing Snow",
+            "FreezingDrizzle": "Freezing Drizzle",
+            "FreezingRain": "Freezing Rain",
+            "HeavySnow": "Heavy Snow",
+            "Hurricane": "Hurricane",
+            "TropicalStorm": "Tropical Storm"
+        },
+        "pressureTrend": {
+            "rising": "Rising",
+            "falling": "Falling",
+            "steady": "Steady"
+        },
+        "moonPhase": {
+            "new": "New",
+            "waxingCrescent": "Waxing Crescent",
+            "firstQuarter": "First Quarter",
+            "full": "Full",
+            "waxingGibbous": "Waxing Gibbous",
+            "waningGibbous": "Waning Gibbous",
+            "thirdQuarter": "Third Quarter",
+            "waningCrescent": "Waning Crescent"
+        },
+        "precipitationType": {
+            "clear": "Clear",
+            "precipitation": "Precipitation",
+            "rain": "Rain",
+            "snow": "Snow",
+            "sleet": "Sleet",
+            "hail": "Hail",
+            "mixed": "Wintry Mixed"
+        }
+    },
+    "weatherConditions": {
+        "lastUpdated": "Last Updated {{when, datetime(dateStyle: 'medium'; timeStyle: 'short')}}"
+    },
+    "dailyForecast": {
+        "title": "{{count, number}} Day Forecast",
+        "weekday": "{{start, datetime(weekday: 'short')}}"
+    },
+    "hourlyForecast": {
+        "title": "{{count, number}} Hour Forecast",
+        "time": "{{when, datetime(hour: 'numeric')}}"
+    }
+}
