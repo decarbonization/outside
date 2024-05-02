@@ -11,6 +11,7 @@
 
     --v-spacing: 1rem;
     --h-spacing: 1rem;
+    --accent: blue;
 }
 
 body {
@@ -18,7 +19,7 @@ body {
 }
 
 a, a:visited {
-    color: blue;
+    color: var(--accent);
     text-decoration: none;
 }
 
@@ -76,16 +77,25 @@ form.place-search {
 form.place-search input {
     flex-grow: 1;
     font-family: "Rokkitt", serif;
-    font-size: 20px;
+    font-size: 1.25rem;
     padding: var(--h-spacing) var(--v-spacing);
     background-color: white;
-    border: 1px solid #888;
+    border: 2px solid #aaa;
     border-radius: 8px;
+}
+
+form.place-search input:focus {
+    outline: none;
+    border-color: var(--accent);
 }
 
 ol.places {
     list-style: none;
     padding: 0;
+}
+
+ol.places li {
+    padding: var(--h-spacing) var(--v-spacing);
 }
 
 ol.places li:not(:last-child) {
