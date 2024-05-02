@@ -16,7 +16,7 @@ export function WeatherSearch({query, results}: WeatherSearchProps) {
             <ol className="places">
                 {results?.results.map(place => (
                     <li>
-                        <a href={`/weather/${place.coordinate.latitude}/${place.coordinate.longitude}?where=${place.name}`}>
+                        <a href={`/weather/${place.countryCode}/${place.coordinate.latitude}/${place.coordinate.longitude}?q=${place.name}`}>
                             {place.formattedAddressLines.join(", ")}
                         </a>
                     </li>

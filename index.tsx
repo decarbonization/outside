@@ -2,17 +2,17 @@ import { addDays, addHours } from 'date-fns';
 import dotenv from 'dotenv';
 import express from 'express';
 import fs from "fs";
+import { find } from 'geo-tz';
 import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
 import render from "preact-render-to-string";
 import { App } from "./app/views/_app";
-import { WeatherSearch } from './app/views/weather-search';
 import { WeatherDetails } from './app/views/weather-details';
+import { WeatherSearch } from './app/views/weather-search';
 import { perform } from './fruitkit/api';
 import { GeocodeAddress, MapsToken } from './fruitkit/apple-maps/maps-api';
-import { GeoLocation } from './fruitkit/apple-maps/models/base';
 import { Weather } from "./fruitkit/apple-weather/models/weather";
 import { WeatherDataSet, WeatherKitToken, WeatherQuery } from './fruitkit/apple-weather/weather-api';
 
@@ -53,11 +53,11 @@ app.get('/', async (req, res) => {
   await i18next.changeLanguage(req.i18n.resolvedLanguage);
 
   const query = req.query["q"] as string | undefined;
-  const results = query !== undefined 
+  const results = query !== undefined
     ? await perform({
-        token: mapsToken, 
-        call: new GeocodeAddress({query: query, language: req.i18n.resolvedLanguage})
-      })
+      token: mapsToken,
+      call: new GeocodeAddress({ query: query, language: req.i18n.resolvedLanguage })
+    })
     : undefined;
 
   const resp = render(
@@ -68,34 +68,42 @@ app.get('/', async (req, res) => {
   res.type('html').send(`<!DOCTYPE html>${resp}`);
 });
 
-app.get('/weather/:lat/:lon', async (req, res) => {
+app.get('/weather/:country/:latitude/:longitude', async (req, res) => {
   await i18next.changeLanguage(req.i18n.resolvedLanguage);
 
-  const now = new Date();
-  const weather = await perform({token: weatherKitToken, call: new WeatherQuery({
-    language: req.i18n.resolvedLanguage ?? req.language,
-    location: {
-      latitude: Number(req.params["lat"]),
-      longitude: Number(req.params["lon"]),
-    },
-    timezone: "America/NewYork",
-    countryCode: "US",
-    currentAsOf: now,
-    dailyEnd: addDays(now, 10),
-    dailyStart: now,
-    dataSets: [
-      WeatherDataSet.currentWeather,
-      WeatherDataSet.forecastDaily,
-      WeatherDataSet.forecastHourly,
-      WeatherDataSet.forecastNextHour,
-      WeatherDataSet.weatherAlerts,
-    ],
-    hourlyEnd: addHours(now, 30),
-    hourlyStart: now,
-  })});
+  const query = req.query["q"] as string | undefined;
+  const language = req.i18n.resolvedLanguage ?? req.language;
+  const location = {
+    latitude: Number(req.params.latitude),
+    longitude: Number(req.params.longitude),
+  };
+  const timezone = find(location.latitude, location.longitude)[0];
+  const countryCode = req.params.country;
+  const currentAsOf = new Date();
+  const weather = await perform({
+    token: weatherKitToken, call: new WeatherQuery({
+      language,
+      location,
+      timezone,
+      countryCode,
+      currentAsOf,
+      dailyEnd: addDays(currentAsOf, 10),
+      dailyStart: currentAsOf,
+      dataSets: [
+        WeatherDataSet.currentWeather,
+        WeatherDataSet.forecastDaily,
+        WeatherDataSet.forecastHourly,
+        WeatherDataSet.forecastNextHour,
+        WeatherDataSet.weatherAlerts,
+      ],
+      hourlyEnd: addHours(currentAsOf, 30),
+      hourlyStart: currentAsOf,
+    })
+  });
   const resp = render(
     <App>
-      <WeatherDetails location={req.query["where"] as string} weather={weather} />
+      <WeatherSearch query={query} />
+      <WeatherDetails weather={weather} />
     </App>
   );
   res.type('html').send(`<!DOCTYPE html>${resp}`);
@@ -120,7 +128,7 @@ app.get('/sample', async (req, res) => {
       return value;
     }
   }) as Weather;
-  
+
   const resp = render(
     <App>
       <WeatherDetails weather={sample} />
