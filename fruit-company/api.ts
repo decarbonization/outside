@@ -7,7 +7,7 @@ export interface ApiToken {
 }
 
 export interface ApiCall<Token extends ApiToken, Result> {
-    prepare(token: Token): Parameters<ApiFetch>;
+    prepare(token: Token): Request;
     parse(response: Response): Promise<Result>;
 }
 
@@ -32,8 +32,8 @@ export async function perform<T extends ApiToken, R>({token, call, fetch = globa
         await token.refresh(fetch);
     }
     for (let retry = 0, retryLimit = token.retryLimit; retry < retryLimit; retry++) {
-        const [resource, options] = call.prepare(token);
-        const response = await fetch(resource, options);
+        const request = call.prepare(token);
+        const response = await fetch(request);
         if (!response.ok && response.status === 401) {
             await token.refresh(fetch);
             continue;

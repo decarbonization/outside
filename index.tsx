@@ -11,10 +11,10 @@ import render from "preact-render-to-string";
 import { App } from "./app/views/_app";
 import { WeatherDetails } from './app/views/weather-details';
 import { PlaceSearch } from './app/views/place-search';
-import { perform } from './fruitkit/api';
-import { GeocodeAddress, MapsToken } from './fruitkit/apple-maps/maps-api';
-import { Weather } from "./fruitkit/apple-weather/models/weather";
-import { WeatherDataSet, WeatherKitToken, WeatherQuery } from './fruitkit/apple-weather/weather-api';
+import { perform } from './fruit-company/api';
+import { GeocodeAddress, MapsToken } from './fruit-company/maps/maps-api';
+import { Weather } from "./fruit-company/weather/models/weather";
+import { WeatherDataSet, WeatherToken, WeatherQuery } from './fruit-company/weather/weather-api';
 
 dotenv.config();
 
@@ -38,7 +38,7 @@ const mapsToken = new MapsToken(
   process.env.APPLE_MAPS_KEY_ID!,
   fs.readFileSync(path.join(__dirname, process.env.APPLE_MAPS_KEY_NAME!)),
 );
-const weatherKitToken = new WeatherKitToken(
+const weatherKitToken = new WeatherToken(
   process.env.APPLE_WEATHER_APP_ID!,
   process.env.APPLE_TEAM_ID!,
   process.env.APPLE_WEATHER_KEY_ID!,

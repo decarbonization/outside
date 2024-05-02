@@ -1,4 +1,4 @@
-import { Weather } from "../../fruitkit/apple-weather/models/weather";
+import { Weather } from "../../fruit-company/weather/models/weather";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";
 import { CurrentForecast } from "./current-forecast";

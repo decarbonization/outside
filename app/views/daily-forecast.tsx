@@ -1,5 +1,5 @@
 import i18next, { t } from "i18next";
-import { DailyForecast } from "../../fruitkit/apple-weather/models/daily-forecast";
+import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
 import { Condition } from "../condition";
 import { HumidityUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "../units";
 

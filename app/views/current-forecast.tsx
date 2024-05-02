@@ -1,6 +1,6 @@
 import { t } from "i18next";
-import { CurrentWeather } from "../../fruitkit/apple-weather/models/current-weather";
-import { DayWeatherConditions } from "../../fruitkit/apple-weather/models/daily-forecast";
+import { CurrentWeather } from "../../fruit-company/weather/models/current-weather";
+import { DayWeatherConditions } from "../../fruit-company/weather/models/daily-forecast";
 import { Condition } from "../condition";
 import { CompassDirectionUnit, HumidityUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit, VisibilityUnit } from "../units";
 

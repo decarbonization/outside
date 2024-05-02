@@ -1,7 +1,7 @@
 /**
  * An object that describes a location in terms of its longitude and latitude.
  */
-export interface GeoLocation {
+export interface LocationCoordinates {
     /**
      * A double value that describes the latitude of the coordinate.
      */
@@ -20,7 +20,7 @@ export interface GeoLocation {
  * @param location The location to convert.
  * @returns A representation of the location which can be passed as part of a URL.
  */
-export function urlifyGeoLocation(location: GeoLocation): string {
+export function urlLocationCoordinates(location: LocationCoordinates): string {
     return `${location.latitude},${location.longitude}`;
 }
 

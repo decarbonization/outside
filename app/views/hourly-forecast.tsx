@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { HourlyForecast } from "../../fruitkit/apple-weather/models/hourly-forecast";
+import { HourlyForecast } from "../../fruit-company/weather/models/hourly-forecast";
 import { TemperatureUnit } from "../units";
 import { Condition } from "../condition";
 

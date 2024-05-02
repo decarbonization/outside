@@ -1,4 +1,4 @@
-import { GeoLocation, MapRegion, StructuredAddress } from "./base";
+import { LocationCoordinates, MapRegion, StructuredAddress } from "./base";
 
 /**
  * An object that describes a place in terms of a variety of spatial, administrative, and qualitative properties.
@@ -35,7 +35,7 @@ export interface Place {
     /**
      * The latitude and longitude of this place.
      */
-    readonly coordinate: GeoLocation;
+    readonly coordinate: LocationCoordinates;
 
     /**
      * A StructuredAddress object that describes details of the place’s address.

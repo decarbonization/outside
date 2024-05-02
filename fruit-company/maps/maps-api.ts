@@ -2,7 +2,7 @@ import { addSeconds } from "date-fns";
 import { ApiCall, ApiError, ApiFetch, ApiToken } from "../api";
 import jwt, { JwtHeader } from "jsonwebtoken";
 import { PlaceResults } from "./models/places";
-import { GeoLocation, urlifyGeoLocation } from "./models/base";
+import { LocationCoordinates, urlLocationCoordinates } from "./models/base";
 
 const mapsUrl = "https://maps-api.apple.com/v1";
 
@@ -100,7 +100,7 @@ class MapsCall<Result> implements ApiCall<MapsToken, Result> {
     constructor() {
     }
 
-    prepare(_token: MapsToken): Parameters<ApiFetch> {
+    prepare(_token: MapsToken): Request {
         throw new Error("Method not implemented.");
     }
 
@@ -122,14 +122,14 @@ export class GeocodeAddress extends MapsCall<PlaceResults> {
         query: string,
         limitToCountries?: string[],
         language?: string,
-        searchLocation?: GeoLocation,
-        searchRegion?: GeoLocation,
-        userLocation?: GeoLocation,
+        searchLocation?: LocationCoordinates,
+        searchRegion?: LocationCoordinates,
+        userLocation?: LocationCoordinates,
     }>) {
         super();
     }
 
-    prepare(token: MapsToken): Parameters<ApiFetch> {
+    prepare(token: MapsToken): Request {
         const url = new URL(`${mapsUrl}/geocode`);
         url.searchParams.append("q", this.options.query);
         if (this.options.limitToCountries !== undefined) {
@@ -139,32 +139,40 @@ export class GeocodeAddress extends MapsCall<PlaceResults> {
             url.searchParams.append("lang", this.options.language);
         }
         if (this.options.searchLocation !== undefined) {
-            url.searchParams.append("searchLocation", urlifyGeoLocation(this.options.searchLocation));
+            url.searchParams.append("searchLocation", urlLocationCoordinates(this.options.searchLocation));
         }
         if (this.options.searchRegion !== undefined) {
-            url.searchParams.append("searchRegion", urlifyGeoLocation(this.options.searchRegion));
+            url.searchParams.append("searchRegion", urlLocationCoordinates(this.options.searchRegion));
         }
         if (this.options.userLocation !== undefined) {
-            url.searchParams.append("userLocation", urlifyGeoLocation(this.options.userLocation));
+            url.searchParams.append("userLocation", urlLocationCoordinates(this.options.userLocation));
         }
-        return [url, {headers: token.headers}];
+        return new Request(url, {headers: token.headers});
+    }
+
+    toString(): string {
+        return `GeocodeAddress(${JSON.stringify(this.options)})`;
     }
 }
 
 export class ReverseGeocodeAddress extends MapsCall<PlaceResults> {
     constructor(readonly options: Readonly<{
-        location: GeoLocation,
+        location: LocationCoordinates,
         language?: string,
     }>) {
         super();
     }
 
-    prepare(token: MapsToken): Parameters<ApiFetch> {
+    prepare(token: MapsToken): Request {
         const url = new URL(`${mapsUrl}/reverseGeocode`);
-        url.searchParams.append("loc", urlifyGeoLocation(this.options.location));
+        url.searchParams.append("loc", urlLocationCoordinates(this.options.location));
         if (this.options.language !== undefined) {
             url.searchParams.append("lang", this.options.language);
         }
-        return [url, {headers: token.headers}];
+        return new Request(url, {headers: token.headers});
+    }
+
+    toString(): string {
+        return `ReverseGeocodeAddress(${JSON.stringify(this.options)})`;
     }
 }

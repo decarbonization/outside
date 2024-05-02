@@ -1,11 +1,11 @@
 import jwt, { JwtHeader } from "jsonwebtoken";
 import { Weather } from "./models/weather";
 import { ApiCall, ApiError, ApiFetch, ApiToken } from "../api";
-import { GeoLocation, urlifyGeoLocation } from "../apple-maps/models/base";
+import { LocationCoordinates, urlLocationCoordinates } from "../maps/models/base";
 
-const weatherKitUrl = "https://weatherkit.apple.com/api/v1";
+const weatherUrl = "https://weatherkit.apple.com/api/v1";
 
-export class WeatherKitToken implements ApiToken {
+export class WeatherToken implements ApiToken {
     constructor(
         private readonly appId: string,
         private readonly teamId: string,
@@ -53,10 +53,11 @@ export const enum WeatherDataSet {
     forecastNextHour = "forecastNextHour",
     weatherAlerts = "weatherAlerts",
 }
-export class WeatherQuery implements ApiCall<WeatherKitToken, Weather> {
+
+export class WeatherQuery implements ApiCall<WeatherToken, Weather> {
     constructor(readonly options: Readonly<{
         language: string,
-        location: GeoLocation,
+        location: LocationCoordinates,
         timezone: string,
         countryCode?: string,
         currentAsOf?: Date,
@@ -68,8 +69,8 @@ export class WeatherQuery implements ApiCall<WeatherKitToken, Weather> {
     }>) {
     }
 
-    prepare(token: WeatherKitToken): Parameters<ApiFetch> {
-        const url = new URL(`${weatherKitUrl}/weather/${this.options.language}/${this.options.location.latitude}/${this.options.location.longitude}`);
+    prepare(token: WeatherToken): Request {
+        const url = new URL(`${weatherUrl}/weather/${this.options.language}/${this.options.location.latitude}/${this.options.location.longitude}`);
         for (const [key, value] of Object.entries(this.options)) {
             if (Array.isArray(value)) {
                 url.searchParams.append(key, value.join(","));
@@ -80,12 +81,12 @@ export class WeatherQuery implements ApiCall<WeatherKitToken, Weather> {
             } else if (typeof value === "string") {
                 url.searchParams.append(key, value);
             } else if (key === "location" && typeof value === "object") {
-                url.searchParams.append(key, urlifyGeoLocation(value as GeoLocation));
+                url.searchParams.append(key, urlLocationCoordinates(value as LocationCoordinates));
             } else {
                 throw new Error(`GetWeatherOptions.${key} invalid <${value}>`);
             }
         }
-        return [url, {headers: token.headers}];
+        return new Request(url, {headers: token.headers});
     }
 
     async parse(response: Response): Promise<Weather> {
@@ -109,5 +110,9 @@ export class WeatherQuery implements ApiCall<WeatherKitToken, Weather> {
             throw new ApiError(response.status, response.statusText, `<${response.url}>`);
         }
         return object as Weather;
+    }
+
+    toString(): string {
+        return `WeatherQuery(${JSON.stringify(this.options)})`;
     }
 }

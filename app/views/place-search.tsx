@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { PlaceResults } from "../../fruitkit/apple-maps/models/places";
+import { PlaceResults } from "../../fruit-company/maps/models/places";
 
 export interface PlaceSearchProps {
     readonly query?: string;
