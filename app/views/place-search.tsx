@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { PlaceResults } from "../../fruitkit/apple-maps/models/places";
 
 export interface PlaceSearchProps {
@@ -10,7 +11,7 @@ export function PlaceSearch({query, results}: PlaceSearchProps) {
         <section>
             <header>
                 <form className="place-search" action="/" method="GET">
-                    <input type="search" name="q" value={query} placeholder="Where do you want the weather for?" />
+                    <input type="search" name="q" value={query} placeholder={t('placeSearch.inputLabel')} />
                 </form>
             </header>
             <ol className="places">

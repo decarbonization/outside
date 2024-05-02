@@ -1,4 +1,7 @@
 {
+    "appName": "Outside",
+    "appCopyright": "Copyright 2024 P. “Kevin” Contreras. All Rights Reserved.",
+
     "forecast": {
         "measurementLabels": {
             "humidity": "Humidity",
@@ -79,5 +82,8 @@
     "hourlyForecast": {
         "title": "{{count, number}} Hour Forecast",
         "time": "{{when, datetime(hour: 'numeric')}}"
+    },
+    "placeSearch": {
+        "inputLabel": "How‘s the weather outside in…"
     }
 }

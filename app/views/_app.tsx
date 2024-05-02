@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import i18next, { t } from "i18next";
 import { ComponentChildren } from "preact";
 
 export interface AppProps {
@@ -22,7 +22,9 @@ export function App({children}: AppProps) {
         </head>
         <body>
             <main>
+                <h1>{t('appName')}</h1>
                 {children}
+                <footer>{t('appCopyright')}</footer>
             </main>
         </body>
         </html>
