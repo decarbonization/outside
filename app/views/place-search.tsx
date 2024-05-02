@@ -1,11 +1,11 @@
 import { PlaceResults } from "../../fruitkit/apple-maps/models/places";
 
-export interface WeatherSearchProps {
+export interface PlaceSearchProps {
     readonly query?: string;
     readonly results?: PlaceResults;
 }
 
-export function WeatherSearch({query, results}: WeatherSearchProps) {
+export function PlaceSearch({query, results}: PlaceSearchProps) {
     return (
         <section>
             <header>

@@ -10,7 +10,7 @@ import path from "path";
 import render from "preact-render-to-string";
 import { App } from "./app/views/_app";
 import { WeatherDetails } from './app/views/weather-details';
-import { WeatherSearch } from './app/views/weather-search';
+import { PlaceSearch } from './app/views/place-search';
 import { perform } from './fruitkit/api';
 import { GeocodeAddress, MapsToken } from './fruitkit/apple-maps/maps-api';
 import { Weather } from "./fruitkit/apple-weather/models/weather";
@@ -62,7 +62,7 @@ app.get('/', async (req, res) => {
 
   const resp = render(
     <App>
-      <WeatherSearch query={query} results={results} />
+      <PlaceSearch query={query} results={results} />
     </App>
   );
   res.type('html').send(`<!DOCTYPE html>${resp}`);
@@ -102,7 +102,7 @@ app.get('/weather/:country/:latitude/:longitude', async (req, res) => {
   });
   const resp = render(
     <App>
-      <WeatherSearch query={query} />
+      <PlaceSearch query={query} />
       <WeatherDetails weather={weather} />
     </App>
   );

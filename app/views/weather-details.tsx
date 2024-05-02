@@ -1,7 +1,7 @@
 import { Weather } from "../../fruitkit/apple-weather/models/weather";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";
-import { WeatherConditions } from "./weather-conditions";
+import { CurrentForecast } from "./current-forecast";
 
 export interface WeatherDetailsProps {
     readonly weather?: Weather;
@@ -10,7 +10,7 @@ export interface WeatherDetailsProps {
 export function WeatherDetails({weather}: WeatherDetailsProps) {
     return (
         <>
-            <WeatherConditions now={weather?.currentWeather} forecast={weather?.forecastDaily?.days?.[0]} />
+            <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} />
             <HourlyForecast forecast={weather?.forecastHourly} />
             <DailyForecast forecast={weather?.forecastDaily} />
         </>

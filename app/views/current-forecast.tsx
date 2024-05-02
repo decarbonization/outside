@@ -4,12 +4,12 @@ import { DayWeatherConditions } from "../../fruitkit/apple-weather/models/daily-
 import { Condition } from "../condition";
 import { CompassDirectionUnit, HumidityUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit, VisibilityUnit } from "../units";
 
-export interface WeatherConditionsProps {
+export interface CurrentForecastProps {
     readonly now?: CurrentWeather;
-    readonly forecast?: DayWeatherConditions;
+    readonly today?: DayWeatherConditions;
 }
 
-export function WeatherConditions({now: now, forecast}: WeatherConditionsProps) {
+export function CurrentForecast({now, today}: CurrentForecastProps) {
     if (now === undefined) {
         return null;
     }
@@ -23,7 +23,7 @@ export function WeatherConditions({now: now, forecast}: WeatherConditionsProps) 
                     <TemperatureUnit className="hero" measurement={now.temperature} />
                 </div>
                 <div>
-                    <header><TemperatureRangeUnit max={forecast?.temperatureMax} min={forecast?.temperatureMin} /></header>
+                    <header><TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} /></header>
                     {t("forecast.measurementLabels.feelsLike")} <TemperatureUnit measurement={now.temperatureApparent} />
                 </div>
                 <div>
