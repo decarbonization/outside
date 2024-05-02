@@ -162,7 +162,7 @@ export function CompassDirectionUnit({ className, measurement }: UnitProps) {
     }
 
     let label: string;
-    if (measurement === 0) {
+    if (measurement === 0 || (measurement > 270 && measurement <= 360)) {
         label = "N";
     } else if (measurement > 0 && measurement < 90) {
         label = "NE";
@@ -177,7 +177,7 @@ export function CompassDirectionUnit({ className, measurement }: UnitProps) {
     } else if (measurement === 270) {
         label = "W";
     } else {
-        label = `${measurement}°`;
+        throw new RangeError(`<${measurement}> is not a valid compass reading`);
     }
     return (
         <span className={`unit compass-direction ${className ?? ''}`}>
