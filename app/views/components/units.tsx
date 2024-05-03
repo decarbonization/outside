@@ -46,17 +46,17 @@ export function TemperatureRangeUnit({ className, max, min }: UnitRangeProps) {
     );
 }
 
-export function HumidityUnit({ className, measurement }: UnitProps) {
+export function PercentageUnit({ className, measurement }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <span className={`unit humidity empty ${className ?? ''}`}>
+            <span className={`unit percentage empty ${className ?? ''}`}>
                 {t("units:placeholder")}
             </span>
         );
     }
     return (
-        <span className={`unit humidity ${className ?? ''}`}>
-            {t("units:relativeHumidity", { value: measurement })}
+        <span className={`unit percentage ${className ?? ''}`}>
+            {t("units:percentage", { value: measurement })}
         </span>
     );
 }

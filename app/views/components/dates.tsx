@@ -21,7 +21,23 @@ export function Hour({className, when}: DateProps) {
     );
 }
 
-export function Time({className, when}: DateProps) {
+export function ShortDate({className, when}: DateProps) {
+    if (when === undefined) {
+        return (
+            <span className={`datetime empty ${className ?? ''}`}>
+                {t("units:placeholder")}
+            </span>
+        );
+    }
+
+    return (
+        <span className={`datetime ${className ?? ''}`}>
+            {i18next.format(when, "datetime", undefined, { dateStyle: 'short' })}
+        </span>
+    );
+}
+
+export function ShortTime({className, when}: DateProps) {
     if (when === undefined) {
         return (
             <span className={`datetime empty ${className ?? ''}`}>

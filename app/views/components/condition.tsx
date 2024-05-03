@@ -41,10 +41,14 @@ const codeClassNames = {
 export interface ConditionProps {
     readonly className?: string;
     readonly code: WeatherCondition;
+    readonly labeled?: boolean;
 }
 
-export function Condition({className, code}: ConditionProps) {
+export function Condition({className, code, labeled}: ConditionProps) {
     return (
-        <span className={`${className ?? ''} wi ${codeClassNames[code]}`} alt={t(`forecast.weatherCondition.${code}`, { defaultValue: String(code) })} />
+        <>
+            <span className={`${className ?? ''} wi ${codeClassNames[code]}`} />
+            {labeled === true ? ` ${t(`forecast.weatherCondition.${code}`, { defaultValue: String(code) })}` : ""}
+        </>
     );
 }

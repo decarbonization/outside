@@ -1,9 +1,10 @@
 import { t } from "i18next";
 import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
 import { Condition } from "./components/condition";
-import { Time, Weekday } from "./components/dates";
+import { ShortDate, ShortTime, Weekday } from "./components/dates";
 import { Moon } from "./components/moon";
-import { HumidityUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
+import { PercentageUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
+import { Precipitation } from "./components/precipitation";
 
 export interface DailyForecastProps {
     readonly forecast?: DailyForecast;
@@ -23,14 +24,22 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                     <li key={day.forecastStart.toISOString()}>
                         <div className="tiles compact">
                             <div>
-                                <header><Condition code={day.conditionCode} />&nbsp;<Weekday when={day.forecastStart} /></header>
-                                <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} />
+                                <header><Weekday when={day.forecastStart} /></header>
+                                <ShortDate when={day.forecastStart} />
+                            </div>
+                            <div>
+                                <header>
+                                    <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} />
+                                </header>
+                                <Precipitation probability={day.precipitationChance} type={day.precipitationType} amount={day.precipitationAmount}>
+                                    <Condition code={day.conditionCode} labeled={true} />
+                                </Precipitation>
                             </div>
                             <div>
                                 <header>{t("forecast.measurementLabels.humidity")}</header>
-                                <span className="wi wi-day-sunny" /> <HumidityUnit measurement={day.daytimeForecast?.humidity} />
+                                <span className="wi wi-day-sunny" /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
                                 {t('dailyForecast.dayNightSeparator')}
-                                <span className="wi wi-night-clear" /> <HumidityUnit measurement={day.overnightForecast?.humidity} />
+                                <span className="wi wi-night-clear" /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
                             </div>
                             <div>
                                 <header>{t("forecast.measurementLabels.wind")}</header>
@@ -42,11 +51,11 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             </div>
                             <div>
                                 <header>{t("forecast.measurementLabels.sunrise")}</header>
-                                <Time className="unit" when={day.sunrise} />
+                                <ShortTime className="unit" when={day.sunrise} />
                             </div>
                             <div>
                                 <header>{t("forecast.measurementLabels.sunset")}</header>
-                                <Time className="unit" when={day.sunset} />
+                                <ShortTime className="unit" when={day.sunset} />
                             </div>
                             <div>
                                 <header>{t("forecast.measurementLabels.moonPhase")}</header>

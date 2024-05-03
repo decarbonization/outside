@@ -3,7 +3,7 @@
     "highLabel": "↑",
     "lowLabel": "↓",
 
-    "relativeHumidity": "{{value, number(maximumFractionDigits: 0; style: percent)}}",
+    "percentage": "{{value, number(maximumFractionDigits: 0; style: percent)}}",
     "uvIndex": "{{intensity, number(maximumFractionDigits: 0)}}",
     
     "celsius": "{{value, number(maximumFractionDigits: 1)}}°",

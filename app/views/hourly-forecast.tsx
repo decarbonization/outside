@@ -3,6 +3,7 @@ import { HourlyForecast } from "../../fruit-company/weather/models/hourly-foreca
 import { TemperatureUnit } from "./components/units";
 import { Condition } from "./components/condition";
 import { Hour } from "./components/dates";
+import { Precipitation } from "./components/precipitation";
 
 export interface HourlyForecastProps {
     readonly forecast?: HourlyForecast;
@@ -18,12 +19,14 @@ export function HourlyForecast({forecast}: HourlyForecastProps) {
             <h1>{t("hourlyForecast.title", {count: hours.length})}</h1>
             <div className="tiles compact">
                 {hours.map(hour => (
-                    <div>
+                    <div style="min-width: 60px">
                         <div>
                             <Hour when={hour.forecastStart} />
                         </div>
                         <div>
-                            <Condition code={hour.conditionCode} />
+                            <Precipitation probability={hour.precipitationChance} type={hour.precipitationType} amount={hour.precipitationAmount}>
+                                <Condition code={hour.conditionCode} />
+                            </Precipitation>
                         </div>
                         <div>
                             <TemperatureUnit measurement={hour.temperature} />
