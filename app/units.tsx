@@ -161,27 +161,25 @@ export function CompassDirectionUnit({ className, measurement }: UnitProps) {
         );
     }
 
-    let label: string;
+    let iconName: string;
     if (measurement === 0 || (measurement > 270 && measurement <= 360)) {
-        label = "N";
+        iconName = "wi-towards-n";
     } else if (measurement > 0 && measurement < 90) {
-        label = "NE";
+        iconName = "wi-towards-ne";
     } else if (measurement === 90) {
-        label = "E";
+        iconName = "wi-towards-e";
     } else if (measurement > 90 && measurement < 180) {
-        label = "SE";
+        iconName = "wi-towards-se";
     } else if (measurement === 180) {
-        label = "S";
+        iconName = "wi-towards-s";
     } else if (measurement > 180 && measurement < 270) {
-        label = "SW";
+        iconName = "wi-towards-sw";
     } else if (measurement === 270) {
-        label = "W";
+        iconName = "wi-towards-w";
     } else {
         throw new RangeError(`<${measurement}> is not a valid compass reading`);
     }
     return (
-        <span className={`unit compass-direction ${className ?? ''}`}>
-            {label}
-        </span>
+        <span className={`unit compass-direction ${className ?? ''} wi wi-wind ${iconName}`}></span>
     );
 }
