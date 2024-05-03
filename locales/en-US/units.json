@@ -6,13 +6,13 @@
     "percentage": "{{value, number(maximumFractionDigits: 0; style: percent)}}",
     "uvIndex": "{{intensity, number(maximumFractionDigits: 0)}}",
     
-    "celsius": "{{value, number(maximumFractionDigits: 1)}}°",
+    "celsius": "{{value, number(maximumFractionDigits: 1)}}°C",
     "kilometers": "{{value, number(maximumFractionDigits: 1)}}km",
     "meters": "{{value, number(maximumFractionDigits: 0)}}m",
     "millibars": "{{value, number(maximumFractionDigits: 0)}}mb",
     "kilometersPerHour": "{{value, number(maximumFractionDigits: 0)}}kph",
 
-    "fahrenheit": "{{value, number(maximumFractionDigits: 0)}}°",
+    "fahrenheit": "{{value, number(maximumFractionDigits: 0)}}°F",
     "miles": "{{value, number(maximumFractionDigits: 0)}}mi",
     "feet": "{{value, number(maximumFractionDigits: 0)}}ft",
     "inHg": "{{value, number(maximumFractionDigits: 0)}}inHg",
