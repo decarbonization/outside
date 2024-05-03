@@ -2,7 +2,7 @@ import { t } from "i18next";
 import { MoonPhase } from "../../../fruit-company/weather/models/base";
 
 const phaseClassNames = {
-    [MoonPhase.new]: "wl-moon-new",
+    [MoonPhase.new]: "wi-moon-new",
     [MoonPhase.waxingCrescent]: "wi-moon-waxing-crescent-2",
     [MoonPhase.firstQuarter]: "wi-moon-first-quarter",
     [MoonPhase.full]: "wi-moon-full",

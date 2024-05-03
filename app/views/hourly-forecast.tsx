@@ -2,6 +2,7 @@ import { t } from "i18next";
 import { HourlyForecast } from "../../fruit-company/weather/models/hourly-forecast";
 import { TemperatureUnit } from "./components/units";
 import { Condition } from "./components/condition";
+import { Hour } from "./components/dates";
 
 export interface HourlyForecastProps {
     readonly forecast?: HourlyForecast;
@@ -19,7 +20,7 @@ export function HourlyForecast({forecast}: HourlyForecastProps) {
                 {hours.map(hour => (
                     <div>
                         <div>
-                            {t("hourlyForecast.time", {when: hour.forecastStart})}
+                            <Hour when={hour.forecastStart} />
                         </div>
                         <div>
                             <Condition code={hour.conditionCode} />

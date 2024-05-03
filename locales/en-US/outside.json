@@ -77,12 +77,10 @@
     },
     "dailyForecast": {
         "title": "{{count, number}} Day Forecast",
-        "weekday": "{{start, datetime(weekday: 'short')}}",
         "dayNightSeparator": " / "
     },
     "hourlyForecast": {
-        "title": "{{count, number}} Hour Forecast",
-        "time": "{{when, datetime(hour: 'numeric')}}"
+        "title": "{{count, number}} Hour Forecast"
     },
     "placeSearch": {
         "inputLabel": "How‘s the weather outside in…"

@@ -1,8 +1,9 @@
-import i18next, { t } from "i18next";
+import { t } from "i18next";
 import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
 import { Condition } from "./components/condition";
-import { HumidityUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
+import { Time, Weekday } from "./components/dates";
 import { Moon } from "./components/moon";
+import { HumidityUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
 
 export interface DailyForecastProps {
     readonly forecast?: DailyForecast;
@@ -22,7 +23,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                     <li key={day.forecastStart.toISOString()}>
                         <div className="tiles compact">
                             <div>
-                                <header><Condition code={day.conditionCode} />&nbsp;{t("dailyForecast.weekday", { start: day.forecastStart })}</header>
+                                <header><Condition code={day.conditionCode} />&nbsp;<Weekday when={day.forecastStart} /></header>
                                 <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} />
                             </div>
                             <div>
@@ -41,11 +42,11 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             </div>
                             <div>
                                 <header>Sunrise</header>
-                                {i18next.format(day.sunrise, "datetime", undefined, { timeStyle: 'short' })}
+                                <Time when={day.sunrise} />
                             </div>
                             <div>
                                 <header>Sunset</header>
-                                {i18next.format(day.sunset, "datetime", undefined, { timeStyle: 'short' })}
+                                <Time when={day.sunset} />
                             </div>
                             <div>
                                 <header>Moon</header>
