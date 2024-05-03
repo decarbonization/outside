@@ -77,7 +77,8 @@
     },
     "dailyForecast": {
         "title": "{{count, number}} Day Forecast",
-        "weekday": "{{start, datetime(weekday: 'short')}}"
+        "weekday": "{{start, datetime(weekday: 'short')}}",
+        "dayNightSeparator": " / "
     },
     "hourlyForecast": {
         "title": "{{count, number}} Hour Forecast",

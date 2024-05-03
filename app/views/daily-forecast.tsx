@@ -26,11 +26,13 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             </div>
                             <div>
                                 <header>Humidity</header>
-                                <HumidityUnit measurement={day.daytimeForecast?.humidity} />
+                                <span className="wi wi-day-sunny" /> <HumidityUnit measurement={day.daytimeForecast?.humidity} />
+                                {t('dailyForecast.dayNightSeparator')}
+                                <span className="wi wi-night-clear" /> <HumidityUnit measurement={day.overnightForecast?.humidity} />
                             </div>
                             <div>
                                 <header>{t("forecast.measurementLabels.wind")}</header>
-                                <SpeedUnit measurement={day.windSpeedMax} />
+                                <SpeedUnit measurement={day.windSpeedAvg} />
                             </div>
                             <div>
                                 <header>{t("forecast.measurementLabels.uvIndex")}</header>
