@@ -1,15 +1,15 @@
 import convert from "convert";
 import i18next, { t } from "i18next";
 
-export interface UnitProps {
+export interface UnitProps<Measurement = number> {
     readonly className?: string;
-    readonly measurement?: number;
+    readonly measurement?: Measurement;
 }
 
-export interface UnitRangeProps {
+export interface UnitRangeProps<Measurement = number> {
     readonly className?: string;
-    readonly max?: number;
-    readonly min?: number;
+    readonly max?: Measurement;
+    readonly min?: Measurement;
 }
 
 function usingUsCustomary(): boolean {
@@ -182,4 +182,20 @@ export function CompassDirectionUnit({ className, measurement }: UnitProps) {
     return (
         <span className={`unit compass-direction ${className ?? ''} wi wi-wind ${iconName}`}></span>
     );
+}
+export function TrendUnitLabel({className, measurement}: UnitProps<'rising' | 'steady' | 'falling'>) {
+    switch (measurement) {
+        case 'rising':
+            return (
+                <span className={`wi wi-direction-up ${className ?? ""}`} />
+            );
+        case 'steady':
+            return null;
+        case 'falling':
+            return (
+                <span className={`wi wi-direction-down ${className ?? ""}`} />
+            );
+        default:
+            return null;
+    }
 }

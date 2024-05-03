@@ -2,7 +2,7 @@ import { t } from "i18next";
 import { CurrentWeather } from "../../fruit-company/weather/models/current-weather";
 import { DayWeatherConditions } from "../../fruit-company/weather/models/daily-forecast";
 import { Condition } from "./components/condition";
-import { CompassDirectionUnit, HumidityUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit, VisibilityUnit } from "./components/units";
+import { CompassDirectionUnit, HumidityUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, TrendUnitLabel, UVIndexUnit, VisibilityUnit } from "./components/units";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;
@@ -42,7 +42,7 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
                 </div>
                 <div>
                     <header>{t("forecast.measurementLabels.pressure")}</header>
-                    {t(`forecast.pressureTrend.${now.pressureTrend}`, {defaultValue: now.pressureTrend})}
+                    <PressureUnit measurement={now.pressure} /> <TrendUnitLabel measurement={now.pressureTrend} />
                 </div>
                 <div>
                     <header>{t("forecast.measurementLabels.visibility")}</header>
