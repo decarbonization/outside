@@ -9,7 +9,10 @@
             "wind": "Wind",
             "visibility": "Visibility",
             "pressure": "Pressure",
-            "feelsLike": "Feels Like"
+            "feelsLike": "Feels Like",
+            "sunrise": "Sunrise",
+            "sunset": "Sunset",
+            "moonPhase": "Moon"
         },
         "weatherCondition": {
             "BlowingDust": "Blowing Dust",

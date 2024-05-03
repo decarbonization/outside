@@ -27,7 +27,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                                 <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} />
                             </div>
                             <div>
-                                <header>Humidity</header>
+                                <header>{t("forecast.measurementLabels.humidity")}</header>
                                 <span className="wi wi-day-sunny" /> <HumidityUnit measurement={day.daytimeForecast?.humidity} />
                                 {t('dailyForecast.dayNightSeparator')}
                                 <span className="wi wi-night-clear" /> <HumidityUnit measurement={day.overnightForecast?.humidity} />
@@ -41,15 +41,15 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                                 <UVIndexUnit measurement={day.maxUvIndex} />
                             </div>
                             <div>
-                                <header>Sunrise</header>
-                                <Time when={day.sunrise} />
+                                <header>{t("forecast.measurementLabels.sunrise")}</header>
+                                <Time className="unit" when={day.sunrise} />
                             </div>
                             <div>
-                                <header>Sunset</header>
-                                <Time when={day.sunset} />
+                                <header>{t("forecast.measurementLabels.sunset")}</header>
+                                <Time className="unit" when={day.sunset} />
                             </div>
                             <div>
-                                <header>Moon</header>
+                                <header>{t("forecast.measurementLabels.moonPhase")}</header>
                                 <Moon phase={day.moonPhase} />
                             </div>
                         </div>
