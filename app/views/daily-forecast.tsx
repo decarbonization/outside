@@ -2,6 +2,7 @@ import i18next, { t } from "i18next";
 import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
 import { Condition } from "../condition";
 import { HumidityUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "../units";
+import { Moon } from "../moon";
 
 export interface DailyForecastProps {
     readonly forecast?: DailyForecast;
@@ -48,7 +49,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             </div>
                             <div>
                                 <header>Moon</header>
-                                {t(`forecast.moonPhase.${day.moonPhase}`, { defaultValue: String(day.moonPhase) })}
+                                <Moon phase={day.moonPhase} />
                             </div>
                         </div>
                     </li>
