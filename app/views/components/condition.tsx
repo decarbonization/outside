@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { WeatherCondition } from "../fruit-company/weather/models/base";
+import { WeatherCondition } from "../../../fruit-company/weather/models/base";
 
 const codeClassNames = {
     [WeatherCondition.blowingDust]: "wi-dust",

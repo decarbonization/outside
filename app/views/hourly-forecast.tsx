@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { HourlyForecast } from "../../fruit-company/weather/models/hourly-forecast";
-import { TemperatureUnit } from "../units";
-import { Condition } from "../condition";
+import { TemperatureUnit } from "./components/units";
+import { Condition } from "./components/condition";
 
 export interface HourlyForecastProps {
     readonly forecast?: HourlyForecast;

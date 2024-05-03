@@ -1,8 +1,8 @@
 import i18next, { t } from "i18next";
 import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
-import { Condition } from "../condition";
-import { HumidityUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "../units";
-import { Moon } from "../moon";
+import { Condition } from "./components/condition";
+import { HumidityUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
+import { Moon } from "./components/moon";
 
 export interface DailyForecastProps {
     readonly forecast?: DailyForecast;

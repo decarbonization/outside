@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { MoonPhase } from "../fruit-company/weather/models/base";
+import { MoonPhase } from "../../../fruit-company/weather/models/base";
 
 const phaseClassNames = {
     [MoonPhase.new]: "wl-moon-new",
