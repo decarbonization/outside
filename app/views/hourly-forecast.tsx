@@ -17,9 +17,9 @@ export function HourlyForecast({forecast}: HourlyForecastProps) {
     return (
         <section>
             <h1>{t("hourlyForecast.title", {count: hours.length})}</h1>
-            <div className="tiles compact">
+            <ol className="hours">
                 {hours.map(hour => (
-                    <div style="min-width: 60px">
+                    <li>
                         <div>
                             <Hour when={hour.forecastStart} />
                         </div>
@@ -31,9 +31,9 @@ export function HourlyForecast({forecast}: HourlyForecastProps) {
                         <div>
                             <TemperatureUnit measurement={hour.temperature} />
                         </div>
-                    </div>
+                    </li>
                 ))}
-            </div>
+            </ol>
         </section>
     );
 }

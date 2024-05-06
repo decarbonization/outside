@@ -69,39 +69,41 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
     padding-right: var(--h-spacing);
 }
 
-.tiles {
+.unit {
+    font-family: "Kode Mono", monospace;
+}
+
+ul.conditions {
+    list-style: none;
+    padding: 0;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow: auto hidden;
     align-items: last baseline;
     justify-content: left;
     gap: var(--v-spacing) var(--h-spacing);
 }
 
-.tiles.compact {
-    flex-wrap: nowrap;
-    overflow: auto hidden;
-}
-
-.tiles.spread {
-    justify-content: space-between;
-}
-
-.hero {
+ul.conditions .hero {
     font-size: 3em;
     font-weight: bold;
 }
 
-.unit {
-    font-family: "Kode Mono", monospace;
-}
-
-ol.forecast {
+ol.hours {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: last baseline;
+    justify-content: left;
+    gap: var(--v-spacing) var(--h-spacing);
+    overflow: auto hidden;
 }
 
-ol.forecast li:not(:last-child) {
-    margin-bottom: var(--v-spacing);
+ol.hours li {
+    min-width: 3.5rem;
+    min-height: 3rem;
+    text-align: center;
 }
 
 form.place-search {

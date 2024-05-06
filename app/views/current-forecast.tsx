@@ -16,39 +16,39 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
     
     return (
         <section>
-            <div className="tiles compact">
-                <div>
+            <ul className="conditions">
+                <li>
                     <Condition className="hero" code={now.conditionCode} />
                     &nbsp;
                     <TemperatureUnit className="hero" measurement={now.temperature} />
-                </div>
-                <div>
+                </li>
+                <li>
                     <header><TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} /></header>
                     {t("forecast.measurementLabels.feelsLike")} <TemperatureUnit measurement={now.temperatureApparent} />
-                </div>
-                <div>
+                </li>
+                <li>
                     <header>{t("forecast.measurementLabels.humidity")}</header>
                     <PercentageUnit measurement={now.humidity} />
-                </div>
-                <div>
+                </li>
+                <li>
                     <header>{t("forecast.measurementLabels.wind")}</header>
                     <SpeedUnit measurement={now.windSpeed} />
                     &nbsp;
                     <CompassDirectionUnit measurement={now.windDirection} />
-                </div>
-                <div>
+                </li>
+                <li>
                     <header>{t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />
-                </div>
-                <div>
+                </li>
+                <li>
                     <header>{t("forecast.measurementLabels.pressure")}</header>
                     <PressureUnit measurement={now.pressure} />&nbsp;<TrendUnitLabel measurement={now.pressureTrend} />
-                </div>
-                <div>
+                </li>
+                <li>
                     <header>{t("forecast.measurementLabels.visibility")}</header>
                     <VisibilityUnit measurement={now.visibility} />
-                </div>
-            </div>
+                </li>
+            </ul>
             <footer>
                 {t('weatherConditions.lastUpdated', {when: now.asOf})}
             </footer>
