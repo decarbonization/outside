@@ -42,7 +42,7 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
                 </div>
                 <div>
                     <header>{t("forecast.measurementLabels.pressure")}</header>
-                    <PressureUnit measurement={now.pressure} /> <TrendUnitLabel measurement={now.pressureTrend} />
+                    <PressureUnit measurement={now.pressure} />&nbsp;<TrendUnitLabel measurement={now.pressureTrend} />
                 </div>
                 <div>
                     <header>{t("forecast.measurementLabels.visibility")}</header>

@@ -71,6 +71,7 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
 
 .tiles {
     display: flex;
+    flex-wrap: wrap;
     align-items: last baseline;
     justify-content: left;
     gap: var(--v-spacing) var(--h-spacing);

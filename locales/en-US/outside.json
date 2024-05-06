@@ -5,7 +5,7 @@
     "forecast": {
         "measurementLabels": {
             "humidity": "Humidity",
-            "uvIndex": "UV Index",
+            "uvIndex": "UV\u00A0Index",
             "wind": "Wind",
             "visibility": "Visibility",
             "pressure": "Pressure",
@@ -15,23 +15,23 @@
             "moonPhase": "Moon"
         },
         "weatherCondition": {
-            "BlowingDust": "Blowing Dust",
+            "BlowingDust": "Blowing\u00A0Dust",
             "Clear": "Clear",
             "Cloudy": "Cloudy",
             "Foggy": "Foggy",
             "Haze": "Haze",
-            "MostlyClear": "Mostly Clear",
-            "MostlyCloudy": "Mostly Cloudy",
-            "PartlyCloudy": "Partly Cloudy",
+            "MostlyClear": "Mostly\u00A0Clear",
+            "MostlyCloudy": "Mostly\u00A0Cloudy",
+            "PartlyCloudy": "Partly\u00A0Cloudy",
             "Smoky": "Smoky",
             "Breezy": "Breezy",
             "Windy": "Windy",
             "Drizzle": "Drizzle",
-            "HeavyRain": "Heavy Rain",
-            "IsolatedThunderstorms": "Isolated Thunderstorms",
+            "HeavyRain": "Heavy\u00A0Rain",
+            "IsolatedThunderstorms": "Isolated\u00A0Thunderstorms",
             "Rain": "Rain",
-            "SunShowers": "Sun Showers",
-            "ScatteredThunderstorms": "Scattered Thunderstorms",
+            "SunShowers": "Sun\u00A0Showers",
+            "ScatteredThunderstorms": "Scattered\u00A0Thunderstorms",
             "StrongStorms": "StrongStorms",
             "Thunderstorms": "Thunderstorms",
             "Frigid": "Frigid",
@@ -40,15 +40,15 @@
             "Flurries": "Flurries",
             "Sleet": "Sleet",
             "Snow": "Snow",
-            "SunFlurries": "Sun Flurries",
-            "WintryMix": "Wintry Mix",
+            "SunFlurries": "Sun\u00A0Flurries",
+            "WintryMix": "Wintry\u00A0Mix",
             "Blizzard": "Blizzard",
-            "BlowingSnow": "Blowing Snow",
-            "FreezingDrizzle": "Freezing Drizzle",
-            "FreezingRain": "Freezing Rain",
-            "HeavySnow": "Heavy Snow",
+            "BlowingSnow": "Blowing\u00A0Snow",
+            "FreezingDrizzle": "Freezing\u00A0Drizzle",
+            "FreezingRain": "Freezing\u00A0Rain",
+            "HeavySnow": "Heavy\u00A0Snow",
             "Hurricane": "Hurricane",
-            "TropicalStorm": "Tropical Storm"
+            "TropicalStorm": "Tropical\u00A0Storm"
         },
         "pressureTrend": {
             "rising": "Rising",
@@ -57,13 +57,13 @@
         },
         "moonPhase": {
             "new": "New",
-            "waxingCrescent": "Waxing Crescent",
-            "firstQuarter": "First Quarter",
+            "waxingCrescent": "Waxing\u00A0Crescent",
+            "firstQuarter": "First\u00A0Quarter",
             "full": "Full",
-            "waxingGibbous": "Waxing Gibbous",
-            "waningGibbous": "Waning Gibbous",
-            "thirdQuarter": "Third Quarter",
-            "waningCrescent": "Waning Crescent"
+            "waxingGibbous": "Waxing\u00A0Gibbous",
+            "waningGibbous": "Waning\u00A0Gibbous",
+            "thirdQuarter": "Third\u00A0Quarter",
+            "waningCrescent": "Waning\u00A0Crescent"
         },
         "precipitationType": {
             "clear": "Clear",
@@ -72,7 +72,7 @@
             "snow": "Snow",
             "sleet": "Sleet",
             "hail": "Hail",
-            "mixed": "Wintry Mixed"
+            "mixed": "Wintry\u00A0Mixed"
         }
     },
     "weatherConditions": {
@@ -80,12 +80,12 @@
     },
     "dailyForecast": {
         "title": "{{count, number}} Day Forecast",
-        "dayNightSeparator": " / "
+        "dayNightSeparator": "\u00A0/\u00A0"
     },
     "hourlyForecast": {
         "title": "{{count, number}} Hour Forecast"
     },
     "placeSearch": {
-        "inputLabel": "How‘s the weather outside in…"
+        "inputLabel": "How\u2018s the weather outside in…"
     }
 }
