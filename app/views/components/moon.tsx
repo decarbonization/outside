@@ -15,10 +15,14 @@ const phaseClassNames = {
 export interface MoonProps {
     readonly className?: string;
     readonly phase: MoonPhase;
+    readonly labeled?: boolean;
 }
 
-export function Moon({className, phase}: MoonProps) {
+export function Moon({className, phase, labeled}: MoonProps) {
     return (
-        <span className={`${className ?? ''} wi ${phaseClassNames[phase]}`} alt={t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) })} />
+        <>
+            <span className={`${className ?? ''} wi ${phaseClassNames[phase]}`} alt={t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) })} />
+            {labeled === true ? ` ${t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) })}` : ""}
+        </>
     );
 }
