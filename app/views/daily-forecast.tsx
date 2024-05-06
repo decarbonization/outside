@@ -19,52 +19,52 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
             <h1>
                 {t("dailyForecast.title", { count: forecast.days.length })}
             </h1>
-            <ol className="forecast">
-                {forecast.days.map(day => (
-                    <li key={day.forecastStart.toISOString()}>
-                        <div className="tiles compact">
-                            <div>
+            <div className="table-container">
+                <table>
+                    {forecast.days.map(day => (
+                        <tr>
+                            <td>
                                 <header><Weekday when={day.forecastStart} /></header>
                                 <ShortDate when={day.forecastStart} />
-                            </div>
-                            <div>
+                            </td>
+                            <td>
                                 <header>
                                     <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} />
                                 </header>
                                 <Precipitation probability={day.precipitationChance} type={day.precipitationType} amount={day.precipitationAmount}>
                                     <Condition code={day.conditionCode} labeled={true} />
                                 </Precipitation>
-                            </div>
-                            <div>
+                            </td>
+                            <td>
                                 <header>{t("forecast.measurementLabels.humidity")}</header>
                                 <span className="wi wi-day-sunny" /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
                                 {t('dailyForecast.dayNightSeparator')}
                                 <span className="wi wi-night-clear" /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
-                            </div>
-                            <div>
+                            </td>
+                            <td>
                                 <header>{t("forecast.measurementLabels.wind")}</header>
                                 <SpeedUnit measurement={day.windSpeedAvg} />
-                            </div>
-                            <div>
+                            </td>
+                            <td>
                                 <header>{t("forecast.measurementLabels.uvIndex")}</header>
                                 <UVIndexUnit measurement={day.maxUvIndex} />
-                            </div>
-                            <div>
+                            </td>
+                            <td>
                                 <header>{t("forecast.measurementLabels.sunrise")}</header>
-                                <ShortTime className="unit" when={day.sunrise} />
-                            </div>
-                            <div>
+                                <ShortTime when={day.sunrise} />
+                            </td>
+                            <td>
                                 <header>{t("forecast.measurementLabels.sunset")}</header>
-                                <ShortTime className="unit" when={day.sunset} />
-                            </div>
-                            <div>
+                                <ShortTime when={day.sunset} />
+                            </td>
+                            <td>
                                 <header>{t("forecast.measurementLabels.moonPhase")}</header>
                                 <Moon phase={day.moonPhase} />
-                            </div>
-                        </div>
-                    </li>
-                ))}
-            </ol>
+                            </td>
+                        </tr>
+                    ))}
+                </table>
+            </div>
         </section>
     );
 }

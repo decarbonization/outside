@@ -29,12 +29,44 @@ a:hover {
 }
 
 main {
-    max-width: 780px;
+    max-width: calc(780px - (var(--h-spacing) * 2));
     margin: 0 auto;
+    padding: 0 var(--h-spacing);
+}
+
+header {
+    font-weight: bold;
 }
 
 footer {
     font-size: 0.9em;
+}
+
+input[type="search"], input[type="text"], textarea {
+    font-family: "Rokkitt", serif;
+    font-size: 1em;
+
+    padding: var(--h-spacing) var(--v-spacing);
+    background-color: white;
+    border: 2px solid var(--separator);
+    border-radius: 8px;
+}
+
+input[type="search"]:focus, input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.table-container {
+    overflow: auto hidden;
+}
+
+table tr:not(:last-child) {
+    padding-bottom: var(--v-spacing);
+}
+
+table tr th:not(:last-child), table tr td:not(:last-child) {
+    padding-right: var(--h-spacing);
 }
 
 .tiles {
@@ -62,10 +94,6 @@ footer {
     font-family: "Kode Mono", monospace;
 }
 
-header {
-    font-weight: bold;
-}
-
 ol.forecast {
     list-style: none;
     padding: 0;
@@ -81,17 +109,7 @@ form.place-search {
 
 form.place-search input {
     flex-grow: 1;
-    font-family: "Rokkitt", serif;
-    font-size: 1.25rem;
-    padding: var(--h-spacing) var(--v-spacing);
-    background-color: white;
-    border: 2px solid var(--separator);
-    border-radius: 8px;
-}
-
-form.place-search input:focus {
-    outline: none;
-    border-color: var(--accent);
+    font-size: 1.25em;
 }
 
 ol.places {
