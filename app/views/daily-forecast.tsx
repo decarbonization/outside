@@ -5,6 +5,7 @@ import { ShortDate, ShortTime, Weekday } from "./components/dates";
 import { Moon } from "./components/moon";
 import { PercentageUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
 import { Precipitation } from "./components/precipitation";
+import { uvIndexRiskFrom } from "../../fruit-company/weather/models/base";
 
 export interface DailyForecastProps {
     readonly forecast?: DailyForecast;
@@ -47,7 +48,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             </td>
                             <td>
                                 <header>{t("forecast.measurementLabels.uvIndex")}</header>
-                                <UVIndexUnit measurement={day.maxUvIndex} />
+                                <UVIndexUnit measurement={day.maxUvIndex} />&nbsp;{t(`forecast.uvIndexRisk.${uvIndexRiskFrom(day.maxUvIndex)}`)}
                             </td>
                             <td>
                                 <header>{t("forecast.measurementLabels.sunrise")}</header>

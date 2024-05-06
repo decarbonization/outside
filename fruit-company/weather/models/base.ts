@@ -104,11 +104,9 @@ export const enum UnitsSystem {
     metric = "m",
 }
 
-
 /**
  * The shape of the moon as seen by an observer on the ground at a given time.
  */
-
 export const enum MoonPhase {
     /**
      * The moon isn’t visible.
@@ -366,22 +364,55 @@ export const enum WeatherCondition {
     tropicalStorm = "TropicalStorm",
 }
 
-export function prettyCompassPoint(degrees: number): string {
-    if (degrees === 0) {
-        return "N";
-    } else if (degrees > 0 && degrees < 90) {
-        return "NE";
-    } else if (degrees === 90) {
-        return "E";
-    } else if (degrees > 90 && degrees < 180) {
-        return "SE";
-    } else if (degrees === 180) {
-        return "S";
-    } else if (degrees > 180 && degrees < 270) {
-        return "SW";
-    } else if (degrees === 270) {
-        return "W";
+/**
+ * A description of the risk to the average person for a UV index.
+ */
+export const enum UVIndexRisk {
+    /**
+     * Low danger from UV rays for the average person.
+     */
+    low = "low",
+
+    /**
+     * Moderate danger from UV rays for the average person.
+     */
+    moderate = "moderate",
+    
+    /**
+     * High danger from UV rays for the average person.
+     */
+    high = "high",
+
+    /**
+     * Very high danger from UV rays for the average person.
+     */
+    veryHigh = "veryHigh",
+
+    
+    /**
+     * Extreme danger from UV rays for the average person.
+     */
+    extreme = "extreme",
+}
+
+/**
+ * Derive the risk a given UV Index poses to the average person.
+ * 
+ * @param uvIndex The UV Index.
+ * @returns The risk.
+ */
+export function uvIndexRiskFrom(uvIndex: number): UVIndexRisk {
+    if (uvIndex >= 0 && uvIndex <= 2) {
+        return UVIndexRisk.low;
+    } else if (uvIndex >= 3 && uvIndex <= 5) {
+        return UVIndexRisk.moderate;
+    } else if (uvIndex >= 6 && uvIndex <= 7) {
+        return UVIndexRisk.high;
+    } else if (uvIndex >= 8 && uvIndex <= 10) {
+        return UVIndexRisk.veryHigh;
+    } else if (uvIndex >= 11) {
+        return UVIndexRisk.extreme;
     } else {
-        throw new RangeError();
+        throw new RangeError(`<${uvIndex}> is not a valid UV Index`);
     }
 }

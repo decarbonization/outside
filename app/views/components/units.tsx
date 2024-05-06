@@ -183,6 +183,7 @@ export function CompassDirectionUnit({ className, measurement }: UnitProps) {
         <span className={`unit compass-direction ${className ?? ''} wi wi-wind ${iconName}`}></span>
     );
 }
+
 export function TrendUnitLabel({className, measurement}: UnitProps<'rising' | 'steady' | 'falling'>) {
     switch (measurement) {
         case 'rising':

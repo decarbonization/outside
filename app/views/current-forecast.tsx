@@ -3,6 +3,7 @@ import { CurrentWeather } from "../../fruit-company/weather/models/current-weath
 import { DayWeatherConditions } from "../../fruit-company/weather/models/daily-forecast";
 import { Condition } from "./components/condition";
 import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, TrendUnitLabel, UVIndexUnit, VisibilityUnit } from "./components/units";
+import { uvIndexRiskFrom } from "../../fruit-company/weather/models/base";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;
@@ -38,7 +39,7 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
                 </li>
                 <li>
                     <header>{t("forecast.measurementLabels.uvIndex")}</header>
-                    <UVIndexUnit measurement={now.uvIndex} />
+                    <UVIndexUnit measurement={now.uvIndex} />&nbsp;{t(`forecast.uvIndexRisk.${uvIndexRiskFrom(now.uvIndex)}`)}
                 </li>
                 <li>
                     <header>{t("forecast.measurementLabels.pressure")}</header>

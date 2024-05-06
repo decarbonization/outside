@@ -73,6 +73,13 @@
             "sleet": "Sleet",
             "hail": "Hail",
             "mixed": "Wintry\u00A0Mixed"
+        },
+        "uvIndexRisk": {
+            "low": "Low",
+            "moderate": "Moderate",
+            "high": "High",
+            "veryHigh": "Very\u00A0High",
+            "extreme": "Extreme"
         }
     },
     "weatherConditions": {
