@@ -24,9 +24,8 @@ export function HourlyForecast({forecast}: HourlyForecastProps) {
                             <Hour when={hour.forecastStart} />
                         </div>
                         <div>
-                            <Precipitation probability={hour.precipitationChance} type={hour.precipitationType} amount={hour.precipitationAmount}>
-                                <Condition code={hour.conditionCode} />
-                            </Precipitation>
+                            <Condition code={hour.conditionCode} />
+                            <Precipitation probability={hour.precipitationChance} />
                         </div>
                         <div>
                             <TemperatureUnit measurement={hour.temperature} />

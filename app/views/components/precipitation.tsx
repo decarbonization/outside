@@ -1,36 +1,18 @@
-import { ComponentChildren } from "preact";
-import { PrecipitationType } from "../../../fruit-company/weather/models/base";
-import { PercentageUnit } from "./units";
-
-const typeClassNames = {
-    [PrecipitationType.clear]: "",
-    [PrecipitationType.precipitation]: "precipitation",
-    [PrecipitationType.rain]: "wi-rain",
-    [PrecipitationType.snow]: "wi-snow",
-    [PrecipitationType.sleet]: "wi-sleet",
-    [PrecipitationType.hail]: "wi-hail",
-    [PrecipitationType.mixed]: "wi-day-rain-mix",
-};
+import { DepthUnit, PercentageUnit } from "./units";
 
 export interface PrecipitationProps {
     readonly probability: number;
-    readonly type: PrecipitationType;
     readonly amount?: number;
-    readonly children: ComponentChildren;
+    readonly hideAutomatically?: boolean;
 }
 
-export function Precipitation({probability, type, children}: PrecipitationProps) {
-    if (probability > 0) {
-        return (
-            <span>
-                <span className={`wi ${typeClassNames[type]}`} /> <PercentageUnit measurement={probability} />
-            </span>
-        );
-    } else {
-        return (
-            <>
-                {children}
-            </>
-        );
+export function Precipitation({ probability, amount, hideAutomatically = true }: PrecipitationProps) {
+    if (probability === 0 && hideAutomatically) {
+        return null;
     }
+    return (
+        <span>
+            <PercentageUnit measurement={probability} /> {amount !== undefined ? <DepthUnit measurement={amount} /> : null}
+        </span>
+    );
 }

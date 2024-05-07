@@ -1,11 +1,11 @@
 import { t } from "i18next";
-import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
-import { Condition, ConditionDisplayStyle } from "./components/condition";
-import { ShortDate, ShortTime, Weekday } from "./components/dates";
-import { Moon } from "./components/moon";
-import { PercentageUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
-import { Precipitation } from "./components/precipitation";
 import { uvIndexRiskFrom } from "../../fruit-company/weather/models/base";
+import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
+import { Condition } from "./components/condition";
+import { ShortTime, Weekday } from "./components/dates";
+import { Moon } from "./components/moon";
+import { Precipitation } from "./components/precipitation";
+import { PercentageUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
 
 export interface DailyForecastProps {
     readonly forecast?: DailyForecast;
@@ -26,9 +26,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                         <tr>
                             <td>
                                 <header><Weekday when={day.forecastStart} /></header>
-                                <Precipitation probability={day.precipitationChance} type={day.precipitationType} amount={day.precipitationAmount}>
-                                    <Condition code={day.conditionCode} displayStyle={ConditionDisplayStyle.iconOnly} />
-                                </Precipitation>
+                                <Condition code={day.conditionCode} /> <Precipitation probability={day.precipitationChance} />
                             </td>
                             <td>
                                 <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} compact={false} />

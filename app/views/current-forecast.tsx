@@ -1,9 +1,9 @@
 import { t } from "i18next";
+import { uvIndexRiskFrom } from "../../fruit-company/weather/models/base";
 import { CurrentWeather } from "../../fruit-company/weather/models/current-weather";
 import { DayWeatherConditions } from "../../fruit-company/weather/models/daily-forecast";
-import { Condition, ConditionDisplayStyle } from "./components/condition";
+import { Condition } from "./components/condition";
 import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, TrendUnitLabel, UVIndexUnit, VisibilityUnit } from "./components/units";
-import { uvIndexRiskFrom } from "../../fruit-company/weather/models/base";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;

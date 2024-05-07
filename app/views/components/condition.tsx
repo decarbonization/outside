@@ -38,23 +38,17 @@ const codeClassNames = {
     [WeatherCondition.tropicalStorm]: "wi-hurricane-warning",
 }
 
-export const enum ConditionDisplayStyle {
-    iconOnly = "iconOnly",
-    labelOnly = "labelOnly",
-    iconAndLabel = "iconAndLabel",
-}
-
 export interface ConditionProps {
     readonly className?: string;
     readonly code: WeatherCondition;
-    readonly displayStyle?: ConditionDisplayStyle;
 }
 
-export function Condition({className, code, displayStyle = ConditionDisplayStyle.iconOnly}: ConditionProps) {
+export function Condition({className, code}: ConditionProps) {
     return (
-        <>
-            {displayStyle !== ConditionDisplayStyle.labelOnly ? <span className={`${className ?? ''} wi ${codeClassNames[code]}`} /> : null}
-            {displayStyle !== ConditionDisplayStyle.iconOnly ? <>&nbsp;{t(`forecast.weatherCondition.${code}`)}</> : null}
-        </>
+        <span className={`${className ?? ''} wi ${codeClassNames[code]}`} alt={labelFor(code)} />
     );
+}
+
+function labelFor(code: WeatherCondition): string {
+    return t(`forecast.weatherCondition.${code}`, {defaultValue: code as string});
 }

@@ -139,11 +139,27 @@ export function SpeedUnit({ className, measurement }: UnitProps) {
             <EmptyUnit className="speed" />
         );
     }
-    const temperature = usingUsCustomary()
+    const speed = usingUsCustomary()
         ? t("units:milesPerHour", { value: convert(measurement, "kilometers").to("miles") })
         : t("units:kilometersPerHour", { value: measurement });
     return (
         <span className={`unit speed ${className ?? ''}`}>
+            {speed}
+        </span>
+    );
+}
+
+export function DepthUnit({ className, measurement}: UnitProps) {
+    if (measurement === undefined) {
+        return (
+            <EmptyUnit className="depth" />
+        );
+    }
+    const temperature = usingUsCustomary()
+        ? t("units:inches", { value: convert(measurement, "millimeters").to("inches") })
+        : t("units:millimeters", { value: measurement });
+    return (
+        <span className={`unit depth ${className ?? ''}`}>
             {temperature}
         </span>
     );
