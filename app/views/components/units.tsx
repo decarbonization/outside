@@ -10,6 +10,7 @@ export interface UnitRangeProps<Measurement = number> {
     readonly className?: string;
     readonly max?: Measurement;
     readonly min?: Measurement;
+    readonly compact?: boolean;
 }
 
 function usingUsCustomary(): boolean {
@@ -18,12 +19,18 @@ function usingUsCustomary(): boolean {
         || resolvedLanguage.endsWith("US");
 }
 
+export function EmptyUnit({ className }: UnitProps<undefined>) {
+    return (
+        <span className={`unit empty ${className ?? ''}`}>
+            {t("units:placeholder")}
+        </span>
+    );
+}
+
 export function TemperatureUnit({ className, measurement }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <span className={`unit temperature empty ${className ?? ''}`}>
-                {t("units:placeholder")}
-            </span>
+            <EmptyUnit className="temperature" />
         );
     }
     const temperature = usingUsCustomary()
@@ -36,11 +43,11 @@ export function TemperatureUnit({ className, measurement }: UnitProps) {
     );
 }
 
-export function TemperatureRangeUnit({ className, max, min }: UnitRangeProps) {
+export function TemperatureRangeUnit({ className, max, min, compact = true }: UnitRangeProps) {
     return (
         <span className="unit unit-range">
             {t("units:highLabel")}<TemperatureUnit className={className} measurement={max} />
-            &nbsp;
+            {compact ? <>&nbsp;</> : <br />}
             {t("units:lowLabel")}<TemperatureUnit className={className} measurement={min} />
         </span>
     );
@@ -49,9 +56,7 @@ export function TemperatureRangeUnit({ className, max, min }: UnitRangeProps) {
 export function PercentageUnit({ className, measurement }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <span className={`unit percentage empty ${className ?? ''}`}>
-                {t("units:placeholder")}
-            </span>
+            <EmptyUnit className="percentage" />
         );
     }
     return (
@@ -64,9 +69,7 @@ export function PercentageUnit({ className, measurement }: UnitProps) {
 export function UVIndexUnit({ className, measurement }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <span className={`unit uv-index empty ${className ?? ''}`}>
-                {t("units:placeholder")}
-            </span>
+            <EmptyUnit className="uv-index" />
         );
     }
 
@@ -80,9 +83,7 @@ export function UVIndexUnit({ className, measurement }: UnitProps) {
 export function VisibilityUnit({ className, measurement }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <span className={`unit visibility empty ${className ?? ''}`}>
-                {t("units:placeholder")}
-            </span>
+            <EmptyUnit className="visibility" />
         );
     }
     if (usingUsCustomary()) {
@@ -119,9 +120,7 @@ export function VisibilityUnit({ className, measurement }: UnitProps) {
 export function PressureUnit({ className, measurement }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <span className={`unit pressure empty ${className ?? ''}`}>
-                {t("units:placeholder")}
-            </span>
+            <EmptyUnit className="pressure" />
         );
     }
     const temperature = usingUsCustomary()
@@ -137,9 +136,7 @@ export function PressureUnit({ className, measurement }: UnitProps) {
 export function SpeedUnit({ className, measurement }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <span className={`unit speed empty ${className ?? ''}`}>
-                {t("units:placeholder")}
-            </span>
+            <EmptyUnit className="speed" />
         );
     }
     const temperature = usingUsCustomary()
@@ -155,9 +152,7 @@ export function SpeedUnit({ className, measurement }: UnitProps) {
 export function CompassDirectionUnit({ className, measurement }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <span className={`unit compass-direction empty ${className ?? ''}`}>
-                {t("units:placeholder")}
-            </span>
+            <EmptyUnit className="compass-direction" />
         );
     }
 
