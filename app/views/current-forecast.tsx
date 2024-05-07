@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { CurrentWeather } from "../../fruit-company/weather/models/current-weather";
 import { DayWeatherConditions } from "../../fruit-company/weather/models/daily-forecast";
-import { Condition } from "./components/condition";
+import { Condition, ConditionDisplayStyle } from "./components/condition";
 import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, TrendUnitLabel, UVIndexUnit, VisibilityUnit } from "./components/units";
 import { uvIndexRiskFrom } from "../../fruit-company/weather/models/base";
 
@@ -16,16 +16,15 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
     }
     
     return (
-        <section>
-            <ul className="conditions">
+        <section className="conditions">
+            <ul>
                 <li>
                     <Condition className="hero" code={now.conditionCode} />
                     &nbsp;
                     <TemperatureUnit className="hero" measurement={now.temperature} />
                 </li>
                 <li>
-                    <header><TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} /></header>
-                    {t("forecast.measurementLabels.feelsLike")} <TemperatureUnit measurement={now.temperatureApparent} />
+                    <TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} compact={false} />
                 </li>
                 <li>
                     <header>{t("forecast.measurementLabels.humidity")}</header>
@@ -51,7 +50,12 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
                 </li>
             </ul>
             <footer>
-                {t('weatherConditions.lastUpdated', {when: now.asOf})}
+                <div>
+                    {t("forecast.measurementLabels.feelsLike")} <TemperatureUnit measurement={now.temperatureApparent} />
+                </div>
+                <div>
+                    {t('weatherConditions.lastUpdated', {when: now.asOf})}
+                </div>
             </footer>
         </section>
     );

@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
-import { Condition } from "./components/condition";
+import { Condition, ConditionDisplayStyle } from "./components/condition";
 import { ShortDate, ShortTime, Weekday } from "./components/dates";
 import { Moon } from "./components/moon";
 import { PercentageUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
@@ -26,15 +26,12 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                         <tr>
                             <td>
                                 <header><Weekday when={day.forecastStart} /></header>
-                                <ShortDate when={day.forecastStart} />
+                                <Precipitation probability={day.precipitationChance} type={day.precipitationType} amount={day.precipitationAmount}>
+                                    <Condition code={day.conditionCode} displayStyle={ConditionDisplayStyle.iconOnly} />
+                                </Precipitation>
                             </td>
                             <td>
-                                <header>
-                                    <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} />
-                                </header>
-                                <Precipitation probability={day.precipitationChance} type={day.precipitationType} amount={day.precipitationAmount}>
-                                    <Condition code={day.conditionCode} labeled={true} />
-                                </Precipitation>
+                                <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} compact={false} />
                             </td>
                             <td>
                                 <header>{t("forecast.measurementLabels.humidity")}</header>
