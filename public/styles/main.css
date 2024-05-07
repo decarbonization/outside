@@ -76,6 +76,7 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
 .conditions ul {
     list-style: none;
     padding: 0;
+    margin: 0;
     display: flex;
     flex-wrap: nowrap;
     overflow: auto hidden;
@@ -101,6 +102,7 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
 ol.hours {
     list-style: none;
     padding: 0;
+    margin: 0;
     display: flex;
     flex-wrap: nowrap;
     align-items: last baseline;
