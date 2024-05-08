@@ -1,9 +1,22 @@
+import classNames from "classnames";
 import convert from "convert";
 import i18next, { t } from "i18next";
 
 export interface UnitProps<Measurement = number> {
+    /**
+     * Extra class names to apply to the element.
+     */
     readonly className?: string;
+
+    /**
+     * The measurement to render.
+     */
     readonly measurement?: Measurement;
+
+    /**
+     * Whether to hide the element if a `measurement` is not provided.
+     */
+    readonly autoHide?: boolean;
 }
 
 export interface UnitRangeProps<Measurement = number> {
@@ -19,25 +32,29 @@ function usingUsCustomary(): boolean {
         || resolvedLanguage.endsWith("US");
 }
 
-export function EmptyUnit({ className }: UnitProps<undefined>) {
-    return (
-        <span className={`unit empty ${className ?? ''}`}>
-            {t("units:placeholder")}
-        </span>
-    );
+function Empty({ className, autoHide = false }: UnitProps<undefined>) {
+    if (autoHide) {
+        return null;
+    } else {
+        return (
+            <span className={classNames("unit", "empty", className)}>
+                {t("units:placeholder")}
+            </span>
+        );
+    }
 }
 
-export function TemperatureUnit({ className, measurement }: UnitProps) {
+export function TemperatureUnit({ className, measurement, autoHide }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <EmptyUnit className="temperature" />
+            <Empty className={classNames("temperature", className)} autoHide={autoHide} />
         );
     }
     const temperature = usingUsCustomary()
         ? t("units:fahrenheit", { value: convert(measurement, "celsius").to("fahrenheit") })
         : t("units:celsius", { value: measurement });
     return (
-        <span className={`unit temperature ${className ?? ''}`}>
+        <span className={classNames("unit", "temperature", className)}>
             {temperature}
         </span>
     );
@@ -53,49 +70,48 @@ export function TemperatureRangeUnit({ className, max, min, compact = true }: Un
     );
 }
 
-export function PercentageUnit({ className, measurement }: UnitProps) {
+export function PercentageUnit({ className, measurement, autoHide }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <EmptyUnit className="percentage" />
+            <Empty className={classNames("percentage", className)} autoHide={autoHide} />
         );
     }
     return (
-        <span className={`unit percentage ${className ?? ''}`}>
+        <span className={classNames("unit", "percentage", className)}>
             {t("units:percentage", { value: measurement })}
         </span>
     );
 }
 
-export function UVIndexUnit({ className, measurement }: UnitProps) {
+export function UVIndexUnit({ className, measurement, autoHide }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <EmptyUnit className="uv-index" />
+            <Empty className={classNames("uv-index", className)} autoHide={autoHide} />
         );
     }
-
     return (
-        <span className="unit uv-index">
+        <span className={classNames("unit", "uv-index", className)}>
             {t("units:uvIndex", { intensity: measurement })}
         </span>
     );
 }
 
-export function VisibilityUnit({ className, measurement }: UnitProps) {
+export function VisibilityUnit({ className, measurement, autoHide }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <EmptyUnit className="visibility" />
+            <Empty className={classNames("visibility", className)} autoHide={autoHide} />
         );
     }
     if (usingUsCustomary()) {
         if (measurement >= 160.934 /* one tenth of a mile */) {
             return (
-                <span className={`unit visibility ${className ?? ''}`}>
+                <span className={classNames("unit", "visibility", className)}>
                     {t("units:miles", { value: convert(measurement, "meters").to("miles") })}
                 </span>
             );
         } else {
             return (
-                <span className={`unit visibility ${className ?? ''}`}>
+                <span className={classNames("unit", "visibility", className)}>
                     {t("units:feet", { value: convert(measurement, "meters").to("feet") })}
                 </span>
             );
@@ -103,13 +119,13 @@ export function VisibilityUnit({ className, measurement }: UnitProps) {
     } else {
         if (measurement >= 1000) {
             return (
-                <span className={`unit visibility ${className ?? ''}`}>
+                <span className={classNames("unit", "visibility", className)}>
                     {t("units:kilometers", { value: convert(measurement, "meters").to("kilometers") })}
                 </span>
             );
         } else {
             return (
-                <span className={`unit visibility ${className ?? ''}`}>
+                <span className={classNames("unit", "visibility", className)}>
                     {t("units:meters", { value: measurement })}
                 </span>
             );
@@ -117,58 +133,58 @@ export function VisibilityUnit({ className, measurement }: UnitProps) {
     }
 }
 
-export function PressureUnit({ className, measurement }: UnitProps) {
+export function PressureUnit({ className, measurement, autoHide }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <EmptyUnit className="pressure" />
+            <Empty className={classNames("pressure", className)} autoHide={autoHide} />
         );
     }
-    const temperature = usingUsCustomary()
+    const pressure = usingUsCustomary()
         ? t("units:inHg", { value: measurement * 0.029529980 })
         : t("units:millibars", { value: measurement });
     return (
-        <span className={`unit pressure ${className ?? ''}`}>
-            {temperature}
+        <span className={classNames("unit", "pressure", className)}>
+            {pressure}
         </span>
     );
 }
 
-export function SpeedUnit({ className, measurement }: UnitProps) {
+export function SpeedUnit({ className, measurement, autoHide }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <EmptyUnit className="speed" />
+            <Empty className={classNames("speed", className)} autoHide={autoHide} />
         );
     }
     const speed = usingUsCustomary()
         ? t("units:milesPerHour", { value: convert(measurement, "kilometers").to("miles") })
         : t("units:kilometersPerHour", { value: measurement });
     return (
-        <span className={`unit speed ${className ?? ''}`}>
+        <span className={classNames("unit", "speed", className)}>
             {speed}
         </span>
     );
 }
 
-export function DepthUnit({ className, measurement}: UnitProps) {
+export function DepthUnit({ className, measurement, autoHide }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <EmptyUnit className="depth" />
+            <Empty className={classNames("depth", className)} autoHide={autoHide} />
         );
     }
-    const temperature = usingUsCustomary()
+    const depth = usingUsCustomary()
         ? t("units:inches", { value: convert(measurement, "millimeters").to("inches") })
         : t("units:millimeters", { value: measurement });
     return (
-        <span className={`unit depth ${className ?? ''}`}>
-            {temperature}
+        <span className={classNames("unit", "depth", className)}>
+            {depth}
         </span>
     );
 }
 
-export function CompassDirectionUnit({ className, measurement }: UnitProps) {
+export function CompassDirectionUnit({ className, measurement, autoHide }: UnitProps) {
     if (measurement === undefined) {
         return (
-            <EmptyUnit className="compass-direction" />
+            <Empty className="compass-direction" autoHide={autoHide} />
         );
     }
 
@@ -195,7 +211,7 @@ export function CompassDirectionUnit({ className, measurement }: UnitProps) {
     );
 }
 
-export function TrendUnitLabel({className, measurement}: UnitProps<'rising' | 'steady' | 'falling'>) {
+export function TrendUnitLabel({ className, measurement }: UnitProps<'rising' | 'steady' | 'falling'>) {
     switch (measurement) {
         case 'rising':
             return (
