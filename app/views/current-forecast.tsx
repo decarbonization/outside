@@ -19,7 +19,7 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
         <section className="conditions">
             <ul>
                 <li>
-                    <Condition className="hero" code={now.conditionCode} />
+                    <Condition className="hero" code={now.conditionCode} daylight={now.daylight} />
                     &nbsp;
                     <TemperatureUnit className="hero" measurement={now.temperature} />
                 </li>
