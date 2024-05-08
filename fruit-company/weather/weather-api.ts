@@ -2,6 +2,7 @@ import jwt, { JwtHeader } from "jsonwebtoken";
 import { Weather } from "./models/weather";
 import { ApiCall, ApiError, ApiFetch, ApiToken } from "../api";
 import { LocationCoordinates, urlLocationCoordinates } from "../maps/models/base";
+import { Attribution } from "./models/attribution";
 
 const weatherUrl = "https://weatherkit.apple.com/api/v1";
 
@@ -114,5 +115,26 @@ export class WeatherQuery implements ApiCall<WeatherToken, Weather> {
 
     toString(): string {
         return `WeatherQuery(${JSON.stringify(this.options)})`;
+    }
+}
+
+export class WeatherAttribution implements ApiCall<WeatherToken, Attribution> {
+    constructor(readonly options: Readonly<{
+        language: string
+    }>) {
+    }
+
+    prepare(token: WeatherToken): Request {
+        const url = new URL(`${weatherUrl}/attribution/${this.options.language}`);
+        return new Request(url, {headers: token.headers});
+    }
+
+    async parse(response: Response): Promise<Attribution> {
+        const object = await response.json();
+        return object as Attribution;
+    }
+
+    toString(): string {
+        return `WeatherAttribution(${JSON.stringify(this.options)})`;
     }
 }
