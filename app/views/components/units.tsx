@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import convert from "convert";
 import i18next, { t } from "i18next";
+import { uvIndexRiskFrom } from "../../../fruit-company/weather/models/base";
 
 export interface UnitProps<Measurement = number> {
     /**
@@ -91,7 +92,7 @@ export function UVIndexUnit({ className, measurement, autoHide }: UnitProps) {
     }
     return (
         <span className={classNames("unit", "uv-index", className)}>
-            {t("units:uvIndex", { intensity: measurement })}
+            {t("units:uvIndex", { intensity: measurement })}&nbsp;{t(`forecast.uvIndexRisk.${uvIndexRiskFrom(measurement)}`)}
         </span>
     );
 }

@@ -1,5 +1,4 @@
 import { t } from "i18next";
-import { uvIndexRiskFrom } from "../../fruit-company/weather/models/base";
 import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
 import { Condition } from "./components/condition";
 import { ShortTime, Weekday } from "./components/dates";
@@ -43,7 +42,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             </td>
                             <td>
                                 <header>{t("forecast.measurementLabels.uvIndex")}</header>
-                                <UVIndexUnit measurement={day.maxUvIndex} />&nbsp;{t(`forecast.uvIndexRisk.${uvIndexRiskFrom(day.maxUvIndex)}`)}
+                                <UVIndexUnit measurement={day.maxUvIndex} />
                             </td>
                             <td>
                                 <header>{t("forecast.measurementLabels.sunrise")}</header>

@@ -1,5 +1,4 @@
 import { t } from "i18next";
-import { uvIndexRiskFrom } from "../../fruit-company/weather/models/base";
 import { CurrentWeather } from "../../fruit-company/weather/models/current-weather";
 import { DayWeatherConditions } from "../../fruit-company/weather/models/daily-forecast";
 import { Condition } from "./components/condition";
@@ -52,7 +51,7 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
                     <header>{t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />
                     <footer>
-                        {t(`forecast.uvIndexRisk.${uvIndexRiskFrom(now.uvIndex)}`)}
+                        &nbsp;
                     </footer>
                 </li>
                 <li>
