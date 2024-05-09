@@ -73,30 +73,22 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
     font-family: "Kode Mono", monospace;
 }
 
-.conditions ul {
+.conditions {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-wrap: nowrap;
     overflow: auto hidden;
-    align-items: last baseline;
+    align-items: top;
     justify-content: left;
     gap: var(--v-spacing) var(--h-spacing);
 }
 
-.conditions ul .hero {
+.conditions .hero {
     font-size: 3em;
     font-weight: bold;
-}
-
-.conditions footer {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow: auto hidden;
-    align-items: last baseline;
-    justify-content: space-between;
-    gap: var(--v-spacing) var(--h-spacing);
+    line-height: 2.3rem;
 }
 
 ol.hours {

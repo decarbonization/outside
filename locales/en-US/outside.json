@@ -5,11 +5,14 @@
     "forecast": {
         "measurementLabels": {
             "humidity": "Humidity",
+            "dewPoint": "Dew\u00A0Point",
             "uvIndex": "UV\u00A0Index",
             "wind": "Wind",
+            "windGusts": "Gusts",
             "visibility": "Visibility",
+            "cloudCover": "Clouds",
             "pressure": "Pressure",
-            "feelsLike": "Feels Like",
+            "feelsLike": "Feels\u00A0Like",
             "sunrise": "Sunrise",
             "sunset": "Sunset",
             "moonPhase": "Moon"
@@ -81,9 +84,6 @@
             "veryHigh": "Very\u00A0High",
             "extreme": "Extreme"
         }
-    },
-    "weatherConditions": {
-        "lastUpdated": "Last Updated {{when, datetime(dateStyle: 'medium'; timeStyle: 'short')}}"
     },
     "dailyForecast": {
         "title": "{{count, number}} Day Forecast",
