@@ -187,27 +187,30 @@ export function CompassDirectionUnit({ className, measurement, autoHide }: UnitP
             <Empty className="compass-direction" autoHide={autoHide} />
         );
     }
-
-    let iconName: string;
-    if (measurement === 0 || (measurement > 270 && measurement <= 360)) {
-        iconName = "wi-towards-n";
+    let labelKey: string;
+    if (measurement === 0) {
+        labelKey = "north";
     } else if (measurement > 0 && measurement < 90) {
-        iconName = "wi-towards-ne";
+        labelKey = "northEast";
     } else if (measurement === 90) {
-        iconName = "wi-towards-e";
+        labelKey = "east";
     } else if (measurement > 90 && measurement < 180) {
-        iconName = "wi-towards-se";
+        labelKey = "southEast";
     } else if (measurement === 180) {
-        iconName = "wi-towards-s";
+        labelKey = "south";
     } else if (measurement > 180 && measurement < 270) {
-        iconName = "wi-towards-sw";
+        labelKey = "southWest";
     } else if (measurement === 270) {
-        iconName = "wi-towards-w";
+        labelKey = "west";
+    } else if (measurement > 270 && measurement <= 360) {
+        labelKey = "northWest";
     } else {
         throw new RangeError(`<${measurement}> is not a valid compass reading`);
     }
     return (
-        <span className={`unit compass-direction ${className ?? ''} wi wi-wind ${iconName}`}></span>
+        <span className={classNames("unit", "compass-direction", className)}>
+            {t(`units:compassDirection.${labelKey}`)}
+        </span>
     );
 }
 
@@ -215,13 +218,13 @@ export function TrendUnitLabel({ className, measurement }: UnitProps<'rising' | 
     switch (measurement) {
         case 'rising':
             return (
-                <span className={`wi wi-direction-up ${className ?? ""}`} />
+                <span className={classNames("wi", "wi-direction-up", className)} />
             );
         case 'steady':
             return null;
         case 'falling':
             return (
-                <span className={`wi wi-direction-down ${className ?? ""}`} />
+                <span className={classNames("wi", "wi-direction-down", className)} />
             );
         default:
             return null;

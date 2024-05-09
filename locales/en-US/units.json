@@ -18,5 +18,16 @@
     "feet": "{{value, number(maximumFractionDigits: 0)}}ft",
     "inHg": "{{value, number(maximumFractionDigits: 0)}}inHg",
     "milesPerHour": "{{value, number(maximumFractionDigits: 0)}}mph",
-    "inches": "{{value, number(maximumFractionDigits: 1)}}in"
+    "inches": "{{value, number(maximumFractionDigits: 1)}}in",
+
+    "compassDirection": {
+        "north": "N",
+        "northEast": "NE",
+        "east": "E",
+        "southEast": "SE",
+        "south": "S",
+        "southWest": "SW",
+        "west": "W",
+        "northWest": "NW"
+    }
 }
