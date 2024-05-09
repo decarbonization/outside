@@ -16,7 +16,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
         return null;
     }
     return (
-        <section>
+        <section className="daily-forecast">
             <h1>
                 {t("dailyForecast.title", { count: forecast.days.length })}
             </h1>

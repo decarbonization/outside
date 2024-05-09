@@ -15,15 +15,15 @@ export function HourlyForecast({forecast}: HourlyForecastProps) {
     }
     const hours = forecast.hours;
     return (
-        <section>
+        <section className="hourly-forecast">
             <h1>{t("hourlyForecast.title", {count: hours.length})}</h1>
-            <ol className="hours">
+            <ol>
                 {hours.map(hour => (
                     <li>
                         <div>
                             <Hour when={hour.forecastStart} />
                         </div>
-                        <div>
+                        <div className="conditions">
                             <Condition code={hour.conditionCode} daylight={hour.daylight} />
                             <Precipitation probability={hour.precipitationChance} />
                         </div>

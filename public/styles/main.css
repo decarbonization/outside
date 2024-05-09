@@ -73,7 +73,7 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
     font-family: "Kode Mono", monospace;
 }
 
-.conditions {
+.current-forecast ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -85,13 +85,13 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
     gap: var(--v-spacing) var(--h-spacing);
 }
 
-.conditions .hero {
+.current-forecast ul .hero {
     font-size: 3em;
     font-weight: bold;
     line-height: 2.3rem;
 }
 
-ol.hours {
+.hourly-forecast ol {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -103,30 +103,38 @@ ol.hours {
     overflow: auto hidden;
 }
 
-ol.hours li {
+.hourly-forecast ol li {
     min-width: 3.5rem;
     min-height: 3rem;
     text-align: center;
 }
 
-form.place-search {
+.hourly-forecast ol li .conditions {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 3em;
+}
+
+.place-search form {
     display: flex;
 }
 
-form.place-search input {
+.place-search form input {
     flex-grow: 1;
     font-size: 1.25em;
 }
 
-ol.places {
+.place-search ol {
     list-style: none;
     padding: 0;
 }
 
-ol.places li {
+.place-search ol li {
     padding: var(--h-spacing) var(--v-spacing);
 }
 
-ol.places li:not(:last-child) {
+.place-search ol li:not(:last-child) {
     border-bottom: 1px solid var(--separator);
 }

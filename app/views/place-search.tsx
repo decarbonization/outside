@@ -8,13 +8,13 @@ export interface PlaceSearchProps {
 
 export function PlaceSearch({query, results}: PlaceSearchProps) {
     return (
-        <section>
+        <section className="place-search">
             <header>
-                <form className="place-search" action="/" method="GET">
+                <form action="/" method="GET">
                     <input type="search" name="q" value={query} placeholder={t('placeSearch.inputLabel')} />
                 </form>
             </header>
-            <ol className="places">
+            <ol>
                 {results?.results.map(place => (
                     <li>
                         <a href={`/weather/${place.countryCode}/${place.coordinate.latitude}/${place.coordinate.longitude}?q=${place.name}`}>

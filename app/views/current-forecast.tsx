@@ -16,8 +16,8 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
     }
     
     return (
-        <section>
-            <ul className="conditions">
+        <section className="current-forecast">
+            <ul>
                 <li>
                     <Condition className="hero" code={now.conditionCode} daylight={now.daylight} />
                     &nbsp;
