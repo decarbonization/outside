@@ -15,6 +15,7 @@ import { perform } from './fruit-company/api';
 import { GeocodeAddress, MapsToken } from './fruit-company/maps/maps-api';
 import { Weather } from "./fruit-company/weather/models/weather";
 import { WeatherDataSet, WeatherToken, WeatherQuery } from './fruit-company/weather/weather-api';
+import { elementStyleFor } from './app/styling/element-style';
 
 dotenv.config();
 
@@ -101,7 +102,7 @@ app.get('/weather/:country/:latitude/:longitude', async (req, res) => {
     })
   });
   const resp = render(
-    <App>
+    <App className={elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight)}>
       <PlaceSearch query={query} />
       <WeatherDetails weather={weather} />
     </App>
@@ -130,7 +131,7 @@ app.get('/sample', async (req, res) => {
   }) as Weather;
 
   const resp = render(
-    <App>
+    <App className={elementStyleFor(sample.currentWeather?.conditionCode, sample.currentWeather?.daylight)}>
       <WeatherDetails weather={sample} />
     </App>
   );
