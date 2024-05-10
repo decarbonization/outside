@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import convert from "convert";
-import i18next, { t } from "i18next";
+import { t } from "i18next";
 import { uvIndexRiskFrom } from "../../../fruit-company/weather/models/base";
+import { formatCompassDirection, formatDepth, formatPercentage, formatPressure, formatSpeed, formatTemperature, formatUVIndex, formatVisibility } from "../../formatting/units";
 
 export interface UnitProps<Measurement = number> {
     /**
@@ -27,12 +27,6 @@ export interface UnitRangeProps<Measurement = number> {
     readonly compact?: boolean;
 }
 
-function usingUsCustomary(): boolean {
-    const resolvedLanguage = i18next.resolvedLanguage;
-    return resolvedLanguage === undefined
-        || resolvedLanguage.endsWith("US");
-}
-
 function Empty({ className, autoHide = false }: UnitProps<undefined>) {
     if (autoHide) {
         return null;
@@ -51,12 +45,9 @@ export function TemperatureUnit({ className, measurement, autoHide }: UnitProps)
             <Empty className={classNames("temperature", className)} autoHide={autoHide} />
         );
     }
-    const temperature = usingUsCustomary()
-        ? t("units:fahrenheit", { value: convert(measurement, "celsius").to("fahrenheit") })
-        : t("units:celsius", { value: measurement });
     return (
         <span className={classNames("unit", "temperature", className)}>
-            {temperature}
+            {formatTemperature(measurement)}
         </span>
     );
 }
@@ -79,7 +70,7 @@ export function PercentageUnit({ className, measurement, autoHide }: UnitProps) 
     }
     return (
         <span className={classNames("unit", "percentage", className)}>
-            {t("units:percentage", { value: measurement })}
+            {formatPercentage(measurement)}
         </span>
     );
 }
@@ -92,7 +83,7 @@ export function UVIndexUnit({ className, measurement, autoHide }: UnitProps) {
     }
     return (
         <span className={classNames("unit", "uv-index", className)}>
-            {t("units:uvIndex", { intensity: measurement })}&nbsp;{t(`forecast.uvIndexRisk.${uvIndexRiskFrom(measurement)}`)}
+            {formatUVIndex(measurement)}&nbsp;{t(`forecast.uvIndexRisk.${uvIndexRiskFrom(measurement)}`)}
         </span>
     );
 }
@@ -103,35 +94,11 @@ export function VisibilityUnit({ className, measurement, autoHide }: UnitProps) 
             <Empty className={classNames("visibility", className)} autoHide={autoHide} />
         );
     }
-    if (usingUsCustomary()) {
-        if (measurement >= 160.934 /* one tenth of a mile */) {
-            return (
-                <span className={classNames("unit", "visibility", className)}>
-                    {t("units:miles", { value: convert(measurement, "meters").to("miles") })}
-                </span>
-            );
-        } else {
-            return (
-                <span className={classNames("unit", "visibility", className)}>
-                    {t("units:feet", { value: convert(measurement, "meters").to("feet") })}
-                </span>
-            );
-        }
-    } else {
-        if (measurement >= 1000) {
-            return (
-                <span className={classNames("unit", "visibility", className)}>
-                    {t("units:kilometers", { value: convert(measurement, "meters").to("kilometers") })}
-                </span>
-            );
-        } else {
-            return (
-                <span className={classNames("unit", "visibility", className)}>
-                    {t("units:meters", { value: measurement })}
-                </span>
-            );
-        }
-    }
+    return (
+        <span className={classNames("unit", "visibility", className)}>
+            {formatVisibility(measurement)}
+        </span>
+    );
 }
 
 export function PressureUnit({ className, measurement, autoHide }: UnitProps) {
@@ -140,12 +107,9 @@ export function PressureUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("pressure", className)} autoHide={autoHide} />
         );
     }
-    const pressure = usingUsCustomary()
-        ? t("units:inHg", { value: measurement * 0.029529980 })
-        : t("units:millibars", { value: measurement });
     return (
         <span className={classNames("unit", "pressure", className)}>
-            {pressure}
+            {formatPressure(measurement)}
         </span>
     );
 }
@@ -156,12 +120,9 @@ export function SpeedUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("speed", className)} autoHide={autoHide} />
         );
     }
-    const speed = usingUsCustomary()
-        ? t("units:milesPerHour", { value: convert(measurement, "kilometers").to("miles") })
-        : t("units:kilometersPerHour", { value: measurement });
     return (
         <span className={classNames("unit", "speed", className)}>
-            {speed}
+            {formatSpeed(measurement)}
         </span>
     );
 }
@@ -172,12 +133,9 @@ export function DepthUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("depth", className)} autoHide={autoHide} />
         );
     }
-    const depth = usingUsCustomary()
-        ? t("units:inches", { value: convert(measurement, "millimeters").to("inches") })
-        : t("units:millimeters", { value: measurement });
     return (
         <span className={classNames("unit", "depth", className)}>
-            {depth}
+            {formatDepth(measurement)}
         </span>
     );
 }
@@ -188,29 +146,9 @@ export function CompassDirectionUnit({ className, measurement, autoHide }: UnitP
             <Empty className="compass-direction" autoHide={autoHide} />
         );
     }
-    let labelKey: string;
-    if (measurement === 0) {
-        labelKey = "north";
-    } else if (measurement > 0 && measurement < 90) {
-        labelKey = "northEast";
-    } else if (measurement === 90) {
-        labelKey = "east";
-    } else if (measurement > 90 && measurement < 180) {
-        labelKey = "southEast";
-    } else if (measurement === 180) {
-        labelKey = "south";
-    } else if (measurement > 180 && measurement < 270) {
-        labelKey = "southWest";
-    } else if (measurement === 270) {
-        labelKey = "west";
-    } else if (measurement > 270 && measurement <= 360) {
-        labelKey = "northWest";
-    } else {
-        throw new RangeError(`<${measurement}> is not a valid compass reading`);
-    }
     return (
         <span className={classNames("unit", "compass-direction", className)}>
-            {t(`units:compassDirection.${labelKey}`)}
+            {formatCompassDirection(measurement)}
         </span>
     );
 }
