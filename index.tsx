@@ -55,13 +55,13 @@ const mapsToken = new MapsToken(
   process.env.APPLE_MAPS_APP_ID!,
   process.env.APPLE_TEAM_ID!,
   process.env.APPLE_MAPS_KEY_ID!,
-  fs.readFileSync(path.join(__dirname, process.env.APPLE_MAPS_KEY_NAME!)),
+  fs.readFileSync(path.join(__dirname, "private", process.env.APPLE_MAPS_KEY_NAME!)),
 );
 const weatherKitToken = new WeatherToken(
   process.env.APPLE_WEATHER_APP_ID!,
   process.env.APPLE_TEAM_ID!,
   process.env.APPLE_WEATHER_KEY_ID!,
-  fs.readFileSync(path.join(__dirname, process.env.APPLE_WEATHER_KEY_NAME!)),
+  fs.readFileSync(path.join(__dirname, "private", process.env.APPLE_WEATHER_KEY_NAME!)),
 );
 
 app.use(express.static(path.join(__dirname, "public")));

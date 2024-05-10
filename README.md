@@ -9,10 +9,10 @@ The following environment variables __must__ be provided:
 - `APPLE_TEAM_ID`: An Apple developer team.
 - `APPLE_MAPS_APP_ID`: A MapKit JS app identifier.
 - `APPLE_MAPS_KEY_ID`: A MapKit JS key identifier.
-- `APPLE_MAPS_KEY_NAME`: The name of a MapKit JS private key downloaded from the developer portal located in the same directory as the app.
+- `APPLE_MAPS_KEY_NAME`: The name of a MapKit JS private key downloaded from the developer portal located in the `private/` directory.
 - `APPLE_WEATHER_APP_ID`: A WeatherKit REST app identifier.
 - `APPLE_WEATHER_KEY_ID`: A WeatherKit REST key identifier.
-- `APPLE_WEATHER_KEY_NAME`: The name of a WeatherKit REST private key downloaded from the developer portal located in the same directory as the app.
+- `APPLE_WEATHER_KEY_NAME`: The name of a WeatherKit REST private key downloaded from the developer portal located in the `private/` directory.
 
 The following environment variables may be provided:
 
