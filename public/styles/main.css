@@ -31,6 +31,8 @@
     --h-spacing: 1rem;
     --accent: blue;
     --separator: #aaa;
+    --transition-timing: cubic-bezier(.28,.84,.58,.98);
+    --hover-bg-color: rgba(255, 255, 255, 0.091);
 }
 
 body {
@@ -82,24 +84,37 @@ input[type="search"]:focus, input[type="text"]:focus, textarea:focus {
 table{
     border-collapse: collapse;
     width: 100%;
+    box-sizing: border-box;
+}
+
+table tr{
+    display: flex;
+    align-items: center;
+}
+
+td,th{
+    flex: 1;
 }
 
 table tr:hover{
-    background-color: rgba(255, 255, 255, 0.091);
+    position: relative;
+    z-index: 1;
+    background-color: var(--hover-bg-color);
+    box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
 table tr:not(:last-child) {
  /* This currently does nothing. */
  /*   padding-bottom: var(--v-spacing); */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 1px;
-    transition: cubic-bezier(.28,.84,.58,.98) background-color .25s;
+    border-radius: .25rem;
+    transition: var(--transition-timing) background-color .25s;
 }
 
 table tr th:not(:last-child), table tr td:not(:last-child) {
   /*   padding-right: calc(var(--h-spacing)*1.5);
     padding-bottom: 1rem; */
     padding: .75rem calc(var(--h-spacing)*1.4) .75rem 0;
+/*     flex: 1; */
 }
 
 table tr td:first-child{
@@ -212,7 +227,7 @@ table tr td:last-child{
     flex-wrap: nowrap;
     align-items: last baseline;
     justify-content: left;
-    gap: var(--v-spacing) var(--h-spacing);
+/*     gap: var(--v-spacing) var(--h-spacing); */
     overflow: auto hidden;
 }
 
@@ -220,6 +235,10 @@ table tr td:last-child{
     min-width: 3.5rem;
     min-height: 3rem;
     text-align: center;
+    border-radius: .25rem;
+    padding: calc(var(--v-spacing)/2.5) calc(var(--h-spacing)/2.5);
+    transition: var(--transition-timing) .25s background-color border;
+    border: .5px solid rgba(255, 255, 255, 0.0);
 }
 
 .hourly-forecast ol li .conditions {
@@ -228,6 +247,12 @@ table tr td:last-child{
     flex-wrap: wrap;
     justify-content: center;
     min-height: 3em;
+}
+
+.hourly-forecast ol li:hover{
+    background-color: var(--hover-bg-color);
+    border: .5px solid rgba(255, 255, 255, 0.11);
+    box-shadow: 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
 .daily-forecast{
