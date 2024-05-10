@@ -73,6 +73,36 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
     font-family: "Kode Mono", monospace;
 }
 
+.day-clear {
+    background-color: hsl(210, 44%, 50%);
+    color: #fff;
+}
+
+.day-overcast {
+    background-color: hsl(208, 27%, 50%);
+    color: #fff;
+}
+
+.day-precipitating {
+    background-color: hsl(204, 15%, 50%);
+    color: #fff;
+}
+
+.night-clear {
+    background-color: hsl(210, 44%, 25%);
+    color: #fff;
+}
+
+.night-overcast {
+    background-color: hsl(208, 27%, 25%);
+    color: #fff;
+}
+
+.night-precipitating {
+    background-color: hsl(204, 15%, 25%);
+    color: #fff;
+}
+
 .current-forecast ul {
     list-style: none;
     padding: 0;
