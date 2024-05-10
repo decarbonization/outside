@@ -79,13 +79,37 @@ input[type="search"]:focus, input[type="text"]:focus, textarea:focus {
     overflow: auto hidden;
 }
 
+table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table tr:hover{
+    background-color: rgba(255, 255, 255, 0.091);
+}
+
 table tr:not(:last-child) {
-    padding-bottom: var(--v-spacing);
+ /* This currently does nothing. */
+ /*   padding-bottom: var(--v-spacing); */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 1px;
+    transition: cubic-bezier(.28,.84,.58,.98) background-color .25s;
 }
 
 table tr th:not(:last-child), table tr td:not(:last-child) {
-    padding-right: var(--h-spacing);
+  /*   padding-right: calc(var(--h-spacing)*1.5);
+    padding-bottom: 1rem; */
+    padding: .75rem calc(var(--h-spacing)*1.4) .75rem 0;
 }
+
+table tr td:first-child{
+    padding-left: .5rem;
+}
+
+table tr td:last-child{
+    padding-right: .5rem;
+}
+
 
 .unit {
     font-family: "Kode Mono", monospace;
@@ -159,7 +183,28 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
     line-height: 2.3rem;
 }
 
+.hourly-forecast{
+    position: relative;
+    margin-top: calc(var(--v-spacing)*1.5);
+}
+
+/* scroll overflow gradient on load */
+.hourly-forecast::before{
+    background: linear-gradient(90deg,rgba(93, 130, 162, 0.179), rgb(93, 130, 162));
+    content: "";
+    display: block;
+    position: absolute;
+    height: 75%;
+    width: 40px;
+    right: 0;
+    bottom: 0;
+    border-right: .5px solid rgb(74, 89, 131);
+    box-shadow: inset -.5px 0 0 rgba(255, 255, 255, 0.221);
+    z-index: 24;
+}
+
 .hourly-forecast ol {
+    position: relative;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -183,6 +228,14 @@ table tr th:not(:last-child), table tr td:not(:last-child) {
     flex-wrap: wrap;
     justify-content: center;
     min-height: 3em;
+}
+
+.daily-forecast{
+    margin-top: calc(var(--v-spacing)*1.5);
+}
+
+.daily-forecast h1{
+    margin-bottom: .5rem;
 }
 
 .place-search form {
