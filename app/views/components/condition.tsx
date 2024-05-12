@@ -20,41 +20,41 @@ import { t } from "i18next";
 import { WeatherCondition } from "../../../fruit-company/weather/models/base";
 import classNames from "classnames";
 
-const codeClassNames = {
-    [WeatherCondition.blowingDust]: "wi-dust",
-    [WeatherCondition.clear]: "wi-DAYNIGHT-sunny",
-    [WeatherCondition.cloudy]: "wi-cloudy",
-    [WeatherCondition.foggy]: "wi-fog",
-    [WeatherCondition.haze]: "wi-smog",
-    [WeatherCondition.mostlyClear]: "wi-DAYNIGHT-sunny-overcast",
-    [WeatherCondition.mostlyCloudy]: "wi-DAYNIGHT-cloudy-high",
-    [WeatherCondition.partlyCloudy]: "wi-DAYNIGHT-cloudy",
-    [WeatherCondition.smoky]: "wi-fire",
-    [WeatherCondition.breezy]: "wi-DAYNIGHT-light-wind",
-    [WeatherCondition.windy]: "wi-windy",
-    [WeatherCondition.drizzle]: "wi-DAYNIGHT-sprinkle",
-    [WeatherCondition.heavyRain]: "wi-raindrops",
-    [WeatherCondition.isolatedThunderstorms]: "wi-DAYNIGHT-thunderstorm",
-    [WeatherCondition.rain]: "wi-raindrop",
-    [WeatherCondition.sunShowers]: "wi-DAYNIGHT-rain-mix",
-    [WeatherCondition.scatteredThunderstorms]: "wi-DAYNIGHT-thunderstorm",
-    [WeatherCondition.strongStorms]: "wi-DAYNIGHT-storm-showers",
-    [WeatherCondition.thunderstorms]: "wi-DAYNIGHT-thunderstorm",
-    [WeatherCondition.frigid]: "wi-DAYNIGHT-cloudy-gusts",
-    [WeatherCondition.hail]: "wi-hail",
-    [WeatherCondition.hot]: "wi-hot",
-    [WeatherCondition.flurries]: "wi-DAYNIGHT-snow",
-    [WeatherCondition.sleet]: "wi-DAYNIGHT-sleet",
-    [WeatherCondition.snow]: "wi-snow",
-    [WeatherCondition.sunFlurries]: "wi-DAYNIGHT-snow-wind",
-    [WeatherCondition.wintryMix]: "wi-rain-mix",
-    [WeatherCondition.blizzard]: "wi-snow",
-    [WeatherCondition.blowingSnow]: "wi-snow-wind",
-    [WeatherCondition.freezingDrizzle]: "wi-DAYNIGHT-rain-mix",
-    [WeatherCondition.freezingRain]: "wi-DAYNIGHT-rain-mix",
-    [WeatherCondition.heavySnow]: "wi-snow",
-    [WeatherCondition.hurricane]: "wi-hurricane",
-    [WeatherCondition.tropicalStorm]: "wi-hurricane-warning",
+const codeImageNames = {
+    [WeatherCondition.blowingDust]: "dust-DAYNIGHT",
+    [WeatherCondition.clear]: "clear-DAYNIGHT",
+    [WeatherCondition.cloudy]: "cloudy",
+    [WeatherCondition.foggy]: "fog-DAYNIGHT",
+    [WeatherCondition.haze]: "haze-DAYNIGHT",
+    [WeatherCondition.mostlyClear]: "partly-cloudy-DAYNIGHT",
+    [WeatherCondition.mostlyCloudy]: "partly-cloudy-DAYNIGHT",
+    [WeatherCondition.partlyCloudy]: "overcast-DAYNIGHT",
+    [WeatherCondition.smoky]: "smoke",
+    [WeatherCondition.breezy]: "windy",
+    [WeatherCondition.windy]: "windy",
+    [WeatherCondition.drizzle]: "drizzle",
+    [WeatherCondition.heavyRain]: "raindrops",
+    [WeatherCondition.isolatedThunderstorms]: "thunderstorms-DAYNIGHT",
+    [WeatherCondition.rain]: "rain",
+    [WeatherCondition.sunShowers]: "partly-cloudy-day-rain",
+    [WeatherCondition.scatteredThunderstorms]: "thunderstorms-DAYNIGHT",
+    [WeatherCondition.strongStorms]: "not-available",
+    [WeatherCondition.thunderstorms]: "thunderstorms-DAYNIGHT",
+    [WeatherCondition.frigid]: "thermometer-mercury-cold",
+    [WeatherCondition.hail]: "hail",
+    [WeatherCondition.hot]: "thermometer-mercury",
+    [WeatherCondition.flurries]: "partly-cloudy-DAYNIGHT-snow",
+    [WeatherCondition.sleet]: "sleet",
+    [WeatherCondition.snow]: "snow",
+    [WeatherCondition.sunFlurries]: "partly-cloudy-DAYNIGHT-rain",
+    [WeatherCondition.wintryMix]: "hail",
+    [WeatherCondition.blizzard]: "snow",
+    [WeatherCondition.blowingSnow]: "snow",
+    [WeatherCondition.freezingDrizzle]: "partly-cloudy-DAYNIGHT-sleet",
+    [WeatherCondition.freezingRain]: "partly-cloudy-DAYNIGHT-sleet",
+    [WeatherCondition.heavySnow]: "snow",
+    [WeatherCondition.hurricane]: "hurricane",
+    [WeatherCondition.tropicalStorm]: "hurricane",
 };
 
 export interface ConditionProps {
@@ -65,20 +65,19 @@ export interface ConditionProps {
 
 export function Condition({ className, code, daylight = true }: ConditionProps) {
     return (
-        <span className={classNames(className, "wi", classNameFor(code, daylight))} alt={labelFor(code)} />
+        <img className={classNames("condition", className)} src={srcFor(code, daylight)} alt={labelFor(code)} />
     );
 }
 
-function classNameFor(code: WeatherCondition, daylight: boolean): string | undefined {
-    const className = codeClassNames[code];
-    if (className === undefined) {
+function srcFor(code: WeatherCondition, daylight: boolean): string | undefined {
+    const rawImageName = codeImageNames[code];
+    if (rawImageName === undefined) {
         return undefined;
     }
-    if (daylight) {
-        return className.replace("DAYNIGHT", "day");
-    } else {
-        return className.replace("DAYNIGHT", "night");
-    }
+    const imageName = daylight
+        ? rawImageName.replace("DAYNIGHT", "day")
+        : rawImageName.replace("DAYNIGHT", "night");
+    return `/weather-icons/fill/${imageName}.svg`;
 }
 
 function labelFor(code: WeatherCondition): string {

@@ -16,31 +16,37 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import classNames from "classnames";
 import { t } from "i18next";
 import { MoonPhase } from "../../../fruit-company/weather/models/base";
 
-const phaseClassNames = {
-    [MoonPhase.new]: "wi-moon-new",
-    [MoonPhase.waxingCrescent]: "wi-moon-waxing-crescent-2",
-    [MoonPhase.firstQuarter]: "wi-moon-first-quarter",
-    [MoonPhase.full]: "wi-moon-full",
-    [MoonPhase.waxingGibbous]: "wi-moon-waxing-gibbous-2",
-    [MoonPhase.waningGibbous]: "wi-moon-waning-gibbous-2",
-    [MoonPhase.thirdQuarter]: "wi-moon-third-quarter",
-    [MoonPhase.waningCrescent]: "wi-moon-waning-crescent-2",
+const phaseImageNames = {
+    [MoonPhase.new]: "moon-new",
+    [MoonPhase.waxingCrescent]: "moon-waxing-crescent",
+    [MoonPhase.firstQuarter]: "moon-first-quarter",
+    [MoonPhase.full]: "moon-full",
+    [MoonPhase.waxingGibbous]: "woon-waxing-gibbous",
+    [MoonPhase.waningGibbous]: "moon-waning-gibbous",
+    [MoonPhase.thirdQuarter]: "moon-last-quarter",
+    [MoonPhase.waningCrescent]: "moon-waning-crescent",
 };
 
 export interface MoonProps {
     readonly className?: string;
     readonly phase: MoonPhase;
-    readonly labeled?: boolean;
 }
 
-export function Moon({className, phase, labeled}: MoonProps) {
+export function Moon({className, phase}: MoonProps) {
     return (
-        <>
-            <span className={`${className ?? ''} wi ${phaseClassNames[phase]}`} alt={t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) })} />
-            {labeled === true ? ` ${t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) })}` : ""}
-        </>
+        <img className={classNames("moon-phase", className)} src={srcFor(phase)} alt={labelFor(phase)} />
     );
+}
+
+function srcFor(phase: MoonPhase): string {
+    const imageName = phaseImageNames[phase];
+    return `/weather-icons/fill/${imageName}.svg`;
+}
+
+function labelFor(phase: MoonPhase): string {
+    return t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) });
 }

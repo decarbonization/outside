@@ -36,8 +36,9 @@ export function CurrentForecast({now, today}: CurrentForecastProps) {
         <section className="current-forecast">
             <ul>
                 <li>
-                    <Condition className="hero" code={now.conditionCode} daylight={now.daylight} />
-                    &nbsp;
+                <Condition className="hero" code={now.conditionCode} daylight={now.daylight} />
+                </li>
+                <li>
                     <TemperatureUnit className="hero" measurement={now.temperature} />
                     <footer>
                         {t("forecast.measurementLabels.feelsLike")}&nbsp;<TemperatureUnit measurement={now.temperatureApparent} />
