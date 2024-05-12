@@ -130,55 +130,16 @@ table tr td:last-child{
     font-family: "Kode Mono", monospace;
 }
 
-.day-clear {
-    background-color: hsl(210, 44%, 50%);
-    color: #fff;
-}
-
-.night-clear {
-    background-color: hsl(210, 44%, 25%);
-    color: #fff;
-}
-
-.day-overcast {
-    background-color: hsl(208, 27%, 50%);
-    color: #fff;
-}
-
-.night-overcast {
-    background-color: hsl(208, 27%, 25%);
-    color: #fff;
-}
-
-.day-precipitating {
-    background-color: hsl(204, 15%, 50%);
-    color: #fff;
-}
-
-.night-precipitating {
-    background-color: hsl(204, 15%, 25%);
-    color: #fff;
-}
-
-.day-extreme {
-    background-color: hsl(204, 15%, 40%);
-    color: #fff;
-}
-
-.night-extreme {
-    background-color: hsl(204, 15%, 20%);
-    color: #fff;
-}
-
-.day-unhealthy {
-    background-color: hsl(201, 44%, 50%);
-    color: #fff;
-}
-
-.night-unhealthy {
-    background-color: hsl(201, 44%, 25%);
-    color: #fff;
-}
+.day-clear {}
+.night-clear {}
+.day-overcast {}
+.night-overcast {}
+.day-precipitating {}
+.night-precipitating {}
+.day-extreme {}
+.night-extreme {}
+.day-unhealthy {}
+.night-unhealthy {}
 
 .current-forecast ul {
     list-style: none;
