@@ -50,9 +50,9 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             </td>
                             <td>
                                 <header>{t("forecast.measurementLabels.humidity")}</header>
-                                <span className="wi wi-day-sunny" /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
+                                <div><span className="wi wi-day-sunny" /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
                                 {t('dailyForecast.dayNightSeparator')}
-                                <span className="wi wi-night-clear" /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
+                                <span className="wi wi-night-clear" /> <PercentageUnit measurement={day.overnightForecast?.humidity} /></div>
                             </td>
                             <td>
                                 <header>{t("forecast.measurementLabels.wind")}</header>

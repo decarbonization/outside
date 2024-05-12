@@ -17,231 +17,251 @@
  */
 
 :root {
-    font-family: "Rokkitt", serif;
-    font-size: 16px;
+  font-family: "Rokkitt", serif;
+  font-size: 16px;
 
-    color-scheme: light dark;
+  color-scheme: light dark;
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
-    --v-spacing: 1rem;
-    --h-spacing: 1rem;
-    --accent: blue;
-    --separator: #aaa;
-    --transition-timing: cubic-bezier(.28,.84,.58,.98);
-    --hover-bg-color: rgba(255, 255, 255, 0.091);
+  --v-spacing: 1rem;
+  --h-spacing: 1rem;
+  --accent: blue;
+  --separator: #aaa;
+  --transition-timing: cubic-bezier(.28, .84, .58, .98);
+  --hover-bg-color: rgba(255, 255, 255, 0.091);
 }
 
 body {
-    margin: 0;
+  margin: 0;
 }
 
-a, a:visited {
-    color: var(--accent);
-    text-decoration: none;
+a,
+a:visited {
+  color: var(--accent);
+  text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 main {
-    max-width: calc(780px - (var(--h-spacing) * 2));
-    margin: 0 auto;
-    padding: 0 var(--h-spacing);
+  max-width: calc(780px - (var(--h-spacing) * 2));
+  margin: 0 auto;
+  padding: 0 var(--h-spacing);
 }
 
 header {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 footer {
-    font-size: 0.9em;
+  font-size: 0.9em;
 }
 
-input[type="search"], input[type="text"], textarea {
-    font-family: "Rokkitt", serif;
-    font-size: 1em;
+input[type="search"],
+input[type="text"],
+textarea {
+  font-family: "Rokkitt", serif;
+  font-size: 1em;
 
-    padding: var(--h-spacing) var(--v-spacing);
-    background-color: white;
-    border: 2px solid var(--separator);
-    border-radius: 8px;
+  padding: var(--h-spacing) var(--v-spacing);
+  background-color: white;
+  border: 2px solid var(--separator);
+  border-radius: 8px;
 }
 
-input[type="search"]:focus, input[type="text"]:focus, textarea:focus {
-    outline: none;
-    border-color: var(--accent);
+input[type="search"]:focus,
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
 }
 
 .table-container {
-    overflow: auto hidden;
+  overflow: auto hidden;
 }
 
-table{
-    border-collapse: collapse;
-    width: 100%;
-    box-sizing: border-box;
+table {
+  border-collapse: collapse;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-table tr{
-    display: flex;
-    align-items: center;
+table tr {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border-radius: .25rem;
+  transition: var(--transition-timing) background-color .25s;
 }
 
-td,th{
-    flex: 1;
+table tr:hover {
+  position: relative;
+  z-index: 1;
+  background-color: var(--hover-bg-color);
+  box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
-table tr:hover{
-    position: relative;
-    z-index: 1;
-    background-color: var(--hover-bg-color);
-    box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
+td,
+th {
+  flex: 1;
+  flex-basis: auto;
 }
 
-table tr:not(:last-child) {
- /* This currently does nothing. */
- /*   padding-bottom: var(--v-spacing); */
-    border-radius: .25rem;
-    transition: var(--transition-timing) background-color .25s;
+td div {
+  display: flex;
+  flex-direction: row;
 }
 
-table tr th:not(:last-child), table tr td:not(:last-child) {
+table tr th,
+table tr td {
   /*   padding-right: calc(var(--h-spacing)*1.5);
     padding-bottom: 1rem; */
-    padding: .75rem calc(var(--h-spacing)*1.4) .75rem 0;
-/*     flex: 1; */
+  display: flex;
+  flex-direction: column;
+  padding: .75rem 0;
+  align-items: center;
 }
 
-table tr td:first-child{
+/* Stashing for now.  Placed uniform padding on table cell */
+/* table tr td:first-child{
     padding-left: .5rem;
 }
 
 table tr td:last-child{
     padding-right: .5rem;
-}
+} */
 
 
 .unit {
-    font-family: "Kode Mono", monospace;
+  font-family: "Kode Mono", monospace;
 }
 
 .day-clear {}
+
 .night-clear {}
+
 .day-overcast {}
+
 .night-overcast {}
+
 .day-precipitating {}
+
 .night-precipitating {}
+
 .day-extreme {}
+
 .night-extreme {}
+
 .day-unhealthy {}
+
 .night-unhealthy {}
 
 .current-forecast ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow: auto hidden;
-    align-items: top;
-    justify-content: left;
-    gap: var(--v-spacing) var(--h-spacing);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: auto hidden;
+  justify-content: left;
+  gap: var(--v-spacing) var(--h-spacing);
 }
 
 .current-forecast ul .hero {
-    font-size: 3em;
-    font-weight: bold;
-    line-height: 2.3rem;
+  font-size: 3em;
+  font-weight: bold;
+  line-height: 2.3rem;
 }
 
-.hourly-forecast{
-    position: relative;
-    margin-top: calc(var(--v-spacing)*1.5);
+.hourly-forecast {
+  position: relative;
+  margin-top: calc(var(--v-spacing)*1.5);
 }
 
 /* scroll overflow gradient on load */
-.hourly-forecast::before{
-    background: linear-gradient(90deg,rgba(93, 130, 162, 0.179), rgb(93, 130, 162));
-    content: "";
-    display: block;
-    position: absolute;
-    height: 75%;
-    width: 40px;
-    right: 0;
-    bottom: 0;
-    border-right: .5px solid rgb(74, 89, 131);
-    box-shadow: inset -.5px 0 0 rgba(255, 255, 255, 0.221);
-    z-index: 24;
+.hourly-forecast::before {
+  background: linear-gradient(90deg, rgba(93, 130, 162, 0.179), rgb(93, 130, 162));
+  content: "";
+  display: block;
+  position: absolute;
+  height: 75%;
+  width: 40px;
+  right: 0;
+  bottom: 0;
+  border-right: .5px solid rgb(74, 89, 131);
+  box-shadow: inset -.5px 0 0 rgba(255, 255, 255, 0.221);
+  z-index: 24;
 }
 
 .hourly-forecast ol {
-    position: relative;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: last baseline;
-    justify-content: left;
-/*     gap: var(--v-spacing) var(--h-spacing); */
-    overflow: auto hidden;
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: last baseline;
+  justify-content: left;
+  /*     gap: var(--v-spacing) var(--h-spacing); */
+  overflow: auto hidden;
 }
 
 .hourly-forecast ol li {
-    min-width: 3.5rem;
-    min-height: 3rem;
-    text-align: center;
-    border-radius: .25rem;
-    padding: calc(var(--v-spacing)/2.5) calc(var(--h-spacing)/2.5);
-    transition: var(--transition-timing) .25s background-color border;
-    border: .5px solid rgba(255, 255, 255, 0.0);
+  min-width: 3.5rem;
+  min-height: 3rem;
+  text-align: center;
+  border-radius: .25rem;
+  padding: calc(var(--v-spacing)/2.5) calc(var(--h-spacing)/2.5);
+  transition: var(--transition-timing) .25s background-color, border-color;
+  border: .5px solid rgba(255, 255, 255, 0.0);
 }
 
 .hourly-forecast ol li .conditions {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    min-height: 3em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 3em;
 }
 
-.hourly-forecast ol li:hover{
-    background-color: var(--hover-bg-color);
-    border: .5px solid rgba(255, 255, 255, 0.11);
-    box-shadow: 0 0 1px .25px rgba(0, 0, 0, 0.095);
+.hourly-forecast ol li:hover {
+  background-color: var(--hover-bg-color);
+  border-color: rgba(255, 255, 255, 0.11);
+  box-shadow: 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
-.daily-forecast{
-    margin-top: calc(var(--v-spacing)*1.5);
+.daily-forecast {
+  margin-top: calc(var(--v-spacing)*1.5);
 }
 
-.daily-forecast h1{
-    margin-bottom: .5rem;
+.daily-forecast h1 {
+  margin-bottom: .5rem;
 }
 
 .place-search form {
-    display: flex;
+  display: flex;
 }
 
 .place-search form input {
-    flex-grow: 1;
-    font-size: 1.25em;
+  flex-grow: 1;
+  font-size: 1.25em;
 }
 
 .place-search ol {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .place-search ol li {
-    padding: var(--h-spacing) var(--v-spacing);
+  padding: var(--h-spacing) var(--v-spacing);
 }
 
 .place-search ol li:not(:last-child) {
-    border-bottom: 1px solid var(--separator);
+  border-bottom: 1px solid var(--separator);
 }
