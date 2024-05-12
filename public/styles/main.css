@@ -56,6 +56,7 @@ main {
 
 header {
     font-weight: bold;
+    display: block;
 }
 
 footer {
@@ -90,10 +91,19 @@ table{
 table tr{
     display: flex;
     align-items: center;
+    padding: 0;
+    border-radius: .25rem;
+    transition: var(--transition-timing) background-color .25s;
 }
 
 td,th{
-    flex: 1;
+  flex: 1;
+  flex-basis: auto;
+}
+
+td div{
+  display: flex;
+  flex-direction: row;
 }
 
 table tr:hover{
@@ -103,27 +113,23 @@ table tr:hover{
     box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
-table tr:not(:last-child) {
- /* This currently does nothing. */
- /*   padding-bottom: var(--v-spacing); */
-    border-radius: .25rem;
-    transition: var(--transition-timing) background-color .25s;
-}
-
-table tr th:not(:last-child), table tr td:not(:last-child) {
+table tr th, table tr td{
   /*   padding-right: calc(var(--h-spacing)*1.5);
     padding-bottom: 1rem; */
-    padding: .75rem calc(var(--h-spacing)*1.4) .75rem 0;
-/*     flex: 1; */
+    display: flex;
+    flex-direction: column;
+    padding: .75rem 0;
+    align-items: center;
 }
 
-table tr td:first-child{
-    padding-left: .5rem;
+/* Stashing for now. Placed uniform padding on table cells */
+/* table tr td:first-child{
+    padding-left: .75rem;
 }
 
 table tr td:last-child{
-    padding-right: .5rem;
-}
+    padding-right: .75rem;
+} */
 
 
 .condition, .moon-phase {
@@ -218,6 +224,7 @@ table tr td:last-child{
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
+    align-content: center;
     min-height: 3em;
 }
 
