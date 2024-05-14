@@ -1,0 +1,192 @@
+/*
+ * outside weather app
+ * Copyright (C) 2014  Peter "Kevin" Contreras
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+:root {
+    font-family: "Rokkitt", serif;
+    font-size: 16px;
+
+    color-scheme: light dark;
+
+    --v-spacing: 1rem;
+    --h-spacing: 1rem;
+    --accent: blue;
+    --separator: #aaa;
+    --transition-timing: cubic-bezier(.28, .84, .58, .98);
+    --hover-bg-color: rgba(255, 255, 255, 0.091);
+}
+
+a,
+a:visited {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+main {
+    max-width: calc(780px - (var(--h-spacing) * 2));
+    margin: 0 auto;
+    padding: 0 var(--h-spacing);
+}
+
+header {
+    font-weight: bold;
+}
+
+footer {
+    font-size: 0.9em;
+}
+
+input[type="search"],
+input[type="text"],
+textarea {
+    font-family: "Rokkitt", serif;
+
+    padding: var(--h-spacing) var(--v-spacing);
+    background-color: white;
+    border: 2px solid var(--separator);
+    border-radius: 8px;
+}
+
+input[type="search"]:focus,
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.unit {
+    font-family: "Kode Mono", monospace;
+}
+
+.current-forecast-main {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: auto hidden;
+    justify-content: left;
+    gap: var(--v-spacing) var(--h-spacing);
+}
+
+.current-forecast-main .hero {
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 2.3rem;
+}
+
+.hourly-forecast {
+    position: relative;
+    margin-top: calc(var(--v-spacing)*1.5);
+}
+
+/* scroll overflow gradient on load */
+.hourly-forecast::before {
+    background: linear-gradient(90deg, rgba(93, 130, 162, 0.179), rgb(93, 130, 162));
+    content: "";
+    display: block;
+    position: absolute;
+    height: 75%;
+    width: 40px;
+    right: 0;
+    bottom: 0;
+    border-right: .5px solid rgb(74, 89, 131);
+    box-shadow: inset -.5px 0 0 rgba(255, 255, 255, 0.221);
+    z-index: 24;
+}
+
+.hourly-forecast-main {
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: last baseline;
+    justify-content: left;
+    /*     gap: var(--v-spacing) var(--h-spacing); */
+    overflow: auto hidden;
+}
+
+.hourly-forecast-reading-group {
+    min-width: 3.5rem;
+    min-height: 3rem;
+    text-align: center;
+    border-radius: .25rem;
+    padding: calc(var(--v-spacing)/2.5) calc(var(--h-spacing)/2.5);
+    transition: var(--transition-timing) .25s background-color, border-color;
+    border: .5px solid rgba(255, 255, 255, 0.0);
+}
+
+.hourly-forecast-reading-group:hover {
+    background-color: var(--hover-bg-color);
+    border-color: rgba(255, 255, 255, 0.11);
+    box-shadow: 0 0 1px .25px rgba(0, 0, 0, 0.095);
+}
+
+.hourly-forecast-reading.conditions {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 3em;
+}
+
+.daily-forecast {
+    margin-top: calc(var(--v-spacing)*1.5);
+}
+
+.daily-forecast h1 {
+    margin-bottom: .5rem;
+}
+
+.daily-forecast-readings {
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.daily-forecast-reading-group {
+    display: table-row;
+}
+
+.daily-forecast-reading {
+    display: table-cell;
+}
+
+.daily-forecast-reading:not(:last-child) {
+    padding-bottom: var(--h-spacing);
+}
+
+.place-search form {
+    display: flex;
+}
+
+.place-search-form input[type="search"] {
+    flex-grow: 1;
+    font-size: 1.25em;
+}
+
+.place-result {
+    padding: var(--h-spacing) var(--v-spacing);
+}
+
+.place-result:not(:last-child) {
+    border-bottom: 1px solid var(--separator);
+}

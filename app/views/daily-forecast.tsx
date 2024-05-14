@@ -16,8 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { t } from "i18next";
+import { useContext } from "preact/hooks";
 import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
+import { WeatherDecoration } from "../styling/themes";
+import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
 import { ShortTime, Weekday } from "./components/dates";
 import { Moon } from "./components/moon";
@@ -32,52 +34,53 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
     if (forecast === undefined) {
         return null;
     }
+    const { i18n, theme } = useContext(Deps);
     return (
         <section className="daily-forecast">
             <h1>
-                {t("dailyForecast.title", { count: forecast.days.length })}
+                {i18n.t("dailyForecast.title", { count: forecast.days.length })}
             </h1>
-            <div className="table-container">
-                <table>
-                    {forecast.days.map(day => (
-                        <tr>
-                            <td>
-                                <header><Weekday when={day.forecastStart} /></header>
-                                <Condition code={day.conditionCode} /> <Precipitation probability={day.precipitationChance} />
-                            </td>
-                            <td>
-                                <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} compact={false} />
-                            </td>
-                            <td>
-                                <header>{t("forecast.measurementLabels.humidity")}</header>
-                                <div><span className="wi wi-day-sunny" /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
-                                {t('dailyForecast.dayNightSeparator')}
-                                <span className="wi wi-night-clear" /> <PercentageUnit measurement={day.overnightForecast?.humidity} /></div>
-                            </td>
-                            <td>
-                                <header>{t("forecast.measurementLabels.wind")}</header>
-                                <SpeedUnit measurement={day.windSpeedAvg} />
-                            </td>
-                            <td>
-                                <header>{t("forecast.measurementLabels.uvIndex")}</header>
-                                <UVIndexUnit measurement={day.maxUvIndex} />
-                            </td>
-                            <td>
-                                <header>{t("forecast.measurementLabels.sunrise")}</header>
-                                <ShortTime when={day.sunrise} />
-                            </td>
-                            <td>
-                                <header>{t("forecast.measurementLabels.sunset")}</header>
-                                <ShortTime when={day.sunset} />
-                            </td>
-                            <td>
-                                <header>{t("forecast.measurementLabels.moonPhase")}</header>
-                                <Moon phase={day.moonPhase} />
-                            </td>
-                        </tr>
-                    ))}
-                </table>
-            </div>
+            <ol className="daily-forecast-readings">
+                {forecast.days.map(day => (
+                    <li className="daily-forecast-reading-group">
+                        <div className="daily-forecast-reading">
+                            <header><Weekday when={day.forecastStart} /></header>
+                            <Condition code={day.conditionCode} /> <Precipitation probability={day.precipitationChance} />
+                        </div>
+                        <div className="daily-forecast-reading">
+                            <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} compact={false} />
+                        </div>
+                        <div className="daily-forecast-reading">
+                            <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
+                            <div>
+                                <span className={theme.icons[WeatherDecoration.daytime]} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
+                                {i18n.t('dailyForecast.dayNightSeparator')}
+                                <span className={theme.icons[WeatherDecoration.overnight]} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
+                            </div>
+                        </div>
+                        <div className="daily-forecast-reading">
+                            <header>{i18n.t("forecast.measurementLabels.wind")}</header>
+                            <SpeedUnit measurement={day.windSpeedAvg} />
+                        </div>
+                        <div className="daily-forecast-reading">
+                            <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
+                            <UVIndexUnit measurement={day.maxUvIndex} />
+                        </div>
+                        <div className="daily-forecast-reading">
+                            <header>{i18n.t("forecast.measurementLabels.sunrise")}</header>
+                            <ShortTime when={day.sunrise} />
+                        </div>
+                        <div className="daily-forecast-reading">
+                            <header>{i18n.t("forecast.measurementLabels.sunset")}</header>
+                            <ShortTime when={day.sunset} />
+                        </div>
+                        <div className="daily-forecast-reading">
+                            <header>{i18n.t("forecast.measurementLabels.moonPhase")}</header>
+                            <Moon phase={day.moonPhase} />
+                        </div>
+                    </li>
+                ))}
+            </ol>
         </section>
     );
 }

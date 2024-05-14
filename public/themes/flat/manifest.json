@@ -1,0 +1,86 @@
+{
+    "name": "Flat",
+    "description": "A simple theme.",
+    "links": [
+        {
+            "rel": "stylesheet",
+            "href": "/themes/flat/style/main.css"
+        },
+        {
+            "rel": "stylesheet",
+            "href": "/themes/flat/style/weather-icons.min.css"
+        },
+        {
+            "rel": "stylesheet",
+            "href": "/themes/flat/style/weather-icons-wind.min.css"
+        },
+        {
+            "rel": "preconnect",
+            "href": "https://fonts.googleapis.com"
+        },
+        {
+            "rel": "preconnect",
+            "href": "https://fonts.gstatic.com",
+            "crossorigin": true
+        },
+        {
+            "rel": "stylesheet",
+            "href": "https://fonts.googleapis.com/css2?family=Rokkitt:ital,wght@0,100..900;1,100..900&display=swap"
+        },
+        {
+            "rel": "stylesheet",
+            "href": "https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Rokkitt:ital,wght@0,100..900;1,100..900&display=swap"
+        }
+    ],
+    "icons": {
+        "BlowingDust": "wi wi-dust",
+        "Clear": "wi wi-$DAY_NIGHT$-sunny",
+        "Cloudy": "wi wi-cloudy",
+        "Foggy": "wi wi-fog",
+        "Haze": "wi wi-smog",
+        "MostlyClear": "wi wi-$DAY_NIGHT$-sunny-overcast",
+        "MostlyCloudy": "wi wi-$DAY_NIGHT$-cloudy-high",
+        "PartlyCloudy": "wi wi-$DAY_NIGHT$-cloudy",
+        "Smoky": "wi wi-fire",
+        "Breezy": "wi wi-$DAY_NIGHT$-light-wind",
+        "Windy": "wi wi-windy",
+        "Drizzle": "wi wi-$DAY_NIGHT$-sprinkle",
+        "HeavyRain": "wi wi-raindrops",
+        "IsolatedThunderstorms": "wi wi-$DAY_NIGHT$-thunderstorm",
+        "Rain": "wi wi-raindrop",
+        "SunShowers": "wi wi-$DAY_NIGHT$-rain-mix",
+        "ScatteredThunderstorms": "wi wi-$DAY_NIGHT$-thunderstorm",
+        "StrongStorms": "wi wi-$DAY_NIGHT$-storm-showers",
+        "Thunderstorms": "wi wi-$DAY_NIGHT$-thunderstorm",
+        "Frigid": "wi wi-$DAY_NIGHT$-cloudy-gusts",
+        "Hail": "wi wi-hail",
+        "Hot": "wi wi-hot",
+        "Flurries": "wi wi-$DAY_NIGHT$-snow",
+        "Sleet": "wi wi-$DAY_NIGHT$-sleet",
+        "Snow": "wi wi-snow",
+        "SunFlurries": "wi wi-$DAY_NIGHT$-snow-wind",
+        "WintryMix": "wi wi-rain-mix",
+        "Blizzard": "wi wi-snow",
+        "BlowingSnow": "wi wi-snow-wind",
+        "FreezingDrizzle": "wi wi-$DAY_NIGHT$-rain-mix",
+        "FreezingRain": "wi wi-$DAY_NIGHT$-rain-mix",
+        "HeavySnow": "wi wi-snow",
+        "Hurricane": "wi wi-hurricane",
+        "TropicalStorm": "wi wi-hurricane-warning",
+
+        "new": "wi wi-moon-new",
+        "waxingCrescent": "wi wi-moon-waxing-crescent-2",
+        "firstQuarter": "wi wi-moon-first-quarter",
+        "full": "wi wi-moon-full",
+        "waxingGibbous": "wi wi-moon-waxing-gibbous-2",
+        "waningGibbous": "wi wi-moon-waning-gibbous-2",
+        "thirdQuarter": "wi wi-moon-third-quarter",
+        "waningCrescent": "wi wi-moon-waning-crescent-2",
+
+        "daytime": "wi wi-day-sunny",
+        "overnight": "wi wi-night-clear",
+
+        "trendUp": "wi wi-direction-up",
+        "trendDown": "wi wi-direction-down"
+    }
+}
