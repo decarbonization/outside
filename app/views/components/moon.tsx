@@ -22,6 +22,7 @@ import { useContext } from "preact/hooks";
 import { MoonPhase } from "../../../fruit-company/weather/models/base";
 import { Theme } from "../../styling/themes";
 import { Deps } from "../_deps";
+import { resolve } from "../../styling/dynamic-class-name";
 
 export interface MoonProps {
     readonly className?: string;
@@ -40,7 +41,7 @@ function classNameFor(theme: Theme, phase: MoonPhase): string | undefined {
     if (className === undefined) {
         return undefined;
     }
-    return className.replace("$DAY_NIGHT$", "night");
+    return resolve(className, { dayNight: "night "});
 }
 
 function labelFor(i18n: i18n, phase: MoonPhase): string {

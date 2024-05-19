@@ -19,6 +19,7 @@
 import fs from "fs/promises";
 import path from "path";
 import { MoonPhase, WeatherCondition } from "../../fruit-company/weather/models/base";
+import { DynamicClassName } from "./dynamic-class-name";
 
 /**
  * Encapsulates decorative elements found in a weather forecast.
@@ -53,7 +54,7 @@ export type ThemeIcons = {
     /**
      * Look up the class name for an element in a weather forecast.
      */
-    readonly [P in WeatherCondition | MoonPhase | WeatherDecoration]?: string;
+    readonly [P in WeatherCondition | MoonPhase | WeatherDecoration]?: DynamicClassName;
 }
 
 /**

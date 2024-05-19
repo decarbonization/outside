@@ -20,6 +20,7 @@ import classNames from "classnames";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { WeatherCondition } from "../../../fruit-company/weather/models/base";
+import { resolve } from "../../styling/dynamic-class-name";
 import { Theme } from "../../styling/themes";
 import { Deps } from "../_deps";
 
@@ -42,9 +43,9 @@ function classNameFor(theme: Theme, code: WeatherCondition, daylight: boolean): 
         return undefined;
     }
     if (daylight) {
-        return className.replace("$DAY_NIGHT$", "day");
+        return resolve(className, { dayNight: "day" });
     } else {
-        return className.replace("$DAY_NIGHT$", "night");
+        return resolve(className, { dayNight: "night" });
     }
 }
 

@@ -16,14 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { WeatherCondition } from "../../fruit-company/weather/models/base";
-import { camelCaseToKebabCase } from "./transforms";
+// Based on code from <https://stackoverflow.com/a/77731548>.
 
-export function elementStyleFor(code?: WeatherCondition, daylight?: boolean): string | undefined {
-    const baseClassName = camelCaseToKebabCase(code as string);
-    if (daylight === true) {
-        return `day-${baseClassName}`;
-    } else {
-        return `night-${baseClassName}`;
-    }
+export function camelCaseToKebabCase(subject: string): string {
+    return subject.replace(/(([a-z])(?=[A-Z][a-zA-Z])|([A-Z])(?=[A-Z][a-z]))/g, '$1-').toLowerCase();
+}
+
+export function camelCaseToSnakeCase(subject: string): string {
+    return subject.replace(/(([a-z])(?=[A-Z][a-zA-Z])|([A-Z])(?=[A-Z][a-z]))/g, '$1_').toLowerCase();
+}
+
+export function camelCaseToVariable(subject: string): string {
+    return `$${camelCaseToSnakeCase(subject).toUpperCase()}$`;
 }
