@@ -17,9 +17,11 @@
  */
 
 import classNames from "classnames";
-import { t } from "i18next";
+import { useContext } from "preact/hooks";
 import { uvIndexRiskFrom } from "../../../fruit-company/weather/models/base";
 import { formatCompassDirection, formatDepth, formatPercentage, formatPressure, formatSpeed, formatTemperature, formatUVIndex, formatVisibility } from "../../formatting/units";
+import { WeatherDecoration } from "../../styling/themes";
+import { Deps } from "../_deps";
 
 export interface UnitProps<Measurement = number> {
     /**
@@ -49,9 +51,10 @@ function Empty({ className, autoHide = false }: UnitProps<undefined>) {
     if (autoHide) {
         return null;
     } else {
+        const { i18n } = useContext(Deps);
         return (
             <span className={classNames("unit", "empty", className)}>
-                {t("units:placeholder")}
+                {i18n.t("units:placeholder")}
             </span>
         );
     }
@@ -63,19 +66,21 @@ export function TemperatureUnit({ className, measurement, autoHide }: UnitProps)
             <Empty className={classNames("temperature", className)} autoHide={autoHide} />
         );
     }
+    const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "temperature", className)}>
-            {formatTemperature(measurement)}
+            {formatTemperature(measurement, { i18n })}
         </span>
     );
 }
 
 export function TemperatureRangeUnit({ className, max, min, compact = true }: UnitRangeProps) {
+    const { i18n } = useContext(Deps);
     return (
         <span className="unit unit-range">
-            {t("units:highLabel")}<TemperatureUnit className={className} measurement={max} />
+            {i18n.t("units:highLabel")}<TemperatureUnit className={className} measurement={max} />
             {compact ? <>&nbsp;</> : <br />}
-            {t("units:lowLabel")}<TemperatureUnit className={className} measurement={min} />
+            {i18n.t("units:lowLabel")}<TemperatureUnit className={className} measurement={min} />
         </span>
     );
 }
@@ -86,9 +91,10 @@ export function PercentageUnit({ className, measurement, autoHide }: UnitProps) 
             <Empty className={classNames("percentage", className)} autoHide={autoHide} />
         );
     }
+    const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "percentage", className)}>
-            {formatPercentage(measurement)}
+            {formatPercentage(measurement, { i18n })}
         </span>
     );
 }
@@ -99,9 +105,10 @@ export function UVIndexUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("uv-index", className)} autoHide={autoHide} />
         );
     }
+    const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "uv-index", className)}>
-            {formatUVIndex(measurement)}&nbsp;{t(`forecast.uvIndexRisk.${uvIndexRiskFrom(measurement)}`)}
+            {formatUVIndex(measurement, { i18n })}&nbsp;{i18n.t(`forecast.uvIndexRisk.${uvIndexRiskFrom(measurement)}`)}
         </span>
     );
 }
@@ -112,9 +119,10 @@ export function VisibilityUnit({ className, measurement, autoHide }: UnitProps) 
             <Empty className={classNames("visibility", className)} autoHide={autoHide} />
         );
     }
+    const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "visibility", className)}>
-            {formatVisibility(measurement)}
+            {formatVisibility(measurement, { i18n })}
         </span>
     );
 }
@@ -125,9 +133,10 @@ export function PressureUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("pressure", className)} autoHide={autoHide} />
         );
     }
+    const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "pressure", className)}>
-            {formatPressure(measurement)}
+            {formatPressure(measurement, { i18n })}
         </span>
     );
 }
@@ -138,9 +147,10 @@ export function SpeedUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("speed", className)} autoHide={autoHide} />
         );
     }
+    const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "speed", className)}>
-            {formatSpeed(measurement)}
+            {formatSpeed(measurement, { i18n })}
         </span>
     );
 }
@@ -151,9 +161,10 @@ export function DepthUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("depth", className)} autoHide={autoHide} />
         );
     }
+    const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "depth", className)}>
-            {formatDepth(measurement)}
+            {formatDepth(measurement, { i18n })}
         </span>
     );
 }
@@ -164,24 +175,26 @@ export function CompassDirectionUnit({ className, measurement, autoHide }: UnitP
             <Empty className="compass-direction" autoHide={autoHide} />
         );
     }
+    const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "compass-direction", className)}>
-            {formatCompassDirection(measurement)}
+            {formatCompassDirection(measurement, { i18n })}
         </span>
     );
 }
 
 export function TrendUnitLabel({ className, measurement }: UnitProps<'rising' | 'steady' | 'falling'>) {
+    const { theme } = useContext(Deps);
     switch (measurement) {
         case 'rising':
             return (
-                <span className={classNames("wi", "wi-direction-up", className)} />
+                <span className={classNames(className, theme.icons[WeatherDecoration.trendUp])} />
             );
         case 'steady':
             return null;
         case 'falling':
             return (
-                <span className={classNames("wi", "wi-direction-down", className)} />
+                <span className={classNames(className, theme.icons[WeatherDecoration.trendDown])} />
             );
         default:
             return null;

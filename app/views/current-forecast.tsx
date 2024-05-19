@@ -16,9 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { t } from "i18next";
+import { useContext } from "preact/hooks";
 import { CurrentWeather } from "../../fruit-company/weather/models/current-weather";
 import { DayWeatherConditions } from "../../fruit-company/weather/models/daily-forecast";
+import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
 import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, TrendUnitLabel, UVIndexUnit, VisibilityUnit } from "./components/units";
 
@@ -27,66 +28,66 @@ export interface CurrentForecastProps {
     readonly today?: DayWeatherConditions;
 }
 
-export function CurrentForecast({now, today}: CurrentForecastProps) {
+export function CurrentForecast({ now, today }: CurrentForecastProps) {
     if (now === undefined) {
         return null;
     }
-    
+    const { i18n } = useContext(Deps);
     return (
         <section className="current-forecast">
-            <ul>
-                <li>
+            <ol className="current-forecast-main">
+                <li className="current-forecast-reading">
                     <Condition className="hero" code={now.conditionCode} daylight={now.daylight} />
                     &nbsp;
                     <TemperatureUnit className="hero" measurement={now.temperature} />
                     <footer>
-                        {t("forecast.measurementLabels.feelsLike")}&nbsp;<TemperatureUnit measurement={now.temperatureApparent} />
+                        {i18n.t("forecast.measurementLabels.feelsLike")}&nbsp;<TemperatureUnit measurement={now.temperatureApparent} />
                     </footer>
                 </li>
-                <li>
+                <li className="current-forecast-reading">
                     <TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} compact={false} />
                     <footer>
                         &nbsp;
                     </footer>
                 </li>
-                <li>
-                    <header>{t("forecast.measurementLabels.humidity")}</header>
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
                     <PercentageUnit measurement={now.humidity} />
                     <footer>
-                        {t("forecast.measurementLabels.dewPoint")}&nbsp;<TemperatureUnit measurement={now.temperatureDewPoint} />
+                        {i18n.t("forecast.measurementLabels.dewPoint")}&nbsp;<TemperatureUnit measurement={now.temperatureDewPoint} />
                     </footer>
                 </li>
-                <li>
-                    <header>{t("forecast.measurementLabels.wind")}</header>
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.wind")}</header>
                     <SpeedUnit measurement={now.windSpeed} />
                     &nbsp;
                     <CompassDirectionUnit measurement={now.windDirection} />
                     <footer>
-                        {t("forecast.measurementLabels.windGusts")}&nbsp;<SpeedUnit measurement={now.windGust} />
+                        {i18n.t("forecast.measurementLabels.windGusts")}&nbsp;<SpeedUnit measurement={now.windGust} />
                     </footer>
                 </li>
-                <li>
-                    <header>{t("forecast.measurementLabels.uvIndex")}</header>
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />
                     <footer>
                         &nbsp;
                     </footer>
                 </li>
-                <li>
-                    <header>{t("forecast.measurementLabels.pressure")}</header>
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.pressure")}</header>
                     <PressureUnit measurement={now.pressure} />&nbsp;<TrendUnitLabel measurement={now.pressureTrend} />
                     <footer>
                         &nbsp;
                     </footer>
                 </li>
-                <li>
-                    <header>{t("forecast.measurementLabels.visibility")}</header>
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.visibility")}</header>
                     <VisibilityUnit measurement={now.visibility} />
                     <footer>
-                        {t("forecast.measurementLabels.cloudCover")}&nbsp;<PercentageUnit measurement={now.cloudCover} />
+                        {i18n.t("forecast.measurementLabels.cloudCover")}&nbsp;<PercentageUnit measurement={now.cloudCover} />
                     </footer>
                 </li>
-            </ul>
+            </ol>
         </section>
     );
 }

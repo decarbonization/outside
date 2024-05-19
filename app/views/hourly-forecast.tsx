@@ -16,36 +16,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { t } from "i18next";
+import { useContext } from "preact/hooks";
 import { HourlyForecast } from "../../fruit-company/weather/models/hourly-forecast";
-import { TemperatureUnit } from "./components/units";
+import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
 import { Hour } from "./components/dates";
 import { Precipitation } from "./components/precipitation";
+import { TemperatureUnit } from "./components/units";
 
 export interface HourlyForecastProps {
     readonly forecast?: HourlyForecast;
 }
 
-export function HourlyForecast({forecast}: HourlyForecastProps) {
+export function HourlyForecast({ forecast }: HourlyForecastProps) {
     if (forecast === undefined) {
         return null;
     }
+    const { i18n } = useContext(Deps);
     const hours = forecast.hours;
     return (
         <section className="hourly-forecast">
-            <h1>{t("hourlyForecast.title", {count: hours.length})}</h1>
-            <ol>
+            <h1>{i18n.t("hourlyForecast.title", { count: hours.length })}</h1>
+            <ol className="hourly-forecast-main">
                 {hours.map(hour => (
-                    <li>
-                        <div>
+                    <li className="hourly-forecast-reading-group">
+                        <div className="hourly-forecast-reading">
                             <Hour when={hour.forecastStart} />
                         </div>
-                        <div className="conditions">
+                        <div className="hourly-forecast-reading conditions">
                             <Condition code={hour.conditionCode} daylight={hour.daylight} />
                             <Precipitation probability={hour.precipitationChance} />
                         </div>
-                        <div>
+                        <div className="hourly-forecast-reading">
                             <TemperatureUnit measurement={hour.temperature} />
                         </div>
                     </li>

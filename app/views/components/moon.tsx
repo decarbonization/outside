@@ -16,31 +16,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { t } from "i18next";
+import classNames from "classnames";
+import { i18n } from "i18next";
+import { useContext } from "preact/hooks";
 import { MoonPhase } from "../../../fruit-company/weather/models/base";
-
-const phaseClassNames = {
-    [MoonPhase.new]: "wi-moon-new",
-    [MoonPhase.waxingCrescent]: "wi-moon-waxing-crescent-2",
-    [MoonPhase.firstQuarter]: "wi-moon-first-quarter",
-    [MoonPhase.full]: "wi-moon-full",
-    [MoonPhase.waxingGibbous]: "wi-moon-waxing-gibbous-2",
-    [MoonPhase.waningGibbous]: "wi-moon-waning-gibbous-2",
-    [MoonPhase.thirdQuarter]: "wi-moon-third-quarter",
-    [MoonPhase.waningCrescent]: "wi-moon-waning-crescent-2",
-};
+import { Theme } from "../../styling/themes";
+import { Deps } from "../_deps";
 
 export interface MoonProps {
     readonly className?: string;
     readonly phase: MoonPhase;
-    readonly labeled?: boolean;
 }
 
-export function Moon({className, phase, labeled}: MoonProps) {
+export function Moon({ className, phase }: MoonProps) {
+    const { i18n, theme } = useContext(Deps);
     return (
-        <>
-            <span className={`${className ?? ''} wi ${phaseClassNames[phase]}`} alt={t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) })} />
-            {labeled === true ? ` ${t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) })}` : ""}
-        </>
+        <span className={classNames(className, classNameFor(theme, phase))} alt={labelFor(i18n, phase)} />
     );
+}
+
+function classNameFor(theme: Theme, phase: MoonPhase): string | undefined {
+    const className = theme.icons[phase];
+    if (className === undefined) {
+        return undefined;
+    }
+    return className.replace("$DAY_NIGHT$", "night");
+}
+
+function labelFor(i18n: i18n, phase: MoonPhase): string {
+    return i18n.t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) });
 }

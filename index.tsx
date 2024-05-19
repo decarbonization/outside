@@ -26,14 +26,16 @@ import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
 import render from "preact-render-to-string";
+import { elementStyleFor } from './app/styling/element-style';
+import { loadTheme } from './app/styling/themes';
 import { App } from "./app/views/_app";
-import { WeatherDetails } from './app/views/weather-details';
+import { Deps } from './app/views/_deps';
 import { PlaceSearch } from './app/views/place-search';
+import { WeatherDetails } from './app/views/weather-details';
 import { perform } from './fruit-company/api';
 import { GeocodeAddress, MapsToken } from './fruit-company/maps/maps-api';
 import { Weather } from "./fruit-company/weather/models/weather";
-import { WeatherDataSet, WeatherToken, WeatherQuery } from './fruit-company/weather/weather-api';
-import { elementStyleFor } from './app/styling/element-style';
+import { WeatherDataSet, WeatherQuery, WeatherToken } from './fruit-company/weather/weather-api';
 
 dotenv.config();
 
@@ -71,6 +73,9 @@ app.use(i18nextMiddleware.handle(i18next));
 app.get('/', async (req, res) => {
   await i18next.changeLanguage(req.i18n.resolvedLanguage);
 
+  const i18n = req.i18n;
+  const theme = await loadTheme();
+
   const query = req.query["q"] as string | undefined;
   const results = query !== undefined
     ? await perform({
@@ -80,15 +85,20 @@ app.get('/', async (req, res) => {
     : undefined;
 
   const resp = render(
-    <App>
-      <PlaceSearch query={query} results={results} />
-    </App>
+    <Deps.Provider value={{ i18n, theme }}>
+      <App>
+        <PlaceSearch query={query} results={results} />
+      </App>
+    </Deps.Provider>
   );
   res.type('html').send(`<!DOCTYPE html>${resp}`);
 });
 
 app.get('/weather/:country/:latitude/:longitude', async (req, res) => {
   await i18next.changeLanguage(req.i18n.resolvedLanguage);
+
+  const i18n = req.i18n;
+  const theme = await loadTheme();
 
   const query = req.query["q"] as string | undefined;
   const language = req.i18n.resolvedLanguage ?? req.language;
@@ -120,16 +130,21 @@ app.get('/weather/:country/:latitude/:longitude', async (req, res) => {
     })
   });
   const resp = render(
-    <App className={elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight)}>
-      <PlaceSearch query={query} />
-      <WeatherDetails weather={weather} />
-    </App>
+    <Deps.Provider value={{ i18n, theme }}>
+      <App className={elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight)}>
+        <PlaceSearch query={query} />
+        <WeatherDetails weather={weather} />
+      </App>
+    </Deps.Provider>
   );
   res.type('html').send(`<!DOCTYPE html>${resp}`);
 });
 
 app.get('/sample', async (req, res) => {
   await i18next.changeLanguage(req.i18n.resolvedLanguage);
+
+  const i18n = req.i18n;
+  const theme = await loadTheme();
 
   const rawSample = fs.readFileSync(path.join(__dirname, "wk-sample.json"), "utf-8");
   const sample = JSON.parse(rawSample, (key, value) => {
@@ -147,11 +162,12 @@ app.get('/sample', async (req, res) => {
       return value;
     }
   }) as Weather;
-
   const resp = render(
-    <App className={elementStyleFor(sample.currentWeather?.conditionCode, sample.currentWeather?.daylight)}>
-      <WeatherDetails weather={sample} />
-    </App>
+    <Deps.Provider value={{ i18n, theme }}>
+      <App className={elementStyleFor(sample.currentWeather?.conditionCode, sample.currentWeather?.daylight)}>
+        <WeatherDetails weather={sample} />
+      </App>
+    </Deps.Provider>
   );
   res.type('html').send(`<!DOCTYPE html>${resp}`);
 });

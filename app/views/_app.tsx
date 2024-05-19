@@ -16,8 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import i18next, { t } from "i18next";
 import { ComponentChildren } from "preact";
+import { useContext } from "preact/hooks";
+import { Deps } from "./_deps";
 
 export interface AppProps {
     readonly className?: string;
@@ -25,25 +26,23 @@ export interface AppProps {
 }
 
 export function App({ className, children }: AppProps) {
+    const { i18n, theme } = useContext(Deps);
     return (
-        <html lang={i18next.resolvedLanguage}>
+        <html lang={i18n.resolvedLanguage}>
             <head>
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <link rel="stylesheet" href="/styles/main.css" />
-                <link rel="stylesheet" href="/styles/weather-icons.min.css" />
-                <link rel="stylesheet" href="/styles/weather-icons-wind.min.css" />
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-                <link href="https://fonts.googleapis.com/css2?family=Rokkitt:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-                <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Rokkitt:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-                <title>Outside</title>
+                <link rel="stylesheet" href="/styles/defaults.css" />
+                {theme.links.map(({ rel, href, crossorigin = false }) => (
+                    <link rel={rel} href={href} crossorigin={crossorigin ? "" : undefined} />
+                ))}
+                <title>{i18n.t('appName')}</title>
             </head>
             <body className={className}>
                 <main>
-                    <h1>{t('appName')}</h1>
+                    <h1>{i18n.t('appName')}</h1>
                     {children}
-                    <footer>{t('appCopyright')}</footer>
+                    <footer>{i18n.t('appCopyright')}</footer>
                 </main>
             </body>
         </html>
