@@ -129,7 +129,7 @@ export class GeocodeAddress extends MapsCall<PlaceResults> {
         super();
     }
 
-    prepare(token: MapsToken): Request {
+    override prepare(token: MapsToken): Request {
         const url = new URL(`${mapsUrl}/geocode`);
         url.searchParams.append("q", this.options.query);
         if (this.options.limitToCountries !== undefined) {
@@ -150,7 +150,7 @@ export class GeocodeAddress extends MapsCall<PlaceResults> {
         return new Request(url, {headers: token.headers});
     }
 
-    toString(): string {
+    override toString(): string {
         return `GeocodeAddress(${JSON.stringify(this.options)})`;
     }
 }
@@ -163,7 +163,7 @@ export class ReverseGeocodeAddress extends MapsCall<PlaceResults> {
         super();
     }
 
-    prepare(token: MapsToken): Request {
+    override prepare(token: MapsToken): Request {
         const url = new URL(`${mapsUrl}/reverseGeocode`);
         url.searchParams.append("loc", urlLocationCoordinates(this.options.location));
         if (this.options.language !== undefined) {
@@ -172,7 +172,7 @@ export class ReverseGeocodeAddress extends MapsCall<PlaceResults> {
         return new Request(url, {headers: token.headers});
     }
 
-    toString(): string {
+    override toString(): string {
         return `ReverseGeocodeAddress(${JSON.stringify(this.options)})`;
     }
 }
