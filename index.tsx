@@ -20,6 +20,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import "express-async-errors";
 import fs from "fs";
+import http from "http";
+import { createHttpTerminator } from 'http-terminator';
 import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
@@ -27,9 +29,10 @@ import path from "path";
 import { ErrorMiddleware } from './app/middlewares/error-middleware';
 import { IndexRoutes } from './app/routes/index-routes';
 import { WeatherRoutes } from './app/routes/weather-routes';
+import { env } from './app/utilities/env';
+import { setUpShutDownHooks } from './app/utilities/shut-down';
 import { MapsToken } from './fruit-company/maps/maps-api';
 import { WeatherToken } from './fruit-company/weather/weather-api';
-import { env } from './app/utilities/env';
 
 dotenv.config();
 
@@ -82,7 +85,14 @@ app.use(express.static(publicDir));
 // Must come last!
 app.use(ErrorMiddleware({}));
 
+const server = http.createServer(app);
+const httpTerminator = createHttpTerminator({
+    server,
+});
+
 const port = process.env.PORT ?? 8000;
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Proxy is running at http://localhost:${port} from ${__dirname}`);
 });
+
+setUpShutDownHooks({ server, httpTerminator });
