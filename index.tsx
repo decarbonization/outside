@@ -29,6 +29,7 @@ import { IndexRoutes } from './app/routes/index-routes';
 import { WeatherRoutes } from './app/routes/weather-routes';
 import { MapsToken } from './fruit-company/maps/maps-api';
 import { WeatherToken } from './fruit-company/weather/weather-api';
+import { env } from './app/utilities/env';
 
 dotenv.config();
 
@@ -37,6 +38,10 @@ process.on('unhandledRejection', (reason: Error | any) => {
 
     throw new Error(reason.message || reason);
 });
+
+const localesDir = path.join(__dirname, "locales");
+const privateDir = path.join(__dirname, "private");
+const publicDir = path.join(__dirname, "public");
 
 i18next
     .use(i18nextBackend)
@@ -47,31 +52,31 @@ i18next
         ns: ['outside', 'units'],
         defaultNS: 'outside',
         backend: {
-            loadPath: path.join(__dirname, 'locales', '{{lng}}', '{{ns}}.json'),
+            loadPath: path.join(localesDir, '{{lng}}', '{{ns}}.json'),
         },
     });
 
 const mapsToken = new MapsToken(
-    process.env.APPLE_MAPS_APP_ID!,
-    process.env.APPLE_TEAM_ID!,
-    process.env.APPLE_MAPS_KEY_ID!,
-    fs.readFileSync(path.join(__dirname, "private", process.env.APPLE_MAPS_KEY_NAME!)),
+    env("APPLE_MAPS_APP_ID"),
+    env("APPLE_TEAM_ID"),
+    env("APPLE_MAPS_KEY_ID"),
+    fs.readFileSync(path.join(privateDir, env("APPLE_MAPS_KEY_NAME"))),
 );
 const weatherToken = new WeatherToken(
-    process.env.APPLE_WEATHER_APP_ID!,
-    process.env.APPLE_TEAM_ID!,
-    process.env.APPLE_WEATHER_KEY_ID!,
-    fs.readFileSync(path.join(__dirname, "private", process.env.APPLE_WEATHER_KEY_NAME!)),
+    env("APPLE_WEATHER_APP_ID"),
+    env("APPLE_TEAM_ID"),
+    env("APPLE_WEATHER_KEY_ID"),
+    fs.readFileSync(path.join(privateDir, env("APPLE_WEATHER_KEY_NAME"))),
 );
 
 const app = express();
 
-app.use('/locales', express.static(path.join(__dirname, 'locales')));
+app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
 
 app.use(IndexRoutes({ mapsToken }));
 app.use(WeatherRoutes({ weatherToken }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(publicDir));
 
 // Must come last!
 app.use(ErrorMiddleware({}));
