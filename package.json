@@ -49,10 +49,6 @@
     {
       "from": "locales/**",
       "to": "dist/locales"
-    },
-    {
-      "from": "private/**",
-      "to": "dist/private"
     }
   ]
 }
