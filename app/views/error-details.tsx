@@ -8,7 +8,7 @@ export interface ErrorDetailsProps {
 export function ErrorDetails({ error }: ErrorDetailsProps) {
     const { i18n } = useContext(Deps);
     return (
-        <section>
+        <section className="error-details">
             <h1>{i18n.t("errorTitle")}</h1>
             <details>
                 <summary>{error.message}</summary>

@@ -24,7 +24,7 @@ import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
-import { ErrorRoutes } from './app/routes/error-routes';
+import { ErrorMiddleware } from './app/middlewares/error-middleware';
 import { IndexRoutes } from './app/routes/index-routes';
 import { WeatherRoutes } from './app/routes/weather-routes';
 import { MapsToken } from './fruit-company/maps/maps-api';
@@ -34,9 +34,9 @@ dotenv.config();
 
 process.on('unhandledRejection', (reason: Error | any) => {
     console.log(`Unhandled Rejection: ${reason.message || reason}`);
-  
+
     throw new Error(reason.message || reason);
-  });
+});
 
 i18next
     .use(i18nextBackend)
@@ -74,7 +74,7 @@ app.use(WeatherRoutes({ weatherToken }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Must come last!
-app.use(ErrorRoutes());
+app.use(ErrorMiddleware({}));
 
 const port = process.env.PORT ?? 8000;
 app.listen(port, () => {

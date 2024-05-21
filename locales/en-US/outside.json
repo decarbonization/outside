@@ -2,6 +2,8 @@
     "appName": "Outside",
     "appCopyright": "Copyright 2024 P. “Kevin” Contreras. All Rights Reserved.",
 
+    "errorTitle": "Error",
+
     "forecast": {
         "measurementLabels": {
             "humidity": "Humidity",

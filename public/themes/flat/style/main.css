@@ -72,6 +72,10 @@ textarea:focus {
     border-color: var(--accent);
 }
 
+pre {
+    font-family: "Kode Mono", monospace;
+}
+
 .unit {
     font-family: "Kode Mono", monospace;
 }
