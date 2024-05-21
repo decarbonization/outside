@@ -55,6 +55,14 @@ export const enum WeatherDataSet {
     weatherAlerts = "weatherAlerts",
 }
 
+export const allWeatherDataSets: readonly WeatherDataSet[] = [
+    WeatherDataSet.currentWeather,
+    WeatherDataSet.forecastDaily,
+    WeatherDataSet.forecastHourly,
+    WeatherDataSet.forecastNextHour,
+    WeatherDataSet.weatherAlerts,
+];
+
 export class WeatherQuery implements ApiCall<WeatherToken, Weather> {
     constructor(readonly options: Readonly<{
         language: string,

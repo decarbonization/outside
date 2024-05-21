@@ -42,6 +42,7 @@ process.on('unhandledRejection', (reason: Error | any) => {
 const localesDir = path.join(__dirname, "locales");
 const privateDir = path.join(__dirname, "private");
 const publicDir = path.join(__dirname, "public");
+const persistentDir = path.join(__dirname, "persistent");
 
 i18next
     .use(i18nextBackend)
@@ -75,7 +76,7 @@ app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
 
 app.use(IndexRoutes({ mapsToken }));
-app.use(WeatherRoutes({ weatherToken }));
+app.use(WeatherRoutes({ persistentDir, weatherToken }));
 app.use(express.static(publicDir));
 
 // Must come last!

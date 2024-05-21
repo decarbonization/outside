@@ -5,3 +5,5 @@ package-lock.json
 dist
 .env
 private/*.p8
+persistent/*.json
+persistent/*.sqlite
