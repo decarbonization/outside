@@ -43,9 +43,11 @@ process.on('unhandledRejection', (reason: Error | any) => {
 });
 
 const localesDir = path.join(__dirname, "locales");
-const privateDir = path.join(__dirname, "private");
 const publicDir = path.join(__dirname, "public");
 const persistentDir = path.join(__dirname, "persistent");
+if (!fs.existsSync(persistentDir)) {
+    fs.mkdirSync(persistentDir);
+}
 
 i18next
     .use(i18nextBackend)
@@ -64,13 +66,13 @@ const mapsToken = new MapsToken(
     env("APPLE_MAPS_APP_ID"),
     env("APPLE_TEAM_ID"),
     env("APPLE_MAPS_KEY_ID"),
-    fs.readFileSync(path.join(privateDir, env("APPLE_MAPS_KEY_NAME"))),
+    env("APPLE_MAPS_KEY"),
 );
 const weatherToken = new WeatherToken(
     env("APPLE_WEATHER_APP_ID"),
     env("APPLE_TEAM_ID"),
     env("APPLE_WEATHER_KEY_ID"),
-    fs.readFileSync(path.join(privateDir, env("APPLE_WEATHER_KEY_NAME"))),
+    env("APPLE_WEATHER_KEY"),
 );
 
 const app = express();

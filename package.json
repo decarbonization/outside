@@ -51,14 +51,6 @@
       "to": "dist/locales"
     },
     {
-      "from": "persistent/**",
-      "to": "dist/persistent"
-    },
-    {
-      "from": "public/**",
-      "to": "dist/public"
-    },
-    {
       "from": "private/**",
       "to": "dist/private"
     }
