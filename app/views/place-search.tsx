@@ -23,15 +23,16 @@ import { Deps } from "./_deps";
 export interface PlaceSearchProps {
     readonly query?: string;
     readonly results?: PlaceResults;
+    readonly disabled?: boolean;
 }
 
-export function PlaceSearch({ query, results }: PlaceSearchProps) {
+export function PlaceSearch({ query, results, disabled }: PlaceSearchProps) {
     const { i18n } = useContext(Deps);
     return (
         <section className="place-search">
             <header>
                 <form className="place-search-form" action="/" method="GET">
-                    <input type="search" name="q" value={query} placeholder={i18n.t('placeSearch.inputLabel')} />
+                    <input type="search" name="q" value={query} placeholder={i18n.t('placeSearch.inputLabel')} disabled={disabled} />
                 </form>
             </header>
             <ol className="place-results">

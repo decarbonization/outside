@@ -8,14 +8,15 @@ import { renderApp } from "./_app";
 export interface RenderWeatherOptions {
     readonly deps: DepsObject;
     readonly query?: string;
+    readonly disableSearch?: boolean;
     readonly weather: Weather;
 }
 
-export function renderWeather({ deps, query, weather }: RenderWeatherOptions): string {
+export function renderWeather({ deps, query, disableSearch, weather }: RenderWeatherOptions): string {
     const className = elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight);
     return renderApp({ className, deps }, (
         <>
-            <PlaceSearch query={query} />
+            <PlaceSearch query={query} disabled={disableSearch} />
             <WeatherDetails weather={weather} />
         </>
     ));

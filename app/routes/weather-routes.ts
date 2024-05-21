@@ -164,7 +164,7 @@ export function WeatherRoutes({ persistentDir, weatherToken }: WeatherRoutesOpti
                 await writeDemo(persistentDir, weather);
             }
             const query = demoQueryFor(weather);
-            const resp = renderWeather({ deps, query, weather });
+            const resp = renderWeather({ deps, query, disableSearch: true, weather });
             res.type('html').send(resp);
         })
         .get('/sample', async (req, res) => {
