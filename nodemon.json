@@ -1,0 +1,9 @@
+{
+    "watch": [
+        "index.tsx",
+        "app/**",
+        "locales/**"
+    ],
+    "ext": "ts,tsx,json",
+    "exec": "npm run start:dev"
+}
