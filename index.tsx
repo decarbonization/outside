@@ -19,7 +19,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import "express-async-errors";
-import fs from "fs";
 import http from "http";
 import { createHttpTerminator } from 'http-terminator';
 import i18next from "i18next";
@@ -44,10 +43,6 @@ process.on('unhandledRejection', (reason: Error | any) => {
 
 const localesDir = path.join(__dirname, "locales");
 const publicDir = path.join(__dirname, "public");
-const persistentDir = path.join(__dirname, "persistent");
-if (!fs.existsSync(persistentDir)) {
-    fs.mkdirSync(persistentDir);
-}
 
 i18next
     .use(i18nextBackend)
@@ -81,7 +76,7 @@ app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
 
 app.use(IndexRoutes({ mapsToken }));
-app.use(WeatherRoutes({ persistentDir, weatherToken }));
+app.use(WeatherRoutes({ weatherToken }));
 app.use(express.static(publicDir));
 
 // Must come last!
