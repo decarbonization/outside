@@ -32,6 +32,7 @@ import { env } from './app/utilities/env';
 import { setUpShutDownHooks } from './app/utilities/shut-down';
 import { MapsToken } from './fruit-company/maps/maps-api';
 import { WeatherToken } from './fruit-company/weather/weather-api';
+import { SessionStorage } from './app/utilities/storage';
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ process.on('unhandledRejection', (reason: Error | any) => {
 
 const localesDir = path.join(__dirname, "locales");
 const publicDir = path.join(__dirname, "public");
+const localStorage = new SessionStorage();
 
 i18next
     .use(i18nextBackend)
@@ -76,7 +78,7 @@ app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
 
 app.use(IndexRoutes({ mapsToken }));
-app.use(WeatherRoutes({ weatherToken }));
+app.use(WeatherRoutes({ weatherToken, localStorage }));
 app.use(express.static(publicDir));
 
 // Must come last!

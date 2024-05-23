@@ -28,6 +28,7 @@ import { Weather } from "../../fruit-company/weather/models/weather";
 import { WeatherQuery, WeatherToken, allWeatherDataSets } from "../../fruit-company/weather/weather-api";
 import { loadTheme } from "../styling/themes";
 import { renderWeather } from "../templates/weather";
+import { AsyncStorage } from "../utilities/storage";
 import { DepsObject } from "../views/_deps";
 
 function timezoneFor({ latitude, longitude }: LocationCoordinates): string {
@@ -71,15 +72,15 @@ const demo = {
         return this.cities[Math.floor(Math.random() * this.cities.length)];
     },
 
-    _weather: undefined as Weather | undefined,
-
-    get weather(): Weather | undefined {
-        if (this._weather === undefined) {
+    async load(localStorage: AsyncStorage): Promise<Weather | undefined> {
+        const rawWeather = await localStorage.getItem("weather:demo");
+        if (rawWeather === undefined) {
             return undefined;
         }
-        const fetchTime = this._weather.currentWeather?.asOf;
-        const latitude = this._weather.currentWeather?.metadata.latitude;
-        const longitude = this._weather.currentWeather?.metadata.longitude;
+        const weather = await parseWeather(rawWeather);
+        const fetchTime = weather.currentWeather?.asOf;
+        const latitude = weather.currentWeather?.metadata.latitude;
+        const longitude = weather.currentWeather?.metadata.longitude;
         if (fetchTime === undefined || latitude === undefined || longitude === undefined) {
             console.warn("Existing demo weather data is corrupt");
             return undefined;
@@ -97,11 +98,12 @@ const demo = {
             return undefined;
         }
 
-        return this._weather;
+        return weather;
     },
 
-    set weather(weather: Weather | undefined) {
-        this._weather = weather;
+    async save(weather: Weather, localStorage: AsyncStorage): Promise<void> {
+        const rawWeather = JSON.stringify(weather);
+        await localStorage.setItem("weather:demo", rawWeather);
         console.info("Updated weather demo data");
     },
 
@@ -116,9 +118,10 @@ const demo = {
 
 export interface WeatherRoutesOptions {
     readonly weatherToken: WeatherToken;
+    readonly localStorage: AsyncStorage;
 }
 
-export function WeatherRoutes({ weatherToken }: WeatherRoutesOptions): Router {
+export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptions): Router {
     return Router()
         .get('/weather/:country/:latitude/:longitude', async (req, res) => {
             const deps: DepsObject = {
@@ -156,7 +159,7 @@ export function WeatherRoutes({ weatherToken }: WeatherRoutesOptions): Router {
                 i18n: req.i18n,
                 theme: await loadTheme(),
             };
-            let weather = demo.weather;
+            let weather = await demo.load(localStorage);
             if (weather === undefined) {
                 const demoCity = demo.city;
                 const language = req.i18n.resolvedLanguage ?? req.language;
@@ -178,7 +181,7 @@ export function WeatherRoutes({ weatherToken }: WeatherRoutesOptions): Router {
                         hourlyStart: currentAsOf,
                     })
                 });
-                demo.weather = weather;
+                await demo.save(weather, localStorage);
             }
             const query = demo.queryFor(weather);
             const resp = renderWeather({ deps, query, disableSearch: true, weather });
