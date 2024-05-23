@@ -27,5 +27,8 @@ export function camelCaseToSnakeCase(subject: string): string {
 }
 
 export function camelCaseToVariable(subject: string): string {
+    if (subject === '') {
+        throw new RangeError("Empty variable");
+    }
     return `$${camelCaseToSnakeCase(subject).toUpperCase()}$`;
 }
