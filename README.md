@@ -2,6 +2,8 @@
 
 An Apple services powered platform agnostic weather app.
 
+[![Node.js CI](https://github.com/decarbonization/outside/actions/workflows/node.js.yml/badge.svg)](https://github.com/decarbonization/outside/actions/workflows/node.js.yml)
+
 Requires nodejs and npm to build. An Apple developer team, WeatherKit app identifier and key, and MapKit app identifier and key are required for this app to run.
 
 The following environment variables __must__ be provided:
