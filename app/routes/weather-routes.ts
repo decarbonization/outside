@@ -155,7 +155,8 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
                 timeZone: timezone,
             };
             const resp = renderWeather({ deps, query, weather });
-            res.set("Cache-Control", cacheControlFor(weather)).type('html').send(resp);
+            res.set("Cache-Control", cacheControlFor(weather));
+            res.type('html').send(resp);
         })
         .get('/weather/demo', async (req, res) => {
             let weather = await demo.load(localStorage);
@@ -203,6 +204,7 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
                 timeZone: "America/New_York",
             };
             const resp = renderWeather({ deps, weather });
+            res.set("Cache-Control", "no-store");
             res.type('html').send(resp);
         });
 }
