@@ -27,11 +27,11 @@ export class ApiError extends Error {
     }
 }
 
-export async function perform<T extends ApiToken, R>({token, call, fetch = globalThis.fetch}: ApiPerformOptions<T, R>): Promise<R> {
+export async function perform<T extends ApiToken, R>({ token, call, fetch = globalThis.fetch }: ApiPerformOptions<T, R>): Promise<R> {
     if (!token.isValid) {
         await token.refresh(fetch);
     }
-    for (let retry = 0, retryLimit = token.retryLimit; retry < retryLimit; retry++) {
+    for (let retry = 0, retryLimit = token.retryLimit; retry <= retryLimit; retry++) {
         const request = call.prepare(token);
         const response = await fetch(request);
         if (!response.ok && response.status === 401) {
