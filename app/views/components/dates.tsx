@@ -54,10 +54,10 @@ export function Hour({ className, when, autoHide }: DateProps) {
     if (when === undefined) {
         return <Empty className={className} autoHide={autoHide} />
     }
-    const { i18n } = useContext(Deps);
+    const { i18n, timeZone } = useContext(Deps);
     return (
         <span className={classNames("datetime", className)}>
-            {i18n.format(when, "datetime", undefined, { hour: 'numeric' })}
+            {i18n.format(when, "datetime", undefined, { hour: 'numeric', timeZone })}
         </span>
     );
 }
@@ -66,10 +66,10 @@ export function ShortDate({ className, when, autoHide }: DateProps) {
     if (when === undefined) {
         return <Empty className={className} autoHide={autoHide} />
     }
-    const { i18n } = useContext(Deps);
+    const { i18n, timeZone } = useContext(Deps);
     return (
         <span className={classNames("datetime", className)}>
-            {i18n.format(when, "datetime", undefined, { dateStyle: 'short' })}
+            {i18n.format(when, "datetime", undefined, { dateStyle: 'short', timeZone })}
         </span>
     );
 }
@@ -78,10 +78,10 @@ export function ShortTime({ className, when, autoHide }: DateProps) {
     if (when === undefined) {
         return <Empty className={className} autoHide={autoHide} />
     }
-    const { i18n } = useContext(Deps);
+    const { i18n, timeZone } = useContext(Deps);
     return (
         <span className={classNames("datetime", className)}>
-            {i18n.format(when, "datetime", undefined, { timeStyle: 'short' })}
+            {i18n.format(when, "datetime", undefined, { timeStyle: 'short', timeZone })}
         </span>
     );
 }
@@ -90,10 +90,10 @@ export function Weekday({ className, when, autoHide }: DateProps) {
     if (when === undefined) {
         return <Empty className={className} autoHide={autoHide} />
     }
-    const { i18n } = useContext(Deps);
+    const { i18n, timeZone } = useContext(Deps);
     return (
         <span className={classNames("datetime", className)}>
-            {i18n.format(when, "datetime", undefined, { weekday: 'short' })}
+            {i18n.format(when, "datetime", undefined, { weekday: 'short', timeZone })}
         </span>
     );
 }

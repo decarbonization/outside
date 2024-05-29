@@ -33,6 +33,7 @@ export function IndexRoutes({ mapsToken }: IndexRoutesOptions): Router {
             const deps: DepsObject = {
                 i18n: req.i18n,
                 theme: await loadTheme(),
+                timeZone: "UTC",
             };
             const query = req.query["q"] as string | undefined;
             const results = query !== undefined

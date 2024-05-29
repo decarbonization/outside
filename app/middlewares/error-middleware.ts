@@ -31,6 +31,7 @@ export function ErrorMiddleware({}: ErrorMiddlewareOptions): ErrorRequestHandler
         const deps: DepsObject = {
             i18n: req.i18n,
             theme: await loadTheme(),
+            timeZone: "UTC",
         };
         const resp = renderError({ deps, error });
         res.status(500).type("html").send(resp);

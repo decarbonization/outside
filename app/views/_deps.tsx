@@ -33,6 +33,11 @@ export interface DepsObject {
      * The currently active theme.
      */
     readonly theme: Theme;
+
+    /**
+     * The currently active time zone 
+     */
+    readonly timeZone: string;
 }
 
 /**
@@ -41,4 +46,5 @@ export interface DepsObject {
 export const Deps = createContext({
     i18n: i18next,
     theme: { name: "", links: [], icons: {} },
+    timeZone: "UTC",
 } as DepsObject);

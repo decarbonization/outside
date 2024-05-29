@@ -27,9 +27,9 @@ import { Weather } from "../../fruit-company/weather/models/weather";
 import { WeatherQuery, WeatherToken, allWeatherDataSets } from "../../fruit-company/weather/weather-api";
 import { loadTheme } from "../styling/themes";
 import { renderWeather } from "../templates/weather";
+import { coordinate } from "../utilities/converters";
 import { AsyncStorage } from "../utilities/storage";
 import { DepsObject } from "../views/_deps";
-import { coordinate } from "../utilities/converters";
 
 function timezoneFor({ latitude, longitude }: LocationCoordinates): string {
     const timezones = find(latitude, longitude);
@@ -96,12 +96,12 @@ const demo = {
         console.info("Updated weather demo data");
     },
 
-    queryFor(weather: Weather): string | undefined {
+    cityFor(weather: Weather) {
         // This is kind of gross, but it compensates for WeatherKit returning
         // geo coordinates that don't match what's passed to it. Our demo cities
         // data set is closed and fully controlled so this should be fine.
         const latitude = weather.currentWeather?.metadata.latitude ?? 0;
-        return demo.cities.find(({ location }) => Math.floor(location.latitude) === Math.floor(latitude))?.query;
+        return demo.cities.find(({ location }) => Math.floor(location.latitude) === Math.floor(latitude));
     },
 };
 
@@ -113,10 +113,6 @@ export interface WeatherRoutesOptions {
 export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptions): Router {
     return Router()
         .get('/weather/:country/:latitude/:longitude', async (req, res) => {
-            const deps: DepsObject = {
-                i18n: req.i18n,
-                theme: await loadTheme(),
-            };
             const query = req.query["q"] as string | undefined;
             const language = req.i18n.resolvedLanguage ?? req.language;
             const location = {
@@ -143,14 +139,15 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
                 token: weatherToken,
                 call: weatherCall,
             });
+            const deps: DepsObject = {
+                i18n: req.i18n,
+                theme: await loadTheme(),
+                timeZone: timezone,
+            };
             const resp = renderWeather({ deps, query, weather });
             res.type('html').send(resp);
         })
         .get('/weather/demo', async (req, res) => {
-            const deps: DepsObject = {
-                i18n: req.i18n,
-                theme: await loadTheme(),
-            };
             let weather = await demo.load(localStorage);
             if (weather === undefined) {
                 const demoCity = demo.city;
@@ -178,17 +175,23 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
                 });
                 await demo.save(weather, localStorage);
             }
-            const query = demo.queryFor(weather);
-            const resp = renderWeather({ deps, query, disableSearch: true, weather });
-            res.type('html').send(resp);
-        })
-        .get('/sample', async (req, res) => {
+            const demoCity = demo.cityFor(weather);
             const deps: DepsObject = {
                 i18n: req.i18n,
                 theme: await loadTheme(),
+                timeZone: demoCity !== undefined ? timezoneFor(demoCity.location) : "UTC",
             };
+            const resp = renderWeather({ deps, query: demoCity?.query, disableSearch: true, weather });
+            res.type('html').send(resp);
+        })
+        .get('/sample', async (req, res) => {
             const rawWeather = await fs.readFile(path.join(__dirname, "..", "..", "wk-sample.json"), "utf-8");
             const weather = await parseWeather(rawWeather);
+            const deps: DepsObject = {
+                i18n: req.i18n,
+                theme: await loadTheme(),
+                timeZone: "America/New_York",
+            };
             const resp = renderWeather({ deps, weather });
             res.type('html').send(resp);
         });
