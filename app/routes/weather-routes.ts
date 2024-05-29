@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { addDays, addHours, differenceInHours } from "date-fns";
+import { addDays, addHours, differenceInHours, differenceInSeconds } from "date-fns";
 import { Router } from "express";
 import fs from "fs/promises";
 import { find } from "geo-tz";
@@ -37,6 +37,16 @@ function timezoneFor({ latitude, longitude }: LocationCoordinates): string {
         throw new Error(`No time zone found for { ${latitude}, ${longitude} }`);
     }
     return timezones[0];
+}
+
+function cacheControlFor(weather: Weather): string {
+    const metadata = weather.currentWeather?.metadata;
+    if (metadata === undefined) {
+        return "no-cache";
+    }
+    const { readTime, expireTime } = metadata;
+    const maxAge = differenceInSeconds(expireTime, readTime);
+    return `public, max-age=${maxAge}`;
 }
 
 async function parseWeather(rawWeather: string): Promise<Weather> {
@@ -145,7 +155,7 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
                 timeZone: timezone,
             };
             const resp = renderWeather({ deps, query, weather });
-            res.type('html').send(resp);
+            res.set("Cache-Control", cacheControlFor(weather)).type('html').send(resp);
         })
         .get('/weather/demo', async (req, res) => {
             let weather = await demo.load(localStorage);
