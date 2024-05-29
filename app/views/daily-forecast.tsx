@@ -40,47 +40,49 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
             <h1>
                 {i18n.t("dailyForecast.title", { count: forecast.days.length })}
             </h1>
-            <ol className="daily-forecast-readings">
-                {forecast.days.map(day => (
-                    <li className="daily-forecast-reading-group">
-                        <div className="daily-forecast-reading">
-                            <header><Weekday when={day.forecastStart} /></header>
-                            <Condition code={day.conditionCode} /> <Precipitation probability={day.precipitationChance} />
-                        </div>
-                        <div className="daily-forecast-reading">
-                            <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} compact={false} />
-                        </div>
-                        <div className="daily-forecast-reading">
-                            <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
-                            <div>
-                                <span className={theme.icons[WeatherDecoration.daytime]} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
-                                {i18n.t('dailyForecast.dayNightSeparator')}
-                                <span className={theme.icons[WeatherDecoration.overnight]} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
+            <div className="daily-forecast-container">
+                <ol className="daily-forecast-main">
+                    {forecast.days.map(day => (
+                        <li className="daily-forecast-reading-group">
+                            <div className="daily-forecast-reading condition">
+                                <header><Weekday when={day.forecastStart} /></header>
+                                <Condition code={day.conditionCode} /> <Precipitation probability={day.precipitationChance} />
                             </div>
-                        </div>
-                        <div className="daily-forecast-reading">
-                            <header>{i18n.t("forecast.measurementLabels.wind")}</header>
-                            <SpeedUnit measurement={day.windSpeedAvg} />
-                        </div>
-                        <div className="daily-forecast-reading">
-                            <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
-                            <UVIndexUnit measurement={day.maxUvIndex} />
-                        </div>
-                        <div className="daily-forecast-reading">
-                            <header>{i18n.t("forecast.measurementLabels.sunrise")}</header>
-                            <ShortTime when={day.sunrise} />
-                        </div>
-                        <div className="daily-forecast-reading">
-                            <header>{i18n.t("forecast.measurementLabels.sunset")}</header>
-                            <ShortTime when={day.sunset} />
-                        </div>
-                        <div className="daily-forecast-reading">
-                            <header>{i18n.t("forecast.measurementLabels.moonPhase")}</header>
-                            <Moon phase={day.moonPhase} />
-                        </div>
-                    </li>
-                ))}
-            </ol>
+                            <div className="daily-forecast-reading temperature-range">
+                                <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} compact={false} />
+                            </div>
+                            <div className="daily-forecast-reading humidity">
+                                <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
+                                <div>
+                                    <span className={theme.icons[WeatherDecoration.daytime]} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
+                                    {i18n.t('dailyForecast.dayNightSeparator')}
+                                    <span className={theme.icons[WeatherDecoration.overnight]} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
+                                </div>
+                            </div>
+                            <div className="daily-forecast-reading wind">
+                                <header>{i18n.t("forecast.measurementLabels.wind")}</header>
+                                <SpeedUnit measurement={day.windSpeedAvg} />
+                            </div>
+                            <div className="daily-forecast-reading uv-index">
+                                <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
+                                <UVIndexUnit measurement={day.maxUvIndex} />
+                            </div>
+                            <div className="daily-forecast-reading sunrise">
+                                <header>{i18n.t("forecast.measurementLabels.sunrise")}</header>
+                                <ShortTime when={day.sunrise} />
+                            </div>
+                            <div className="daily-forecast-reading sunset">
+                                <header>{i18n.t("forecast.measurementLabels.sunset")}</header>
+                                <ShortTime when={day.sunset} />
+                            </div>
+                            <div className="daily-forecast-reading moon-phase">
+                                <header>{i18n.t("forecast.measurementLabels.moonPhase")}</header>
+                                <Moon phase={day.moonPhase} />
+                            </div>
+                        </li>
+                    ))}
+                </ol>
+            </div>
         </section>
     );
 }

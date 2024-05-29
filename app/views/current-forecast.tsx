@@ -38,7 +38,8 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
             <ol className="current-forecast-main">
                 <li className="current-forecast-reading">
                     <Condition className="hero" code={now.conditionCode} daylight={now.daylight} />
-                    &nbsp;
+                </li>
+                <li className="current-forecast-reading">
                     <TemperatureUnit className="hero" measurement={now.temperature} />
                     <footer>
                         {i18n.t("forecast.measurementLabels.feelsLike")}&nbsp;<TemperatureUnit measurement={now.temperatureApparent} />

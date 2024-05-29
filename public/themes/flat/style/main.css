@@ -80,6 +80,10 @@ pre {
     font-family: "Kode Mono", monospace;
 }
 
+.current-forecast {
+    margin-top: calc(var(--v-spacing)*1.5);
+}
+
 .current-forecast-main {
     display: flex;
     flex-wrap: nowrap;
@@ -163,16 +167,18 @@ pre {
     margin-bottom: .5rem;
 }
 
-.daily-forecast-readings {
+.daily-forecast-container {
+    overflow: visible scroll;
+}
+
+.daily-forecast-main {
     display: table;
     border-collapse: collapse;
-    width: 100%;
     box-sizing: border-box;
 }
 
 .daily-forecast-reading-group {
     display: table-row;
-    padding: 0;
     border-radius: .25rem;
     transition: var(--transition-timing) background-color .25s;
 }
@@ -185,6 +191,23 @@ pre {
 .daily-forecast-reading {
     display: table-cell;
     padding: .75rem 0;
+}
+
+.daily-forecast-reading:not(:last-child) {
+    padding-right: var(--h-spacing);
+}
+
+.daily-forecast-reading.condition {
+    min-width: 3.5em;
+}
+
+.daily-forecast-reading.humidity {
+    min-width: 7.5em;
+}
+
+.daily-forecast-reading.sunset,
+.daily-forecast-reading.sunrise {
+    min-width: 4em;
 }
 
 .place-search form {
