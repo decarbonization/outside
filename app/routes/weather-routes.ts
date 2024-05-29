@@ -17,7 +17,6 @@
  */
 
 import { addDays, addHours, differenceInHours } from "date-fns";
-import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import { Router } from "express";
 import fs from "fs/promises";
 import { find } from "geo-tz";
@@ -37,10 +36,6 @@ function timezoneFor({ latitude, longitude }: LocationCoordinates): string {
         throw new Error(`No time zone found for { ${latitude}, ${longitude} }`);
     }
     return timezones[0];
-}
-
-function nowIn(timezone: string): Date {
-    return toZonedTime(new Date(), timezone);
 }
 
 async function parseWeather(rawWeather: string): Promise<Weather> {
@@ -86,14 +81,7 @@ const demo = {
             return undefined;
         }
 
-        const timeZone = find(latitude, longitude)[0];
-        if (timeZone === undefined) {
-            console.error(`Could not find time zone for { ${latitude}, ${longitude} }`);
-            return undefined;
-        }
-
-        const localFetchTime = fromZonedTime(fetchTime, timeZone);
-        if (differenceInHours(localFetchTime, new Date()) > 24) {
+        if (differenceInHours(new Date(), fetchTime) > 24) {
             console.info("Existing demo weather data has expired");
             return undefined;
         }
@@ -136,7 +124,7 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
             };
             const timezone = timezoneFor(location);
             const countryCode = req.params.country;
-            const currentAsOf = nowIn(timezone);
+            const currentAsOf = new Date();
             const weatherCall = new WeatherQuery({
                 language,
                 location,
@@ -169,7 +157,7 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
                 const location = demoCity.location;
                 const timezone = timezoneFor(location);
                 const countryCode = demoCity.country;
-                const currentAsOf = nowIn(timezone);
+                const currentAsOf = new Date();
                 const weatherCall = new WeatherQuery({
                     language,
                     location,
