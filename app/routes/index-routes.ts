@@ -22,6 +22,7 @@ import { GeocodeAddress, MapsToken } from "../../fruit-company/maps/maps-api";
 import { loadTheme } from "../styling/themes";
 import { renderIndex } from "../templates";
 import { DepsObject } from "../views/_deps";
+import { hoursToSeconds } from "date-fns";
 
 export interface IndexRoutesOptions {
     readonly mapsToken: MapsToken;
@@ -44,6 +45,9 @@ export function IndexRoutes({ mapsToken }: IndexRoutesOptions): Router {
                 : undefined;
 
             const resp = renderIndex({ deps, query, results });
+            if (query !== undefined) {
+                res.set("Cache-Control", `public, max-age=${hoursToSeconds(24)}`);
+            }
             res.type('html').send(resp);
         });
 }
