@@ -19,6 +19,7 @@
 import { useContext } from "preact/hooks";
 import { PlaceResults } from "../../fruit-company/maps/models/places";
 import { Deps } from "./_deps";
+import { truncateLocationCoordinates } from "../../fruit-company/maps/models/base";
 
 export interface PlaceSearchProps {
     readonly query?: string;
@@ -36,13 +37,17 @@ export function PlaceSearch({ query, results, disabled }: PlaceSearchProps) {
                 </form>
             </header>
             <ol className="place-results">
-                {results?.results.map(place => (
-                    <li className="place-result">
-                        <a href={`/weather/${place.countryCode}/${place.coordinate.latitude}/${place.coordinate.longitude}?q=${place.name}`}>
-                            {place.formattedAddressLines.join(", ")}
-                        </a>
-                    </li>
-                ))}
+                {results?.results.map(place => {
+                    const { countryCode, name } = place;
+                    const { longitude, latitude } = truncateLocationCoordinates(place.coordinate, 3);
+                    return (
+                        <li className="place-result">
+                            <a href={`/weather/${countryCode}/${latitude}/${longitude}?q=${name}`}>
+                                {place.formattedAddressLines.join(", ")}
+                            </a>
+                        </li>
+                    );
+                })}
             </ol>
         </section>
     );

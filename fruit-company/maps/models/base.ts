@@ -14,6 +14,22 @@ export interface LocationCoordinates {
 }
 
 /**
+ * Reduce the accuracy of the given geographic location.
+ * 
+ * @param location The location to reduce the accuracy of.
+ * @param precision The maximum number of digits to the right 
+ * of the decimal point to retain on the latitude and longitude. 
+ * @returns New geographic coordinates.
+ */
+export function truncateLocationCoordinates(location: LocationCoordinates, precision: number): LocationCoordinates {
+    const scale = Math.pow(10, precision);
+    return {
+        latitude: (Math.floor(location.latitude * scale) / scale),
+        longitude: (Math.floor(location.longitude * scale) / scale),
+    };
+}
+
+/**
  * Convert the given geographic location coordinates into 
  * a string which is suitable for use as part of a URL.
  * 
