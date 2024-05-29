@@ -137,19 +137,22 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
             const timezone = timezoneFor(location);
             const countryCode = req.params.country;
             const currentAsOf = nowIn(timezone);
+            const weatherCall = new WeatherQuery({
+                language,
+                location,
+                timezone,
+                countryCode,
+                currentAsOf,
+                dailyEnd: addDays(currentAsOf, 10),
+                dailyStart: currentAsOf,
+                dataSets: allWeatherDataSets,
+                hourlyEnd: addHours(currentAsOf, 30),
+                hourlyStart: currentAsOf,
+            });
+            console.info(`GET /weather perform(${weatherCall})`);
             const weather = await perform({
-                token: weatherToken, call: new WeatherQuery({
-                    language,
-                    location,
-                    timezone,
-                    countryCode,
-                    currentAsOf,
-                    dailyEnd: addDays(currentAsOf, 10),
-                    dailyStart: currentAsOf,
-                    dataSets: allWeatherDataSets,
-                    hourlyEnd: addHours(currentAsOf, 30),
-                    hourlyStart: currentAsOf,
-                })
+                token: weatherToken,
+                call: weatherCall,
             });
             const resp = renderWeather({ deps, query, weather });
             res.type('html').send(resp);
@@ -167,19 +170,22 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
                 const timezone = timezoneFor(location);
                 const countryCode = demoCity.country;
                 const currentAsOf = nowIn(timezone);
+                const weatherCall = new WeatherQuery({
+                    language,
+                    location,
+                    timezone,
+                    countryCode,
+                    currentAsOf,
+                    dailyEnd: addDays(currentAsOf, 10),
+                    dailyStart: currentAsOf,
+                    dataSets: allWeatherDataSets,
+                    hourlyEnd: addHours(currentAsOf, 30),
+                    hourlyStart: currentAsOf,
+                });
+                console.info(`GET /weather/demo perform(${weatherCall})`);
                 weather = await perform({
-                    token: weatherToken, call: new WeatherQuery({
-                        language,
-                        location,
-                        timezone,
-                        countryCode,
-                        currentAsOf,
-                        dailyEnd: addDays(currentAsOf, 10),
-                        dailyStart: currentAsOf,
-                        dataSets: allWeatherDataSets,
-                        hourlyEnd: addHours(currentAsOf, 30),
-                        hourlyStart: currentAsOf,
-                    })
+                    token: weatherToken,
+                    call: weatherCall,
                 });
                 await demo.save(weather, localStorage);
             }
