@@ -29,6 +29,7 @@ import { loadTheme } from "../styling/themes";
 import { renderWeather } from "../templates/weather";
 import { AsyncStorage } from "../utilities/storage";
 import { DepsObject } from "../views/_deps";
+import { coordinate } from "../utilities/converters";
 
 function timezoneFor({ latitude, longitude }: LocationCoordinates): string {
     const timezones = find(latitude, longitude);
@@ -119,8 +120,8 @@ export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptio
             const query = req.query["q"] as string | undefined;
             const language = req.i18n.resolvedLanguage ?? req.language;
             const location = {
-                latitude: Number(req.params.latitude),
-                longitude: Number(req.params.longitude),
+                latitude: coordinate(req.params.latitude),
+                longitude: coordinate(req.params.longitude),
             };
             const timezone = timezoneFor(location);
             const countryCode = req.params.country;
