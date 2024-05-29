@@ -10,6 +10,7 @@
     "dev": "nodemon",
     "start:dev": "ts-node index.tsx",
     "start": "npm run build && node ./dist/index.js",
+    "start:digitalocean": "npm run build:digitalocean && node ./dist/index.js",
     "test": "jest"
   },
   "author": "Peter Kevin Contreras",
