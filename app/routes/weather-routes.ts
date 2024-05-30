@@ -17,12 +17,12 @@
  */
 
 import { addDays, addHours, differenceInHours, differenceInSeconds } from "date-fns";
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import fs from "fs/promises";
 import { find } from "geo-tz";
 import path from "path";
 import { perform } from "../../fruit-company/api";
-import { LocationCoordinates } from "../../fruit-company/maps/models/base";
+import { LocationCoordinates, truncateLocationCoordinates } from "../../fruit-company/maps/models/base";
 import { Weather } from "../../fruit-company/weather/models/weather";
 import { WeatherQuery, WeatherToken, allWeatherDataSets } from "../../fruit-company/weather/weather-api";
 import { loadTheme } from "../styling/themes";
@@ -119,92 +119,143 @@ export interface WeatherRoutesOptions {
     readonly weatherToken: WeatherToken;
     readonly localStorage: AsyncStorage;
 }
+async function getWeather(
+    { weatherToken }: WeatherRoutesOptions,
+    req: Request<{ country: string, latitude: string, longitude: string }>,
+    res: Response
+): Promise<void> {
+    const query = req.query["q"] as string | undefined;
+    const language = req.i18n.resolvedLanguage ?? req.language;
+    const location = {
+        latitude: coordinate(req.params.latitude),
+        longitude: coordinate(req.params.longitude),
+    };
+    const timezone = timezoneFor(location);
+    const countryCode = req.params.country;
+    const currentAsOf = new Date();
+    const weatherCall = new WeatherQuery({
+        language,
+        location,
+        timezone,
+        countryCode,
+        currentAsOf,
+        dailyEnd: addDays(currentAsOf, 10),
+        dailyStart: currentAsOf,
+        dataSets: allWeatherDataSets,
+        hourlyEnd: addHours(currentAsOf, 30),
+        hourlyStart: currentAsOf,
+    });
+    console.info(`GET /weather perform(${weatherCall})`);
+    const weather = await perform({
+        token: weatherToken,
+        call: weatherCall,
+    });
+    const deps: DepsObject = {
+        i18n: req.i18n,
+        theme: await loadTheme(),
+        timeZone: timezone,
+    };
+    const resp = renderWeather({ deps, query, weather });
+    res.set("Cache-Control", cacheControlFor(weather));
+    res.type('html').send(resp);
+}
 
-export function WeatherRoutes({ weatherToken, localStorage }: WeatherRoutesOptions): Router {
+async function getWeatherDemo(
+    { weatherToken, localStorage }: WeatherRoutesOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    let weather = await demo.load(localStorage);
+    if (weather === undefined) {
+        const demoCity = demo.city;
+        const language = req.i18n.resolvedLanguage ?? req.language;
+        const location = demoCity.location;
+        const timezone = timezoneFor(location);
+        const countryCode = demoCity.country;
+        const currentAsOf = new Date();
+        const weatherCall = new WeatherQuery({
+            language,
+            location,
+            timezone,
+            countryCode,
+            currentAsOf,
+            dailyEnd: addDays(currentAsOf, 10),
+            dailyStart: currentAsOf,
+            dataSets: allWeatherDataSets,
+            hourlyEnd: addHours(currentAsOf, 30),
+            hourlyStart: currentAsOf,
+        });
+        console.info(`GET /weather/demo perform(${weatherCall})`);
+        weather = await perform({
+            token: weatherToken,
+            call: weatherCall,
+        });
+        await demo.save(weather, localStorage);
+    }
+    const demoCity = demo.cityFor(weather);
+    const deps: DepsObject = {
+        i18n: req.i18n,
+        theme: await loadTheme(),
+        timeZone: demoCity !== undefined ? timezoneFor(demoCity.location) : "UTC",
+    };
+    const resp = renderWeather({ deps, query: demoCity?.query, disableSearch: true, weather });
+    res.type('html').send(resp);
+}
+
+async function getWeatherSample(
+    {}: WeatherRoutesOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const rawWeather = await fs.readFile(path.join(__dirname, "..", "..", "wk-sample.json"), "utf-8");
+    const weather = await parseWeather(rawWeather);
+    const deps: DepsObject = {
+        i18n: req.i18n,
+        theme: await loadTheme(),
+        timeZone: "America/New_York",
+    };
+    const resp = renderWeather({ deps, weather });
+    res.set("Cache-Control", "no-store");
+    res.type('html').send(resp);
+}
+
+export function WeatherRoutes(options: WeatherRoutesOptions): Router {
     return Router()
         .get('/weather/:country/:latitude/:longitude', async (req, res) => {
-            const query = req.query["q"] as string | undefined;
-            const language = req.i18n.resolvedLanguage ?? req.language;
-            const location = {
-                latitude: coordinate(req.params.latitude),
-                longitude: coordinate(req.params.longitude),
-            };
-            const timezone = timezoneFor(location);
-            const countryCode = req.params.country;
-            const currentAsOf = new Date();
-            const weatherCall = new WeatherQuery({
-                language,
-                location,
-                timezone,
-                countryCode,
-                currentAsOf,
-                dailyEnd: addDays(currentAsOf, 10),
-                dailyStart: currentAsOf,
-                dataSets: allWeatherDataSets,
-                hourlyEnd: addHours(currentAsOf, 30),
-                hourlyStart: currentAsOf,
-            });
-            console.info(`GET /weather perform(${weatherCall})`);
-            const weather = await perform({
-                token: weatherToken,
-                call: weatherCall,
-            });
-            const deps: DepsObject = {
-                i18n: req.i18n,
-                theme: await loadTheme(),
-                timeZone: timezone,
-            };
-            const resp = renderWeather({ deps, query, weather });
-            res.set("Cache-Control", cacheControlFor(weather));
-            res.type('html').send(resp);
+            await getWeather(options, req, res);
         })
         .get('/weather/demo', async (req, res) => {
-            let weather = await demo.load(localStorage);
-            if (weather === undefined) {
-                const demoCity = demo.city;
-                const language = req.i18n.resolvedLanguage ?? req.language;
-                const location = demoCity.location;
-                const timezone = timezoneFor(location);
-                const countryCode = demoCity.country;
-                const currentAsOf = new Date();
-                const weatherCall = new WeatherQuery({
-                    language,
-                    location,
-                    timezone,
-                    countryCode,
-                    currentAsOf,
-                    dailyEnd: addDays(currentAsOf, 10),
-                    dailyStart: currentAsOf,
-                    dataSets: allWeatherDataSets,
-                    hourlyEnd: addHours(currentAsOf, 30),
-                    hourlyStart: currentAsOf,
-                });
-                console.info(`GET /weather/demo perform(${weatherCall})`);
-                weather = await perform({
-                    token: weatherToken,
-                    call: weatherCall,
-                });
-                await demo.save(weather, localStorage);
-            }
-            const demoCity = demo.cityFor(weather);
-            const deps: DepsObject = {
-                i18n: req.i18n,
-                theme: await loadTheme(),
-                timeZone: demoCity !== undefined ? timezoneFor(demoCity.location) : "UTC",
-            };
-            const resp = renderWeather({ deps, query: demoCity?.query, disableSearch: true, weather });
-            res.type('html').send(resp);
+            await getWeatherDemo(options, req, res);
         })
         .get('/sample', async (req, res) => {
-            const rawWeather = await fs.readFile(path.join(__dirname, "..", "..", "wk-sample.json"), "utf-8");
-            const weather = await parseWeather(rawWeather);
-            const deps: DepsObject = {
-                i18n: req.i18n,
-                theme: await loadTheme(),
-                timeZone: "America/New_York",
-            };
-            const resp = renderWeather({ deps, weather });
-            res.set("Cache-Control", "no-store");
-            res.type('html').send(resp);
+            await getWeatherSample(options, req, res);
         });
+}
+
+/**
+ * Create a link to a weather page.
+ * 
+ * @param country The country the forecast data originates from.
+ * @param location The location to find forecast data for.
+ * @param query The optional query used to find the location.
+ * @returns A link suitable for embedding in an `a` tag.
+ */
+WeatherRoutes.linkToGetWeather = function (country: string, location: LocationCoordinates, query?: string): string {
+    const { latitude, longitude } = truncateLocationCoordinates(location, 3);
+    let link = `/weather/${encodeURIComponent(country)}/${latitude}/${longitude}`;
+    if (query !== undefined) {
+        const searchParams = new URLSearchParams();
+        searchParams.append("q", query);
+        link += `?${searchParams}`;
+    }
+    return link;
+};
+
+/**
+ * Create a link to the weather demo page.
+ * 
+ * @returns A link suitable for embedding in an `a` tag.
+ */
+WeatherRoutes.linkToGetWeatherDemo = function (): string {
+    return "/weather/demo";
 }

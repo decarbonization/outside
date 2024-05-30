@@ -16,38 +16,56 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Router } from "express";
+import { hoursToSeconds } from "date-fns";
+import { Request, Response, Router } from "express";
 import { perform } from "../../fruit-company/api";
 import { GeocodeAddress, MapsToken } from "../../fruit-company/maps/maps-api";
 import { loadTheme } from "../styling/themes";
 import { renderIndex } from "../templates";
 import { DepsObject } from "../views/_deps";
-import { hoursToSeconds } from "date-fns";
+import { WeatherRoutes } from "./weather-routes";
 
 export interface IndexRoutesOptions {
     readonly mapsToken: MapsToken;
 }
 
-export function IndexRoutes({ mapsToken }: IndexRoutesOptions): Router {
+async function getIndex(
+    { mapsToken }: IndexRoutesOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const deps: DepsObject = {
+        i18n: req.i18n,
+        theme: await loadTheme(),
+        timeZone: "UTC",
+    };
+    const query = req.query["q"] as string | undefined;
+    const results = query !== undefined
+        ? await perform({
+            token: mapsToken,
+            call: new GeocodeAddress({ query, language: req.i18n.resolvedLanguage })
+        })
+        : undefined;
+    if (results !== undefined && results.results.length === 1 && req.query["noredirect"] === undefined) {
+        const onlyPlace = results.results[0];
+        const weatherLink = WeatherRoutes.linkToGetWeather(onlyPlace.countryCode, onlyPlace.coordinate, onlyPlace.name);
+        res.redirect(weatherLink);
+    } else {
+        const resp = renderIndex({ deps, query, results });
+        if (query !== undefined) {
+            res.set("Cache-Control", `public, max-age=${hoursToSeconds(24)}`);
+        }
+        res.type('html').send(resp);
+    }
+}
+
+export function IndexRoutes(options: IndexRoutesOptions): Router {
     return Router()
         .get('/', async (req, res) => {
-            const deps: DepsObject = {
-                i18n: req.i18n,
-                theme: await loadTheme(),
-                timeZone: "UTC",
-            };
-            const query = req.query["q"] as string | undefined;
-            const results = query !== undefined
-                ? await perform({
-                    token: mapsToken,
-                    call: new GeocodeAddress({ query, language: req.i18n.resolvedLanguage })
-                })
-                : undefined;
-
-            const resp = renderIndex({ deps, query, results });
-            if (query !== undefined) {
-                res.set("Cache-Control", `public, max-age=${hoursToSeconds(24)}`);
-            }
-            res.type('html').send(resp);
+            await getIndex(options, req, res);
         });
+}
+
+IndexRoutes.getIndex = function (): string {
+    return "/";
 }

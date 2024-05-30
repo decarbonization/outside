@@ -18,8 +18,9 @@
 
 import { useContext } from "preact/hooks";
 import { PlaceResults } from "../../fruit-company/maps/models/places";
+import { WeatherRoutes } from "../routes/weather-routes";
 import { Deps } from "./_deps";
-import { truncateLocationCoordinates } from "../../fruit-company/maps/models/base";
+import { IndexRoutes } from "../routes/index-routes";
 
 export interface PlaceSearchProps {
     readonly query?: string;
@@ -32,22 +33,20 @@ export function PlaceSearch({ query, results, disabled }: PlaceSearchProps) {
     return (
         <section className="place-search">
             <header>
-                <form className="place-search-form" action="/" method="GET">
+                <form className="place-search-form" action={IndexRoutes.getIndex()} method="GET">
                     <input type="search" name="q" value={query} placeholder={i18n.t('placeSearch.inputLabel')} disabled={disabled} />
                 </form>
             </header>
             <ol className="place-results">
-                {results?.results.map(place => {
-                    const { countryCode, name } = place;
-                    const { longitude, latitude } = truncateLocationCoordinates(place.coordinate, 3);
-                    return (
-                        <li className="place-result">
-                            <a href={`/weather/${countryCode}/${latitude}/${longitude}?q=${name}`}>
-                                {place.formattedAddressLines.join(", ")}
-                            </a>
-                        </li>
-                    );
-                })}
+                {results?.results.map(place => (
+                    <li className="place-result">
+                        <a href={WeatherRoutes.linkToGetWeather(place.countryCode, place.coordinate, place.name)}>
+                            {place.formattedAddressLines.map(formattedAddressLine => (
+                                <div className="address-line">{formattedAddressLine}</div>
+                            ))}
+                        </a>
+                    </li>
+                ))}
             </ol>
         </section>
     );
