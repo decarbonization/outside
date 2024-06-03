@@ -5,10 +5,10 @@
   "version": "0.0.1",
   "description": "A simple weather app built on Apple's WeatherKit REST service.",
   "scripts": {
-    "build": "npx tsc -p server && npx copy-files-from-to",
+    "build": "npx tsc -p server && npx tsc -p client && npx copy-files-from-to",
     "build:digitalocean": "npm install --production=false && npm run build && npm ci",
     "dev": "npx nodemon",
-    "start:dev": "npx ts-node server/index.tsx",
+    "start:dev": "npx tsc -p client && npx ts-node server/index.tsx",
     "start": "npm run build && node ./dist/server/index.js",
     "start:digitalocean": "npm run build:digitalocean && node ./dist/server/index.js",
     "test": "npx jest"

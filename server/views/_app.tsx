@@ -44,6 +44,8 @@ export function App({ className, children }: AppProps) {
                     {children}
                     <footer>{i18n.t('appCopyright')}</footer>
                 </main>
+
+                <script type="module" src="/script/index.js" />
             </body>
         </html>
     );
