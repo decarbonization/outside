@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { WeatherRoutes } from '../../app/routes/weather-routes';
+import { WeatherRoutes } from '../../../server/routes/weather-routes';
 
 describe("weather-routes module", () => {
     describe("#WeatherRoutes", () => {

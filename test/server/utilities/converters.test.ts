@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { coordinate } from "../../app/utilities/converters";
+import { coordinate } from "../../../server/utilities/converters";
 
 describe("converters module", () => {
     describe("#coordinate", () => {

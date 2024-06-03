@@ -5,13 +5,13 @@
   "version": "0.0.1",
   "description": "A simple weather app built on Apple's WeatherKit REST service.",
   "scripts": {
-    "build": "npx tsc && npx copy-files-from-to",
+    "build": "npx tsc -p server && npx copy-files-from-to",
     "build:digitalocean": "npm install --production=false && npm run build && npm ci",
-    "dev": "nodemon",
-    "start:dev": "ts-node index.tsx",
-    "start": "npm run build && node ./dist/index.js",
-    "start:digitalocean": "npm run build:digitalocean && node ./dist/index.js",
-    "test": "jest"
+    "dev": "npx nodemon",
+    "start:dev": "npx ts-node server/index.tsx",
+    "start": "npm run build && node ./dist/server/index.js",
+    "start:digitalocean": "npm run build:digitalocean && node ./dist/server/index.js",
+    "test": "npx jest"
   },
   "author": "Peter Kevin Contreras",
   "license": "GPL-3.0-only",
@@ -48,16 +48,12 @@
   },
   "copyFiles": [
     {
-      "from": ".env",
-      "to": "dist"
-    },
-    {
       "from": "locales/**",
       "to": "dist/locales"
     },
     {
-      "from": "public/**",
-      "to": "dist/public"
+      "from": "static/**",
+      "to": "dist/static"
     }
   ]
 }

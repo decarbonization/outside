@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { camelCaseToKebabCase, camelCaseToSnakeCase, camelCaseToVariable } from '../../app/styling/transforms';
+import { camelCaseToKebabCase, camelCaseToSnakeCase, camelCaseToVariable } from '../../../server/styling/transforms';
 
 describe("transforms module", () => {
     describe("#camelCaseToKebabCase", () => {

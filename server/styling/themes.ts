@@ -107,9 +107,9 @@ export interface Theme {
  */
 const themesDirectory = path.join(
     __dirname, 
-    "..", // app
+    "..", // server
     "..",  // outside
-    "public", 
+    "static", 
     "themes"
 );
 

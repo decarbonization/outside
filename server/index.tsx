@@ -25,14 +25,14 @@ import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
-import { ErrorMiddleware } from './app/middlewares/error-middleware';
-import { IndexRoutes } from './app/routes/index-routes';
-import { WeatherRoutes } from './app/routes/weather-routes';
-import { env } from './app/utilities/env';
-import { setUpShutDownHooks } from './app/utilities/shut-down';
-import { MapsToken } from './fruit-company/maps/maps-api';
-import { WeatherToken } from './fruit-company/weather/weather-api';
-import { SessionStorage } from './app/utilities/storage';
+import { ErrorMiddleware } from './middlewares/error-middleware';
+import { IndexRoutes } from './routes/index-routes';
+import { WeatherRoutes } from './routes/weather-routes';
+import { env } from './utilities/env';
+import { setUpShutDownHooks } from './utilities/shut-down';
+import { MapsToken } from '../fruit-company/maps/maps-api';
+import { WeatherToken } from '../fruit-company/weather/weather-api';
+import { SessionStorage } from './utilities/storage';
 
 dotenv.config();
 
@@ -42,8 +42,8 @@ process.on('unhandledRejection', (reason: Error | any) => {
     throw new Error(reason.message || reason);
 });
 
-const localesDir = path.join(__dirname, "locales");
-const publicDir = path.join(__dirname, "public");
+const localesDir = path.join(__dirname, "..", "locales");
+const staticDir = path.join(__dirname, "..", "static");
 const localStorage = new SessionStorage();
 
 i18next
@@ -79,7 +79,7 @@ app.use(i18nextMiddleware.handle(i18next));
 
 app.use(IndexRoutes({ mapsToken }));
 app.use(WeatherRoutes({ weatherToken, localStorage }));
-app.use(express.static(publicDir));
+app.use(express.static(staticDir));
 
 // Must come last!
 app.use(ErrorMiddleware({}));

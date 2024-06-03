@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { SessionStorage } from "../../app/utilities/storage";
+import { SessionStorage } from "../../../server/utilities/storage";
 
 describe("storage module", () => {
     describe("SessionStorage", () => {

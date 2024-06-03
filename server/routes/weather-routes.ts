@@ -207,7 +207,7 @@ async function getWeatherSample(
     req: Request,
     res: Response
 ): Promise<void> {
-    const rawWeather = await fs.readFile(path.join(__dirname, "..", "..", "wk-sample.json"), "utf-8");
+    const rawWeather = await fs.readFile(path.join(__dirname, "wk-sample.json"), "utf-8");
     const weather = await parseWeather(rawWeather);
     const deps: DepsObject = {
         i18n: req.i18n,
