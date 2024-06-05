@@ -17,9 +17,9 @@
  */
 
 import { Weather } from "../../fruit-company/weather/models/weather";
+import { CurrentForecast } from "./current-forecast";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";
-import { CurrentForecast } from "./current-forecast";
 
 export interface WeatherDetailsProps {
     readonly weather?: Weather;

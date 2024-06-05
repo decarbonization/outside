@@ -32,7 +32,7 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
     if (now === undefined) {
         return null;
     }
-    const { i18n } = useContext(Deps);
+    const { i18n, timeZone } = useContext(Deps);
     return (
         <section className="current-forecast">
             <ol className="current-forecast-main">
@@ -89,6 +89,7 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                     </footer>
                 </li>
             </ol>
+            <footer>{i18n.t("forecast.lastUpdated", { when: now.asOf, timeZone })}</footer>
         </section>
     );
 }

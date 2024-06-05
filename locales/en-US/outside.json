@@ -1,6 +1,5 @@
 {
     "appName": "Outside",
-    "appCopyright": "Copyright 2024 P. “Kevin” Contreras. All Rights Reserved.",
 
     "errorTitle": "Error",
 
@@ -85,7 +84,8 @@
             "high": "High",
             "veryHigh": "Very\u00A0High",
             "extreme": "Extreme"
-        }
+        },
+        "lastUpdated": "Last Updated {{when, datetime(timeStyle: 'short'; dateStyle: 'medium')}}"
     },
     "dailyForecast": {
         "title": "{{count, number}} Day Forecast",
