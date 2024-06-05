@@ -226,3 +226,9 @@ pre {
 .place-result:not(:last-child) {
     border-bottom: 1px solid var(--separator);
 }
+
+@media (width < 375px) {
+    :root {
+        font-size: 14px;
+    }
+}
