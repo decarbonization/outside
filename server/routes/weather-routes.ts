@@ -30,6 +30,7 @@ import { renderWeather } from "../templates/weather";
 import { coordinate } from "../utilities/converters";
 import { AsyncStorage } from "../utilities/storage";
 import { DepsObject } from "../views/_deps";
+import { env } from "../utilities/env";
 
 function timezoneFor({ latitude, longitude }: LocationCoordinates): string {
     const timezones = find(latitude, longitude);
@@ -142,7 +143,7 @@ async function getWeather(
         dailyEnd: addDays(currentAsOf, 10),
         dailyStart: currentAsOf,
         dataSets: allWeatherDataSets,
-        hourlyEnd: addHours(currentAsOf, 30),
+        hourlyEnd: addHours(currentAsOf, parseInt(env("HOURLY_FORECAST_LIMIT", "12"), 10)),
         hourlyStart: currentAsOf,
     });
     console.info(`GET /weather perform(${weatherCall})`);
@@ -182,7 +183,7 @@ async function getWeatherDemo(
             dailyEnd: addDays(currentAsOf, 10),
             dailyStart: currentAsOf,
             dataSets: allWeatherDataSets,
-            hourlyEnd: addHours(currentAsOf, 30),
+            hourlyEnd: addHours(currentAsOf, parseInt(env("HOURLY_FORECAST_LIMIT", "12"), 10)),
             hourlyStart: currentAsOf,
         });
         console.info(`GET /weather/demo perform(${weatherCall})`);
