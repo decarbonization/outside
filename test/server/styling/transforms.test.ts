@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { camelCaseToKebabCase, camelCaseToSnakeCase, camelCaseToVariable } from '../../../server/styling/transforms';
+import { camelCaseToKebabCase, camelCaseToSnakeCase } from '../../../server/styling/transforms';
 
 describe("transforms module", () => {
     describe("#camelCaseToKebabCase", () => {
@@ -27,20 +27,6 @@ describe("transforms module", () => {
 
         it("should lowercase abbreviations and join them with an underscore", () => {
             expect(camelCaseToSnakeCase("toISOString")).toStrictEqual("to_iso_string");
-        });
-    });
-
-    describe("#camelCaseToKebabCase", () => {
-        it("should uppercase a single lowercase word", () => {
-            expect(camelCaseToVariable("hello")).toStrictEqual("$HELLO$");
-        });
-
-        it("should uppercase words and join them with an underscore", () => {
-            expect(camelCaseToVariable("HelloWorld")).toStrictEqual("$HELLO_WORLD$");
-        });
-
-        it("should reject empty strings", () => {
-            expect(() => camelCaseToVariable("")).toThrow();
         });
     });
 });

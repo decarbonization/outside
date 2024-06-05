@@ -25,10 +25,3 @@ export function camelCaseToKebabCase(subject: string): string {
 export function camelCaseToSnakeCase(subject: string): string {
     return subject.replace(/(([a-z])(?=[A-Z][a-zA-Z])|([A-Z])(?=[A-Z][a-z]))/g, '$1_').toLowerCase();
 }
-
-export function camelCaseToVariable(subject: string): string {
-    if (subject === '') {
-        throw new RangeError("Empty variable");
-    }
-    return `$${camelCaseToSnakeCase(subject).toUpperCase()}$`;
-}

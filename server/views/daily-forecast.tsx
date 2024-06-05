@@ -18,7 +18,7 @@
 
 import { useContext } from "preact/hooks";
 import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
-import { WeatherDecoration } from "../styling/themes";
+import { ThemeDecoration, themeIcon } from "../styling/themes";
 import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
 import { ShortTime, Weekday } from "./components/dates";
@@ -54,9 +54,9 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             <div className="daily-forecast-reading humidity">
                                 <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
                                 <div>
-                                    <span className={theme.icons[WeatherDecoration.daytime]} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
+                                    <span className={themeIcon(theme, { name: ThemeDecoration.daytime })} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
                                     {i18n.t('dailyForecast.dayNightSeparator')}
-                                    <span className={theme.icons[WeatherDecoration.overnight]} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
+                                    <span className={themeIcon(theme, { name: ThemeDecoration.overnight })} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
                                 </div>
                             </div>
                             <div className="daily-forecast-reading wind">

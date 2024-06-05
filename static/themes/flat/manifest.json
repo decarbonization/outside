@@ -33,54 +33,103 @@
         }
     ],
     "icons": {
-        "BlowingDust": "wi wi-dust",
-        "Clear": "wi wi-$DAY_NIGHT$-sunny",
-        "Cloudy": "wi wi-cloudy",
-        "Foggy": "wi wi-fog",
-        "Haze": "wi wi-smog",
-        "MostlyClear": "wi wi-$DAY_NIGHT$-sunny-overcast",
-        "MostlyCloudy": "wi wi-$DAY_NIGHT$-cloudy-high",
-        "PartlyCloudy": "wi wi-$DAY_NIGHT$-cloudy",
-        "Smoky": "wi wi-fire",
-        "Breezy": "wi wi-$DAY_NIGHT$-light-wind",
-        "Windy": "wi wi-windy",
-        "Drizzle": "wi wi-$DAY_NIGHT$-sprinkle",
-        "HeavyRain": "wi wi-raindrops",
-        "IsolatedThunderstorms": "wi wi-$DAY_NIGHT$-thunderstorm",
-        "Rain": "wi wi-raindrop",
-        "SunShowers": "wi wi-$DAY_NIGHT$-rain-mix",
-        "ScatteredThunderstorms": "wi wi-$DAY_NIGHT$-thunderstorm",
-        "StrongStorms": "wi wi-$DAY_NIGHT$-storm-showers",
-        "Thunderstorms": "wi wi-$DAY_NIGHT$-thunderstorm",
-        "Frigid": "wi wi-$DAY_NIGHT$-cloudy-gusts",
-        "Hail": "wi wi-hail",
-        "Hot": "wi wi-hot",
-        "Flurries": "wi wi-$DAY_NIGHT$-snow",
-        "Sleet": "wi wi-$DAY_NIGHT$-sleet",
-        "Snow": "wi wi-snow",
-        "SunFlurries": "wi wi-$DAY_NIGHT$-snow-wind",
-        "WintryMix": "wi wi-rain-mix",
-        "Blizzard": "wi wi-snow",
-        "BlowingSnow": "wi wi-snow-wind",
-        "FreezingDrizzle": "wi wi-$DAY_NIGHT$-rain-mix",
-        "FreezingRain": "wi wi-$DAY_NIGHT$-rain-mix",
-        "HeavySnow": "wi wi-snow",
-        "Hurricane": "wi wi-hurricane",
-        "TropicalStorm": "wi wi-hurricane-warning",
-
-        "new": "wi wi-moon-new",
-        "waxingCrescent": "wi wi-moon-waxing-crescent-2",
-        "firstQuarter": "wi wi-moon-first-quarter",
-        "full": "wi wi-moon-full",
-        "waxingGibbous": "wi wi-moon-waxing-gibbous-2",
-        "waningGibbous": "wi wi-moon-waning-gibbous-2",
-        "thirdQuarter": "wi wi-moon-third-quarter",
-        "waningCrescent": "wi wi-moon-waning-crescent-2",
-
-        "daytime": "wi wi-day-sunny",
-        "overnight": "wi wi-night-clear",
-
-        "trendUp": "wi wi-direction-up",
-        "trendDown": "wi wi-direction-down"
+        "base": "wi",
+        "BlowingDust": "wi-dust",
+        "Clear": {
+            "day": "wi-day-sunny",
+            "night": "wi-night-clear"
+        },
+        "Cloudy": "wi-cloudy",
+        "Foggy": "wi-fog",
+        "Haze": "wi-smog",
+        "MostlyClear": {
+            "day": "wi-day-sunny-overcast",
+            "night": "wi-night-partly-cloudy"
+        },
+        "MostlyCloudy": {
+            "day": "wi-day-cloudy-high",
+            "night": "wi-night-cloudy-high"
+        },
+        "PartlyCloudy": {
+            "day": "wi-day-sunny-overcast",
+            "night": "wi-night-partly-cloudy"
+        },
+        "Smoky": "wi-fire",
+        "Breezy": {
+            "day": "wi-day-light-wind",
+            "night": "wi-windy"
+        },
+        "Windy": "wi-windy",
+        "Drizzle": {
+            "day": "wi-day-sprinkle",
+            "night": "wi-night-sprinkle"
+        },
+        "HeavyRain": "wi-raindrops",
+        "IsolatedThunderstorms": {
+            "day": "wi-day-thunderstorm",
+            "night": "wi-night-thunderstorm"
+        },
+        "Rain": "wi-raindrop",
+        "SunShowers": {
+            "day": "wi-day-rain-mix",
+            "night": "wi-night-rain-mix"
+        },
+        "ScatteredThunderstorms": {
+            "day": "wi-day-thunderstorm",
+            "night": "wi-night-thunderstorm"
+        },
+        "StrongStorms": {
+            "day": "wi-day-storm-showers",
+            "night": "wi-night-storm-showers"
+        },
+        "Thunderstorms": {
+            "day": "wi-day-thunderstorm",
+            "night": "wi-night-thunderstorm"
+        },
+        "Frigid": {
+            "day": "wi-day-cloudy-gusts",
+            "night": "wi-night-cloudy-gusts"
+        },
+        "Hail": "wi-hail",
+        "Hot": "wi-hot",
+        "Flurries": {
+            "day": "wi-day-snow",
+            "night": "wi-night-snow"
+        },
+        "Sleet": {
+            "day": "wi-day-sleet",
+            "night": "wi-night-sleet"
+        },
+        "Snow": "wi-snow",
+        "SunFlurries": {
+            "day": "wi-day-snow-wind",
+            "night": "wi-night-snow-wind"
+        },
+        "WintryMix": "wi-rain-mix",
+        "Blizzard": "wi-snow",
+        "BlowingSnow": "wi-snow-wind",
+        "FreezingDrizzle": {
+            "day": "wi-day-rain-mix",
+            "night": "wi-night-rain-mix"
+        },
+        "FreezingRain": {
+            "day": "wi-day-rain-mix",
+            "night": "wi-night-rain-mix"
+        },
+        "HeavySnow": "wi-snow",
+        "Hurricane": "wi-hurricane",
+        "TropicalStorm": "wi-hurricane-warning",
+        "new": "wi-moon-new",
+        "waxingCrescent": "wi-moon-waxing-crescent-2",
+        "firstQuarter": "wi-moon-first-quarter",
+        "full": "wi-moon-full",
+        "waxingGibbous": "wi-moon-waxing-gibbous-2",
+        "waningGibbous": "wi-moon-waning-gibbous-2",
+        "thirdQuarter": "wi-moon-third-quarter",
+        "waningCrescent": "wi-moon-waning-crescent-2",
+        "daytime": "wi-day-sunny",
+        "overnight": "wi-night-clear",
+        "trendUp": "wi-direction-up",
+        "trendDown": "wi-direction-down"
     }
 }

@@ -20,9 +20,8 @@ import classNames from "classnames";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { MoonPhase } from "../../../fruit-company/weather/models/base";
-import { Theme } from "../../styling/themes";
+import { themeIcon } from "../../styling/themes";
 import { Deps } from "../_deps";
-import { resolve } from "../../styling/dynamic-class-name";
 
 export interface MoonProps {
     readonly className?: string;
@@ -32,16 +31,8 @@ export interface MoonProps {
 export function Moon({ className, phase }: MoonProps) {
     const { i18n, theme } = useContext(Deps);
     return (
-        <span className={classNames(className, classNameFor(theme, phase))} alt={labelFor(i18n, phase)} />
+        <span className={classNames(className, themeIcon(theme, { name: phase, daylight: false }))} alt={labelFor(i18n, phase)} />
     );
-}
-
-function classNameFor(theme: Theme, phase: MoonPhase): string | undefined {
-    const className = theme.icons[phase];
-    if (className === undefined) {
-        return undefined;
-    }
-    return resolve(className, { dayNight: "night "});
 }
 
 function labelFor(i18n: i18n, phase: MoonPhase): string {

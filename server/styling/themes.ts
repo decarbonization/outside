@@ -16,20 +16,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import classNames from "classnames";
 import fs from "fs/promises";
 import path from "path";
 import { MoonPhase, WeatherCondition } from "../../fruit-company/weather/models/base";
-import { DynamicClassName } from "./dynamic-class-name";
 
 /**
  * Encapsulates decorative elements found in a weather forecast.
  */
-export const enum WeatherDecoration {
+export const enum ThemeDecoration {
     /**
      * A decoration indicating a measurement is limited to the day.
      */
     daytime = "daytime",
-    
+
     /**
      * A decoration indicating a measurement is limited to the night.
      */
@@ -47,6 +47,26 @@ export const enum WeatherDecoration {
 }
 
 /**
+ * Encapsulates the name of each icon a theme may provide.
+ */
+export type ThemeIconName =
+    | "base"
+    | WeatherCondition
+    | MoonPhase
+    | ThemeDecoration;
+
+/**
+ * Encapsulates an icon for a theme.
+ * 
+ * An icon may either be a simple class name, 
+ * or an object which specifies variants to use 
+ * depending on certain conditions.
+ */
+export type ThemeIcon =
+    | string
+    | { day: string, night: string };
+
+/**
  * An object which provides CSS class names for weather conditions, 
  * moon phases, and decorative elements in a weather forecast.
  */
@@ -54,7 +74,7 @@ export type ThemeIcons = {
     /**
      * Look up the class name for an element in a weather forecast.
      */
-    readonly [P in WeatherCondition | MoonPhase | WeatherDecoration]?: DynamicClassName;
+    readonly [Name in ThemeIconName]?: ThemeIcon;
 }
 
 /**
@@ -106,10 +126,10 @@ export interface Theme {
  * The location of the themes in the app.
  */
 const themesDirectory = path.join(
-    __dirname, 
+    __dirname,
     "..", // server
     "..",  // outside
-    "static", 
+    "static",
     "themes"
 );
 
@@ -138,4 +158,43 @@ export async function loadTheme(themePath?: string): Promise<Theme> {
     const manifestPath = path.join(themePath ?? defaultTheme, "manifest.json");
     const manifestBuffer = await fs.readFile(manifestPath);
     return JSON.parse(manifestBuffer.toString("utf8")) as Theme;
+}
+
+/**
+ * The options to use when getting an icon from a theme.
+ */
+export interface ThemeIconOptions {
+    /**
+     * The name of the icon.
+     */
+    readonly name: ThemeIconName;
+
+    /**
+     * Whether the icon will be used in a daylight context.
+     */
+    readonly daylight?: boolean;
+}
+
+/**
+ * Get an icon class name from a theme.
+ * 
+ * @param theme The theme to get an icon from.
+ * @param options The options specifying what icon to get.
+ * @returns An icon class name matching the given options.
+ */
+export function themeIcon(theme: Theme, { name, daylight = true }: ThemeIconOptions): string | undefined {
+    const icon = theme.icons[name];
+    if (icon === undefined) {
+        return undefined;
+    }
+    const base = theme.icons["base"];
+    if (typeof icon === 'string') {
+        return classNames(base, icon);
+    } else {
+        if (daylight) {
+            return classNames(base, icon.day);
+        } else {
+            return classNames(base, icon.night);
+        }
+    }
 }

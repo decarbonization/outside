@@ -20,8 +20,7 @@ import classNames from "classnames";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { WeatherCondition } from "../../../fruit-company/weather/models/base";
-import { resolve } from "../../styling/dynamic-class-name";
-import { Theme } from "../../styling/themes";
+import { themeIcon } from "../../styling/themes";
 import { Deps } from "../_deps";
 
 export interface ConditionProps {
@@ -33,20 +32,8 @@ export interface ConditionProps {
 export function Condition({ className, code, daylight = true }: ConditionProps) {
     const { i18n, theme } = useContext(Deps);
     return (
-        <span className={classNames(className, classNameFor(theme, code, daylight))} alt={labelFor(i18n, code)} />
+        <span className={classNames(className, themeIcon(theme, { name: code, daylight }))} alt={labelFor(i18n, code)} />
     );
-}
-
-function classNameFor(theme: Theme, code: WeatherCondition, daylight: boolean): string | undefined {
-    const className = theme.icons[code];
-    if (className === undefined) {
-        return undefined;
-    }
-    if (daylight) {
-        return resolve(className, { dayNight: "day" });
-    } else {
-        return resolve(className, { dayNight: "night" });
-    }
 }
 
 function labelFor(i18n: i18n, code: WeatherCondition): string {
