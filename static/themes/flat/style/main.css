@@ -232,3 +232,11 @@ pre {
         font-size: 14px;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    input[type="search"],
+    input[type="text"],
+    textarea {
+        background-color: black;
+    }
+}
