@@ -89,7 +89,9 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                     </footer>
                 </li>
             </ol>
-            <footer>{i18n.t("forecast.lastUpdated", { when: now.asOf, timeZone })}</footer>
+            <footer className="last-updated" data-expires={now.metadata.expireTime.toISOString()}>
+                {i18n.t("forecast.lastUpdated", { when: now.asOf, timeZone })}
+            </footer>
         </section>
     );
 }
