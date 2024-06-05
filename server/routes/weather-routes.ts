@@ -227,7 +227,11 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
         .get('/weather/demo', async (req, res) => {
             await getWeatherDemo(options, req, res);
         })
+        .get('/weather/sample', async (req, res) => {
+            await getWeatherSample(options, req, res);
+        })
         .get('/sample', async (req, res) => {
+            console.warn("This route is deprecated, prefer GET /weather/sample")
             await getWeatherSample(options, req, res);
         });
 }
