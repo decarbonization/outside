@@ -1,4 +1,4 @@
-import { prettyScrollables } from "./utilities/pretty-scrollables.js";
+import { prettyScrollables } from "./utilities/pretty-scrollables";
 
 document.addEventListener("DOMContentLoaded", () => {
     prettyScrollables();
