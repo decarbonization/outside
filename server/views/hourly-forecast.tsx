@@ -37,7 +37,7 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
     return (
         <section className="hourly-forecast">
             <h1>{i18n.t("hourlyForecast.title", { count: hours.length })}</h1>
-            <ol className="hourly-forecast-main">
+            <ol className="hourly-forecast-main orthogonal-scrollable">
                 {hours.map(hour => (
                     <li className="hourly-forecast-reading-group">
                         <div className="hourly-forecast-reading">

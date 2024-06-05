@@ -80,6 +80,23 @@ pre {
     font-family: "Kode Mono", monospace;
 }
 
+.orthogonal-scrollable {
+    position: relative;
+    overflow: auto hidden;
+}
+
+.orthogonal-scrollable.start {
+    mask-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 5%, white 95%, white 100%);
+}
+
+.orthogonal-scrollable.end {
+    mask-image: linear-gradient(to right, white 0%, white 5%, white 95%, rgba(255, 255, 255, 0) 100%);
+}
+
+.orthogonal-scrollable.start.end {
+    mask-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 5%, white 95%, rgba(255, 255, 255, 0) 100%);
+}
+
 .current-forecast {
     margin-top: calc(var(--v-spacing)*1.5);
 }
@@ -87,7 +104,6 @@ pre {
 .current-forecast-main {
     display: flex;
     flex-wrap: nowrap;
-    overflow: auto hidden;
     justify-content: left;
     gap: var(--v-spacing) var(--h-spacing);
 }
@@ -99,27 +115,10 @@ pre {
 }
 
 .hourly-forecast {
-    position: relative;
     margin-top: calc(var(--v-spacing)*1.5);
 }
 
-/* scroll overflow gradient on load */
-.hourly-forecast::before {
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0), white);
-    content: "";
-    display: block;
-    position: absolute;
-    height: 75%;
-    width: 40px;
-    right: 0;
-    bottom: 0;
-    border-right: .5px solid rgb(102, 102, 102);
-    box-shadow: inset -.5px 0 0 rgba(255, 255, 255, 0.221);
-    z-index: 24;
-}
-
 .hourly-forecast-main {
-    position: relative;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -127,8 +126,6 @@ pre {
     flex-wrap: nowrap;
     align-items: last baseline;
     justify-content: left;
-    /*     gap: var(--v-spacing) var(--h-spacing); */
-    overflow: auto hidden;
 }
 
 .hourly-forecast-reading-group {
@@ -155,20 +152,12 @@ pre {
     min-height: 3em;
 }
 
-.daily-forecast::before {
-    overflow: auto hidden;
-}
-
 .daily-forecast {
     margin-top: calc(var(--v-spacing)*1.5);
 }
 
 .daily-forecast h1 {
     margin-bottom: .5rem;
-}
-
-.daily-forecast-container {
-    overflow: visible scroll;
 }
 
 .daily-forecast-main {

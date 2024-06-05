@@ -1,6 +1,5 @@
-import { prettyScrollables } from "./utilities/pretty-scrollables";
+import { prettyOrthogonalScrollables } from "./utilities/pretty-scrollables";
 
 document.addEventListener("DOMContentLoaded", () => {
-    prettyScrollables();
-    console.log("ready.");
+    prettyOrthogonalScrollables();
 });

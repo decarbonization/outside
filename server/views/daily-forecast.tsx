@@ -40,7 +40,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
             <h1>
                 {i18n.t("dailyForecast.title", { count: forecast.days.length })}
             </h1>
-            <div className="daily-forecast-container">
+            <div className="daily-forecast-container orthogonal-scrollable">
                 <ol className="daily-forecast-main">
                     {forecast.days.map(day => (
                         <li className="daily-forecast-reading-group">

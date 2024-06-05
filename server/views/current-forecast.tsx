@@ -35,7 +35,7 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <section className="current-forecast">
-            <ol className="current-forecast-main">
+            <ol className="current-forecast-main orthogonal-scrollable">
                 <li className="current-forecast-reading">
                     <Condition className="hero" code={now.conditionCode} daylight={now.daylight} />
                 </li>
