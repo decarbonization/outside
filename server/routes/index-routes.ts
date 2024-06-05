@@ -59,10 +59,36 @@ async function getIndex(
     }
 }
 
+async function getAppWebManifest(
+    {}: IndexRoutesOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const deps: DepsObject = {
+        i18n: req.i18n,
+        theme: await loadTheme(),
+        timeZone: "UTC",
+    };
+    const resp = JSON.stringify({
+        "name": deps.i18n.t("appName"),
+        "short_name":  deps.i18n.t("appName"),
+        "start_url": ".",
+        "display": "standalone",
+        "background_color": deps.theme.appBackgroundColor,
+        "theme_color": deps.theme.appAccentColor,
+        "description":  deps.i18n.t("appDescription"),
+        "icons": deps.theme.appIcons,
+    });
+    res.type('application/manifest+json').send(resp);
+}
+
 export function IndexRoutes(options: IndexRoutesOptions): Router {
     return Router()
         .get('/', async (req, res) => {
             await getIndex(options, req, res);
+        })
+        .get('/app.webmanifest', async (req, res) => {
+            await getAppWebManifest(options, req, res);
         });
 }
 

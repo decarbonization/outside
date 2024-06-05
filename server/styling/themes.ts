@@ -78,6 +78,33 @@ export type ThemeIcons = {
 }
 
 /**
+ * Encapsulates an image which can serve as an 
+ * icon for Outside when installed as a PWA.
+ */
+export interface ThemeAppIcon {
+    /**
+     * A string containing space-separated image dimensions.
+     */
+    readonly sizes: string;
+    
+    /**
+     * The path to the image file.
+     */
+    readonly src: string;
+
+    /**
+     *  A hint as to the media type of the image.
+     */
+    readonly type?: string;
+
+    /**
+     * Defines the purpose of the image, for example if the image is intended to serve
+     * some special purpose in the context of the host OS (i.e., for better integration).
+     */
+    readonly purpose?: "monochrome" | "maskable" | "any";
+}
+
+/**
  * Encapsulates a link for a resource in a theme.
  */
 export interface ThemeLink {
@@ -120,6 +147,21 @@ export interface Theme {
      * The icons provided by the theme.
      */
     readonly icons: ThemeIcons;
+
+    /**
+     * The background color to use when Outside is installed as a PWA.
+     */
+    readonly appBackgroundColor?: string;
+
+    /**
+     * The accent color to use when Outside is installed as a PWA.
+     */
+    readonly appAccentColor?: string;
+
+    /**
+     * The icons to use when Outside is installed as a PWA.
+     */
+    readonly appIcons?: ThemeAppIcon[];
 }
 
 /**

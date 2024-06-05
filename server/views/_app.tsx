@@ -36,6 +36,7 @@ export function App({ className, children }: AppProps) {
                 {theme.links.map(({ rel, href, crossorigin = false }) => (
                     <link rel={rel} href={href} crossorigin={crossorigin ? "" : undefined} />
                 ))}
+                <link rel="manifest" href="/app.webmanifest" crossorigin="use-credentials" />
                 <title>{i18n.t('appName')}</title>
             </head>
             <body className={className}>

@@ -131,5 +131,24 @@
         "overnight": "wi-night-clear",
         "trendUp": "wi-direction-up",
         "trendDown": "wi-direction-down"
-    }
+    },
+    "appAccentColor": "blue",
+    "appIcons": [
+        {
+            "src": "/themes/flat/image/icon.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "/themes/flat/image/icon@2x.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        
+        {
+            "src": "/themes/flat/image/icon@3x.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        }
+    ]
 }
