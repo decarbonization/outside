@@ -3,6 +3,10 @@
     "description": "A simple theme.",
     "links": [
         {
+            "rel": "icon",
+            "href": "/themes/flat/image/icon.png"
+        },
+        {
             "rel": "stylesheet",
             "href": "/themes/flat/style/main.css"
         },
