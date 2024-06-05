@@ -1,9 +1,5 @@
 /**
  * A list of image asset URLs for attribution.
- * 
- * Attribution URLs of image assets are partial.
- * Append the partial URL to `https://weatherkit.apple.com`
- * to obtain the image asset.
  */
 export interface Attribution {
     /**

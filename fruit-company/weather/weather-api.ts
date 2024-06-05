@@ -1,8 +1,8 @@
 import jwt, { JwtHeader } from "jsonwebtoken";
-import { Weather } from "./models/weather";
 import { ApiCall, ApiError, ApiFetch, ApiToken } from "../api";
 import { LocationCoordinates, urlLocationCoordinates } from "../maps/models/base";
 import { Attribution } from "./models/attribution";
+import { Weather } from "./models/weather";
 
 const weatherUrl = "https://weatherkit.apple.com/api/v1";
 
@@ -95,25 +95,25 @@ export class WeatherQuery implements ApiCall<WeatherToken, Weather> {
                 throw new Error(`GetWeatherOptions.${key} invalid <${value}>`);
             }
         }
-        return new Request(url, {headers: token.headers});
+        return new Request(url, { headers: token.headers });
     }
 
     async parse(response: Response): Promise<Weather> {
         const raw = await response.text();
         const object = JSON.parse(raw, (key, value) => {
-        if (typeof value === 'string' && (key === "asOf"
-            || key === "moonrise"
-            || key === "moonset"
-            || key.startsWith("solar")
-            || key.startsWith("sunrise")
-            || key.startsWith("sunset")
-            || key.endsWith("Time")
-            || key.endsWith("End")
-            || key.endsWith("Start"))) {
-            return new Date(value);
-        } else {
-            return value;
-        }
+            if (typeof value === 'string' && (key === "asOf"
+                || key === "moonrise"
+                || key === "moonset"
+                || key.startsWith("solar")
+                || key.startsWith("sunrise")
+                || key.startsWith("sunset")
+                || key.endsWith("Time")
+                || key.endsWith("End")
+                || key.endsWith("Start"))) {
+                return new Date(value);
+            } else {
+                return value;
+            }
         });
         if (!response.ok) {
             throw new ApiError(response.status, response.statusText, `<${response.url}>`);
@@ -132,13 +132,21 @@ export class WeatherAttribution implements ApiCall<WeatherToken, Attribution> {
     }>) {
     }
 
-    prepare(token: WeatherToken): Request {
-        const url = new URL(`${weatherUrl}/attribution/${this.options.language}`);
-        return new Request(url, {headers: token.headers});
+    prepare(_token: WeatherToken): Request {
+        const url = new URL(`https://weatherkit.apple.com/attribution/${this.options.language}`);
+        return new Request(url);
     }
 
     async parse(response: Response): Promise<Attribution> {
-        const object = await response.json();
+        const raw = await response.text();
+        console.log(raw);
+        const object = JSON.parse(raw, (key, value) => {
+            if (key.startsWith("logo")) {
+                return `https://weatherkit.apple.com${value}`;
+            } else {
+                return value;
+            }
+        });
         return object as Attribution;
     }
 
