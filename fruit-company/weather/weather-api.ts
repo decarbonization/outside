@@ -139,7 +139,6 @@ export class WeatherAttribution implements ApiCall<WeatherToken, Attribution> {
 
     async parse(response: Response): Promise<Attribution> {
         const raw = await response.text();
-        console.log(raw);
         const object = JSON.parse(raw, (key, value) => {
             if (key.startsWith("logo")) {
                 return `https://weatherkit.apple.com${value}`;

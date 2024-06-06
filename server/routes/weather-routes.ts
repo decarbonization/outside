@@ -24,13 +24,27 @@ import path from "path";
 import { perform } from "../../fruit-company/api";
 import { LocationCoordinates, truncateLocationCoordinates } from "../../fruit-company/maps/models/base";
 import { Weather } from "../../fruit-company/weather/models/weather";
-import { WeatherQuery, WeatherToken, allWeatherDataSets } from "../../fruit-company/weather/weather-api";
+import { WeatherAttribution, WeatherQuery, WeatherToken, allWeatherDataSets } from "../../fruit-company/weather/weather-api";
 import { loadTheme } from "../styling/themes";
 import { renderWeather } from "../templates/weather";
 import { coordinate } from "../utilities/converters";
+import { env } from "../utilities/env";
 import { AsyncStorage } from "../utilities/storage";
 import { DepsObject } from "../views/_deps";
-import { env } from "../utilities/env";
+import { Attribution } from "../../fruit-company/weather/models/attribution";
+
+const attributionFor = (() => {
+    const cache = new Map<string, Attribution>();
+    return async function (token: WeatherToken, language: string): Promise<Attribution> {
+        const existingAttribution = cache.get(language);
+        if (existingAttribution !== undefined) {
+            return existingAttribution
+        }
+        const newAttribution = await perform({ token, call: new WeatherAttribution({ language }) });
+        cache.set(language, newAttribution);
+        return newAttribution;
+    }
+})();
 
 function timezoneFor({ latitude, longitude }: LocationCoordinates): string {
     const timezones = find(latitude, longitude);
@@ -151,12 +165,13 @@ async function getWeather(
         token: weatherToken,
         call: weatherCall,
     });
+    const attribution = await attributionFor(weatherToken, language);
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
         timeZone: timezone,
     };
-    const resp = renderWeather({ deps, query, weather });
+    const resp = renderWeather({ deps, query, weather, attribution });
     res.set("Cache-Control", cacheControlFor(weather));
     res.type('html').send(resp);
 }
@@ -166,10 +181,10 @@ async function getWeatherDemo(
     req: Request,
     res: Response
 ): Promise<void> {
+    const language = req.i18n.resolvedLanguage ?? req.language;
     let weather = await demo.load(localStorage);
     if (weather === undefined) {
         const demoCity = demo.city;
-        const language = req.i18n.resolvedLanguage ?? req.language;
         const location = demoCity.location;
         const timezone = timezoneFor(location);
         const countryCode = demoCity.country;
@@ -194,28 +209,31 @@ async function getWeatherDemo(
         await demo.save(weather, localStorage);
     }
     const demoCity = demo.cityFor(weather);
+    const attribution = await attributionFor(weatherToken, language);
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
         timeZone: demoCity !== undefined ? timezoneFor(demoCity.location) : "UTC",
     };
-    const resp = renderWeather({ deps, query: demoCity?.query, disableSearch: true, weather });
+    const resp = renderWeather({ deps, query: demoCity?.query, disableSearch: true, weather, attribution });
     res.type('html').send(resp);
 }
 
 async function getWeatherSample(
-    {}: WeatherRoutesOptions,
+    { weatherToken }: WeatherRoutesOptions,
     req: Request,
     res: Response
 ): Promise<void> {
+    const language = req.i18n.resolvedLanguage ?? req.language;
     const rawWeather = await fs.readFile(path.join(__dirname, "wk-sample.json"), "utf-8");
     const weather = await parseWeather(rawWeather);
+    const attribution = await attributionFor(weatherToken, language);
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
         timeZone: "America/New_York",
     };
-    const resp = renderWeather({ deps, weather });
+    const resp = renderWeather({ deps, weather, attribution });
     res.set("Cache-Control", "no-store");
     res.type('html').send(resp);
 }

@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Attribution } from "../../fruit-company/weather/models/attribution";
 import { Weather } from "../../fruit-company/weather/models/weather";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
@@ -28,14 +29,15 @@ export interface RenderWeatherOptions {
     readonly query?: string;
     readonly disableSearch?: boolean;
     readonly weather: Weather;
+    readonly attribution: Attribution;
 }
 
-export function renderWeather({ deps, query, disableSearch, weather }: RenderWeatherOptions): string {
+export function renderWeather({ deps, query, disableSearch, weather, attribution }: RenderWeatherOptions): string {
     const className = elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight);
     return renderApp({ className, deps }, (
         <>
             <PlaceSearch query={query} disabled={disableSearch} />
-            <WeatherDetails weather={weather} />
+            <WeatherDetails weather={weather} attribution={attribution} />
         </>
     ));
 }

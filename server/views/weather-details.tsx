@@ -16,21 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Attribution } from "../../fruit-company/weather/models/attribution";
 import { Weather } from "../../fruit-company/weather/models/weather";
 import { CurrentForecast } from "./current-forecast";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";
+import { WeatherSource } from "./weather-source";
 
 export interface WeatherDetailsProps {
     readonly weather?: Weather;
+    readonly attribution?: Attribution;
 }
 
-export function WeatherDetails({weather}: WeatherDetailsProps) {
+export function WeatherDetails({ weather, attribution }: WeatherDetailsProps) {
     return (
         <>
             <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} />
             <HourlyForecast forecast={weather?.forecastHourly} />
             <DailyForecast forecast={weather?.forecastDaily} />
+            <WeatherSource weather={weather} attribution={attribution} />
         </>
     );
 }
