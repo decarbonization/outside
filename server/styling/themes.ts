@@ -44,6 +44,16 @@ export const enum ThemeDecoration {
      * A decoration indicating a measurement is trending downward over time.
      */
     trendDown = "trendDown",
+
+    /**
+     * A decoration indicating a measurement refers to humidity conditions.
+     */
+    humidity = "humidity",
+
+    /**
+     * A decoration indicating a measurement refers to wind conditions.
+     */
+    wind = "wind",
 }
 
 /**

@@ -123,6 +123,7 @@
         "HeavySnow": "wi-snow",
         "Hurricane": "wi-hurricane",
         "TropicalStorm": "wi-hurricane-warning",
+        
         "new": "wi-moon-new",
         "waxingCrescent": "wi-moon-waxing-crescent-2",
         "firstQuarter": "wi-moon-first-quarter",
@@ -131,10 +132,13 @@
         "waningGibbous": "wi-moon-waning-gibbous-2",
         "thirdQuarter": "wi-moon-third-quarter",
         "waningCrescent": "wi-moon-waning-crescent-2",
+
         "daytime": "wi-day-sunny",
         "overnight": "wi-night-clear",
         "trendUp": "wi-direction-up",
-        "trendDown": "wi-direction-down"
+        "trendDown": "wi-direction-down",
+        "humidity": "wi-humidity",
+        "wind": "wi-windy"
     },
     "appAccentColor": "blue",
     "appIcons": [

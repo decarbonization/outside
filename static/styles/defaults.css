@@ -50,3 +50,7 @@ ul {
 pre {
     white-space: pre-wrap;
 }
+
+.nowrap {
+    white-space: nowrap;
+}
