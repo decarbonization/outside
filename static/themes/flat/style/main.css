@@ -208,14 +208,6 @@ pre {
     font-size: 1.25em;
 }
 
-.place-result {
-    padding: var(--h-spacing) var(--v-spacing);
-}
-
-.place-result:not(:last-child) {
-    border-bottom: 1px solid var(--separator);
-}
-
 @media (width < 375px) {
     :root {
         font-size: 14px;

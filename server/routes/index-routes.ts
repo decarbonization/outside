@@ -16,51 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { hoursToSeconds } from "date-fns";
 import { Request, Response, Router } from "express";
-import { perform } from "../../fruit-company/api";
-import { GeocodeAddress, MapsToken } from "../../fruit-company/maps/maps-api";
 import { loadTheme } from "../styling/themes";
 import { renderIndex } from "../templates";
 import { DepsObject } from "../views/_deps";
-import { WeatherRoutes } from "./weather-routes";
 
 export interface IndexRoutesOptions {
-    readonly mapsToken: MapsToken;
 }
 
 async function getIndex(
-    { mapsToken }: IndexRoutesOptions,
+    { }: IndexRoutesOptions,
     req: Request,
     res: Response
 ): Promise<void> {
+    const query = req.query["q"] as string | undefined;
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
         timeZone: "UTC",
     };
-    const query = req.query["q"] as string | undefined;
-    const results = query !== undefined
-        ? await perform({
-            token: mapsToken,
-            call: new GeocodeAddress({ query, language: req.i18n.resolvedLanguage })
-        })
-        : undefined;
-    if (results !== undefined && results.results.length === 1 && req.query["noredirect"] === undefined) {
-        const onlyPlace = results.results[0];
-        const weatherLink = WeatherRoutes.linkToGetWeather(onlyPlace.countryCode, onlyPlace.coordinate, onlyPlace.name);
-        res.redirect(weatherLink);
-    } else {
-        const resp = renderIndex({ deps, query, results });
-        if (query !== undefined) {
-            res.set("Cache-Control", `public, max-age=${hoursToSeconds(24)}`);
-        }
-        res.type('html').send(resp);
-    }
+    const resp = renderIndex({ deps, query });
+    res.type('html').send(resp);
 }
 
 async function getAppWebManifest(
-    {}: IndexRoutesOptions,
+    { }: IndexRoutesOptions,
     req: Request,
     res: Response
 ): Promise<void> {
@@ -71,12 +51,12 @@ async function getAppWebManifest(
     };
     const resp = JSON.stringify({
         "name": deps.i18n.t("appName"),
-        "short_name":  deps.i18n.t("appName"),
+        "short_name": deps.i18n.t("appName"),
         "start_url": ".",
         "display": "standalone",
         "background_color": deps.theme.appBackgroundColor,
         "theme_color": deps.theme.appAccentColor,
-        "description":  deps.i18n.t("appDescription"),
+        "description": deps.i18n.t("appDescription"),
         "icons": deps.theme.appIcons,
     });
     res.type('application/manifest+json').send(resp);
@@ -92,6 +72,10 @@ export function IndexRoutes(options: IndexRoutesOptions): Router {
         });
 }
 
-IndexRoutes.getIndex = function (): string {
-    return "/";
+IndexRoutes.getIndex = function (query?: string): string {
+    let link = "/";
+    if (query !== undefined) {
+        query += `?q=${encodeURIComponent(query)}`;
+    }
+    return link;
 }

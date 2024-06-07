@@ -25,13 +25,14 @@ import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
+import { MapsToken } from '../fruit-company/maps/maps-api';
+import { WeatherToken } from '../fruit-company/weather/weather-api';
 import { ErrorMiddleware } from './middlewares/error-middleware';
 import { IndexRoutes } from './routes/index-routes';
+import { SearchRoutes } from './routes/search-routes';
 import { WeatherRoutes } from './routes/weather-routes';
 import { env } from './utilities/env';
 import { setUpShutDownHooks } from './utilities/shut-down';
-import { MapsToken } from '../fruit-company/maps/maps-api';
-import { WeatherToken } from '../fruit-company/weather/weather-api';
 import { SessionStorage } from './utilities/storage';
 
 dotenv.config();
@@ -77,7 +78,8 @@ const app = express();
 app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
 
-app.use(IndexRoutes({ mapsToken }));
+app.use(IndexRoutes({}));
+app.use(SearchRoutes({ mapsToken }));
 app.use(WeatherRoutes({ weatherToken, localStorage }));
 app.use(express.static(staticDir));
 

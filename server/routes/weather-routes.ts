@@ -134,12 +134,13 @@ export interface WeatherRoutesOptions {
     readonly weatherToken: WeatherToken;
     readonly localStorage: AsyncStorage;
 }
+
 async function getWeather(
     { weatherToken }: WeatherRoutesOptions,
-    req: Request<{ country: string, latitude: string, longitude: string }>,
+    req: Request<{ country: string, latitude: string, longitude: string, query: string }>,
     res: Response
 ): Promise<void> {
-    const query = req.query["q"] as string | undefined;
+    const query = req.params.query;
     const language = req.i18n.resolvedLanguage ?? req.language;
     const location = {
         latitude: coordinate(req.params.latitude),
@@ -240,7 +241,7 @@ async function getWeatherSample(
 
 export function WeatherRoutes(options: WeatherRoutesOptions): Router {
     return Router()
-        .get('/weather/:country/:latitude/:longitude', async (req, res) => {
+        .get('/weather/:country/:latitude/:longitude/:query', async (req, res) => {
             await getWeather(options, req, res);
         })
         .get('/weather/demo', async (req, res) => {
@@ -267,9 +268,7 @@ WeatherRoutes.linkToGetWeather = function (country: string, location: LocationCo
     const { latitude, longitude } = truncateLocationCoordinates(location, 3);
     let link = `/weather/${encodeURIComponent(country)}/${latitude}/${longitude}`;
     if (query !== undefined) {
-        const searchParams = new URLSearchParams();
-        searchParams.append("q", query);
-        link += `?${searchParams}`;
+        link += `/${encodeURIComponent(query)}`;
     }
     return link;
 };
