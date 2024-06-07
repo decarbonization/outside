@@ -32,6 +32,7 @@ import { env } from "../utilities/env";
 import { AsyncStorage } from "../utilities/storage";
 import { DepsObject } from "../views/_deps";
 import { Attribution } from "../../fruit-company/weather/models/attribution";
+import { SearchRoutes } from "./search-routes";
 
 const attributionFor = (() => {
     const cache = new Map<string, Attribution>();
@@ -137,10 +138,10 @@ export interface WeatherRoutesOptions {
 
 async function getWeather(
     { weatherToken }: WeatherRoutesOptions,
-    req: Request<{ country: string, latitude: string, longitude: string, query: string }>,
+    req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
-    const query = req.params.query;
+    const query = req.params.locality;
     const language = req.i18n.resolvedLanguage ?? req.language;
     const location = {
         latitude: coordinate(req.params.latitude),
@@ -241,8 +242,23 @@ async function getWeatherSample(
 
 export function WeatherRoutes(options: WeatherRoutesOptions): Router {
     return Router()
-        .get('/weather/:country/:latitude/:longitude/:query', async (req, res) => {
+        .get('/weather/:country/:latitude/:longitude/:locality', async (req, res) => {
             await getWeather(options, req, res);
+        })
+        .get('/weather/:country/:latitude/:longitude', async (req, res) => {
+            const query = req.query["q"] as string | undefined;
+            const location = {
+                latitude: coordinate(req.params.latitude),
+                longitude: coordinate(req.params.longitude),
+            };
+            if (query !== undefined) {
+                // Redirect legacy weather links
+                const countryCode = req.params.country;
+                res.redirect(WeatherRoutes.linkToGetWeather(countryCode, location, query));
+            } else {
+                // Redirect links without a locality
+                res.redirect(SearchRoutes.linkToGetSearchByCoordinates(location));
+            }
         })
         .get('/weather/demo', async (req, res) => {
             await getWeatherDemo(options, req, res);
@@ -251,8 +267,8 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
             await getWeatherSample(options, req, res);
         })
         .get('/sample', async (req, res) => {
-            console.warn("This route is deprecated, prefer GET /weather/sample")
-            await getWeatherSample(options, req, res);
+            console.warn("This route is deprecated, prefer GET /weather/sample");
+            res.redirect('/weather/sample');
         });
 }
 
@@ -264,13 +280,9 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
  * @param query The optional query used to find the location.
  * @returns A link suitable for embedding in an `a` tag.
  */
-WeatherRoutes.linkToGetWeather = function (country: string, location: LocationCoordinates, query?: string): string {
+WeatherRoutes.linkToGetWeather = function (country: string, location: LocationCoordinates, query: string): string {
     const { latitude, longitude } = truncateLocationCoordinates(location, 3);
-    let link = `/weather/${encodeURIComponent(country)}/${latitude}/${longitude}`;
-    if (query !== undefined) {
-        link += `/${encodeURIComponent(query)}`;
-    }
-    return link;
+    return `/weather/${encodeURIComponent(country)}/${latitude}/${longitude}/${encodeURIComponent(query)}`;
 };
 
 /**

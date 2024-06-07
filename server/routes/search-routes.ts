@@ -4,6 +4,7 @@ import { perform } from "../../fruit-company/api";
 import { WeatherRoutes } from "./weather-routes";
 import { coordinate } from "../utilities/converters";
 import { IndexRoutes } from "./index-routes";
+import { LocationCoordinates } from "../../fruit-company/maps/models/base";
 
 export interface SearchRoutesOptions {
     readonly mapsToken: MapsToken;
@@ -31,7 +32,7 @@ async function getSearchByQuery(
         res.redirect(IndexRoutes.getIndex(query));
     } else {
         const place = results[0];
-        res.redirect(WeatherRoutes.linkToGetWeather(place.countryCode, place.coordinate, place.name));
+        res.redirect(WeatherRoutes.linkToGetWeather(place.countryCode, place.coordinate, place.structuredAddress.locality));
     }
 }
 
@@ -55,7 +56,7 @@ async function getSearchByCoordinates(
         res.redirect(IndexRoutes.getIndex(`${location.latitude}, ${location.longitude}`));
     } else {
         const place = results[0];
-        res.redirect(WeatherRoutes.linkToGetWeather(place.countryCode, place.coordinate, place.name));
+        res.redirect(WeatherRoutes.linkToGetWeather(place.countryCode, location, place.structuredAddress.locality));
     }
 }
 
@@ -76,3 +77,7 @@ SearchRoutes.linkToGetSearchByQuery = function (query?: string): string {
     }
     return link;
 };
+
+SearchRoutes.linkToGetSearchByCoordinates = function ({ latitude, longitude }: LocationCoordinates): string {
+    return `/search/${latitude}/${longitude}`;
+}
