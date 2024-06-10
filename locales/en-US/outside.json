@@ -18,7 +18,11 @@
             "feelsLike": "Feels\u00A0Like",
             "sunrise": "Sunrise",
             "sunset": "Sunset",
-            "moonPhase": "Moon"
+            "moonPhase": "Moon",
+            "daytime": "Daytime",
+            "overnight": "Overnight",
+            "trendingUp": "Trending\u00A0Up",
+            "trendingDown": "Trending\u00A0Down"
         },
         "weatherCondition": {
             "BlowingDust": "Blowing\u00A0Dust",

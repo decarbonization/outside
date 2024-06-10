@@ -37,7 +37,7 @@
         }
     ],
     "icons": {
-        "base": "wi",
+        "base": "wi wi-fw",
         "BlowingDust": "wi-dust",
         "Clear": {
             "day": "wi-day-sunny",
@@ -138,7 +138,12 @@
         "trendUp": "wi-direction-up",
         "trendDown": "wi-direction-down",
         "humidity": "wi-humidity",
-        "wind": "wi-windy"
+        "wind": "wi-windy",
+        "uvIndex": "wi-hot",
+        "pressure": "wi-barometer",
+        "visibility": "wi-horizon",
+        "sunrise": "wi-sunrise",
+        "sunset": "wi-sunset"
     },
     "appAccentColor": "blue",
     "appIcons": [

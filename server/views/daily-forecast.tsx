@@ -18,10 +18,11 @@
 
 import { useContext } from "preact/hooks";
 import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
-import { ThemeDecoration, themeIcon } from "../styling/themes";
+import { ThemeDecoration } from "../styling/themes";
 import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
 import { ShortTime, Weekday } from "./components/dates";
+import { Decoration } from "./components/decoration";
 import { Moon } from "./components/moon";
 import { Precipitation } from "./components/precipitation";
 import { PercentageUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
@@ -34,7 +35,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
     if (forecast === undefined) {
         return null;
     }
-    const { i18n, theme } = useContext(Deps);
+    const { i18n } = useContext(Deps);
     return (
         <section className="daily-forecast">
             <h1>
@@ -54,9 +55,9 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             <div className="daily-forecast-reading humidity">
                                 <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
                                 <div>
-                                    <span className={themeIcon(theme, { name: ThemeDecoration.daytime })} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
+                                    <Decoration name={ThemeDecoration.daytime} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
                                     {i18n.t('dailyForecast.dayNightSeparator')}
-                                    <span className={themeIcon(theme, { name: ThemeDecoration.overnight })} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
+                                    <Decoration name={ThemeDecoration.overnight} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
                                 </div>
                             </div>
                             <div className="daily-forecast-reading wind">

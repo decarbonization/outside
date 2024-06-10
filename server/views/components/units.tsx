@@ -20,8 +20,9 @@ import classNames from "classnames";
 import { useContext } from "preact/hooks";
 import { uvIndexRiskFrom } from "../../../fruit-company/weather/models/base";
 import { formatCompassDirection, formatDepth, formatPercentage, formatPressure, formatSpeed, formatTemperature, formatUVIndex, formatVisibility } from "../../formatting/units";
-import { ThemeDecoration, themeIcon } from "../../styling/themes";
+import { ThemeDecoration } from "../../styling/themes";
 import { Deps } from "../_deps";
+import { Decoration } from "./decoration";
 
 export interface UnitProps<Measurement = number> {
     /**
@@ -184,17 +185,16 @@ export function CompassDirectionUnit({ className, measurement, autoHide }: UnitP
 }
 
 export function TrendUnitLabel({ className, measurement }: UnitProps<'rising' | 'steady' | 'falling'>) {
-    const { theme } = useContext(Deps);
     switch (measurement) {
         case 'rising':
             return (
-                <span className={classNames(className, themeIcon(theme, { name: ThemeDecoration.trendUp }))} />
+                <Decoration className={className} name={ThemeDecoration.trendUp} />
             );
         case 'steady':
             return null;
         case 'falling':
             return (
-                <span className={classNames(className, themeIcon(theme, { name: ThemeDecoration.trendDown }))} />
+                <Decoration className={className} name={ThemeDecoration.trendDown} />
             );
         default:
             return null;
