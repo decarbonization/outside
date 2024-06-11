@@ -32,7 +32,7 @@ export interface ConditionProps {
 export function Condition({ className, code, daylight = true }: ConditionProps) {
     const { i18n, theme } = useContext(Deps);
     return (
-        <span className={classNames(className, themeIcon(theme, { name: code, daylight }))} alt={labelFor(i18n, code)} />
+        <span className={classNames("icon", className, themeIcon(theme, { name: code, daylight }))} alt={labelFor(i18n, code)} />
     );
 }
 

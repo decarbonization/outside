@@ -109,7 +109,7 @@ export function UVIndexUnit({ className, measurement, autoHide }: UnitProps) {
     const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "uv-index", className)}>
-            {formatUVIndex(measurement, { i18n })}&nbsp;{i18n.t(`forecast.uvIndexRisk.${uvIndexRiskFrom(measurement)}`)}
+            {formatUVIndex(measurement, { i18n })}
         </span>
     );
 }

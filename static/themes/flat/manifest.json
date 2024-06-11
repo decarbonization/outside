@@ -37,7 +37,7 @@
         }
     ],
     "icons": {
-        "base": "wi wi-fw",
+        "base": "wi",
         "BlowingDust": "wi-dust",
         "Clear": {
             "day": "wi-day-sunny",
@@ -137,6 +137,7 @@
         "overnight": "wi-night-clear",
         "trendUp": "wi-direction-up",
         "trendDown": "wi-direction-down",
+        "temperature": "wi-thermometer",
         "humidity": "wi-humidity",
         "wind": "wi-windy",
         "uvIndex": "wi-hot",

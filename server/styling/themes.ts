@@ -49,6 +49,11 @@ export const enum ThemeDecoration {
     /**
      * A decoration indicating a measurement refers to humidity conditions.
      */
+    temperature = "temperature",
+
+    /**
+     * A decoration indicating a measurement refers to humidity conditions.
+     */
     humidity = "humidity",
 
     /**

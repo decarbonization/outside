@@ -14,11 +14,11 @@ export function Decoration({ className, name }: DecorationProps) {
     const iconDescription = themeIconDescription(i18n, { name });
     if (iconClassName !== undefined) {
         return (
-            <span className={classNames(className, iconClassName)} aria-label={iconDescription} />
+            <span className={classNames("icon", className, iconClassName)} aria-label={iconDescription} />
         );
     } else {
         return (
-            <span className={classNames(className, "fallback")}>
+            <span className={classNames("icon-fallback", className)}>
                 {iconDescription}
             </span>
         );

@@ -7,6 +7,7 @@
 
     "forecast": {
         "measurementLabels": {
+            "temperature": "Temperature",
             "humidity": "Humidity",
             "dewPoint": "Dew\u00A0Point",
             "uvIndex": "UV\u00A0Index",
