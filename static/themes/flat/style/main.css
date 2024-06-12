@@ -21,11 +21,11 @@
     font-size: 16px;
 
     color-scheme: light dark;
-
     --background: white;
     --v-spacing: 1rem;
     --h-spacing: 1rem;
     --accent: #0066e4;
+    --accent-inactive: #737373;
     --separator: #aaa;
     --transition-timing: cubic-bezier(.28, .84, .58, .98);
     --hover-bg-color: rgba(0, 0, 0, 0.091);
@@ -40,7 +40,8 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --background: #222;
-        --accent: hsl(213, 100%, 65%);
+        --accent: #4d9dff;
+        --accent-inactive: #a6a6a6;
         --separator: #555;
     }
 }
@@ -71,6 +72,28 @@ header {
 
 footer {
     font-size: 0.9em;
+}
+
+button {
+    font-family: "Rokkitt", serif;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    outline: none;
+    color: var(--accent);
+    padding: 0.3em;
+}
+
+button:active {
+    opacity: 0.8;
+}
+
+button:focus {
+    text-shadow: var(--accent) 0px 0px 5px;
+}
+
+button:disabled {
+    color: var(--accent-inactive);
 }
 
 input[type="search"],
@@ -285,4 +308,8 @@ pre {
 .place-search-form input[type="search"] {
     flex-grow: 1;
     font-size: 1.25em;
+}
+
+.place-search-current-location {
+    font-size: 1.5em;
 }

@@ -102,6 +102,7 @@
         "title": "{{count, number}} Hour Forecast"
     },
     "placeSearch": {
-        "inputLabel": "How\u2018s the weather outside in…"
+        "inputLabel": "How\u2018s the weather outside in…",
+        "useCurrentLocation": "Use Current Location"
     }
 }
