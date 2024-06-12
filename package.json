@@ -8,7 +8,7 @@
     "clean": "npx rimraf dist static/script/client.js",
     "build:client": "npx rollup --config",
     "build:server": "npx tsc -p server && npx copy-files-from-to",
-    "build": "npm run build:server && npm run build:client",
+    "build": "npm run build:client && npm run build:server",
     "build:digitalocean": "npm install --include=dev && npm run build && npm ci",
     "dev": "npx nodemon",
     "start:dev": "npm run build:client && npx ts-node server/index.tsx",
