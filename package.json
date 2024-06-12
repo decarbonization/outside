@@ -13,7 +13,7 @@
     "dev": "npx nodemon",
     "start:dev": "npm run build:client && npx ts-node server/index.tsx",
     "start": "npm run build && node ./dist/server/index.js",
-    "start:digitalocean": "npm run build:digitalocean && node ./dist/server/index.js",
+    "start:digitalocean": "node ./dist/server/index.js",
     "test": "npx jest"
   },
   "author": "Peter Kevin Contreras",
