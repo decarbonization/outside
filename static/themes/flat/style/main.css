@@ -25,10 +25,24 @@
     --background: white;
     --v-spacing: 1rem;
     --h-spacing: 1rem;
-    --accent: blue;
+    --accent: #0066e4;
     --separator: #aaa;
     --transition-timing: cubic-bezier(.28, .84, .58, .98);
     --hover-bg-color: rgba(0, 0, 0, 0.091);
+}
+
+@media (width < 375px) {
+    :root {
+        font-size: 14px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #222;
+        --accent: hsl(213, 100%, 65%);
+        --separator: #555;
+    }
 }
 
 body {
@@ -137,7 +151,9 @@ pre {
 }
 
 .hourly-forecast label {
+    cursor: pointer;
     background: var(--background);
+    color: var(--accent);
     font-size: 1.1em;
     opacity: 0.5;
     transition: var(--transition-timing) .25s opacity;
@@ -269,16 +285,4 @@ pre {
 .place-search-form input[type="search"] {
     flex-grow: 1;
     font-size: 1.25em;
-}
-
-@media (width < 375px) {
-    :root {
-        font-size: 14px;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: black;
-    }
 }
