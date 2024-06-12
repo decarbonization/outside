@@ -1,6 +1,5 @@
+import { Attribution, Weather } from "fruit-company";
 import { useContext } from "preact/hooks";
-import { Attribution } from "../../fruit-company/weather/models/attribution";
-import { Weather } from "../../fruit-company/weather/models/weather";
 import { Deps } from "./_deps";
 
 export interface WeatherSourceProps {

@@ -1,10 +1,8 @@
 import { Request, Response, Router } from "express";
-import { GeocodeAddress, MapsToken, ReverseGeocodeAddress } from "../../fruit-company/maps/maps-api";
-import { perform } from "../../fruit-company/api";
-import { WeatherRoutes } from "./weather-routes";
+import { GeocodeAddress, LocationCoordinates, MapsToken, ReverseGeocodeAddress, perform } from "fruit-company";
 import { coordinate } from "../utilities/converters";
 import { IndexRoutes } from "./index-routes";
-import { LocationCoordinates } from "../../fruit-company/maps/models/base";
+import { WeatherRoutes } from "./weather-routes";
 
 export interface SearchRoutesOptions {
     readonly mapsToken: MapsToken;
@@ -22,11 +20,11 @@ async function getSearchByQuery(
     }
 
     const language = req.i18n.resolvedLanguage ?? req.language;
-    const mapsCall = new GeocodeAddress({ query, language });
-    console.info(`GET /search perform(${mapsCall})`);
+    const geocodeAddress = new GeocodeAddress({ query, language });
+    console.info(`GET /search perform(${geocodeAddress})`);
     const { results } = await perform({
         token: mapsToken,
-        call: mapsCall,
+        request: geocodeAddress,
     })
     if (results.length === 0) {
         res.redirect(IndexRoutes.getIndex(query));
@@ -46,11 +44,11 @@ async function getSearchByCoordinates(
         latitude: coordinate(req.params.latitude),
         longitude: coordinate(req.params.longitude),
     };
-    const mapsCall = new ReverseGeocodeAddress({ location, language });
-    console.info(`GET /search perform(${mapsCall})`);
+    const reverseGeocodeAddress = new ReverseGeocodeAddress({ location, language });
+    console.info(`GET /search perform(${reverseGeocodeAddress})`);
     const { results } = await perform({
         token: mapsToken,
-        call: mapsCall,
+        request: reverseGeocodeAddress,
     });
     if (results.length === 0) {
         res.redirect(IndexRoutes.getIndex(`${location.latitude}, ${location.longitude}`));

@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { DailyForecast } from "fruit-company";
 import { useContext } from "preact/hooks";
-import { DailyForecast } from "../../fruit-company/weather/models/daily-forecast";
 import { ThemeDecoration } from "../styling/themes";
 import { Deps } from "./_deps";
 import { Condition } from "./components/condition";

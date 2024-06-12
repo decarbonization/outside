@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { WeatherCondition } from "../../fruit-company/weather/models/base";
+import { WeatherCondition } from "fruit-company";
 import { camelCaseToKebabCase } from "./transforms";
 
 export function elementStyleFor(code?: WeatherCondition, daylight?: boolean): string | undefined {

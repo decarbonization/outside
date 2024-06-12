@@ -16,8 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Attribution } from "../../fruit-company/weather/models/attribution";
-import { Weather } from "../../fruit-company/weather/models/weather";
+import { Attribution, Weather } from "fruit-company";
 import { CurrentForecast } from "./current-forecast";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";

@@ -18,20 +18,16 @@
 
 import { addDays, addHours, differenceInHours, differenceInSeconds } from "date-fns";
 import { Request, Response, Router } from "express";
+import { Attribution, LocationCoordinates, Weather, WeatherAttribution, WeatherQuery, WeatherToken, allWeatherDataSets, perform, truncateLocationCoordinates } from "fruit-company";
 import fs from "fs/promises";
 import { find } from "geo-tz";
 import path from "path";
-import { perform } from "../../fruit-company/api";
-import { LocationCoordinates, truncateLocationCoordinates } from "../../fruit-company/maps/models/base";
-import { Weather } from "../../fruit-company/weather/models/weather";
-import { WeatherAttribution, WeatherQuery, WeatherToken, allWeatherDataSets } from "../../fruit-company/weather/weather-api";
 import { loadTheme } from "../styling/themes";
 import { renderWeather } from "../templates/weather";
 import { coordinate } from "../utilities/converters";
 import { env } from "../utilities/env";
 import { AsyncStorage } from "../utilities/storage";
 import { DepsObject } from "../views/_deps";
-import { Attribution } from "../../fruit-company/weather/models/attribution";
 import { SearchRoutes } from "./search-routes";
 
 const attributionFor = (() => {
@@ -41,7 +37,7 @@ const attributionFor = (() => {
         if (existingAttribution !== undefined) {
             return existingAttribution
         }
-        const newAttribution = await perform({ token, call: new WeatherAttribution({ language }) });
+        const newAttribution = await perform({ token, request: new WeatherAttribution({ language }) });
         cache.set(language, newAttribution);
         return newAttribution;
     }
@@ -150,7 +146,7 @@ async function getWeather(
     const timezone = timezoneFor(location);
     const countryCode = req.params.country;
     const currentAsOf = new Date();
-    const weatherCall = new WeatherQuery({
+    const weatherQuery = new WeatherQuery({
         language,
         location,
         timezone,
@@ -162,10 +158,10 @@ async function getWeather(
         hourlyEnd: addHours(currentAsOf, parseInt(env("HOURLY_FORECAST_LIMIT", "12"), 10)),
         hourlyStart: currentAsOf,
     });
-    console.info(`GET /weather perform(${weatherCall})`);
+    console.info(`GET /weather perform(${weatherQuery})`);
     const weather = await perform({
         token: weatherToken,
-        call: weatherCall,
+        request: weatherQuery,
     });
     const attribution = await attributionFor(weatherToken, language);
     const deps: DepsObject = {
@@ -191,7 +187,7 @@ async function getWeatherDemo(
         const timezone = timezoneFor(location);
         const countryCode = demoCity.country;
         const currentAsOf = new Date();
-        const weatherCall = new WeatherQuery({
+        const weatherQuery = new WeatherQuery({
             language,
             location,
             timezone,
@@ -203,10 +199,10 @@ async function getWeatherDemo(
             hourlyEnd: addHours(currentAsOf, parseInt(env("HOURLY_FORECAST_LIMIT", "12"), 10)),
             hourlyStart: currentAsOf,
         });
-        console.info(`GET /weather/demo perform(${weatherCall})`);
+        console.info(`GET /weather/demo perform(${weatherQuery})`);
         weather = await perform({
             token: weatherToken,
-            call: weatherCall,
+            request: weatherQuery,
         });
         await demo.save(weather, localStorage);
     }

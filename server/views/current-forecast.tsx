@@ -16,9 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { CurrentWeather, DayWeatherConditions } from "fruit-company";
 import { useContext } from "preact/hooks";
-import { CurrentWeather } from "../../fruit-company/weather/models/current-weather";
-import { DayWeatherConditions } from "../../fruit-company/weather/models/daily-forecast";
 import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
 import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, TrendUnitLabel, UVIndexUnit, VisibilityUnit } from "./components/units";

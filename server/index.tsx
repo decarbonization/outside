@@ -19,14 +19,13 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import "express-async-errors";
+import { MapsToken, WeatherToken } from 'fruit-company';
 import http from "http";
 import { createHttpTerminator } from 'http-terminator';
 import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
-import { MapsToken } from '../fruit-company/maps/maps-api';
-import { WeatherToken } from '../fruit-company/weather/weather-api';
 import { ErrorMiddleware } from './middlewares/error-middleware';
 import { IndexRoutes } from './routes/index-routes';
 import { SearchRoutes } from './routes/search-routes';

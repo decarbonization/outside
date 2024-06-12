@@ -17,10 +17,10 @@
  */
 
 import classNames from "classnames";
+import { MoonPhase, WeatherCondition } from "fruit-company";
 import fs from "fs/promises";
-import path from "path";
-import { MoonPhase, WeatherCondition } from "../../fruit-company/weather/models/base";
 import { i18n } from "i18next";
+import path from "path";
 
 /**
  * Encapsulates decorative elements found in a weather forecast.

@@ -18,7 +18,6 @@
 
 import classNames from "classnames";
 import { useContext } from "preact/hooks";
-import { uvIndexRiskFrom } from "../../../fruit-company/weather/models/base";
 import { formatCompassDirection, formatDepth, formatPercentage, formatPressure, formatSpeed, formatTemperature, formatUVIndex, formatVisibility } from "../../formatting/units";
 import { ThemeDecoration } from "../../styling/themes";
 import { Deps } from "../_deps";

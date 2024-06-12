@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
+import { WeatherCondition } from 'fruit-company';
 import { Theme, themeIcon } from '../../../server/styling/themes';
-import { WeatherCondition } from '../../../fruit-company/weather/models/base';
 
 describe("themes module", () => {
     const emptyTheme: Theme = {

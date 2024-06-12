@@ -16,15 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { HourlyForecast } from "fruit-company";
 import { useContext } from "preact/hooks";
-import { HourlyForecast } from "../../fruit-company/weather/models/hourly-forecast";
+import { ThemeDecoration } from "../styling/themes";
 import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
 import { Hour } from "./components/dates";
+import { Decoration } from "./components/decoration";
 import { Precipitation } from "./components/precipitation";
 import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureUnit, TrendUnitLabel, UVIndexUnit, VisibilityUnit } from "./components/units";
-import { Decoration } from "./components/decoration";
-import { ThemeDecoration } from "../styling/themes";
 
 export interface HourlyForecastProps {
     readonly forecast?: HourlyForecast;
