@@ -4,4 +4,4 @@ node_modules
 dist
 .env
 coverage
-static/script
+static/script/client.js

@@ -2,10 +2,10 @@
     "extends": "../tsconfig.json",
     "compilerOptions": {
         "target": "ES2022",
-        "module": "ES2022",
-        "outDir": "../static/script",
+        "module": "ESNext",
         "sourceMap": false,
         "inlineSourceMap": true,
+        "moduleResolution": "node",
         "lib": [
             "ES2022", 
             "dom"

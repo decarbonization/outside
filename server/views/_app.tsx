@@ -45,7 +45,7 @@ export function App({ className, children }: AppProps) {
                     {children}
                 </main>
 
-                <script type="module" src="/script/index.js" />
+                <script src="/script/client.js" />
             </body>
         </html>
     );
