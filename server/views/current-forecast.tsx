@@ -18,9 +18,11 @@
 
 import { CurrentWeather, DayWeatherConditions } from "fruit-company";
 import { useContext } from "preact/hooks";
+import { ThemeDecoration } from "../styling/themes";
 import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
-import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, TrendUnitLabel, UVIndexUnit, VisibilityUnit } from "./components/units";
+import { Decoration } from "./components/decoration";
+import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "./components/units";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;
@@ -41,7 +43,9 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                 <li className="current-forecast-reading">
                     <TemperatureUnit className="hero" measurement={now.temperature} />
                     <footer>
-                        {i18n.t("forecast.measurementLabels.feelsLike")}&nbsp;<TemperatureUnit measurement={now.temperatureApparent} />
+                        {i18n.t("forecast.measurementLabels.feelsLike")}
+                        &nbsp;
+                        <TemperatureUnit measurement={now.temperatureApparent} />
                     </footer>
                 </li>
                 <li className="current-forecast-reading">
@@ -51,41 +55,31 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                     </footer>
                 </li>
                 <li className="current-forecast-reading">
-                    <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
+                    <Decoration name={ThemeDecoration.humidity} />
+                    &nbsp;
                     <PercentageUnit measurement={now.humidity} />
-                    <footer>
-                        {i18n.t("forecast.measurementLabels.dewPoint")}&nbsp;<TemperatureUnit measurement={now.temperatureDewPoint} />
-                    </footer>
+                    <div>
+                        {i18n.t("forecast.measurementLabels.dewPoint")}
+                        &nbsp;
+                        <TemperatureUnit measurement={now.temperatureDewPoint} />
+                    </div>
                 </li>
                 <li className="current-forecast-reading">
-                    <header>{i18n.t("forecast.measurementLabels.wind")}</header>
+                    <Decoration name={ThemeDecoration.wind} />
+                    &nbsp;
                     <SpeedUnit measurement={now.windSpeed} />
                     &nbsp;
                     <CompassDirectionUnit measurement={now.windDirection} />
-                    <footer>
-                        {i18n.t("forecast.measurementLabels.windGusts")}&nbsp;<SpeedUnit measurement={now.windGust} />
-                    </footer>
+                    <div>
+                        {i18n.t("forecast.measurementLabels.windGusts")}
+                        &nbsp;
+                        <SpeedUnit measurement={now.windGust} />
+                    </div>
                 </li>
                 <li className="current-forecast-reading">
-                    <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
+                    <Decoration name={ThemeDecoration.uvIndex} />
+                    &nbsp;
                     <UVIndexUnit measurement={now.uvIndex} />
-                    <footer>
-                        &nbsp;
-                    </footer>
-                </li>
-                <li className="current-forecast-reading">
-                    <header>{i18n.t("forecast.measurementLabels.pressure")}</header>
-                    <PressureUnit measurement={now.pressure} />&nbsp;<TrendUnitLabel measurement={now.pressureTrend} />
-                    <footer>
-                        &nbsp;
-                    </footer>
-                </li>
-                <li className="current-forecast-reading">
-                    <header>{i18n.t("forecast.measurementLabels.visibility")}</header>
-                    <VisibilityUnit measurement={now.visibility} />
-                    <footer>
-                        {i18n.t("forecast.measurementLabels.cloudCover")}&nbsp;<PercentageUnit measurement={now.cloudCover} />
-                    </footer>
                 </li>
             </ol>
             <footer className="last-updated" data-expires={now.metadata.expireTime.toISOString()}>

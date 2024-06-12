@@ -143,6 +143,10 @@ pre {
     margin-top: calc(var(--v-spacing)*1.5);
 }
 
+.current-forecast .last-updated {
+    margin-top: var(--v-spacing);
+}
+
 .current-forecast-main {
     display: flex;
     flex-wrap: nowrap;
@@ -157,16 +161,13 @@ pre {
 }
 
 .hourly-forecast {
-    position: relative;
     margin-top: calc(var(--v-spacing)*1.5);
-    text-align: right;
 }
 
 .hourly-forecast h1 {
-    position: absolute;
-    top: 0;
     margin: 0;
-    text-align: left;
+    float: left;
+    padding-right: var(--h-spacing);
 }
 
 .hourly-forecast input[type="radio"] {
@@ -174,8 +175,8 @@ pre {
 }
 
 .hourly-forecast label {
+    float: right;
     cursor: pointer;
-    background: var(--background);
     color: var(--accent);
     font-size: 1.1em;
     opacity: 0.5;
@@ -196,11 +197,13 @@ pre {
 .hourly-forecast #hourly-forecast-wind:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.wind,
 .hourly-forecast #hourly-forecast-uv-index:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.uv-index,
 .hourly-forecast #hourly-forecast-pressure:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.pressure,
-.hourly-forecast #hourly-forecast-visibility:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.visibility {
+.hourly-forecast #hourly-forecast-visibility:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.visibility,
+.hourly-forecast #hourly-forecast-cloud-cover:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.cloud-cover {
     display: block;
 }
 
 .hourly-forecast-main {
+    clear: both;
     list-style: none;
     padding: 0;
     margin: var(--v-spacing) 0;

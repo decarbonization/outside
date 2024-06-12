@@ -75,6 +75,11 @@ export const enum ThemeDecoration {
      * A decoration indicating a measurement refers to visibility conditions.
      */
     visibility = "visibility",
+    
+    /**
+     * A decoration indicating a measurement refers to cloud cover conditions.
+     */
+    cloudCover = "cloudCover",
 
     /**
      * A decoration indicating a measurement refers to a sunrise time.

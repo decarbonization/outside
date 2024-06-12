@@ -28,9 +28,15 @@ export function Precipitation({ probability, amount, hideAutomatically = true }:
     if (probability === 0 && hideAutomatically) {
         return null;
     }
-    return (
-        <span>
-            <PercentageUnit measurement={probability} /> {amount !== undefined ? <DepthUnit measurement={amount} /> : null}
-        </span>
-    );
+    if (amount !== undefined) {
+        return (
+            <span>
+                <PercentageUnit measurement={probability} /> <DepthUnit measurement={amount} />
+            </span>
+        );
+    } else {
+        return (
+            <PercentageUnit measurement={probability} />
+        );
+    }
 }

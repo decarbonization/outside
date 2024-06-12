@@ -45,6 +45,7 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
             <SelectionTab id="hourly-forecast-uv-index" decoration={ThemeDecoration.uvIndex} />
             <SelectionTab id="hourly-forecast-pressure" decoration={ThemeDecoration.pressure} />
             <SelectionTab id="hourly-forecast-visibility" decoration={ThemeDecoration.visibility} />
+            <SelectionTab id="hourly-forecast-cloud-cover" decoration={ThemeDecoration.cloudCover} />
             <ol className="hourly-forecast-main orthogonal-scrollable">
                 {hours.map(hour => (
                     <li className="hourly-forecast-reading-group">
@@ -69,6 +70,9 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
                         </div>
                         <div className="hourly-forecast-reading selectable visibility">
                             <VisibilityUnit measurement={hour.visibility} />
+                        </div>
+                        <div className="hourly-forecast-reading selectable cloud-cover">
+                            <PercentageUnit measurement={hour.cloudCover} />
                         </div>
                         <div className="hourly-forecast-reading hour">
                             <Hour when={hour.forecastStart} />

@@ -143,6 +143,7 @@
         "uvIndex": "wi-hot",
         "pressure": "wi-barometer",
         "visibility": "wi-horizon",
+        "cloudCover": "wi-cloudy",
         "sunrise": "wi-sunrise",
         "sunset": "wi-sunset"
     },
