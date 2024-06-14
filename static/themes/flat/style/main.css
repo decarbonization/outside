@@ -188,17 +188,28 @@ pre {
     opacity: 1;
 }
 
-.hourly-forecast-reading.selectable {
+.hourly-forecast-main .hourly-forecast-reading.temperature,
+.hourly-forecast-main .hourly-forecast-reading.humidity,
+.hourly-forecast-main .hourly-forecast-reading.wind,
+.hourly-forecast-main .hourly-forecast-reading.uv-index,
+.hourly-forecast-main .hourly-forecast-reading.cloud-cover {
     display: none;
 }
 
-.hourly-forecast #hourly-forecast-temperature:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.temperature,
-.hourly-forecast #hourly-forecast-humidity:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.humidity,
-.hourly-forecast #hourly-forecast-wind:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.wind,
-.hourly-forecast #hourly-forecast-uv-index:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.uv-index,
-.hourly-forecast #hourly-forecast-pressure:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.pressure,
-.hourly-forecast #hourly-forecast-visibility:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.visibility,
-.hourly-forecast #hourly-forecast-cloud-cover:checked ~ .hourly-forecast-main .hourly-forecast-reading.selectable.cloud-cover {
+.hourly-forecast-main .hourly-forecast-reading.wind {
+    font-size: 0.8em;
+}
+
+.hourly-forecast-main .hourly-forecast-reading.wind .unit.gust {
+    display: block;
+    font-size: 0.6em;
+}
+
+.hourly-forecast #hourly-forecast-temperature:checked ~ .hourly-forecast-main .hourly-forecast-reading.temperature,
+.hourly-forecast #hourly-forecast-humidity:checked ~ .hourly-forecast-main .hourly-forecast-reading.humidity,
+.hourly-forecast #hourly-forecast-wind:checked ~ .hourly-forecast-main .hourly-forecast-reading.wind,
+.hourly-forecast #hourly-forecast-uv-index:checked ~ .hourly-forecast-main .hourly-forecast-reading.uv-index,
+.hourly-forecast #hourly-forecast-cloud-cover:checked ~ .hourly-forecast-main .hourly-forecast-reading.cloud-cover {
     display: block;
 }
 

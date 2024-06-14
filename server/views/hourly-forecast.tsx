@@ -43,8 +43,6 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
             <SelectionTab id="hourly-forecast-humidity" decoration={ThemeDecoration.humidity} />
             <SelectionTab id="hourly-forecast-wind" decoration={ThemeDecoration.wind} />
             <SelectionTab id="hourly-forecast-uv-index" decoration={ThemeDecoration.uvIndex} />
-            <SelectionTab id="hourly-forecast-pressure" decoration={ThemeDecoration.pressure} />
-            <SelectionTab id="hourly-forecast-visibility" decoration={ThemeDecoration.visibility} />
             <SelectionTab id="hourly-forecast-cloud-cover" decoration={ThemeDecoration.cloudCover} />
             <ol className="hourly-forecast-main orthogonal-scrollable">
                 {hours.map(hour => (
@@ -53,25 +51,20 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
                             <Condition code={hour.conditionCode} daylight={hour.daylight} />
                             <Precipitation probability={hour.precipitationChance} />
                         </div>
-                        <div className="hourly-forecast-reading selectable temperature">
+                        <div className="hourly-forecast-reading temperature">
                             <TemperatureUnit measurement={hour.temperature} />
                         </div>
-                        <div className="hourly-forecast-reading selectable humidity">
+                        <div className="hourly-forecast-reading humidity">
                             <PercentageUnit measurement={hour.humidity} />
                         </div>
-                        <div className="hourly-forecast-reading selectable wind">
-                            <SpeedUnit measurement={hour.windSpeed} />&nbsp;<CompassDirectionUnit measurement={hour.windDirection} />
+                        <div className="hourly-forecast-reading wind">
+                            <SpeedUnit className="speed" measurement={hour.windSpeed} />&nbsp;<CompassDirectionUnit measurement={hour.windDirection} />
+                            <SpeedUnit className="gust" measurement={hour.windGust} />
                         </div>
-                        <div className="hourly-forecast-reading selectable uv-index">
+                        <div className="hourly-forecast-reading uv-index">
                             <UVIndexUnit measurement={hour.uvIndex} />
                         </div>
-                        <div className="hourly-forecast-reading selectable pressure">
-                            <PressureUnit measurement={hour.pressure} />&nbsp;<TrendUnitLabel measurement={hour.pressureTrend} />
-                        </div>
-                        <div className="hourly-forecast-reading selectable visibility">
-                            <VisibilityUnit measurement={hour.visibility} />
-                        </div>
-                        <div className="hourly-forecast-reading selectable cloud-cover">
+                        <div className="hourly-forecast-reading cloud-cover">
                             <PercentageUnit measurement={hour.cloudCover} />
                         </div>
                         <div className="hourly-forecast-reading hour">

@@ -50,11 +50,8 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                 </li>
                 <li className="current-forecast-reading">
                     <TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} compact={false} />
-                    <footer>
-                        &nbsp;
-                    </footer>
                 </li>
-                <li className="current-forecast-reading">
+                <li className="current-forecast-reading nowrap">
                     <Decoration name={ThemeDecoration.humidity} />
                     &nbsp;
                     <PercentageUnit measurement={now.humidity} />
@@ -64,7 +61,7 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                         <TemperatureUnit measurement={now.temperatureDewPoint} />
                     </div>
                 </li>
-                <li className="current-forecast-reading">
+                <li className="current-forecast-reading nowrap">
                     <Decoration name={ThemeDecoration.wind} />
                     &nbsp;
                     <SpeedUnit measurement={now.windSpeed} />
@@ -76,7 +73,7 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                         <SpeedUnit measurement={now.windGust} />
                     </div>
                 </li>
-                <li className="current-forecast-reading">
+                <li className="current-forecast-reading nowrap">
                     <Decoration name={ThemeDecoration.uvIndex} />
                     &nbsp;
                     <UVIndexUnit measurement={now.uvIndex} />
