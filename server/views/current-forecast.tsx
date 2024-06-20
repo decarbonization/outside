@@ -45,7 +45,7 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                     <TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} compact={false} />
                 </li>
             </ol>
-            <ol className="current-forecast-reading-group orthogonal-scrollable">
+            <ol className="current-forecast-reading-group">
                 <li className="current-forecast-reading">
                     <header>{i18n.t("forecast.measurementLabels.feelsLike")}</header>
                     <TemperatureUnit measurement={now.temperatureApparent} />
@@ -62,6 +62,10 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                     <header>{i18n.t("forecast.measurementLabels.wind")}</header>
                     <SpeedUnit measurement={now.windSpeed} />
                 </li>
+                {now.windGust !== undefined ? <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.windGusts")}</header>
+                    <SpeedUnit measurement={now.windGust} />
+                </li> : null}
                 <li className="current-forecast-reading">
                     <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />

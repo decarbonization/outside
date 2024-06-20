@@ -144,6 +144,12 @@ pre {
     text-align: center;
 }
 
+.current-forecast .hero {
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 2.5rem;
+}
+
 .current-forecast .superhero {
     display: block;
     font-size: 5em;
@@ -152,17 +158,12 @@ pre {
 
 .current-forecast-reading-group {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: center;
     gap: var(--v-spacing) var(--h-spacing);
     margin-bottom: var(--v-spacing);
 }
 
-.current-forecast-reading-group .hero {
-    font-size: 3em;
-    font-weight: bold;
-    line-height: 2.5rem;
-}
 
 .weather-alert details summary::before {
     content: "⚠ ";
