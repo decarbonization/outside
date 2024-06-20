@@ -36,46 +36,34 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <section className="current-forecast">
-            <ol className="current-forecast-main orthogonal-scrollable">
-                <li className="current-forecast-reading">
-                    <Condition className="hero" code={now.conditionCode} daylight={now.daylight} />
-                </li>
+            <Condition className="superhero" code={now.conditionCode} daylight={now.daylight} />
+            <ol className="current-forecast-reading-group">
                 <li className="current-forecast-reading">
                     <TemperatureUnit className="hero" measurement={now.temperature} />
-                    <footer>
-                        {i18n.t("forecast.measurementLabels.feelsLike")}
-                        &nbsp;
-                        <TemperatureUnit measurement={now.temperatureApparent} />
-                    </footer>
                 </li>
                 <li className="current-forecast-reading">
                     <TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} compact={false} />
                 </li>
-                <li className="current-forecast-reading nowrap">
-                    <Decoration name={ThemeDecoration.humidity} />
-                    &nbsp;
+            </ol>
+            <ol className="current-forecast-reading-group orthogonal-scrollable">
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.feelsLike")}</header>
+                    <TemperatureUnit measurement={now.temperatureApparent} />
+                </li>
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
                     <PercentageUnit measurement={now.humidity} />
-                    <div>
-                        {i18n.t("forecast.measurementLabels.dewPoint")}
-                        &nbsp;
-                        <TemperatureUnit measurement={now.temperatureDewPoint} />
-                    </div>
                 </li>
-                <li className="current-forecast-reading nowrap">
-                    <Decoration name={ThemeDecoration.wind} />
-                    &nbsp;
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.dewPoint")}</header>
+                    <TemperatureUnit measurement={now.temperatureDewPoint} />
+                </li>
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.wind")}</header>
                     <SpeedUnit measurement={now.windSpeed} />
-                    &nbsp;
-                    <CompassDirectionUnit measurement={now.windDirection} />
-                    <div>
-                        {i18n.t("forecast.measurementLabels.windGusts")}
-                        &nbsp;
-                        <SpeedUnit measurement={now.windGust} />
-                    </div>
                 </li>
-                <li className="current-forecast-reading nowrap">
-                    <Decoration name={ThemeDecoration.uvIndex} />
-                    &nbsp;
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />
                 </li>
             </ol>

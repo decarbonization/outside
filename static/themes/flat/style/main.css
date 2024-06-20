@@ -141,23 +141,27 @@ pre {
 
 .current-forecast {
     margin-top: calc(var(--v-spacing)*1.5);
+    text-align: center;
 }
 
-.current-forecast .last-updated {
-    margin-top: var(--v-spacing);
+.current-forecast .superhero {
+    display: block;
+    font-size: 5em;
+    margin-bottom: var(--v-spacing);
 }
 
-.current-forecast-main {
+.current-forecast-reading-group {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: left;
+    justify-content: center;
     gap: var(--v-spacing) var(--h-spacing);
+    margin-bottom: var(--v-spacing);
 }
 
-.current-forecast-main .hero {
+.current-forecast-reading-group .hero {
     font-size: 3em;
     font-weight: bold;
-    line-height: 2.3rem;
+    line-height: 2.5rem;
 }
 
 .weather-alert details summary::before {
