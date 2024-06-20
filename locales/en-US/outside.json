@@ -94,6 +94,11 @@
         },
         "lastUpdated": "Last Updated {{when, datetime(timeStyle: 'short'; dateStyle: 'medium')}}"
     },
+    "weatherAlerts": {
+        "title": "Weather Alerts",
+        "moreInfo": "More Info…",
+        "details": "Issued by {{agency}}. Effective from {{effective, datetime(timeStyle: 'short'; dateStyle: 'short')}} until {{expires, datetime(timeStyle: 'short'; dateStyle: 'short')}}."
+    },
     "dailyForecast": {
         "title": "{{count, number}} Day Forecast",
         "dayNightSeparator": "\u00A0/\u00A0"

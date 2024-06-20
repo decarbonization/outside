@@ -160,6 +160,22 @@ pre {
     line-height: 2.3rem;
 }
 
+.weather-alert details summary::before {
+    content: "⚠ ";
+}
+
+.weather-alert details summary {
+    font-size: 1.2em;
+}
+
+.weather-alert:not(:last-child) {
+    margin-bottom: var(--h-spacing);
+}
+
+.weather-alert a {
+    display: block;
+}
+
 .hourly-forecast {
     margin-top: calc(var(--v-spacing)*1.5);
 }

@@ -21,6 +21,7 @@ import { CurrentForecast } from "./current-forecast";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";
 import { WeatherSource } from "./weather-source";
+import { WeatherAlerts } from "./weather-alerts";
 
 export interface WeatherDetailsProps {
     readonly weather?: Weather;
@@ -31,6 +32,7 @@ export function WeatherDetails({ weather, attribution }: WeatherDetailsProps) {
     return (
         <>
             <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} />
+            <WeatherAlerts collection={weather?.weatherAlerts} />
             <HourlyForecast forecast={weather?.forecastHourly} />
             <DailyForecast forecast={weather?.forecastDaily} />
             <WeatherSource weather={weather} attribution={attribution} />
