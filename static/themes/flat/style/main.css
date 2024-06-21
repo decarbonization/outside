@@ -74,32 +74,27 @@ footer {
     font-size: 0.9em;
 }
 
-button {
-    font-family: "Rokkitt", serif;
-    font-size: 1rem;
+button, select {
+    font: inherit;
+    appearance: none;
     border: none;
     background: none;
-    outline: none;
     color: var(--accent);
     padding: 0.3em;
 }
 
-button:active {
+button:active, select:active {
     opacity: 0.8;
 }
 
-button:focus {
-    text-shadow: var(--accent) 0px 0px 5px;
-}
-
-button:disabled {
+button:disabled, select:disabled {
     color: var(--accent-inactive);
 }
 
 input[type="search"],
 input[type="text"],
 textarea {
-    font-family: "Rokkitt", serif;
+    font: inherit;
 
     padding: var(--h-spacing) var(--v-spacing);
     background: var(--background);
@@ -164,7 +159,6 @@ pre {
     margin-bottom: var(--v-spacing);
 }
 
-
 .weather-alert details summary::before {
     content: "⚠ ";
 }
@@ -191,22 +185,8 @@ pre {
     padding-right: var(--h-spacing);
 }
 
-.hourly-forecast input[type="radio"] {
-    display: none;
-}
-
-.hourly-forecast label {
+.hourly-forecast-selector {
     float: right;
-    cursor: pointer;
-    color: var(--accent);
-    font-size: 1.1em;
-    opacity: 0.5;
-    transition: var(--transition-timing) .25s opacity;
-    padding-right: var(--h-spacing);
-}
-
-.hourly-forecast input[type="radio"]:checked + label {
-    opacity: 1;
 }
 
 .hourly-forecast-main .hourly-forecast-reading.temperature,
@@ -226,11 +206,11 @@ pre {
     font-size: 0.6em;
 }
 
-.hourly-forecast #hourly-forecast-temperature:checked ~ .hourly-forecast-main .hourly-forecast-reading.temperature,
-.hourly-forecast #hourly-forecast-humidity:checked ~ .hourly-forecast-main .hourly-forecast-reading.humidity,
-.hourly-forecast #hourly-forecast-wind:checked ~ .hourly-forecast-main .hourly-forecast-reading.wind,
-.hourly-forecast #hourly-forecast-uv-index:checked ~ .hourly-forecast-main .hourly-forecast-reading.uv-index,
-.hourly-forecast #hourly-forecast-cloud-cover:checked ~ .hourly-forecast-main .hourly-forecast-reading.cloud-cover {
+.hourly-forecast-selector:has(option[value=temperature]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.temperature,
+.hourly-forecast-selector:has(option[value=humidity]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.humidity,
+.hourly-forecast-selector:has(option[value=wind]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.wind,
+.hourly-forecast-selector:has(option[value=uv-index]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.uv-index,
+.hourly-forecast-selector:has(option[value=cloud-cover]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.cloud-cover {
     display: block;
 }
 

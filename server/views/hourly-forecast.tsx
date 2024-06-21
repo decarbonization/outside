@@ -39,11 +39,13 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
     return (
         <section className="hourly-forecast">
             <h1>{i18n.t("hourlyForecast.title", { count: hours.length })}</h1>
-            <SelectionTab id="hourly-forecast-temperature" decoration={ThemeDecoration.temperature} checked />
-            <SelectionTab id="hourly-forecast-humidity" decoration={ThemeDecoration.humidity} />
-            <SelectionTab id="hourly-forecast-wind" decoration={ThemeDecoration.wind} />
-            <SelectionTab id="hourly-forecast-uv-index" decoration={ThemeDecoration.uvIndex} />
-            <SelectionTab id="hourly-forecast-cloud-cover" decoration={ThemeDecoration.cloudCover} />
+            <select className="hourly-forecast-selector">
+                <option value="temperature">{i18n.t("forecast.measurementLabels.temperature")}</option>
+                <option value="humidity">{i18n.t("forecast.measurementLabels.humidity")}</option>
+                <option value="wind">{i18n.t("forecast.measurementLabels.wind")}</option>
+                <option value="uv-index">{i18n.t("forecast.measurementLabels.uvIndex")}</option>
+                <option value="cloud-cover">{i18n.t("forecast.measurementLabels.cloudCover")}</option>
+            </select>
             <ol className="hourly-forecast-main orthogonal-scrollable">
                 {hours.map(hour => (
                     <li className="hourly-forecast-reading-group">
@@ -74,20 +76,5 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
                 ))}
             </ol>
         </section>
-    );
-}
-
-interface SelectionTabProps {
-    readonly id: string;
-    readonly decoration: ThemeDecoration;
-    readonly checked?: boolean;
-}
-
-function SelectionTab({ id, decoration, checked }: SelectionTabProps) {
-    return (
-        <>
-            <input type="radio" name="hourly-forecast-selection" id={id} checked={checked} />
-            <label for={id}><Decoration name={decoration} /></label>
-        </>
     );
 }
