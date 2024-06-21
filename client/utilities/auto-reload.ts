@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { reloadSupportingCurrentLocation } from "./location";
+
 export function autoReload(): void {
     const lastUpdatedFooter = document.querySelector<HTMLElement>(".current-forecast .last-updated");
     if (lastUpdatedFooter === null) {
@@ -40,6 +42,6 @@ export function autoReload(): void {
             console.info(`No refresh required, data expires on ${expires}`);
             return;
         }
-        window.location.reload();
+        reloadSupportingCurrentLocation();
     });
 }

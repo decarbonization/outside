@@ -273,12 +273,17 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
  * 
  * @param country The country the forecast data originates from.
  * @param location The location to find forecast data for.
- * @param query The optional query used to find the location.
+ * @param query The query used to find the location.
+ * @param ref The optional referrer.
  * @returns A link suitable for embedding in an `a` tag.
  */
-WeatherRoutes.linkToGetWeather = function (country: string, location: LocationCoordinates, query: string): string {
+WeatherRoutes.linkToGetWeather = function (country: string, location: LocationCoordinates, query: string, ref?: string): string {
     const { latitude, longitude } = truncateLocationCoordinates(location, 3);
-    return `/weather/${encodeURIComponent(country)}/${latitude}/${longitude}/${encodeURIComponent(query)}`;
+    let link = `/weather/${encodeURIComponent(country)}/${latitude}/${longitude}/${encodeURIComponent(query)}`;
+    if (ref !== undefined) {
+        link += `?ref=${encodeURIComponent(ref)}`;
+    }
+    return link;
 };
 
 /**

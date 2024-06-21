@@ -44,6 +44,7 @@ async function getSearchByCoordinates(
         latitude: coordinate(req.params.latitude),
         longitude: coordinate(req.params.longitude),
     };
+    const ref = req.query["ref"] as string | undefined;
     const reverseGeocodeAddress = new ReverseGeocodeAddress({ location, language });
     console.info(`GET /search perform(${reverseGeocodeAddress})`);
     const { results } = await perform({
@@ -54,7 +55,7 @@ async function getSearchByCoordinates(
         res.redirect(IndexRoutes.getIndex(`${location.latitude}, ${location.longitude}`));
     } else {
         const place = results[0];
-        res.redirect(WeatherRoutes.linkToGetWeather(place.countryCode, location, place.structuredAddress.locality));
+        res.redirect(WeatherRoutes.linkToGetWeather(place.countryCode, location, place.structuredAddress.locality, ref));
     }
 }
 
