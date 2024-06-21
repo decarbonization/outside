@@ -74,7 +74,8 @@ footer {
     font-size: 0.9em;
 }
 
-button, select {
+button,
+select {
     font: inherit;
     appearance: none;
     border: none;
@@ -83,11 +84,13 @@ button, select {
     padding: 0.3em;
 }
 
-button:active, select:active {
+button:active,
+select:active {
     opacity: 0.8;
 }
 
-button:disabled, select:disabled {
+button:disabled,
+select:disabled {
     color: var(--accent-inactive);
 }
 
@@ -206,11 +209,11 @@ pre {
     font-size: 0.6em;
 }
 
-.hourly-forecast-selector:has(option[value=temperature]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.temperature,
-.hourly-forecast-selector:has(option[value=humidity]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.humidity,
-.hourly-forecast-selector:has(option[value=wind]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.wind,
-.hourly-forecast-selector:has(option[value=uv-index]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.uv-index,
-.hourly-forecast-selector:has(option[value=cloud-cover]:checked) ~ .hourly-forecast-main .hourly-forecast-reading.cloud-cover {
+.hourly-forecast-selector:has(option[value=temperature]:checked)~.hourly-forecast-main .hourly-forecast-reading.temperature,
+.hourly-forecast-selector:has(option[value=humidity]:checked)~.hourly-forecast-main .hourly-forecast-reading.humidity,
+.hourly-forecast-selector:has(option[value=wind]:checked)~.hourly-forecast-main .hourly-forecast-reading.wind,
+.hourly-forecast-selector:has(option[value=uv-index]:checked)~.hourly-forecast-main .hourly-forecast-reading.uv-index,
+.hourly-forecast-selector:has(option[value=cloud-cover]:checked)~.hourly-forecast-main .hourly-forecast-reading.cloud-cover {
     display: block;
 }
 
@@ -232,7 +235,8 @@ pre {
     border-radius: .25rem;
     padding: calc(var(--v-spacing)/2.5) calc(var(--h-spacing)/2.5);
     transition: var(--transition-timing) .25s background-color, border-color;
-    border: .5px solid rgba(255, 255, 255, 0.0);;
+    border: .5px solid rgba(255, 255, 255, 0.0);
+    ;
 }
 
 .hourly-forecast-reading-group:hover {

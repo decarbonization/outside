@@ -29,12 +29,10 @@ export function PlaceSearch({ query, disabled }: PlaceSearchProps) {
     const { i18n } = useContext(Deps);
     return (
         <section className="place-search">
-            <header>
-                <form className="place-search-form" action={SearchRoutes.linkToGetSearchByQuery()} method="GET">
+            <form className="place-search-form" action={SearchRoutes.linkToGetSearchByQuery()} method="GET">
                 <button class="place-search-current-location" type="button" aria-label={i18n.t('placeSearch.useCurrentLocation')} disabled>➤</button>
-                    <input type="search" name="q" value={query} placeholder={i18n.t('placeSearch.inputLabel')} disabled={disabled} />
-                </form>
-            </header>
+                <input type="search" name="q" value={query} placeholder={i18n.t('placeSearch.inputLabel')} disabled={disabled} />
+            </form>
         </section>
     );
 }
