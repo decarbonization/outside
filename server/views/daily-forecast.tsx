@@ -45,9 +45,14 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                 <ol className="daily-forecast-main">
                     {forecast.days.map(day => (
                         <li className="daily-forecast-reading-group">
+                            <div className="daily-forecast-reading day">
+                                <Weekday when={day.forecastStart} />
+                            </div>
                             <div className="daily-forecast-reading condition">
-                                <header><Weekday when={day.forecastStart} /></header>
-                                <Condition code={day.conditionCode} /> <Precipitation probability={day.precipitationChance} />
+                                <div className="daily-forecast-reading-condition-block">
+                                    <Condition code={day.conditionCode} />
+                                    <Precipitation probability={day.precipitationChance} />
+                                </div>
                             </div>
                             <div className="daily-forecast-reading temperature-range">
                                 <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} compact={false} />

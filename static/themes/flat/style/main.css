@@ -300,14 +300,41 @@ pre {
 .daily-forecast-reading {
     display: table-cell;
     padding: .75rem 0;
+    text-align: center;
 }
 
 .daily-forecast-reading:not(:last-child) {
     padding-right: var(--h-spacing);
 }
 
+.daily-forecast-reading.day {
+    font-size: 1.3em;
+    font-weight: bold;
+    vertical-align: bottom;
+}
+
 .daily-forecast-reading.condition {
-    min-width: 3.5em;
+    vertical-align: bottom;
+}
+
+.daily-forecast-reading-condition-block {
+    position: relative;
+    text-align: center;
+}
+.daily-forecast-reading-condition-block .icon {
+    font-size: 1.7em;
+    margin: 0.3em 0;
+}
+
+.daily-forecast-reading-condition-block .unit {
+    background: var(--background);
+    opacity: 0.8;
+    font-size: 0.7em;
+    padding: 0.1em;
+    border-radius: 0.2em;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
 .daily-forecast-reading.humidity {
