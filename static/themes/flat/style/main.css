@@ -236,7 +236,6 @@ pre {
     padding: calc(var(--v-spacing)/2.5) calc(var(--h-spacing)/2.5);
     transition: var(--transition-timing) .25s background-color, border-color;
     border: .5px solid rgba(255, 255, 255, 0.0);
-    ;
 }
 
 .hourly-forecast-reading-group:hover {
@@ -322,11 +321,34 @@ pre {
 
 .place-search form {
     display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: left;
+    gap: var(--h-spacing) var(--v-spacing);
+
+    padding: var(--h-spacing) var(--v-spacing);
+    background: var(--background);
+    border: 2px solid var(--separator);
+    border-radius: 8px;
+}
+
+.place-search form:has(input[type="search"]:focus) {
+    border-color: var(--accent);
 }
 
 .place-search-form input[type="search"] {
     flex-grow: 1;
     font-size: 1.25em;
+
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    height: fit-content;
+}
+
+.place-search-form button {
+    padding: 0;
 }
 
 .place-search-current-location {
