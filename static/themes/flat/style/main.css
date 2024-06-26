@@ -21,7 +21,7 @@
     font-size: 16px;
 
     color-scheme: light dark;
-    --background: white;
+    --background: #fcfcfc;
     --v-spacing: 1rem;
     --h-spacing: 1rem;
     --accent: #0066e4;
@@ -149,7 +149,6 @@ pre {
 }
 
 .current-forecast .superhero {
-    display: block;
     font-size: 5em;
     margin-bottom: var(--v-spacing);
 }
@@ -260,12 +259,13 @@ pre {
 .hourly-forecast-reading.conditions .unit {
     background: var(--background);
     opacity: 0.8;
+    backdrop-filter: blur(10px);
     font-size: 0.8em;
     padding: 0.1em;
     border-radius: 0.2em;
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 0.1em;
+    bottom: 0.1em;
 }
 
 .hourly-forecast-reading.hour {
@@ -329,6 +329,7 @@ pre {
 .daily-forecast-reading-condition-block .unit {
     background: var(--background);
     opacity: 0.8;
+    backdrop-filter: blur(10px);
     font-size: 0.7em;
     padding: 0.1em;
     border-radius: 0.2em;
@@ -349,7 +350,7 @@ pre {
 .place-search form {
     display: flex;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: last baseline;
     justify-content: left;
     gap: var(--h-spacing) var(--v-spacing);
 

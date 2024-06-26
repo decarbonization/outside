@@ -35,61 +35,6 @@ export const enum ThemeDecoration {
      * A decoration indicating a measurement is limited to the night.
      */
     overnight = "overnight",
-
-    /**
-     * A decoration indicating a measurement is trending upward over time.
-     */
-    trendUp = "trendUp",
-
-    /**
-     * A decoration indicating a measurement is trending downward over time.
-     */
-    trendDown = "trendDown",
-
-    /**
-     * A decoration indicating a measurement refers to humidity conditions.
-     */
-    temperature = "temperature",
-
-    /**
-     * A decoration indicating a measurement refers to humidity conditions.
-     */
-    humidity = "humidity",
-
-    /**
-     * A decoration indicating a measurement refers to wind conditions.
-     */
-    wind = "wind",
-
-    /**
-     * A decoration indicating a measurement refers to UV index conditions.
-     */
-    uvIndex = "uvIndex",
-    
-    /**
-     * A decoration indicating a measurement refers to pressure conditions.
-     */
-    pressure = "pressure",
-
-    /**
-     * A decoration indicating a measurement refers to visibility conditions.
-     */
-    visibility = "visibility",
-    
-    /**
-     * A decoration indicating a measurement refers to cloud cover conditions.
-     */
-    cloudCover = "cloudCover",
-
-    /**
-     * A decoration indicating a measurement refers to a sunrise time.
-     */
-    sunrise = "sunrise",
-
-    /**
-     * A decoration indicating a measurement refers to a sunrise time.
-     */
-    sunset = "sunset",
 }
 
 /**
@@ -300,24 +245,6 @@ export function themeIconDescription(i18n: i18n, { name }: ThemeIconOptions): st
             return i18n.t("forecast.measurementLabels.daytime");
         case ThemeDecoration.overnight:
             return i18n.t("forecast.measurementLabels.overnight");
-        case ThemeDecoration.trendUp:
-            return i18n.t("forecast.measurementLabels.trendingUp");
-        case ThemeDecoration.trendDown:
-            return i18n.t("forecast.measurementLabels.trendingDown");
-        case ThemeDecoration.humidity:
-            return i18n.t("forecast.measurementLabels.humidity");
-        case ThemeDecoration.wind:
-            return i18n.t("forecast.measurementLabels.wind");
-        case ThemeDecoration.uvIndex:
-            return i18n.t("forecast.measurementLabels.uvIndex");
-        case ThemeDecoration.pressure:
-            return i18n.t("forecast.measurementLabels.pressure");
-        case ThemeDecoration.visibility:
-            return i18n.t("forecast.measurementLabels.visibility");
-        case ThemeDecoration.sunrise:
-            return i18n.t("forecast.measurementLabels.sunrise");
-        case ThemeDecoration.sunset:
-            return i18n.t("forecast.measurementLabels.sunset");
         default:
             return undefined;
     }

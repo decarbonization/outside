@@ -182,20 +182,3 @@ export function CompassDirectionUnit({ className, measurement, autoHide }: UnitP
         </span>
     );
 }
-
-export function TrendUnitLabel({ className, measurement }: UnitProps<'rising' | 'steady' | 'falling'>) {
-    switch (measurement) {
-        case 'rising':
-            return (
-                <Decoration className={className} name={ThemeDecoration.trendUp} />
-            );
-        case 'steady':
-            return null;
-        case 'falling':
-            return (
-                <Decoration className={className} name={ThemeDecoration.trendDown} />
-            );
-        default:
-            return null;
-    }
-}

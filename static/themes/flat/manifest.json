@@ -12,11 +12,7 @@
         },
         {
             "rel": "stylesheet",
-            "href": "/themes/flat/style/weather-icons.min.css"
-        },
-        {
-            "rel": "stylesheet",
-            "href": "/themes/flat/style/weather-icons-wind.min.css"
+            "href": "/themes/flat/style/weather-icons.css"
         },
         {
             "rel": "preconnect",
@@ -37,115 +33,94 @@
         }
     ],
     "icons": {
-        "base": "wi",
-        "BlowingDust": "wi-dust",
+        "base": "wi fill",
+        "BlowingDust": "dust",
         "Clear": {
-            "day": "wi-day-sunny",
-            "night": "wi-night-clear"
+            "day": "clear-day",
+            "night": "clear-night"
         },
-        "Cloudy": "wi-cloudy",
-        "Foggy": "wi-fog",
-        "Haze": "wi-smog",
+        "Cloudy": "cloudy",
+        "Foggy": {
+            "day": "fog-day",
+            "night": "fog-night"
+        },
+        "Haze": {
+            "day": "haze-day",
+            "night": "haze-night"
+        },
         "MostlyClear": {
-            "day": "wi-day-sunny-overcast",
-            "night": "wi-night-partly-cloudy"
+            "day": "partly-cloudy-day",
+            "night": "partly-cloudy-night"
         },
         "MostlyCloudy": {
-            "day": "wi-day-cloudy-high",
-            "night": "wi-night-cloudy-high"
+            "day": "partly-cloudy-day",
+            "night": "partly-cloudy-night"
         },
         "PartlyCloudy": {
-            "day": "wi-day-sunny-overcast",
-            "night": "wi-night-partly-cloudy"
+            "day": "partly-cloudy-day",
+            "night": "partly-cloudy-night"
         },
-        "Smoky": "wi-fire",
-        "Breezy": {
-            "day": "wi-day-light-wind",
-            "night": "wi-windy"
+        "Smoky": {
+            "day": "partly-cloudy-day-smoke",
+            "night": "partly-cloudy-night-smoke"
         },
-        "Windy": "wi-windy",
-        "Drizzle": {
-            "day": "wi-day-sprinkle",
-            "night": "wi-night-sprinkle"
-        },
-        "HeavyRain": "wi-raindrops",
+        "Breezy": "wind",
+        "Windy": "wind",
+        "Drizzle": "drizzle",
+        "HeavyRain": "raindrops",
         "IsolatedThunderstorms": {
-            "day": "wi-day-thunderstorm",
-            "night": "wi-night-thunderstorm"
+            "day": "thunderstorms-day-rain",
+            "night": "thunderstorms-night-rain"
         },
-        "Rain": "wi-raindrop",
+        "Rain": "rain",
         "SunShowers": {
-            "day": "wi-day-rain-mix",
-            "night": "wi-night-rain-mix"
+            "day": "partly-cloudy-day-rain",
+            "night": "partly-cloudy-night-rain"
         },
         "ScatteredThunderstorms": {
-            "day": "wi-day-thunderstorm",
-            "night": "wi-night-thunderstorm"
+            "day": "thunderstorms-day-rain",
+            "night": "thunderstorms-night-rain"
         },
-        "StrongStorms": {
-            "day": "wi-day-storm-showers",
-            "night": "wi-night-storm-showers"
-        },
+        "StrongStorms": "raindrops",
         "Thunderstorms": {
-            "day": "wi-day-thunderstorm",
-            "night": "wi-night-thunderstorm"
+            "day": "thunderstorms-day-rain",
+            "night": "thunderstorms-night-rain"
         },
-        "Frigid": {
-            "day": "wi-day-cloudy-gusts",
-            "night": "wi-night-cloudy-gusts"
-        },
-        "Hail": "wi-hail",
-        "Hot": "wi-hot",
+        "Frigid": "thermometer-mercury-cold",
+        "Hail": "hail",
+        "Hot": "thermometer-mercury",
         "Flurries": {
-            "day": "wi-day-snow",
-            "night": "wi-night-snow"
+            "day": "partly-cloudy-day-snow",
+            "night": "partly-cloudy-night-snow"
         },
-        "Sleet": {
-            "day": "wi-day-sleet",
-            "night": "wi-night-sleet"
-        },
-        "Snow": "wi-snow",
+        "Sleet": "sleet",
+        "Snow": "snow",
         "SunFlurries": {
-            "day": "wi-day-snow-wind",
-            "night": "wi-night-snow-wind"
+            "day": "partly-cloudy-day-snow",
+            "night": "partly-cloudy-night-snow"
         },
-        "WintryMix": "wi-rain-mix",
-        "Blizzard": "wi-snow",
-        "BlowingSnow": "wi-snow-wind",
-        "FreezingDrizzle": {
-            "day": "wi-day-rain-mix",
-            "night": "wi-night-rain-mix"
-        },
-        "FreezingRain": {
-            "day": "wi-day-rain-mix",
-            "night": "wi-night-rain-mix"
-        },
-        "HeavySnow": "wi-snow",
-        "Hurricane": "wi-hurricane",
-        "TropicalStorm": "wi-hurricane-warning",
+        "WintryMix": "snow",
+        "Blizzard": "snow",
+        "BlowingSnow": "snow",
+        "FreezingDrizzle": "rain",
+        "FreezingRain": "rain",
+        "HeavySnow": "snow",
+        "Hurricane": "hurricane",
+        "TropicalStorm": "hurricane",
         
-        "new": "wi-moon-new",
-        "waxingCrescent": "wi-moon-waxing-crescent-2",
-        "firstQuarter": "wi-moon-first-quarter",
-        "full": "wi-moon-full",
-        "waxingGibbous": "wi-moon-waxing-gibbous-2",
-        "waningGibbous": "wi-moon-waning-gibbous-2",
-        "thirdQuarter": "wi-moon-third-quarter",
-        "waningCrescent": "wi-moon-waning-crescent-2",
+        "new": "moon-new",
+        "waxingCrescent": "moon-waxing-crescent",
+        "firstQuarter": "moon-first-quarter",
+        "full": "moon-full",
+        "waxingGibbous": "moon-waxing-gibbous",
+        "waningGibbous": "moon-waning-gibbous",
+        "thirdQuarter": "moon-last-quarter",
+        "waningCrescent": "moon-waning-crescent",
 
-        "daytime": "wi-day-sunny",
-        "overnight": "wi-night-clear",
-        "trendUp": "wi-direction-up",
-        "trendDown": "wi-direction-down",
-        "temperature": "wi-thermometer",
-        "humidity": "wi-humidity",
-        "wind": "wi-windy",
-        "uvIndex": "wi-hot",
-        "pressure": "wi-barometer",
-        "visibility": "wi-horizon",
-        "cloudCover": "wi-cloudy",
-        "sunrise": "wi-sunrise",
-        "sunset": "wi-sunset"
+        "daytime": "clear-day",
+        "overnight": "starry-night",
+        "trendUp": "direction-up",
+        "trendDown": "direction-down"
     },
     "appAccentColor": "blue",
     "appIcons": [
