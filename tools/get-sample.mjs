@@ -1,4 +1,3 @@
-
 /*
  * outside weather app
  * Copyright (C) 2024  MAINTAINERS
@@ -17,8 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { addDays, addHours } from "date-fns";
 import dotenv from 'dotenv';
-import { WeatherToken } from 'fruit-company';
+import { WeatherQuery, WeatherToken, allWeatherDataSets, perform } from 'fruit-company';
 
 dotenv.config();
 
@@ -30,6 +30,26 @@ const weatherToken = new WeatherToken(
 );
 await weatherToken.refresh();
 
-for (const [name, value] of weatherToken.headers.entries()) {
-    console.log(`${name}: ${value}`);
-}
+const language = "en-US";
+const location = {
+    latitude: 42.478,
+    longitude: -70.925,
+};
+const timezone = "America/New_York";
+const countryCode = "US";
+const currentAsOf = new Date();
+const weatherQuery = new WeatherQuery({
+    language,
+    location,
+    timezone,
+    countryCode,
+    currentAsOf,
+    dailyEnd: addDays(currentAsOf, 7),
+    dailyStart: currentAsOf,
+    dataSets: allWeatherDataSets,
+    hourlyEnd: addHours(currentAsOf, 24),
+    hourlyStart: currentAsOf,
+});
+
+const weather = await perform({ token: weatherToken, request: weatherQuery });
+console.log(JSON.stringify(weather));
