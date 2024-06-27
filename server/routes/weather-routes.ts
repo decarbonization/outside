@@ -25,10 +25,13 @@ import path from "path";
 import { loadTheme } from "../styling/themes";
 import { renderWeather } from "../templates/weather";
 import { coordinate } from "../utilities/converters";
-import { env } from "../utilities/env";
+import { envInt } from "../utilities/env";
 import { AsyncStorage } from "../utilities/storage";
 import { DepsObject } from "../views/_deps";
 import { SearchRoutes } from "./search-routes";
+
+// TODO: Currently limiting daily forecasts to 7 days because of
+//       <https://forums.developer.apple.com/forums/thread/757910>.
 
 const attributionFor = (() => {
     const cache = new Map<string, Attribution>();
@@ -152,10 +155,10 @@ async function getWeather(
         timezone,
         countryCode,
         currentAsOf,
-        dailyEnd: addDays(currentAsOf, 10),
+        dailyEnd: addDays(currentAsOf, envInt("DAILY_FORECAST_LIMIT", 7)),
         dailyStart: currentAsOf,
         dataSets: allWeatherDataSets,
-        hourlyEnd: addHours(currentAsOf, parseInt(env("HOURLY_FORECAST_LIMIT", "12"), 10)),
+        hourlyEnd: addHours(currentAsOf, envInt("HOURLY_FORECAST_LIMIT", 24)),
         hourlyStart: currentAsOf,
     });
     console.info(`GET /weather perform(${weatherQuery})`);
@@ -193,10 +196,10 @@ async function getWeatherDemo(
             timezone,
             countryCode,
             currentAsOf,
-            dailyEnd: addDays(currentAsOf, 10),
+            dailyEnd: addDays(currentAsOf, envInt("DAILY_FORECAST_LIMIT", 7)),
             dailyStart: currentAsOf,
             dataSets: allWeatherDataSets,
-            hourlyEnd: addHours(currentAsOf, parseInt(env("HOURLY_FORECAST_LIMIT", "12"), 10)),
+            hourlyEnd: addHours(currentAsOf, envInt("HOURLY_FORECAST_LIMIT", 24)),
             hourlyStart: currentAsOf,
         });
         console.info(`GET /weather/demo perform(${weatherQuery})`);
