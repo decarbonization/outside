@@ -16,9 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { addDays, addHours, differenceInHours, differenceInSeconds } from "date-fns";
+import { addDays, addHours, differenceInSeconds } from "date-fns";
 import { Request, Response, Router } from "express";
-import { Attribution, LocationCoordinates, Weather, WeatherAttribution, WeatherQuery, WeatherToken, allWeatherDataSets, perform, truncateLocationCoordinates } from "fruit-company";
+import { Attribution, LocationCoordinates, Weather, WeatherAttribution, WeatherQuery, WeatherToken, allWeatherDataSets, parseWeather, perform, truncateLocationCoordinates } from "fruit-company";
 import fs from "fs/promises";
 import { find } from "geo-tz";
 import path from "path";
@@ -63,72 +63,6 @@ function cacheControlFor(weather: Weather): string {
     const maxAge = differenceInSeconds(expireTime, readTime);
     return `public, max-age=${maxAge}`;
 }
-
-async function parseWeather(rawWeather: string): Promise<Weather> {
-    const weatherResponse = new Response(rawWeather, {
-        headers: {},
-        status: 200,
-        statusText: "OK",
-    });
-    const fakeWeatherQuery = new WeatherQuery({
-        language: "none",
-        location: { latitude: 0, longitude: 0 },
-        timezone: "nowhere",
-    });
-    return await fakeWeatherQuery.parse(weatherResponse);
-}
-
-const demo = {
-    cities: [
-        { country: "JP", location: { latitude: 35.689506, longitude: 139.6917 }, query: "Tokyo" },
-        { country: "IN", location: { latitude: 28.6439255, longitude: 77.09298 }, query: "Delhi" },
-        { country: "CN", location: { latitude: 31.2203102, longitude: 121.4623931 }, query: "Shanghai" },
-        { country: "BR", location: { latitude: -23.5796404, longitude: -46.6550645 }, query: "São Paulo" },
-        { country: "MX", location: { latitude: 19.4301054, longitude: -99.1336074 }, query: "Mexico City" },
-        { country: "EG", location: { latitude: 30.0214489, longitude: 31.4904086 }, query: "Cairo" },
-        { country: "US", location: { latitude: 40.7129822, longitude: -74.007205 }, query: "New York" },
-    ],
-
-    get city() {
-        return this.cities[Math.floor(Math.random() * this.cities.length)];
-    },
-
-    async load(localStorage: AsyncStorage): Promise<Weather | undefined> {
-        const rawWeather = await localStorage.getItem("weather:demo");
-        if (rawWeather === undefined) {
-            return undefined;
-        }
-        const weather = await parseWeather(rawWeather);
-        const fetchTime = weather.currentWeather?.asOf;
-        const latitude = weather.currentWeather?.metadata.latitude;
-        const longitude = weather.currentWeather?.metadata.longitude;
-        if (fetchTime === undefined || latitude === undefined || longitude === undefined) {
-            console.warn("Existing demo weather data is corrupt");
-            return undefined;
-        }
-
-        if (differenceInHours(new Date(), fetchTime) > 24) {
-            console.info("Existing demo weather data has expired");
-            return undefined;
-        }
-
-        return weather;
-    },
-
-    async save(weather: Weather, localStorage: AsyncStorage): Promise<void> {
-        const rawWeather = JSON.stringify(weather);
-        await localStorage.setItem("weather:demo", rawWeather);
-        console.info("Updated weather demo data");
-    },
-
-    cityFor(weather: Weather) {
-        // This is kind of gross, but it compensates for WeatherKit returning
-        // geo coordinates that don't match what's passed to it. Our demo cities
-        // data set is closed and fully controlled so this should be fine.
-        const latitude = weather.currentWeather?.metadata.latitude ?? 0;
-        return demo.cities.find(({ location }) => Math.floor(location.latitude) === Math.floor(latitude));
-    },
-};
 
 export interface WeatherRoutesOptions {
     readonly weatherToken: WeatherToken;
@@ -177,49 +111,6 @@ async function getWeather(
     res.type('html').send(resp);
 }
 
-async function getWeatherDemo(
-    { weatherToken, localStorage }: WeatherRoutesOptions,
-    req: Request,
-    res: Response
-): Promise<void> {
-    const language = req.i18n.resolvedLanguage ?? req.language;
-    let weather = await demo.load(localStorage);
-    if (weather === undefined) {
-        const demoCity = demo.city;
-        const location = demoCity.location;
-        const timezone = timezoneFor(location);
-        const countryCode = demoCity.country;
-        const currentAsOf = new Date();
-        const weatherQuery = new WeatherQuery({
-            language,
-            location,
-            timezone,
-            countryCode,
-            currentAsOf,
-            dailyEnd: addDays(currentAsOf, envInt("DAILY_FORECAST_LIMIT", 7)),
-            dailyStart: currentAsOf,
-            dataSets: allWeatherDataSets,
-            hourlyEnd: addHours(currentAsOf, envInt("HOURLY_FORECAST_LIMIT", 24)),
-            hourlyStart: currentAsOf,
-        });
-        console.info(`GET /weather/demo perform(${weatherQuery})`);
-        weather = await perform({
-            token: weatherToken,
-            request: weatherQuery,
-        });
-        await demo.save(weather, localStorage);
-    }
-    const demoCity = demo.cityFor(weather);
-    const attribution = await attributionFor(weatherToken, language);
-    const deps: DepsObject = {
-        i18n: req.i18n,
-        theme: await loadTheme(),
-        timeZone: demoCity !== undefined ? timezoneFor(demoCity.location) : "UTC",
-    };
-    const resp = renderWeather({ deps, query: demoCity?.query, disableSearch: true, weather, attribution });
-    res.type('html').send(resp);
-}
-
 async function getWeatherSample(
     { weatherToken }: WeatherRoutesOptions,
     req: Request,
@@ -227,7 +118,7 @@ async function getWeatherSample(
 ): Promise<void> {
     const language = req.i18n.resolvedLanguage ?? req.language;
     const rawWeather = await fs.readFile(path.join(__dirname, "wk-sample.json"), "utf-8");
-    const weather = await parseWeather(rawWeather);
+    const weather = parseWeather(rawWeather);
     const attribution = await attributionFor(weatherToken, language);
     const deps: DepsObject = {
         i18n: req.i18n,
@@ -258,9 +149,6 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
                 // Redirect links without a locality
                 res.redirect(SearchRoutes.linkToGetSearchByCoordinates(location));
             }
-        })
-        .get('/weather/demo', async (req, res) => {
-            await getWeatherDemo(options, req, res);
         })
         .get('/weather/sample', async (req, res) => {
             await getWeatherSample(options, req, res);
