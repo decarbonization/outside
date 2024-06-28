@@ -103,6 +103,13 @@
         "title": "{{count, number}} Day Forecast",
         "dayNightSeparator": "\u00A0/\u00A0"
     },
+    "minutelyForecast": {
+        "periodClearFullHour": "Clear for the next hour",
+        "periodFullHour": "{{chance, number(maximumFractionDigits: 0; style: percent)}} of {{type}} for the next hour",
+        "periodIndefinite": "{{chance, number(maximumFractionDigits: 0; style: percent)}} of {{type}} starting at {{start, datetime(timeStyle: 'short')}}",
+        "periodDefinite": "{{chance, number(maximumFractionDigits: 0; style: percent)}} of {{type}} between {{start, datetime(timeStyle: 'short')}} and {{end, datetime(timeStyle: 'short')}}",
+        "periodJoiner": " then "
+    },
     "hourlyForecast": {
         "title": "{{count, number}} Hour Forecast"
     },

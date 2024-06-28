@@ -137,6 +137,68 @@ pre {
     mask-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 5%, white 95%, rgba(255, 255, 255, 0) 100%);
 }
 
+.bar-chart {
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: var(--v-spacing) 0;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: end;
+    justify-content: center;
+}
+
+.bar-chart-item {
+    width: 0.5em;
+    height: var(--bar-chart-item-percent);
+    background-color: var(--accent);
+    border-bottom: 1px solid var(--accent);
+}
+
+.bar-chart-item.p0 {
+    --bar-chart-item-percent: 0%;
+}
+
+.bar-chart-item.p10 {
+    --bar-chart-item-percent: 10%;
+}
+
+.bar-chart-item.p20 {
+    --bar-chart-item-percent: 20%;
+}
+
+.bar-chart-item.p30 {
+    --bar-chart-item-percent: 30%;
+}
+
+.bar-chart-item.p40 {
+    --bar-chart-item-percent: 40%;
+}
+
+.bar-chart-item.p50 {
+    --bar-chart-item-percent: 50%;
+}
+
+.bar-chart-item.p60 {
+    --bar-chart-item-percent: 60%;
+}
+
+.bar-chart-item.p70 {
+    --bar-chart-item-percent: 70%;
+}
+
+.bar-chart-item.p80 {
+    --bar-chart-item-percent: 80%;
+}
+
+.bar-chart-item.p90 {
+    --bar-chart-item-percent: 90%;
+}
+
+.bar-chart-item.p100 {
+    --bar-chart-item-percent: 100%;
+}
+
 .current-forecast {
     margin-top: calc(var(--v-spacing)*1.5);
     text-align: center;
@@ -159,6 +221,10 @@ pre {
     justify-content: center;
     gap: var(--v-spacing) var(--h-spacing);
     margin-bottom: var(--v-spacing);
+}
+
+.minutely-forecast-minutes {
+    height: 5em;
 }
 
 .weather-alert details summary::before {
@@ -321,6 +387,7 @@ pre {
     position: relative;
     text-align: center;
 }
+
 .daily-forecast-reading-condition-block .icon {
     font-size: 1.7em;
     margin: 0.3em 0;
