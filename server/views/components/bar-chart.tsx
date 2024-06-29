@@ -23,16 +23,19 @@ export interface BarChartProps {
     readonly min: number;
     readonly max: number;
     readonly values: number[];
+    readonly captions: string[];
 }
 
-export function BarChart({ className, min, max, values }: BarChartProps) {
+export function BarChart({ className, min, max, values, captions }: BarChartProps) {
     if (values.length === 0) {
         return null;
     }
+    const maxWidthPerBar = ((1.0 / values.length) * 100.0).toFixed(2);
+    const inlineStyle = `--bar-chart-item-width: ${maxWidthPerBar}%;`;
     return (
-        <ol className={classNames("bar-chart", "orthogonal-scrollable", className)}>
-            {values.map(value => (
-                <Bar min={min} max={max} value={value} />
+        <ol className={classNames("bar-chart", "orthogonal-scrollable", className)} style={inlineStyle}>
+            {values.map((value, index) => (
+                <Bar min={min} max={max} value={value} caption={captions[index]} />
             ))}
         </ol>
     );
@@ -42,13 +45,14 @@ interface BarProps {
     readonly min: number;
     readonly max: number;
     readonly value: number;
+    readonly caption: string;
 }
 
-function Bar({ value, min, max }: BarProps) {
+function Bar({ value, min, max, caption }: BarProps) {
     const normalizedValue = Math.max(min, Math.min(max, value));
     const percentage = 100 * (normalizedValue - min) / (max - min);
     const pNumber = Math.round(percentage / 10) * 10;
     return (
-        <li className={classNames("bar-chart-item", `p${pNumber}`)} />
+        <li className={classNames("bar-chart-item", `p${pNumber}`)} data-tooltip={caption} />
     );
 }

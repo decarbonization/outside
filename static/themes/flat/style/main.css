@@ -157,11 +157,23 @@ pre {
 }
 
 .bar-chart-item {
-    width: 0.5em;
+    width: var(--bar-chart-item-width, 1%);
     height: var(--bar-chart-item-percent);
     background-color: var(--accent);
     border-bottom: 1px solid var(--accent);
 }
+
+[data-tooltip]:hover::after {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    content: attr(data-tooltip);
+    background: var(--background);
+    opacity: 0.8;
+    backdrop-filter: blur(10px);
+    padding: 0.2em;
+    border-radius: 0.2em;
+  }
 
 .bar-chart-item.p0 {
     --bar-chart-item-percent: 0%;

@@ -42,7 +42,7 @@ export function MinutelyForecast({ forecast }: MinutelyForecastProps) {
             </p>
             {
                 hasPrecipitation(forecast.minutes)
-                    ? <BarChart className="minutely-forecast-minutes" min={0} max={1} values={forecast.minutes.map(m => m.precipitationChance)} />
+                    ? <BarChart className="minutely-forecast-minutes" min={0} max={1} values={forecast.minutes.map(m => m.precipitationChance)} captions={forecast.minutes.map(m => m.startTime.toTimeString())} />
                     : null
             }
         </section>
