@@ -29,6 +29,7 @@
     --separator: #aaa;
     --transition-timing: cubic-bezier(.28, .84, .58, .98);
     --hover-bg-color: rgba(0, 0, 0, 0.091);
+    --focus-bg-color: rgba(0, 0, 0, 0.091);
 }
 
 @media (width < 375px) {
@@ -82,6 +83,7 @@ select {
     background: none;
     color: var(--accent);
     padding: 0.3em;
+    border-radius: 0.1em;
 }
 
 button:active,
@@ -92,6 +94,12 @@ select:active {
 button:disabled,
 select:disabled {
     color: var(--accent-inactive);
+}
+
+button:focus,
+select:focus {
+    outline: 2px solid var(--accent);
+    background-color: var(--focus-bg-color);
 }
 
 input[type="search"],
@@ -250,11 +258,11 @@ pre {
 .hourly-forecast h1 {
     margin: 0;
     float: left;
-    padding-right: var(--h-spacing);
 }
 
 .hourly-forecast-selector {
     float: right;
+    text-align: end;
 }
 
 .hourly-forecast-main .hourly-forecast-reading.temperature,
