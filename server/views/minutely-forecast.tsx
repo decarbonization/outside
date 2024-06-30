@@ -22,6 +22,7 @@ import { useContext } from "preact/hooks";
 import { Deps } from "./_deps";
 import classNames from "classnames";
 import { BarChart } from "./components/bar-chart";
+import { formatDate } from "./components/dates";
 
 export interface MinutelyForecastProps {
     readonly forecast?: NextHourForecast;
@@ -34,7 +35,11 @@ export function MinutelyForecast({ forecast }: MinutelyForecastProps) {
     if (forecast.summary.length === 0) {
         return null;
     }
-    const { i18n } = useContext(Deps);
+    const { i18n, timeZone } = useContext(Deps);
+    const points = forecast.minutes.map(m => ({
+        value: m.precipitationChance,
+        caption: formatDate(i18n, m.startTime, { timeStyle: 'short', timeZone }),
+    }));
     return (
         <section className="minutely-forecast">
             <p className="summary">
@@ -42,7 +47,7 @@ export function MinutelyForecast({ forecast }: MinutelyForecastProps) {
             </p>
             {
                 hasPrecipitation(forecast.minutes)
-                    ? <BarChart className="minutely-forecast-minutes" min={0} max={1} values={forecast.minutes.map(m => m.precipitationChance)} captions={forecast.minutes.map(m => m.startTime.toTimeString())} />
+                    ? <BarChart className="minutely-forecast-minutes" min={0} max={1} points={points} />
                     : null
             }
         </section>

@@ -18,24 +18,28 @@
 
 import classNames from "classnames";
 
+export interface BarChartPoint {
+    readonly value: number;
+    readonly caption: string;
+}
+
 export interface BarChartProps {
     readonly className?: string;
     readonly min: number;
     readonly max: number;
-    readonly values: number[];
-    readonly captions: string[];
+    readonly points: BarChartPoint[];
 }
 
-export function BarChart({ className, min, max, values, captions }: BarChartProps) {
-    if (values.length === 0) {
+export function BarChart({ className, min, max, points }: BarChartProps) {
+    if (points.length === 0) {
         return null;
     }
-    const maxWidthPerBar = ((1.0 / values.length) * 100.0).toFixed(2);
+    const maxWidthPerBar = ((1.0 / points.length) * 100.0).toFixed(2);
     const inlineStyle = `--bar-chart-item-width: ${maxWidthPerBar}%;`;
     return (
         <ol className={classNames("bar-chart", "orthogonal-scrollable", className)} style={inlineStyle}>
-            {values.map((value, index) => (
-                <Bar min={min} max={max} value={value} caption={captions[index]} />
+            {points.map(({ value, caption }) => (
+                <Bar min={min} max={max} value={value} caption={caption} />
             ))}
         </ol>
     );

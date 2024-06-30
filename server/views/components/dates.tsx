@@ -17,6 +17,7 @@
  */
 
 import classNames from "classnames";
+import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
 
@@ -35,6 +36,22 @@ export interface DateProps {
      * Whether to hide the element if `when` is not provided.
      */
     readonly autoHide?: boolean;
+}
+
+/**
+ * Convert a date into a localized, human-readable string.
+ * 
+ * @param i18n The i18next object to use when formatting the date.
+ * @param when The date to format.
+ * @param options Options specifying how to format the date.
+ * @returns A human readable, localized string representation of the date.
+ */
+export function formatDate(
+    i18n: i18n, 
+    when: Date, 
+    options: Intl.DateTimeFormatOptions
+): string {
+    return i18n.format(when, "datetime", undefined, options);
 }
 
 function Empty({ className, autoHide = false }: DateProps) {
@@ -57,7 +74,7 @@ export function Hour({ className, when, autoHide }: DateProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <span className={classNames("datetime", className)}>
-            {i18n.format(when, "datetime", undefined, { hour: 'numeric', timeZone })}
+            {formatDate(i18n, when, { hour: 'numeric', timeZone })}
         </span>
     );
 }
@@ -69,7 +86,7 @@ export function ShortDate({ className, when, autoHide }: DateProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <span className={classNames("datetime", className)}>
-            {i18n.format(when, "datetime", undefined, { dateStyle: 'short', timeZone })}
+            {formatDate(i18n, when, { dateStyle: 'short', timeZone })}
         </span>
     );
 }
@@ -81,7 +98,7 @@ export function ShortTime({ className, when, autoHide }: DateProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <span className={classNames("datetime", className)}>
-            {i18n.format(when, "datetime", undefined, { timeStyle: 'short', timeZone })}
+            {formatDate(i18n, when, { timeStyle: 'short', timeZone })}
         </span>
     );
 }
@@ -93,7 +110,7 @@ export function Weekday({ className, when, autoHide }: DateProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <span className={classNames("datetime", className)}>
-            {i18n.format(when, "datetime", undefined, { weekday: 'short', timeZone })}
+            {formatDate(i18n, when, { weekday: 'short', timeZone })}
         </span>
     );
 }
