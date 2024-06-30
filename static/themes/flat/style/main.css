@@ -173,7 +173,7 @@ pre {
     backdrop-filter: blur(10px);
     padding: 0.2em;
     border-radius: 0.2em;
-  }
+}
 
 .bar-chart-item.p0 {
     --bar-chart-item-percent: 0%;
@@ -247,20 +247,29 @@ pre {
     height: 5em;
 }
 
-.weather-alert details summary::before {
-    content: "⚠ ";
+.weather-alert details {
+    background: #ff6700;
+    color: #fff;
+    padding: 0.1em 0.5em;
+    border-radius: 0.3em;
 }
 
 .weather-alert details summary {
     font-size: 1.2em;
+}
+.weather-alert details[open] summary {
+    margin-bottom: 0.5em;
 }
 
 .weather-alert:not(:last-child) {
     margin-bottom: var(--h-spacing);
 }
 
-.weather-alert a {
+.weather-alert details a {
     display: block;
+    margin-top: 0.5em;
+    color: #fff;
+    text-decoration: underline;
 }
 
 .hourly-forecast {

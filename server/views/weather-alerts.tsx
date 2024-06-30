@@ -39,8 +39,9 @@ export function WeatherAlerts({ collection }: WeatherAlertsProps) {
                 {collection.alerts.map(alert => (
                     <li className={classNames("weather-alert", alert.certainty, alert.urgency, alert.severity)}>
                         <details>
-                            <summary>{alert.areaName}: {alert.description}</summary>
+                            <summary>{alert.description}</summary>
                             {i18n.t("weatherAlerts.details", {
+                                interpolation: { escapeValue: false },
                                 agency: alert.source,
                                 effective: alert.effectiveTime,
                                 expires: alert.expireTime,
