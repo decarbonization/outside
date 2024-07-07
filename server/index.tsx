@@ -26,7 +26,9 @@ import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
+import { AirNowToken } from './air-now/api/air-now-token';
 import { ErrorMiddleware } from './middlewares/error-middleware';
+import { AirQualityRoutes } from './routes/air-quality-routes';
 import { IndexRoutes } from './routes/index-routes';
 import { SearchRoutes } from './routes/search-routes';
 import { WeatherRoutes } from './routes/weather-routes';
@@ -71,6 +73,9 @@ const weatherToken = new WeatherToken(
     env("APPLE_WEATHER_KEY_ID"),
     env("APPLE_WEATHER_KEY"),
 );
+const airNowToken = new AirNowToken(
+    env("AIR_NOW_API_KEY")
+);
 
 const app = express();
 
@@ -80,6 +85,7 @@ app.use(i18nextMiddleware.handle(i18next));
 app.use(IndexRoutes({}));
 app.use(SearchRoutes({ mapsToken }));
 app.use(WeatherRoutes({ weatherToken, localStorage }));
+app.use(AirQualityRoutes({ airNowToken }))
 app.use(express.static(staticDir));
 
 // Must come last!
