@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
-import { GeocodeAddress, LocationCoordinates, MapsToken, ReverseGeocodeAddress, perform } from "fruit-company";
+import { GeocodeAddress, MapsToken, ReverseGeocodeAddress } from "fruit-company";
+import { fulfill } from "serene-front";
+import { LocationCoordinates } from "serene-front/models";
 import { coordinate } from "../utilities/converters";
 import { IndexRoutes } from "./index-routes";
 import { WeatherRoutes } from "./weather-routes";
@@ -22,8 +24,8 @@ async function getSearchByQuery(
     const language = req.i18n.resolvedLanguage ?? req.language;
     const geocodeAddress = new GeocodeAddress({ query, language });
     console.info(`GET /search perform(${geocodeAddress})`);
-    const { results } = await perform({
-        token: mapsToken,
+    const { results } = await fulfill({
+        authority: mapsToken,
         request: geocodeAddress,
     })
     if (results.length === 0) {
@@ -47,8 +49,8 @@ async function getSearchByCoordinates(
     const ref = req.query["ref"] as string | undefined;
     const reverseGeocodeAddress = new ReverseGeocodeAddress({ location, language });
     console.info(`GET /search perform(${reverseGeocodeAddress})`);
-    const { results } = await perform({
-        token: mapsToken,
+    const { results } = await fulfill({
+        authority: mapsToken,
         request: reverseGeocodeAddress,
     });
     if (results.length === 0) {

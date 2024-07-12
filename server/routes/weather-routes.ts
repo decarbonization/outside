@@ -18,7 +18,9 @@
 
 import { addDays, addHours, differenceInSeconds } from "date-fns";
 import { Request, Response, Router } from "express";
-import { Attribution, LocationCoordinates, Weather, WeatherAttribution, WeatherQuery, WeatherToken, allWeatherDataSets, parseWeather, perform, truncateLocationCoordinates } from "fruit-company";
+import { Attribution, Weather, WeatherAttribution, WeatherQuery, WeatherToken, allWeatherDataSets, parseWeather } from "fruit-company";
+import { fulfill } from "serene-front";
+import { LocationCoordinates, truncateLocationCoordinates } from "serene-front/models";
 import fs from "fs/promises";
 import { find } from "geo-tz";
 import path from "path";
@@ -40,7 +42,7 @@ const attributionFor = (() => {
         if (existingAttribution !== undefined) {
             return existingAttribution
         }
-        const newAttribution = await perform({ token, request: new WeatherAttribution({ language }) });
+        const newAttribution = await fulfill({ authority: token, request: new WeatherAttribution({ language }) });
         cache.set(language, newAttribution);
         return newAttribution;
     }
@@ -96,8 +98,8 @@ async function getWeather(
         hourlyStart: currentAsOf,
     });
     console.info(`GET /weather perform(${weatherQuery})`);
-    const weather = await perform({
-        token: weatherToken,
+    const weather = await fulfill({
+        authority: weatherToken,
         request: weatherQuery,
     });
     const attribution = await attributionFor(weatherToken, language);
