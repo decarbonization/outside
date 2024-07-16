@@ -55,21 +55,22 @@ export function MinutelyForecast({ forecast }: MinutelyForecastProps) {
 }
 
 function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
-    if (summary.length === 1) {
+    const stormyPeriods = summary.filter(period => period.condition !== PrecipitationType.clear && period.precipitationChance > 0);
+    if (stormyPeriods.length === 0) {
+        return i18n.t('minutelyForecast.periodClearFullHour');
+    } else if (summary.length === 1) {
         const onlyPeriod = summary[0];
-        if (onlyPeriod.condition === PrecipitationType.clear) {
-            return i18n.t('minutelyForecast.periodClearFullHour');
-        } else {
-            return i18n.t('minutelyForecast.periodFullHour', {
-                chance: onlyPeriod.precipitationChance,
-                type: nameOf(i18n, onlyPeriod.condition),
-            });
-        }
+        return i18n.t('minutelyForecast.periodFullHour', {
+            chance: onlyPeriod.precipitationChance,
+            intensity: intensityOf(i18n, onlyPeriod.precipitationIntensity),
+            type: nameOf(i18n, onlyPeriod.condition),
+        });
     } else {
         const summaryPeriods = summary.map(period => {
             if (period.endTime !== undefined) {
                 return i18n.t('minutelyForecast.periodDefinite', {
                     chance: period.precipitationChance,
+                    intensity: intensityOf(i18n, period.precipitationIntensity),
                     type: nameOf(i18n, period.condition),
                     start: period.startTime,
                     end: period.endTime,
@@ -77,17 +78,32 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
             } else {
                 return i18n.t('minutelyForecast.periodIndefinite', {
                     chance: period.precipitationChance,
+                    intensity: intensityOf(i18n, period.precipitationIntensity),
                     type: nameOf(i18n, period.condition),
                     start: period.startTime,
                 });
             }
         });
-        return summaryPeriods.join(i18n.t('miuntelyForecast.periodJoiner'));
+        return summaryPeriods.join(i18n.t('minutelyForecast.periodJoiner'));
     }
 }
 
 function nameOf(i18n: i18n, condition: PrecipitationType): string {
     return i18n.t(`forecast.precipitationType.${condition}`, { defaultValue: condition });
+}
+
+function intensityOf(i18n: i18n, precipitationIntensity: number): string {
+    if (precipitationIntensity <= 0.0) {
+        throw new RangeError(`<${precipitationIntensity}> is not a valid precipitation intensity`);
+    } else if (precipitationIntensity <= 2.5) {
+        return i18n.t("minutelyForecast.precipitationIntensity.light");
+    } else if (precipitationIntensity <= 7.5) {
+        return i18n.t("minutelyForecast.precipitationIntensity.moderate");
+    } else if (precipitationIntensity <= 50) {
+        return i18n.t("minutelyForecast.precipitationIntensity.heavy");
+    } else {
+        return i18n.t("minutelyForecast.precipitationIntensity.violent");
+    }
 }
 
 function hasPrecipitation(minutes: ForecastMinute[]): boolean {
