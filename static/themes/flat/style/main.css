@@ -157,10 +157,11 @@ pre {
 }
 
 .bar-chart-item {
+    margin-right: 0.1em;
     width: var(--bar-chart-item-width, 1%);
-    height: 100%;
-    background: linear-gradient(to top, var(--accent) 0%, var(--accent) var(--bar-chart-item-percent), var(--background) var(--bar-chart-item-percent), var(--background) 100%);
-    border-bottom: 1px solid var(--accent);
+    height: var(--bar-chart-item-percent);
+    background: var(--accent);
+    border-radius: 0.5vw;
 }
 
 [data-tooltip]:hover::after {
@@ -247,6 +248,18 @@ pre {
 
 .minutely-forecast-minutes {
     height: 5em;
+}
+
+.minutely-forecast-minutes::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(var(--separator), var(--separator)) no-repeat center/100% 0.5px,
+        linear-gradient(var(--separator), var(--separator)) no-repeat top/100% 0.5px,
+        linear-gradient(var(--separator), var(--separator)) no-repeat bottom/100% 0.5px;
 }
 
 .weather-alert details {
