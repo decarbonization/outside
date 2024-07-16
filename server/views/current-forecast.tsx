@@ -18,10 +18,8 @@
 
 import { CurrentWeather, DayWeatherConditions } from "fruit-company";
 import { useContext } from "preact/hooks";
-import { ThemeDecoration } from "../styling/themes";
 import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
-import { Decoration } from "./components/decoration";
 import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "./components/units";
 
 export interface CurrentForecastProps {
@@ -47,25 +45,21 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
             </ol>
             <ol className="current-forecast-reading-group">
                 <li className="current-forecast-reading">
-                    <header>{i18n.t("forecast.measurementLabels.feelsLike")}</header>
-                    <TemperatureUnit measurement={now.temperatureApparent} />
+                    {i18n.t("forecast.measurementLabels.feelsLike")} <TemperatureUnit measurement={now.temperatureApparent} />
                 </li>
+            </ol>
+            <ol className="current-forecast-reading-group">
                 <li className="current-forecast-reading">
                     <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
                     <PercentageUnit measurement={now.humidity} />
                 </li>
                 <li className="current-forecast-reading">
-                    <header>{i18n.t("forecast.measurementLabels.dewPoint")}</header>
-                    <TemperatureUnit measurement={now.temperatureDewPoint} />
-                </li>
-                <li className="current-forecast-reading">
                     <header>{i18n.t("forecast.measurementLabels.wind")}</header>
-                    <SpeedUnit measurement={now.windSpeed} />
+                    <SpeedUnit measurement={now.windSpeed} /> <CompassDirectionUnit measurement={now.windDirection} />
+                    {now.windGust !== undefined
+                        ? <SpeedUnit className="gust" measurement={now.windGust} />
+                        : null}
                 </li>
-                {now.windGust !== undefined ? <li className="current-forecast-reading">
-                    <header>{i18n.t("forecast.measurementLabels.windGusts")}</header>
-                    <SpeedUnit measurement={now.windGust} />
-                </li> : null}
                 <li className="current-forecast-reading">
                     <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />

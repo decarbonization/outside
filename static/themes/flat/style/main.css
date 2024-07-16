@@ -246,6 +246,11 @@ pre {
     margin-bottom: var(--v-spacing);
 }
 
+.current-forecast-reading .unit.gust {
+    display: block;
+    font-size: 0.6em;
+}
+
 .minutely-forecast-minutes {
     height: 5em;
 }
@@ -425,7 +430,8 @@ pre {
 }
 
 .daily-forecast-reading.condition {
-    vertical-align: bottom;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .daily-forecast-reading-condition-block {

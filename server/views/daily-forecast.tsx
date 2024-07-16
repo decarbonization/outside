@@ -21,9 +21,8 @@ import { useContext } from "preact/hooks";
 import { ThemeDecoration } from "../styling/themes";
 import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
-import { ShortTime, Weekday } from "./components/dates";
+import { Weekday } from "./components/dates";
 import { Decoration } from "./components/decoration";
-import { Moon } from "./components/moon";
 import { Precipitation } from "./components/precipitation";
 import { PercentageUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "./components/units";
 
@@ -72,18 +71,6 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             <div className="daily-forecast-reading uv-index">
                                 <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
                                 <UVIndexUnit measurement={day.maxUvIndex} />
-                            </div>
-                            <div className="daily-forecast-reading sunrise">
-                                <header>{i18n.t("forecast.measurementLabels.sunrise")}</header>
-                                <ShortTime when={day.sunrise} />
-                            </div>
-                            <div className="daily-forecast-reading sunset">
-                                <header>{i18n.t("forecast.measurementLabels.sunset")}</header>
-                                <ShortTime when={day.sunset} />
-                            </div>
-                            <div className="daily-forecast-reading moon-phase">
-                                <header>{i18n.t("forecast.measurementLabels.moonPhase")}</header>
-                                <Moon phase={day.moonPhase} />
                             </div>
                         </li>
                     ))}
