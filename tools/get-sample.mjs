@@ -18,7 +18,8 @@
 
 import { addDays, addHours } from "date-fns";
 import dotenv from 'dotenv';
-import { WeatherQuery, WeatherToken, allWeatherDataSets, perform } from 'fruit-company';
+import { WeatherQuery, WeatherToken, allWeatherDataSets } from 'fruit-company';
+import { fulfill } from "serene-front";
 
 dotenv.config();
 
@@ -51,5 +52,5 @@ const weatherQuery = new WeatherQuery({
     hourlyStart: currentAsOf,
 });
 
-const weather = await perform({ token: weatherToken, request: weatherQuery });
+const weather = await fulfill({ token: weatherToken, request: weatherQuery });
 console.log(JSON.stringify(weather));

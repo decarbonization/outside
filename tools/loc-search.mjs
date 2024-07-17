@@ -1,4 +1,3 @@
-
 /*
  * outside weather app
  * Copyright (C) 2024  MAINTAINERS
@@ -18,18 +17,21 @@
  */
 
 import dotenv from 'dotenv';
-import { WeatherToken } from 'fruit-company';
+import { GeocodeAddress, MapsToken } from 'fruit-company';
+import { fulfill } from "serene-front";
 
 dotenv.config();
 
-const weatherToken = new WeatherToken(
-    process.env["APPLE_WEATHER_APP_ID"],
+const mapsToken = new MapsToken(
+    process.env["APPLE_MAPS_APP_ID"],
     process.env["APPLE_TEAM_ID"],
-    process.env["APPLE_WEATHER_KEY_ID"],
-    process.env["APPLE_WEATHER_KEY"],
+    process.env["APPLE_MAPS_KEY_ID"],
+    process.env["APPLE_MAPS_KEY"],
 );
-await weatherToken.refresh();
+await mapsToken.refresh();
 
-for (const [name, value] of weatherToken.headers.entries()) {
-    console.log(`${name}: ${value}`);
-}
+const query = "brooklyn";
+const language = "en-US";
+const geocodeAddress = new GeocodeAddress({ query, language });
+const places = await fulfill({ token: mapsToken, request: geocodeAddress });
+console.log(JSON.stringify(places));
