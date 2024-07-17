@@ -51,7 +51,10 @@ export function formatDate(
     when: Date, 
     options: Intl.DateTimeFormatOptions
 ): string {
-    return i18n.format(when, "datetime", undefined, options);
+    return i18n.format(when, "datetime", undefined, {
+        interpolation: { escapeValue: false },
+        ...options,
+    });
 }
 
 function Empty({ className, autoHide = false }: DateProps) {

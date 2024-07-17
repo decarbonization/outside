@@ -61,6 +61,7 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
     } else if (summary.length === 1) {
         const onlyPeriod = summary[0];
         return i18n.t('minutelyForecast.periodFullHour', {
+            interpolation: { escapeValue: false },
             chance: onlyPeriod.precipitationChance,
             intensity: intensityOf(i18n, onlyPeriod.precipitationIntensity),
             type: nameOf(i18n, onlyPeriod.condition),
@@ -69,6 +70,7 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
         const summaryPeriods = summary.map(period => {
             if (period.endTime !== undefined) {
                 return i18n.t('minutelyForecast.periodDefinite', {
+                    interpolation: { escapeValue: false },
                     chance: period.precipitationChance,
                     intensity: intensityOf(i18n, period.precipitationIntensity),
                     type: nameOf(i18n, period.condition),
@@ -77,6 +79,7 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
                 });
             } else {
                 return i18n.t('minutelyForecast.periodIndefinite', {
+                    interpolation: { escapeValue: false },
                     chance: period.precipitationChance,
                     intensity: intensityOf(i18n, period.precipitationIntensity),
                     type: nameOf(i18n, period.condition),

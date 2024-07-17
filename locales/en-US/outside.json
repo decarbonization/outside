@@ -90,7 +90,7 @@
             "veryHigh": "Very\u00A0High",
             "extreme": "Extreme"
         },
-        "lastUpdated": "Last Updated {{when, datetime(timeStyle: 'short'; dateStyle: 'medium')}}"
+        "lastUpdated": "Last Updated {{when, datetime(timeStyle: 'short'; dateStyle: 'short')}}"
     },
     "weatherAlerts": {
         "title": "Weather Alerts",
