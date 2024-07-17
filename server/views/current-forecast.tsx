@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { CurrentWeather, DayWeatherConditions } from "fruit-company";
+import { CurrentWeather, DayWeatherConditions, PressureTrend } from "fruit-company";
 import { useContext } from "preact/hooks";
 import { Deps } from "./_deps";
 import { Condition } from "./components/condition";
-import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "./components/units";
+import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "./components/units";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;
@@ -63,6 +63,10 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                 <li className="current-forecast-reading">
                     <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />
+                </li>
+                <li className="current-forecast-reading">
+                    <header>{i18n.t("forecast.measurementLabels.pressure")}</header>
+                    <PressureUnit measurement={now.pressure} />
                 </li>
             </ol>
             <footer className="last-updated" data-expires={now.metadata.expireTime.toISOString()}>
