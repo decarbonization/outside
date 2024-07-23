@@ -394,14 +394,12 @@ pre {
     margin-bottom: .5rem;
 }
 
-.daily-forecast-main {
-    display: table;
-    border-collapse: collapse;
-    box-sizing: border-box;
-}
-
 .daily-forecast-reading-group {
-    display: table-row;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--h-spacing) var(--v-spacing);
     border-radius: .25rem;
     transition: var(--transition-timing) background-color .25s;
 }
@@ -412,7 +410,6 @@ pre {
 }
 
 .daily-forecast-reading {
-    display: table-cell;
     padding: .75rem 0;
     text-align: center;
 }
@@ -422,14 +419,10 @@ pre {
 }
 
 .daily-forecast-reading.day {
+    min-width: 2.5em;
     font-size: 1.3em;
     font-weight: bold;
-    vertical-align: bottom;
-}
-
-.daily-forecast-reading.condition {
-    display: inline-block;
-    vertical-align: middle;
+    text-align: right;
 }
 
 .daily-forecast-reading-condition-block {
@@ -456,11 +449,11 @@ pre {
 
 .daily-forecast-reading.humidity {
     min-width: 7.5em;
+    white-space: nowrap;
 }
 
-.daily-forecast-reading.sunset,
-.daily-forecast-reading.sunrise {
-    min-width: 4em;
+.daily-forecast-reading.wind {
+    min-width: 3em;
 }
 
 .place-search form {
