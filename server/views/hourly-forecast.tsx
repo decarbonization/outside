@@ -42,7 +42,6 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
                 <option value="humidity">{i18n.t("forecast.measurementLabels.humidity")}</option>
                 <option value="wind">{i18n.t("forecast.measurementLabels.wind")}</option>
                 <option value="uv-index">{i18n.t("forecast.measurementLabels.uvIndex")}</option>
-                <option value="cloud-cover">{i18n.t("forecast.measurementLabels.cloudCover")}</option>
             </select>
             <ol className="hourly-forecast-main orthogonal-scrollable">
                 {hours.map(hour => (
@@ -63,9 +62,6 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
                         </div>
                         <div className="hourly-forecast-reading uv-index">
                             <UVIndexUnit measurement={hour.uvIndex} />
-                        </div>
-                        <div className="hourly-forecast-reading cloud-cover">
-                            <PercentageUnit measurement={hour.cloudCover} />
                         </div>
                         <div className="hourly-forecast-reading hour">
                             <Hour when={hour.forecastStart} />

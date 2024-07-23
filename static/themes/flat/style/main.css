@@ -310,8 +310,7 @@ pre {
 .hourly-forecast-main .hourly-forecast-reading.temperature,
 .hourly-forecast-main .hourly-forecast-reading.humidity,
 .hourly-forecast-main .hourly-forecast-reading.wind,
-.hourly-forecast-main .hourly-forecast-reading.uv-index,
-.hourly-forecast-main .hourly-forecast-reading.cloud-cover {
+.hourly-forecast-main .hourly-forecast-reading.uv-index {
     display: none;
 }
 
@@ -327,8 +326,7 @@ pre {
 .hourly-forecast-selector:has(option[value=temperature]:checked)~.hourly-forecast-main .hourly-forecast-reading.temperature,
 .hourly-forecast-selector:has(option[value=humidity]:checked)~.hourly-forecast-main .hourly-forecast-reading.humidity,
 .hourly-forecast-selector:has(option[value=wind]:checked)~.hourly-forecast-main .hourly-forecast-reading.wind,
-.hourly-forecast-selector:has(option[value=uv-index]:checked)~.hourly-forecast-main .hourly-forecast-reading.uv-index,
-.hourly-forecast-selector:has(option[value=cloud-cover]:checked)~.hourly-forecast-main .hourly-forecast-reading.cloud-cover {
+.hourly-forecast-selector:has(option[value=uv-index]:checked)~.hourly-forecast-main .hourly-forecast-reading.uv-index {
     display: block;
 }
 
