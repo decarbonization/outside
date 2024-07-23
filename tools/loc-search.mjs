@@ -28,10 +28,10 @@ const mapsToken = new MapsToken(
     process.env["APPLE_MAPS_KEY_ID"],
     process.env["APPLE_MAPS_KEY"],
 );
-await mapsToken.refresh();
+await mapsToken.refresh({});
 
 const query = "brooklyn";
 const language = "en-US";
 const geocodeAddress = new GeocodeAddress({ query, language });
-const places = await fulfill({ token: mapsToken, request: geocodeAddress });
+const places = await fulfill({ authority: mapsToken, request: geocodeAddress });
 console.log(JSON.stringify(places));

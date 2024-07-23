@@ -29,7 +29,7 @@ const weatherToken = new WeatherToken(
     process.env["APPLE_WEATHER_KEY_ID"],
     process.env["APPLE_WEATHER_KEY"],
 );
-await weatherToken.refresh();
+await weatherToken.refresh({});
 
 const language = "en-US";
 const location = {
@@ -52,5 +52,5 @@ const weatherQuery = new WeatherQuery({
     hourlyStart: currentAsOf,
 });
 
-const weather = await fulfill({ token: weatherToken, request: weatherQuery });
+const weather = await fulfill({ authority: weatherToken, request: weatherQuery });
 console.log(JSON.stringify(weather));
