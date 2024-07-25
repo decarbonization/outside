@@ -18,11 +18,11 @@
 
 import { HourlyForecast } from "fruit-company";
 import { useContext } from "preact/hooks";
-import { Deps } from "./_deps";
-import { Condition } from "./components/condition";
-import { Hour } from "./components/dates";
-import { Precipitation } from "./components/precipitation";
-import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureUnit, UVIndexUnit } from "./components/units";
+import { Deps } from "../_deps";
+import { Condition } from "../components/condition";
+import { Hour } from "../components/dates";
+import { Precipitation } from "../components/precipitation";
+import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureUnit, UVIndexUnit } from "../components/units";
 
 export interface HourlyForecastProps {
     readonly forecast?: HourlyForecast;

@@ -3,6 +3,9 @@
     "appDescription": "A data-dense Weather app.",
     "appPoweredBy": "Powered By",
     "errorTitle": "Error",
+    "tabWeather": "Weather",
+    "tabAstronomy": "Astronomy",
+    "tabAirQuality": "Air Quality",
     "forecast": {
         "measurementLabels": {
             "temperature": "Temperature",

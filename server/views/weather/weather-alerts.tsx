@@ -19,7 +19,7 @@
 import classNames from "classnames";
 import { WeatherAlertCollection } from "fruit-company";
 import { useContext } from "preact/hooks";
-import { Deps } from "./_deps";
+import { Deps } from "../_deps";
 
 export interface WeatherAlertsProps {
     readonly collection?: WeatherAlertCollection;

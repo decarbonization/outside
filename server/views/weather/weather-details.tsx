@@ -17,12 +17,13 @@
  */
 
 import { Attribution, Weather } from "fruit-company";
+import { ModeSelector } from "../mode-selector";
 import { CurrentForecast } from "./current-forecast";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";
-import { WeatherSource } from "./weather-source";
-import { WeatherAlerts } from "./weather-alerts";
 import { MinutelyForecast } from "./minutely-forecast";
+import { WeatherAlerts } from "./weather-alerts";
+import { WeatherSource } from "./weather-source";
 
 export interface WeatherDetailsProps {
     readonly weather?: Weather;
@@ -32,6 +33,7 @@ export interface WeatherDetailsProps {
 export function WeatherDetails({ weather, attribution }: WeatherDetailsProps) {
     return (
         <>
+            <ModeSelector mode="weather" />
             <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} />
             <MinutelyForecast forecast={weather?.forecastNextHour} />
             <WeatherAlerts collection={weather?.weatherAlerts} />

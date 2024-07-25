@@ -19,10 +19,10 @@
 import { ForecastMinute, ForecastPeriodSummary, NextHourForecast, PrecipitationType } from "fruit-company";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
-import { Deps } from "./_deps";
+import { Deps } from "../_deps";
 import classNames from "classnames";
-import { BarChart } from "./components/bar-chart";
-import { formatDate } from "./components/dates";
+import { BarChart } from "../components/bar-chart";
+import { formatDate } from "../components/dates";
 
 export interface MinutelyForecastProps {
     readonly forecast?: NextHourForecast;

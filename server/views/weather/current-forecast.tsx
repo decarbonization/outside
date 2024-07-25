@@ -18,9 +18,9 @@
 
 import { CurrentWeather, DayWeatherConditions, PressureTrend } from "fruit-company";
 import { useContext } from "preact/hooks";
-import { Deps } from "./_deps";
-import { Condition } from "./components/condition";
-import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "./components/units";
+import { Deps } from "../_deps";
+import { Condition } from "../components/condition";
+import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "../components/units";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;

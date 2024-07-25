@@ -248,6 +248,29 @@ pre {
     --bar-chart-item-percent: 100%;
 }
 
+.mode-selector input[type="radio"] {
+    display: none;
+}
+
+.mode-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+    gap: var(--h-spacing) var(--v-spacing);
+    margin: var(--h-spacing) 0;
+}
+
+.mode-selector a {
+    text-align: center;
+    color: currentColor;
+    padding: var(--h-spacing) var(--v-spacing);
+}
+
+.mode-selector a.selected {
+    background: var(--hover-bg-color);
+    border-radius: .25rem;
+    font-weight: bold;
+}
+
 .current-forecast {
     margin-top: calc(var(--v-spacing)*1.5);
     text-align: center;

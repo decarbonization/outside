@@ -20,7 +20,7 @@ import { Attribution, Weather } from "fruit-company";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
 import { PlaceSearch } from "../views/place-search";
-import { WeatherDetails } from "../views/weather-details";
+import { WeatherDetails } from "../views/weather/weather-details";
 import { renderApp } from "./_app";
 
 export interface RenderWeatherOptions {
