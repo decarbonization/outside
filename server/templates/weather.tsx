@@ -20,23 +20,28 @@ import { Attribution, Weather } from "fruit-company";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
 import { PlaceSearch } from "../views/place-search";
-import { WeatherDetails } from "../views/weather/weather-details";
+import { Forecast } from "../views/weather/forecast";
 import { renderApp } from "./_app";
+import { GetWeatherLinkOptions } from "../routes/weather-routes";
+import { ModeSelector } from "../views/mode-selector";
+import { WeatherSource } from "../views/weather/weather-source";
 
 export interface RenderWeatherOptions {
     readonly deps: DepsObject;
-    readonly query?: string;
     readonly disableSearch?: boolean;
+    readonly link: GetWeatherLinkOptions;
     readonly weather: Weather;
     readonly attribution: Attribution;
 }
 
-export function renderWeather({ deps, query, disableSearch, weather, attribution }: RenderWeatherOptions): string {
+export function renderWeather({ deps, link, disableSearch, weather, attribution }: RenderWeatherOptions): string {
     const className = elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight);
     return renderApp({ className, deps }, (
         <>
-            <PlaceSearch query={query} disabled={disableSearch} />
-            <WeatherDetails weather={weather} attribution={attribution} />
+            <PlaceSearch query={link.query} disabled={disableSearch} />
+            <ModeSelector link={link} mode="weather" />
+            <Forecast weather={weather} />
+            <WeatherSource weather={weather} attribution={attribution} />
         </>
     ));
 }

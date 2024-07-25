@@ -19,16 +19,15 @@
 import { addDays, addHours, differenceInSeconds } from "date-fns";
 import { Request, Response, Router } from "express";
 import { Attribution, Weather, WeatherAttribution, WeatherQuery, WeatherToken, allWeatherDataSets, parseWeather } from "fruit-company";
-import { fulfill } from "serene-front";
-import { LocationCoordinates, truncateLocationCoordinates } from "serene-front/models";
 import fs from "fs/promises";
 import { find } from "geo-tz";
 import path from "path";
+import { fulfill } from "serene-front";
+import { LocationCoordinates, truncateLocationCoordinates } from "serene-front/models";
 import { loadTheme } from "../styling/themes";
 import { renderWeather } from "../templates/weather";
 import { coordinate } from "../utilities/converters";
 import { envInt } from "../utilities/env";
-import { AsyncStorage } from "../utilities/storage";
 import { DepsObject } from "../views/_deps";
 import { SearchRoutes } from "./search-routes";
 
@@ -68,7 +67,6 @@ function cacheControlFor(weather: Weather): string {
 
 export interface WeatherRoutesOptions {
     readonly weatherToken: WeatherToken;
-    readonly localStorage: AsyncStorage;
 }
 
 async function getWeather(
@@ -84,6 +82,7 @@ async function getWeather(
     };
     const timezone = timezoneFor(location);
     const countryCode = req.params.country;
+    const ref = req.query["ref"] as string | undefined;
     const currentAsOf = new Date();
     const weatherQuery = new WeatherQuery({
         language,
@@ -108,7 +107,13 @@ async function getWeather(
         theme: await loadTheme(),
         timeZone: timezone,
     };
-    const resp = renderWeather({ deps, query, weather, attribution });
+    const link = {
+        countryCode,
+        location,
+        query,
+        ref,
+    };
+    const resp = renderWeather({ deps, link, weather, attribution });
     res.set("Cache-Control", cacheControlFor(weather));
     res.type('html').send(resp);
 }
@@ -127,7 +132,15 @@ async function getWeatherSample(
         theme: await loadTheme(),
         timeZone: "America/New_York",
     };
-    const resp = renderWeather({ deps, weather, attribution });
+    const link = {
+        countryCode: "US",
+        location: {
+            latitude: weather.currentWeather!.metadata.latitude,
+            longitude: weather.currentWeather!.metadata.longitude,
+        },
+        query: "!Sample",
+    };
+    const resp = renderWeather({ deps, link, weather, attribution });
     res.set("Cache-Control", "no-store");
     res.type('html').send(resp);
 }
@@ -146,7 +159,8 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
             if (query !== undefined) {
                 // Redirect legacy weather links
                 const countryCode = req.params.country;
-                res.redirect(WeatherRoutes.linkToGetWeather(countryCode, location, query));
+                const ref = req.query["ref"] as string | undefined;
+                res.redirect(WeatherRoutes.linkToGetWeather({ countryCode, location, query, ref }));
             } else {
                 // Redirect links without a locality
                 res.redirect(SearchRoutes.linkToGetSearchByCoordinates(location));
@@ -162,28 +176,40 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
 }
 
 /**
+ * An object specifying the parameters embedded in a link to get the weather.
+ */
+export interface GetWeatherLinkOptions {
+    /**
+     * The country the forecast data originates from.
+     */
+    readonly countryCode: string;
+
+    /**
+     * The location to find forecast data for.
+     */
+    readonly location: LocationCoordinates;
+
+    /**
+     * The query used to find the location.
+     */
+    readonly query: string;
+
+    /**
+     * The optional referrer.
+     */
+    readonly ref?: string;
+}
+
+/**
  * Create a link to a weather page.
  * 
- * @param country The country the forecast data originates from.
- * @param location The location to find forecast data for.
- * @param query The query used to find the location.
- * @param ref The optional referrer.
  * @returns A link suitable for embedding in an `a` tag.
  */
-WeatherRoutes.linkToGetWeather = function (country: string, location: LocationCoordinates, query: string, ref?: string): string {
+WeatherRoutes.linkToGetWeather = function ({ countryCode, location, query, ref }: GetWeatherLinkOptions): string {
     const { latitude, longitude } = truncateLocationCoordinates(location, 3);
-    let link = `/weather/${encodeURIComponent(country)}/${latitude}/${longitude}/${encodeURIComponent(query)}`;
+    let link = `/weather/${encodeURIComponent(countryCode)}/${latitude}/${longitude}/${encodeURIComponent(query)}`;
     if (ref !== undefined) {
         link += `?ref=${encodeURIComponent(ref)}`;
     }
     return link;
 };
-
-/**
- * Create a link to the weather demo page.
- * 
- * @returns A link suitable for embedding in an `a` tag.
- */
-WeatherRoutes.linkToGetWeatherDemo = function (): string {
-    return "/weather/demo";
-}

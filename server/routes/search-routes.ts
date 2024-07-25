@@ -22,6 +22,7 @@ async function getSearchByQuery(
     }
 
     const language = req.i18n.resolvedLanguage ?? req.language;
+    const ref = req.query["ref"] as string | undefined;
     const geocodeAddress = new GeocodeAddress({ query, language });
     console.info(`GET /search perform(${geocodeAddress})`);
     const { results } = await fulfill({
@@ -32,7 +33,12 @@ async function getSearchByQuery(
         res.redirect(IndexRoutes.getIndex(query));
     } else {
         const place = results[0];
-        res.redirect(WeatherRoutes.linkToGetWeather(place.countryCode, place.coordinate, place.structuredAddress.locality));
+        res.redirect(WeatherRoutes.linkToGetWeather({
+            countryCode: place.countryCode,
+            location: place.coordinate,
+            query: place.structuredAddress.locality,
+            ref,
+        }));
     }
 }
 
@@ -57,7 +63,12 @@ async function getSearchByCoordinates(
         res.redirect(IndexRoutes.getIndex(`${location.latitude}, ${location.longitude}`));
     } else {
         const place = results[0];
-        res.redirect(WeatherRoutes.linkToGetWeather(place.countryCode, location, place.structuredAddress.locality, ref));
+        res.redirect(WeatherRoutes.linkToGetWeather({
+            countryCode: place.countryCode,
+            location: place.coordinate,
+            query: place.structuredAddress.locality,
+            ref,
+        }));
     }
 }
 

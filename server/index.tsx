@@ -27,12 +27,13 @@ import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
 import { ErrorMiddleware } from './middlewares/error-middleware';
+import { AirQualityRoutes } from './routes/air-quality-routes';
+import { AstronomyRoutes } from './routes/astronomy-routes';
 import { IndexRoutes } from './routes/index-routes';
 import { SearchRoutes } from './routes/search-routes';
 import { WeatherRoutes } from './routes/weather-routes';
 import { env } from './utilities/env';
 import { setUpShutDownHooks } from './utilities/shut-down';
-import { SessionStorage } from './utilities/storage';
 
 dotenv.config();
 
@@ -44,7 +45,6 @@ process.on('unhandledRejection', (reason: Error | any) => {
 
 const localesDir = path.join(__dirname, "..", "locales");
 const staticDir = path.join(__dirname, "..", "static");
-const localStorage = new SessionStorage();
 
 i18next
     .use(i18nextBackend)
@@ -79,7 +79,9 @@ app.use(i18nextMiddleware.handle(i18next));
 
 app.use(IndexRoutes({}));
 app.use(SearchRoutes({ mapsToken }));
-app.use(WeatherRoutes({ weatherToken, localStorage }));
+app.use(WeatherRoutes({ weatherToken }));
+app.use(AstronomyRoutes({ weatherToken }));
+app.use(AirQualityRoutes({}));
 app.use(express.static(staticDir));
 
 // Must come last!

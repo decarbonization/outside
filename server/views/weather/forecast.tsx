@@ -16,30 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Attribution, Weather } from "fruit-company";
-import { ModeSelector } from "../mode-selector";
+import { Weather } from "fruit-company";
 import { CurrentForecast } from "./current-forecast";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";
 import { MinutelyForecast } from "./minutely-forecast";
 import { WeatherAlerts } from "./weather-alerts";
-import { WeatherSource } from "./weather-source";
 
-export interface WeatherDetailsProps {
+export interface ForecastProps {
     readonly weather?: Weather;
-    readonly attribution?: Attribution;
 }
 
-export function WeatherDetails({ weather, attribution }: WeatherDetailsProps) {
+export function Forecast({ weather }: ForecastProps) {
     return (
         <>
-            <ModeSelector mode="weather" />
             <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} />
             <MinutelyForecast forecast={weather?.forecastNextHour} />
             <WeatherAlerts collection={weather?.weatherAlerts} />
             <HourlyForecast forecast={weather?.forecastHourly} />
             <DailyForecast forecast={weather?.forecastDaily} />
-            <WeatherSource weather={weather} attribution={attribution} />
         </>
     );
 }
