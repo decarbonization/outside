@@ -55,20 +55,17 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                                 <Precipitation probability={day.precipitationChance} />
                             </div>
                         </div>
-                        <div className="daily-forecast-reading temperature-range">
+                        <div className="daily-forecast-reading temperature">
                             <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} compact={false} />
                         </div>
                         <div className="daily-forecast-reading humidity">
-                            <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
-                            <div>
-                                <Decoration name={ThemeDecoration.daytime} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
-                                {i18n.t('dailyForecast.dayNightSeparator')}
-                                <Decoration name={ThemeDecoration.overnight} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
-                            </div>
+                            <Decoration name={ThemeDecoration.daytime} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
+                            <br />
+                            <Decoration name={ThemeDecoration.overnight} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
                         </div>
                         <div className="daily-forecast-reading wind">
-                            <header>{i18n.t("forecast.measurementLabels.wind")}</header>
-                            <SpeedUnit measurement={day.windSpeedAvg} />
+                            <SpeedUnit className="speed" measurement={day.windSpeedAvg} />
+                            <SpeedUnit className="gust" measurement={day.windGustSpeedMax} />
                         </div>
                     </li>
                 ))}

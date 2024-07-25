@@ -28,13 +28,16 @@
     --accent-inactive: #737373;
     --separator: #aaa;
     --transition-timing: cubic-bezier(.28, .84, .58, .98);
+    --differentiate-bg-color: rgba(0, 102, 228, 0.05);
     --hover-bg-color: rgba(0, 0, 0, 0.091);
     --focus-bg-color: rgba(0, 0, 0, 0.091);
+    --card-columns: repeat(4, 25%);
 }
 
 @media (width < 375px) {
     :root {
         font-size: 14px;
+        --card-columns: repeat(2, 50%);
     }
 }
 
@@ -44,6 +47,7 @@
         --accent: #4d9dff;
         --accent-inactive: #a6a6a6;
         --separator: #555;
+        --differentiate-bg-color: rgba(77, 157, 255, 0.05);
     }
 }
 
@@ -126,6 +130,28 @@ pre {
 
 .unit {
     font-family: "Kode Mono", monospace;
+}
+
+.unit-range .high {
+    font-weight: bolder;
+}
+
+.unit-range .low {
+    font-weight: lighter;
+}
+
+.unit-range.compact .high,
+.unit-range.compact .low {
+    display: inline;
+    vertical-align: middle;
+}
+
+.unit-range.compact .high {
+    padding-right: 0.3em;
+}
+
+.unit-range.compact .low {
+    font-size: 0.9em;
 }
 
 .orthogonal-scrollable {
@@ -251,6 +277,11 @@ pre {
     font-size: 0.6em;
 }
 
+.current-forecast-reading .unit.gust::before {
+    content: "༄";
+    padding-right: 0.3em;
+}
+
 .minutely-forecast-minutes {
     height: 5em;
 }
@@ -317,6 +348,11 @@ pre {
     font-size: 0.8em;
 }
 
+.hourly-forecast-main .hourly-forecast-reading.wind .unit.gust::before {
+    content: "༄";
+    padding-right: 0.3em;
+}
+
 .hourly-forecast-main .hourly-forecast-reading.wind .unit.gust {
     display: block;
     font-size: 0.6em;
@@ -331,12 +367,15 @@ pre {
 .hourly-forecast-main {
     clear: both;
     list-style: none;
-    padding: 0;
-    margin: var(--v-spacing) 0;
+    padding: var(--v-spacing) 0;
     display: flex;
     flex-wrap: nowrap;
     align-items: start;
     justify-content: left;
+}
+
+.hourly-forecast-reading-group:first-child {
+    background: var(--differentiate-bg-color);
 }
 
 .hourly-forecast-reading-group {
@@ -389,17 +428,47 @@ pre {
 }
 
 .daily-forecast h1 {
-    margin-bottom: .5rem;
+    margin: 0;
+    float: left;
+}
+
+.daily-forecast-selector {
+    float: right;
+    text-align: end;
+}
+
+.daily-forecast-main .daily-forecast-reading.temperature,
+.daily-forecast-main .daily-forecast-reading.humidity,
+.daily-forecast-main .daily-forecast-reading.wind {
+    display: none;
+}
+
+.daily-forecast-selector:has(option[value=temperature]:checked)~.daily-forecast-main .daily-forecast-reading.temperature,
+.daily-forecast-selector:has(option[value=humidity]:checked)~.daily-forecast-main .daily-forecast-reading.humidity,
+.daily-forecast-selector:has(option[value=wind]:checked)~.daily-forecast-main .daily-forecast-reading.wind {
+    display: block;
+}
+
+.daily-forecast-main {
+    clear: both;
+    list-style: none;
+    padding: var(--v-spacing) 0;
+    display: grid;
+    grid-template-columns: var(--card-columns);
 }
 
 .daily-forecast-reading-group {
     display: flex;
-    flex-wrap: nowrap;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
     gap: var(--h-spacing) var(--v-spacing);
+    padding: var(--h-spacing) var(--v-spacing);
     border-radius: .25rem;
     transition: var(--transition-timing) background-color .25s;
+}
+
+.daily-forecast-reading-group:first-child {
+    background: var(--differentiate-bg-color);
 }
 
 .daily-forecast-reading-group:hover {
@@ -407,29 +476,30 @@ pre {
     box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
-.daily-forecast-reading {
-    padding: .75rem 0;
-    text-align: center;
-}
-
-.daily-forecast-reading:not(:last-child) {
-    padding-right: var(--h-spacing);
-}
-
 .daily-forecast-reading.day {
-    min-width: 2.5em;
-    font-size: 1.3em;
     font-weight: bold;
-    text-align: right;
+    font-size: 1.5em;
+    align-self: flex-start;
+}
+
+.daily-forecast-reading.wind .unit.gust::before {
+    content: "༄";
+    padding-right: 0.3em;
+}
+
+.daily-forecast-reading.wind .unit.gust {
+    display: block;
+    font-size: 0.7em;
 }
 
 .daily-forecast-reading-condition-block {
     position: relative;
     text-align: center;
+    display: inline-block;
 }
 
 .daily-forecast-reading-condition-block .icon {
-    font-size: 1.7em;
+    font-size: 2.5em;
     margin: 0.3em 0;
 }
 
@@ -443,15 +513,6 @@ pre {
     position: absolute;
     right: 0;
     bottom: 0;
-}
-
-.daily-forecast-reading.humidity {
-    min-width: 7.5em;
-    white-space: nowrap;
-}
-
-.daily-forecast-reading.wind {
-    min-width: 3em;
 }
 
 .place-search form {

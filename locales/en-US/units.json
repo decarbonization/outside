@@ -1,7 +1,7 @@
 {
     "placeholder": "--",
-    "highLabel": "↑",
-    "lowLabel": "↓",
+    "highLabel": "Hi ",
+    "lowLabel": "Lo ",
 
     "percentage": "{{value, number(maximumFractionDigits: 0; style: percent)}}",
     "uvIndex": "{{intensity, number(maximumFractionDigits: 0)}}",

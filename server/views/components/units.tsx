@@ -76,9 +76,12 @@ export function TemperatureRangeUnit({ className, max, min, compact = true }: Un
     const { i18n } = useContext(Deps);
     return (
         <span className={classNames("unit", "unit-range", { compact })}>
-            {i18n.t("units:highLabel")}<TemperatureUnit className={classNames("high", className)} measurement={max} />
-            {compact ? <>&nbsp;</> : <br />}
-            {i18n.t("units:lowLabel")}<TemperatureUnit className={classNames("low", className)} measurement={min} />
+            <div className="high">
+                {i18n.t("units:highLabel")}<TemperatureUnit className={classNames("high", className)} measurement={max} />
+            </div>
+            <div className="low">
+                {i18n.t("units:lowLabel")}<TemperatureUnit className={classNames("low", className)} measurement={min} />
+            </div>
         </span>
     );
 }
