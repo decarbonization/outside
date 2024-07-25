@@ -64,10 +64,6 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                     <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />
                 </li>
-                <li className="current-forecast-reading">
-                    <header>{i18n.t("forecast.measurementLabels.pressure")}</header>
-                    <PressureUnit measurement={now.pressure} />
-                </li>
             </ol>
             <footer className="last-updated" data-expires={now.metadata.expireTime.toISOString()}>
                 {i18n.t("forecast.lastUpdated", { interpolation: { escapeValue: false }, when: now.asOf, timeZone })}
