@@ -31,7 +31,7 @@ export interface MoonProps {
 export function Moon({ className, phase }: MoonProps) {
     const { i18n, theme } = useContext(Deps);
     return (
-        <span className={classNames("icon", className, themeIcon(theme, { name: phase, daylight: false }))} aria-label={labelFor(i18n, phase)} />
+        <span className={classNames("icon", "moon", className, themeIcon(theme, { name: phase, daylight: false }))} aria-label={labelFor(i18n, phase)} />
     );
 }
 

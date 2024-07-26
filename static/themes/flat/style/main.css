@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
- /* -- Global Styles -- */
+/* -- Global Styles -- */
 
 :root {
     font-family: "Rokkitt", serif;
@@ -158,6 +158,12 @@ pre {
 
 /* Common Text Styles */
 
+.sidekick {
+    font-size: 2em;
+    font-weight: bold;
+    line-height: 1.5rem;
+}
+
 .hero {
     font-size: 3em;
     font-weight: bold;
@@ -201,6 +207,11 @@ pre {
 .h-flow.spacing,
 .v-flow.spacing {
     gap: var(--v-spacing) var(--h-spacing);
+}
+
+.h-flow .flexible-spacer,
+.v-flow .flexible-spacer {
+    flex-grow: 1;
 }
 
 .bottom-spacing {
@@ -611,4 +622,16 @@ pre {
     position: absolute;
     right: 0;
     bottom: 0;
+}
+
+/* -- Moon Forecast -- */
+
+.moon-forecast .moon.icon {
+    vertical-align: middle;
+}
+
+/* -- Solar Forecast -- */
+
+.solar-forecast {
+    text-align: center;
 }

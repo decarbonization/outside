@@ -27,7 +27,11 @@ export type LinkDestination =
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
     | { where: "weather", sub?: WeatherSubdestination, countryCode: string, location: LocationCoordinates, query: string, ref?: string };
-export type ExactLinkDestination<Where extends LinkDestination["where"]> = Extract<LinkDestination, { where: Where }>;
+export type LinkDestinationTo<Where extends LinkDestination["where"]> = Extract<LinkDestination, { where: Where }>;
+
+export function linkDestination<Where extends LinkDestination["where"]>(destination: LinkDestinationTo<Where>): LinkDestinationTo<Where> {
+    return destination;
+}
 
 export function linkTo(destination: LinkDestination): string {
     switch (destination.where) {
@@ -42,7 +46,7 @@ export function linkTo(destination: LinkDestination): string {
     }
 }
 
-function linkToIndex({ query }: ExactLinkDestination<"index">): string {
+function linkToIndex({ query }: LinkDestinationTo<"index">): string {
     let link = "/";
     if (query !== undefined) {
         link += `?q=${encodeURIComponent(query)}`;
@@ -50,7 +54,7 @@ function linkToIndex({ query }: ExactLinkDestination<"index">): string {
     return link;
 }
 
-function linkToSearchByQuery({ query }: ExactLinkDestination<"searchByQuery">): string {
+function linkToSearchByQuery({ query }: LinkDestinationTo<"searchByQuery">): string {
     let link = "/search";
     if (query !== undefined) {
         link += `?q=${encodeURIComponent(query)}`;
@@ -58,11 +62,11 @@ function linkToSearchByQuery({ query }: ExactLinkDestination<"searchByQuery">): 
     return link;
 }
 
-function linkToSearchByCoordinates({ location: { latitude, longitude } }: ExactLinkDestination<"searchByCoordinates">): string {
+function linkToSearchByCoordinates({ location: { latitude, longitude } }: LinkDestinationTo<"searchByCoordinates">): string {
     return `/search/${latitude}/${longitude}`;
 }
 
-function linkToWeather({ countryCode, sub, location, query, ref }: ExactLinkDestination<"weather">): string {
+function linkToWeather({ countryCode, sub, location, query, ref }: LinkDestinationTo<"weather">): string {
     const { latitude, longitude } = truncateLocationCoordinates(location, 3);
     let link = `/weather/${encodeURIComponent(countryCode)}/${latitude}/${longitude}/${encodeURIComponent(query)}`;
     if (sub !== undefined) {

@@ -18,8 +18,11 @@
 
 import { Request, Response, Router } from "express";
 import { loadTheme } from "../styling/themes";
-import { renderIndex } from "../templates";
+import { renderWeatherAir } from "../templates/weather-air";
+import { coordinate } from "../utilities/converters";
+import { timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
+import { linkDestination } from "./_links";
 
 export interface WeatherAirRoutesOptions {
 }
@@ -29,19 +32,60 @@ async function getWeatherAir(
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
-    const query = req.query["q"] as string | undefined;
+    const query = req.params.locality;
+    const location = {
+        latitude: coordinate(req.params.latitude),
+        longitude: coordinate(req.params.longitude),
+    };
+    const timezone = timezoneFor(location);
+    const countryCode = req.params.country;
+    const ref = req.query["ref"] as string | undefined;
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
-        timeZone: "UTC",
+        timeZone: timezone,
     };
-    const resp = renderIndex({ deps, query });
+    const link = linkDestination({
+        where: "weather",
+        countryCode,
+        location,
+        query,
+        ref,
+    });
+    const resp = renderWeatherAir({ deps, link });
+    res.type('html').send(resp);
+}
+
+async function getWeatherAirSample(
+    { }: WeatherAirRoutesOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const deps: DepsObject = {
+        i18n: req.i18n,
+        theme: await loadTheme(),
+        timeZone: "America/New_York",
+    };
+    const link = linkDestination({
+        where: "weather",
+        sub: "astronomy",
+        countryCode: "ZZ",
+        location: {
+            latitude: 0,
+            longitude: 0,
+        },
+        query: "!Sample",
+    });
+    const resp = renderWeatherAir({ deps, link });
     res.type('html').send(resp);
 }
 
 export function WeatherAirRoutes(options: WeatherAirRoutesOptions): Router {
     return Router()
-        .get('/weather/:country/:latitude/:longitude/:locality/astronomy', async (req, res) => {
+        .get('/weather/ZZ/0/0/!Sample/air', async (req, res) => {
+            await getWeatherAirSample(options, req, res);
+        })
+        .get('/weather/:country/:latitude/:longitude/:locality/air', async (req, res) => {
             await getWeatherAir(options, req, res);
         });
 }

@@ -22,11 +22,13 @@ import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
 import { ModeSelector } from "../views/mode-selector";
 import { PlaceSearch } from "../views/place-search";
-import { Forecast } from "../views/weather/forecast";
 import { WeatherSource } from "../views/weather/weather-source";
 import { renderApp } from "./_app";
+import { MiniCurrentForecast } from "../views/weather-astronomy/mini-current-forecast";
+import { MoonForecast } from "../views/weather-astronomy/moon-forecast";
+import { SolarForecast } from "../views/weather-astronomy/solar-forecast";
 
-export interface RenderWeatherOptions {
+export interface RenderWeatherAstronomyOptions {
     readonly deps: DepsObject;
     readonly disableSearch?: boolean;
     readonly link: LinkDestinationTo<"weather">;
@@ -34,13 +36,15 @@ export interface RenderWeatherOptions {
     readonly attribution: Attribution;
 }
 
-export function renderWeather({ deps, link, disableSearch, weather, attribution }: RenderWeatherOptions): string {
+export function renderWeatherAstronomy({ deps, link, disableSearch, weather, attribution }: RenderWeatherAstronomyOptions): string {
     const className = elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight);
     return renderApp({ className, deps }, (
         <>
             <PlaceSearch query={link.query} disabled={disableSearch} />
-            <ModeSelector link={link} mode="weather" />
-            <Forecast weather={weather} />
+            <ModeSelector link={link} mode="astronomy" />
+            <MiniCurrentForecast now={weather.currentWeather} />
+            <MoonForecast today={weather.forecastDaily?.days?.[0]} />
+            <SolarForecast today={weather.forecastDaily?.days?.[0]} />
             <WeatherSource weather={weather} attribution={attribution} />
         </>
     ));

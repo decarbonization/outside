@@ -18,17 +18,17 @@
 
 import classNames from "classnames";
 import { useContext } from "preact/hooks";
-import { ExactLinkDestination, linkTo } from "../routes/_links";
+import { LinkDestinationTo, linkTo } from "../routes/_links";
 import { Deps } from "./_deps";
 
 export type Mode =
     | "weather"
     | "astronomy"
-    | "airQuality";
+    | "air";
 
 export interface ModeSelectorProps {
     readonly mode: Mode;
-    readonly link: ExactLinkDestination<"weather">;
+    readonly link: LinkDestinationTo<"weather">;
 }
 
 export function ModeSelector({ mode, link }: ModeSelectorProps) {
@@ -41,7 +41,7 @@ export function ModeSelector({ mode, link }: ModeSelectorProps) {
             <a href={linkTo({ ...link, where: "weather", sub: "astronomy" })} className={classNames({ selected: mode === "astronomy" })}>
                 {i18n.t("tabAstronomy")}
             </a>
-            <a href={linkTo({ ...link, where: "weather", sub: "air" })} className={classNames({ selected: mode === "airQuality" })}>
+            <a href={linkTo({ ...link, where: "weather", sub: "air" })} className={classNames({ selected: mode === "air" })}>
                 {i18n.t("tabAirQuality")}
             </a>
         </section>

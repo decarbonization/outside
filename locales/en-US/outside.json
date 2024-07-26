@@ -15,12 +15,10 @@
             "wind": "Wind",
             "windGusts": "Gusts",
             "visibility": "Visibility",
-            "cloudCover": "Clouds",
+            "cloudCover": "Cloud\u00A0Cover",
             "pressure": "Pressure",
             "feelsLike": "Feels\u00A0Like",
-            "sunrise": "Sunrise",
-            "sunset": "Sunset",
-            "moonPhase": "Moon",
+            "moonPhase": "Moon Phase",
             "daytime": "Daytime",
             "overnight": "Overnight",
             "trendingUp": "Trending\u00A0Up",
@@ -123,5 +121,23 @@
     "placeSearch": {
         "inputLabel": "How\u2018s the weather outside in…",
         "useCurrentLocation": "Use Current Location"
+    },
+    "moonForecast": {
+        "title": "Moon",
+        "moonrise": "Moonrise",
+        "moonset": "Moonset"
+    },
+    "solarForecast": {
+        "title": "Sun",
+        "solarMidnight": "Solar Midnight",
+        "solarNoon": "Solar Noon",
+        "sunrise": "Sunrise",
+        "sunriseAstronomical": "Astronomical Sunrise",
+        "sunriseCivil": "Civil Sunrise",
+        "sunriseNautical": "Nautical Sunrise",
+        "sunset": "Sunset",
+        "sunsetAstronomical": "Astronomical Sunset",
+        "sunsetCivil": "Civil Sunset",
+        "sunsetNautical": "Nautical Sunset"
     }
 }

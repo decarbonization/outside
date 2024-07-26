@@ -28,7 +28,7 @@ import { coordinate } from "../utilities/converters";
 import { envInt } from "../utilities/env";
 import { attributionFor, cacheControlFor, timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
-import { linkTo } from "./_links";
+import { linkDestination, linkTo } from "./_links";
 
 // TODO: Currently limiting daily forecasts to 7 days because of
 //       <https://forums.developer.apple.com/forums/thread/757910>.
@@ -75,13 +75,13 @@ async function getWeather(
         theme: await loadTheme(),
         timeZone: timezone,
     };
-    const link = {
-        where: "weather" as const,
+    const link = linkDestination({
+        where: "weather",
         countryCode,
         location,
         query,
         ref,
-    };
+    });
     const resp = renderWeather({ deps, link, weather, attribution });
     res.set("Cache-Control", cacheControlFor(weather));
     res.type('html').send(resp);
@@ -101,15 +101,15 @@ async function getWeatherSample(
         theme: await loadTheme(),
         timeZone: "America/New_York",
     };
-    const link = {
-        where: "weather" as const,
-        countryCode: "US",
+    const link = linkDestination({
+        where: "weather",
+        countryCode: "ZZ",
         location: {
-            latitude: weather.currentWeather!.metadata.latitude,
-            longitude: weather.currentWeather!.metadata.longitude,
+            latitude: 0,
+            longitude: 0,
         },
         query: "!Sample",
-    };
+    });
     const resp = renderWeather({ deps, link, weather, attribution });
     res.set("Cache-Control", "no-store");
     res.type('html').send(resp);
@@ -117,6 +117,9 @@ async function getWeatherSample(
 
 export function WeatherRoutes(options: WeatherRoutesOptions): Router {
     return Router()
+        .get('/weather/ZZ/0/0/!Sample', async (req, res) => {
+            await getWeatherSample(options, req, res);
+        })
         .get('/weather/:country/:latitude/:longitude/:locality', async (req, res) => {
             await getWeather(options, req, res);
         })
@@ -136,11 +139,12 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
                 res.redirect(linkTo({ where: "searchByCoordinates", location }));
             }
         })
-        .get('/weather/sample', async (req, res) => {
-            await getWeatherSample(options, req, res);
+        .get('/weather/sample', async (_req, res) => {
+            console.warn("This route is deprecated, prefer GET /weather/ZZ/0/0/!Sample");
+            res.redirect('/weather/ZZ/0/0/!Sample');
         })
-        .get('/sample', async (req, res) => {
+        .get('/sample', async (_req, res) => {
             console.warn("This route is deprecated, prefer GET /weather/sample");
-            res.redirect('/weather/sample');
+            res.redirect('/weather/ZZ/0/0/!Sample');
         });
 }
