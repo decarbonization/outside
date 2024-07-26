@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { CurrentWeather, DayWeatherConditions, PressureTrend } from "fruit-company";
+import { CurrentWeather, DayWeatherConditions } from "fruit-company";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
 import { Condition } from "../components/condition";
-import { CompassDirectionUnit, PercentageUnit, PressureUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "../components/units";
+import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "../components/units";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;
@@ -34,33 +34,33 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <section className="current-forecast">
-            <Condition className="superhero" code={now.conditionCode} daylight={now.daylight} />
-            <ol className="current-forecast-reading-group">
-                <li className="current-forecast-reading">
+            <Condition className="superhero bottom-spacing" code={now.conditionCode} daylight={now.daylight} />
+            <ol className="h-flow centered spacing bottom-spacing">
+                <li>
                     <TemperatureUnit className="hero" measurement={now.temperature} />
                 </li>
-                <li className="current-forecast-reading">
+                <li>
                     <TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} compact={false} />
                 </li>
             </ol>
-            <ol className="current-forecast-reading-group">
-                <li className="current-forecast-reading">
+            <ol className="h-flow centered spacing bottom-spacing">
+                <li>
                     {i18n.t("forecast.measurementLabels.feelsLike")} <TemperatureUnit measurement={now.temperatureApparent} />
                 </li>
             </ol>
-            <ol className="current-forecast-reading-group">
-                <li className="current-forecast-reading">
+            <ol className="h-flow centered spacing bottom-spacing">
+                <li>
                     <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
                     <PercentageUnit measurement={now.humidity} />
                 </li>
-                <li className="current-forecast-reading">
+                <li>
                     <header>{i18n.t("forecast.measurementLabels.wind")}</header>
                     <SpeedUnit measurement={now.windSpeed} /> <CompassDirectionUnit measurement={now.windDirection} />
                     {now.windGust !== undefined
                         ? <SpeedUnit className="gust" measurement={now.windGust} />
                         : null}
                 </li>
-                <li className="current-forecast-reading">
+                <li>
                     <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />
                 </li>

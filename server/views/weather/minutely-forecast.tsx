@@ -20,7 +20,6 @@ import { ForecastMinute, ForecastPeriodSummary, NextHourForecast, PrecipitationT
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
-import classNames from "classnames";
 import { BarChart } from "../components/bar-chart";
 import { formatDate } from "../components/dates";
 

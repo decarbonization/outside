@@ -37,7 +37,7 @@ export function WeatherSource({ weather, attribution }: WeatherSourceProps) {
         weather.forecastDaily?.metadata.attributionURL,
     ].find(url => url !== undefined);
     return (
-        <section className="data-source">
+        <section className="data-source bottom-spacing">
             {i18n.t("appPoweredBy")}
             &nbsp;
             <a href={attributionURL}>

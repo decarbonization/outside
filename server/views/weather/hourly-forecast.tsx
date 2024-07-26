@@ -22,7 +22,7 @@ import { Deps } from "../_deps";
 import { Condition } from "../components/condition";
 import { Hour } from "../components/dates";
 import { Precipitation } from "../components/precipitation";
-import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureUnit, UVIndexUnit } from "../components/units";
+import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureUnit } from "../components/units";
 
 export interface HourlyForecastProps {
     readonly forecast?: HourlyForecast;
@@ -42,7 +42,7 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
                 <option value="humidity">{i18n.t("forecast.measurementLabels.humidity")}</option>
                 <option value="wind">{i18n.t("forecast.measurementLabels.wind")}</option>
             </select>
-            <ol className="hourly-forecast-main orthogonal-scrollable">
+            <ol className="hourly-forecast-main h-flow orthogonal-scrollable">
                 {hours.map(hour => (
                     <li className="hourly-forecast-reading-group">
                         <div className="hourly-forecast-reading conditions">

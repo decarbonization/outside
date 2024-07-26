@@ -24,7 +24,7 @@ import { Condition } from "../components/condition";
 import { Weekday } from "../components/dates";
 import { Decoration } from "../components/decoration";
 import { Precipitation } from "../components/precipitation";
-import { PercentageUnit, SpeedUnit, TemperatureRangeUnit, UVIndexUnit } from "../components/units";
+import { PercentageUnit, SpeedUnit, TemperatureRangeUnit } from "../components/units";
 
 export interface DailyForecastProps {
     readonly forecast?: DailyForecast;
@@ -45,7 +45,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
             </select>
             <ol className="daily-forecast-main">
                 {forecast.days.map(day => (
-                    <li className="daily-forecast-reading-group">
+                    <li className="daily-forecast-reading-group v-flow centered spacing">
                         <div className="daily-forecast-reading day">
                             <Weekday when={day.forecastStart} />
                         </div>
