@@ -33,7 +33,7 @@ export function MiniCurrentForecast({ now }: MiniCurrentForecastProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <section className="mini current-forecast">
-            <ul className="h-flow spacing centered">
+            <ul className="h-flow spacing trailing bottom-spacing">
                 <li className="sidekick">
                     <Condition code={now.conditionCode} />
                     <TemperatureUnit measurement={now.temperature} />

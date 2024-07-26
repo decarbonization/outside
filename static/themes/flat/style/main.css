@@ -188,6 +188,10 @@ pre {
     justify-content: center;
 }
 
+.h-flow.trailing {
+    justify-content: flex-end;
+}
+
 .h-flow.orthogonal-scrollable {
     flex-wrap: nowrap;
     align-items: start;
@@ -202,6 +206,10 @@ pre {
 
 .v-flow.centered {
     align-items: center;
+}
+
+.v-flow.trailing {
+    align-items: flex-end;
 }
 
 .h-flow.spacing,
@@ -323,14 +331,13 @@ pre {
 
 .mode-selector {
     display: grid;
-    grid-template-columns: repeat(3, 33%);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--h-spacing) var(--v-spacing);
     margin: var(--h-spacing) 0;
 }
 
 .mode-selector a {
     text-align: center;
-    color: currentColor;
     padding: var(--h-spacing) var(--v-spacing);
 }
 
@@ -632,6 +639,6 @@ pre {
 
 /* -- Solar Forecast -- */
 
-.solar-forecast {
+.solar-forecast li {
     text-align: center;
 }

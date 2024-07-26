@@ -5,7 +5,7 @@
     "errorTitle": "Error",
     "tabWeather": "Weather",
     "tabAstronomy": "Astronomy",
-    "tabAirQuality": "Air Quality",
+    "tabAir": "Air",
     "forecast": {
         "measurementLabels": {
             "temperature": "Temperature",

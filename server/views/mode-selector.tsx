@@ -42,7 +42,7 @@ export function ModeSelector({ mode, link }: ModeSelectorProps) {
                 {i18n.t("tabAstronomy")}
             </a>
             <a href={linkTo({ ...link, where: "weather", sub: "air" })} className={classNames({ selected: mode === "air" })}>
-                {i18n.t("tabAirQuality")}
+                {i18n.t("tabAir")}
             </a>
         </section>
     );

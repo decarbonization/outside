@@ -34,7 +34,7 @@ export function MoonForecast({ today }: MoonForecastProps) {
     return (
         <section className="moon-forecast">
             <h1>{i18n.t("moonForecast.title")}</h1>
-            <ul className="h-flow spacing centered">
+            <ul className="h-flow spacing trailing">
                 <li>
                     <Moon className="sidekick" phase={today.moonPhase} />
                     &nbsp;
