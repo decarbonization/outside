@@ -17,7 +17,7 @@
  */
 
 import { useContext } from "preact/hooks";
-import { SearchRoutes } from "../routes/search-routes";
+import { linkTo } from "../routes/_links";
 import { Deps } from "./_deps";
 
 export interface PlaceSearchProps {
@@ -29,7 +29,7 @@ export function PlaceSearch({ query, disabled }: PlaceSearchProps) {
     const { i18n } = useContext(Deps);
     return (
         <section className="place-search">
-            <form className="place-search-form" action={SearchRoutes.linkToGetSearchByQuery()} method="GET">
+            <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
                 <button class="place-search-current-location" type="button" aria-label={i18n.t('placeSearch.useCurrentLocation')} disabled>➤</button>
                 <input type="search" name="q" value={query} placeholder={i18n.t('placeSearch.inputLabel')} disabled={disabled} />
             </form>

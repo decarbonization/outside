@@ -1,10 +1,8 @@
 import { Request, Response, Router } from "express";
 import { GeocodeAddress, MapsToken, ReverseGeocodeAddress } from "fruit-company";
 import { fulfill } from "serene-front";
-import { LocationCoordinates } from "serene-front/models";
 import { coordinate } from "../utilities/converters";
-import { IndexRoutes } from "./index-routes";
-import { WeatherRoutes } from "./weather-routes";
+import { linkTo } from "./_links";
 
 export interface SearchRoutesOptions {
     readonly mapsToken: MapsToken;
@@ -17,7 +15,7 @@ async function getSearchByQuery(
 ): Promise<void> {
     const query = req.query["q"];
     if (query === undefined || typeof query !== 'string') {
-        res.redirect(IndexRoutes.getIndex());
+        res.redirect(linkTo({ where: "index" }));
         return;
     }
 
@@ -30,10 +28,11 @@ async function getSearchByQuery(
         request: geocodeAddress,
     })
     if (results.length === 0) {
-        res.redirect(IndexRoutes.getIndex(query));
+        res.redirect(linkTo({ where: "index", query }));
     } else {
         const place = results[0];
-        res.redirect(WeatherRoutes.linkToGetWeather({
+        res.redirect(linkTo({
+            where: "weather",
             countryCode: place.countryCode,
             location: place.coordinate,
             query: place.structuredAddress.locality,
@@ -60,10 +59,11 @@ async function getSearchByCoordinates(
         request: reverseGeocodeAddress,
     });
     if (results.length === 0) {
-        res.redirect(IndexRoutes.getIndex(`${location.latitude}, ${location.longitude}`));
+        res.redirect(linkTo({ where: "index", query: `${location.latitude}, ${location.longitude}` }));
     } else {
         const place = results[0];
-        res.redirect(WeatherRoutes.linkToGetWeather({
+        res.redirect(linkTo({
+            where: "weather",
             countryCode: place.countryCode,
             location: place.coordinate,
             query: place.structuredAddress.locality,
@@ -80,16 +80,4 @@ export function SearchRoutes(options: SearchRoutesOptions): Router {
         .get('/search/:latitude/:longitude', async (req, res) => {
             await getSearchByCoordinates(options, req, res);
         });
-}
-
-SearchRoutes.linkToGetSearchByQuery = function (query?: string): string {
-    let link = "/search";
-    if (query !== undefined) {
-        link += `?q=${encodeURIComponent(query)}`;
-    }
-    return link;
-};
-
-SearchRoutes.linkToGetSearchByCoordinates = function ({ latitude, longitude }: LocationCoordinates): string {
-    return `/search/${latitude}/${longitude}`;
 }

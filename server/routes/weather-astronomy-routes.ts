@@ -18,18 +18,16 @@
 
 import { Request, Response, Router } from "express";
 import { WeatherToken } from "fruit-company";
-import { truncateLocationCoordinates } from "serene-front/models";
 import { loadTheme } from "../styling/themes";
 import { renderIndex } from "../templates";
 import { DepsObject } from "../views/_deps";
-import { GetWeatherLinkOptions } from "./weather-routes";
 
-export interface AstronomyRoutesOptions {
+export interface WeatherAstronomyRoutesOptions {
     readonly weatherToken: WeatherToken;
 }
 
-async function getAstronomy(
-    { }: AstronomyRoutesOptions,
+async function getWeatherAstronomy(
+    { }: WeatherAstronomyRoutesOptions,
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
@@ -43,23 +41,9 @@ async function getAstronomy(
     res.type('html').send(resp);
 }
 
-export function AstronomyRoutes(options: AstronomyRoutesOptions): Router {
+export function WeatherAstronomyRoutes(options: WeatherAstronomyRoutesOptions): Router {
     return Router()
         .get('/weather/:country/:latitude/:longitude/:locality/astronomy', async (req, res) => {
-            await getAstronomy(options, req, res);
+            await getWeatherAstronomy(options, req, res);
         });
 }
-
-/**
- * Create a link to an astronomy page.
- * 
- * @returns A link suitable for embedding in an `a` tag.
- */
-AstronomyRoutes.linkToGetAstronomy = function ({ countryCode, location, query, ref }: GetWeatherLinkOptions): string {
-    const { latitude, longitude } = truncateLocationCoordinates(location, 3);
-    let link = `/weather/${encodeURIComponent(countryCode)}/${latitude}/${longitude}/${encodeURIComponent(query)}/astronomy`;
-    if (ref !== undefined) {
-        link += `?ref=${encodeURIComponent(ref)}`;
-    }
-    return link;
-};

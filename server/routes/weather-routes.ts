@@ -16,54 +16,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { addDays, addHours, differenceInSeconds } from "date-fns";
+import { addDays, addHours } from "date-fns";
 import { Request, Response, Router } from "express";
-import { Attribution, Weather, WeatherAttribution, WeatherQuery, WeatherToken, allWeatherDataSets, parseWeather } from "fruit-company";
+import { WeatherQuery, WeatherToken, allWeatherDataSets, parseWeather } from "fruit-company";
 import fs from "fs/promises";
-import { find } from "geo-tz";
 import path from "path";
 import { fulfill } from "serene-front";
-import { LocationCoordinates, truncateLocationCoordinates } from "serene-front/models";
 import { loadTheme } from "../styling/themes";
 import { renderWeather } from "../templates/weather";
 import { coordinate } from "../utilities/converters";
 import { envInt } from "../utilities/env";
+import { attributionFor, cacheControlFor, timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
-import { SearchRoutes } from "./search-routes";
+import { linkTo } from "./_links";
 
 // TODO: Currently limiting daily forecasts to 7 days because of
 //       <https://forums.developer.apple.com/forums/thread/757910>.
-
-const attributionFor = (() => {
-    const cache = new Map<string, Attribution>();
-    return async function (token: WeatherToken, language: string): Promise<Attribution> {
-        const existingAttribution = cache.get(language);
-        if (existingAttribution !== undefined) {
-            return existingAttribution
-        }
-        const newAttribution = await fulfill({ authority: token, request: new WeatherAttribution({ language }) });
-        cache.set(language, newAttribution);
-        return newAttribution;
-    }
-})();
-
-function timezoneFor({ latitude, longitude }: LocationCoordinates): string {
-    const timezones = find(latitude, longitude);
-    if (timezones.length === 0) {
-        throw new Error(`No time zone found for { ${latitude}, ${longitude} }`);
-    }
-    return timezones[0];
-}
-
-function cacheControlFor(weather: Weather): string {
-    const metadata = weather.currentWeather?.metadata;
-    if (metadata === undefined) {
-        return "no-cache";
-    }
-    const { readTime, expireTime } = metadata;
-    const maxAge = differenceInSeconds(expireTime, readTime);
-    return `public, max-age=${maxAge}`;
-}
 
 export interface WeatherRoutesOptions {
     readonly weatherToken: WeatherToken;
@@ -108,6 +76,7 @@ async function getWeather(
         timeZone: timezone,
     };
     const link = {
+        where: "weather" as const,
         countryCode,
         location,
         query,
@@ -133,6 +102,7 @@ async function getWeatherSample(
         timeZone: "America/New_York",
     };
     const link = {
+        where: "weather" as const,
         countryCode: "US",
         location: {
             latitude: weather.currentWeather!.metadata.latitude,
@@ -160,10 +130,10 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
                 // Redirect legacy weather links
                 const countryCode = req.params.country;
                 const ref = req.query["ref"] as string | undefined;
-                res.redirect(WeatherRoutes.linkToGetWeather({ countryCode, location, query, ref }));
+                res.redirect(linkTo({ where: "weather", countryCode, location, query, ref }));
             } else {
                 // Redirect links without a locality
-                res.redirect(SearchRoutes.linkToGetSearchByCoordinates(location));
+                res.redirect(linkTo({ where: "searchByCoordinates", location }));
             }
         })
         .get('/weather/sample', async (req, res) => {
@@ -174,42 +144,3 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
             res.redirect('/weather/sample');
         });
 }
-
-/**
- * An object specifying the parameters embedded in a link to get the weather.
- */
-export interface GetWeatherLinkOptions {
-    /**
-     * The country the forecast data originates from.
-     */
-    readonly countryCode: string;
-
-    /**
-     * The location to find forecast data for.
-     */
-    readonly location: LocationCoordinates;
-
-    /**
-     * The query used to find the location.
-     */
-    readonly query: string;
-
-    /**
-     * The optional referrer.
-     */
-    readonly ref?: string;
-}
-
-/**
- * Create a link to a weather page.
- * 
- * @returns A link suitable for embedding in an `a` tag.
- */
-WeatherRoutes.linkToGetWeather = function ({ countryCode, location, query, ref }: GetWeatherLinkOptions): string {
-    const { latitude, longitude } = truncateLocationCoordinates(location, 3);
-    let link = `/weather/${encodeURIComponent(countryCode)}/${latitude}/${longitude}/${encodeURIComponent(query)}`;
-    if (ref !== undefined) {
-        link += `?ref=${encodeURIComponent(ref)}`;
-    }
-    return link;
-};

@@ -71,11 +71,3 @@ export function IndexRoutes(options: IndexRoutesOptions): Router {
             await getAppWebManifest(options, req, res);
         });
 }
-
-IndexRoutes.getIndex = function (query?: string): string {
-    let link = "/";
-    if (query !== undefined) {
-        query += `?q=${encodeURIComponent(query)}`;
-    }
-    return link;
-}

@@ -16,12 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useContext } from "preact/hooks";
-import { Deps } from "./_deps";
 import classNames from "classnames";
-import { GetWeatherLinkOptions, WeatherRoutes } from "../routes/weather-routes";
-import { AstronomyRoutes } from "../routes/astronomy-routes";
-import { AirQualityRoutes } from "../routes/air-quality-routes";
+import { useContext } from "preact/hooks";
+import { ExactLinkDestination, linkTo } from "../routes/_links";
+import { Deps } from "./_deps";
 
 export type Mode =
     | "weather"
@@ -30,20 +28,20 @@ export type Mode =
 
 export interface ModeSelectorProps {
     readonly mode: Mode;
-    readonly link: GetWeatherLinkOptions;
+    readonly link: ExactLinkDestination<"weather">;
 }
 
 export function ModeSelector({ mode, link }: ModeSelectorProps) {
     const { i18n } = useContext(Deps);
     return (
         <section className="mode-selector">
-            <a href={WeatherRoutes.linkToGetWeather(link)} className={classNames({selected: mode === "weather"})}>
+            <a href={linkTo({ ...link, where: "weather", sub: undefined })} className={classNames({ selected: mode === "weather" })}>
                 {i18n.t("tabWeather")}
             </a>
-            <a href={AstronomyRoutes.linkToGetAstronomy(link)} className={classNames({selected: mode === "astronomy"})}>
+            <a href={linkTo({ ...link, where: "weather", sub: "astronomy" })} className={classNames({ selected: mode === "astronomy" })}>
                 {i18n.t("tabAstronomy")}
             </a>
-            <a href={AirQualityRoutes.linkToGetAirQuality(link)} className={classNames({selected: mode === "airQuality"})}>
+            <a href={linkTo({ ...link, where: "weather", sub: "air" })} className={classNames({ selected: mode === "airQuality" })}>
                 {i18n.t("tabAirQuality")}
             </a>
         </section>

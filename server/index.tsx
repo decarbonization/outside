@@ -27,8 +27,8 @@ import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
 import { ErrorMiddleware } from './middlewares/error-middleware';
-import { AirQualityRoutes } from './routes/air-quality-routes';
-import { AstronomyRoutes } from './routes/astronomy-routes';
+import { WeatherAirRoutes } from './routes/weather-air-routes';
+import { WeatherAstronomyRoutes } from './routes/weather-astronomy-routes';
 import { IndexRoutes } from './routes/index-routes';
 import { SearchRoutes } from './routes/search-routes';
 import { WeatherRoutes } from './routes/weather-routes';
@@ -80,8 +80,8 @@ app.use(i18nextMiddleware.handle(i18next));
 app.use(IndexRoutes({}));
 app.use(SearchRoutes({ mapsToken }));
 app.use(WeatherRoutes({ weatherToken }));
-app.use(AstronomyRoutes({ weatherToken }));
-app.use(AirQualityRoutes({}));
+app.use(WeatherAstronomyRoutes({ weatherToken }));
+app.use(WeatherAirRoutes({}));
 app.use(express.static(staticDir));
 
 // Must come last!

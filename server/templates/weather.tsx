@@ -17,19 +17,19 @@
  */
 
 import { Attribution, Weather } from "fruit-company";
+import { ExactLinkDestination } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
+import { ModeSelector } from "../views/mode-selector";
 import { PlaceSearch } from "../views/place-search";
 import { Forecast } from "../views/weather/forecast";
-import { renderApp } from "./_app";
-import { GetWeatherLinkOptions } from "../routes/weather-routes";
-import { ModeSelector } from "../views/mode-selector";
 import { WeatherSource } from "../views/weather/weather-source";
+import { renderApp } from "./_app";
 
 export interface RenderWeatherOptions {
     readonly deps: DepsObject;
     readonly disableSearch?: boolean;
-    readonly link: GetWeatherLinkOptions;
+    readonly link: ExactLinkDestination<"weather">;
     readonly weather: Weather;
     readonly attribution: Attribution;
 }

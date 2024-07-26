@@ -17,17 +17,15 @@
  */
 
 import { Request, Response, Router } from "express";
-import { truncateLocationCoordinates } from "serene-front/models";
 import { loadTheme } from "../styling/themes";
 import { renderIndex } from "../templates";
 import { DepsObject } from "../views/_deps";
-import { GetWeatherLinkOptions } from "./weather-routes";
 
-export interface AirQualityRoutesOptions {
+export interface WeatherAirRoutesOptions {
 }
 
-async function getAirQuality(
-    { }: AirQualityRoutesOptions,
+async function getWeatherAir(
+    { }: WeatherAirRoutesOptions,
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
@@ -41,24 +39,9 @@ async function getAirQuality(
     res.type('html').send(resp);
 }
 
-export function AirQualityRoutes(options: AirQualityRoutesOptions): Router {
+export function WeatherAirRoutes(options: WeatherAirRoutesOptions): Router {
     return Router()
         .get('/weather/:country/:latitude/:longitude/:locality/astronomy', async (req, res) => {
-            await getAirQuality(options, req, res);
+            await getWeatherAir(options, req, res);
         });
 }
-
-/**
- * Create a link to an air quality page.
- * 
- * @returns A link suitable for embedding in an `a` tag.
- */
-AirQualityRoutes.linkToGetAirQuality = function ({ countryCode, location, query, ref }: GetWeatherLinkOptions): string {
-    const { latitude, longitude } = truncateLocationCoordinates(location, 3);
-    let link = `/weather/${encodeURIComponent(countryCode)}/${latitude}/${longitude}/${encodeURIComponent(query)}/air`;
-    if (ref !== undefined) {
-        link += `?ref=${encodeURIComponent(ref)}`;
-    }
-    return link;
-};
-
