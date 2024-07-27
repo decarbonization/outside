@@ -10,6 +10,21 @@ Part of the [Just the Good Parts](https://justthegoodparts.kevinmacwhinnie.com) 
 
 This project requires a recent version of Node.js and npm to build.
 
+The following commands are available through `npm run`:
+
+- `clean`: Remove all build artifacts from the project directory.
+- `build`: Run the build process for all client and server side source code in the project.
+    - `build:client`: Build just the client side source code.
+    - `build:server`: Build just the server side source code.
+    - `build:digitalocean`: A special variation of the `build` for use in a DigitalOcean app.
+- `dev`: Run a development server with live reload.
+- `start`: Build the project and start a server.
+    - `start:dev`: A supporting command for `dev` not intended to be used on its own.
+    - `start:digitalocean`: A special variation of the `start` for use in a DigitalOcean app.
+- `test`: Run the project's unit tests.
+
+To get started with the project, clone the repository and run `npm i --no-save && npm run dev`.
+
 ## Running
 
 This project is itself free software, but depends on a number of proprietary services to work.
