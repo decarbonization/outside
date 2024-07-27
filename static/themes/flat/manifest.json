@@ -33,7 +33,10 @@
         }
     ],
     "icons": {
-        "base": "wi fill",
+        "base": {
+            "day": "wi fill day",
+            "night": "wi fill night"
+        },
         "BlowingDust": "dust",
         "Clear": {
             "day": "clear-day",

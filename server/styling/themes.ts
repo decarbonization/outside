@@ -216,18 +216,32 @@ export interface ThemeIconOptions {
  * @returns An icon class name matching the given options.
  */
 export function themeIcon(theme: Theme, { name, daylight = true }: ThemeIconOptions): string | undefined {
+    const base = theme.icons["base"];
     const icon = theme.icons[name];
+    return classNames(
+        resolveThemeIcon(base, daylight),
+        resolveThemeIcon(icon, daylight)
+    );
+}
+
+/**
+ * Resolve an icon into a class name.
+ * 
+ * @param icon The icon to resolve.
+ * @param daylight Whether the icon represents a day or night condition.
+ * @returns An icon class name.
+ */
+function resolveThemeIcon(icon: ThemeIcon | undefined, daylight: boolean): string | undefined {
     if (icon === undefined) {
         return undefined;
     }
-    const base = theme.icons["base"];
     if (typeof icon === 'string') {
-        return classNames(base, icon);
+        return icon;
     } else {
         if (daylight) {
-            return classNames(base, icon.day);
+            return icon.day;
         } else {
-            return classNames(base, icon.night);
+            return icon.night;
         }
     }
 }
