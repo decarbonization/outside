@@ -39,7 +39,7 @@ export function renderWeather({ deps, link, disableSearch, weather, attribution 
     return renderApp({ className, deps }, (
         <>
             <PlaceSearch query={link.query} disabled={disableSearch} />
-            <ModeSelector link={link} mode="weather" />
+            <ModeSelector link={link} mode="forecast" />
             <Forecast weather={weather} />
             <WeatherSource weather={weather} attribution={attribution} />
         </>

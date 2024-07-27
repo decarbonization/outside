@@ -58,7 +58,7 @@ async function getWeather(
         timezone,
         countryCode,
         currentAsOf,
-        dailyEnd: addDays(currentAsOf, envInt("DAILY_FORECAST_LIMIT", 8)),
+        dailyEnd: addDays(currentAsOf, envInt("DAILY_FORECAST_LIMIT", 7)),
         dailyStart: currentAsOf,
         dataSets: allWeatherDataSets,
         hourlyEnd: addHours(currentAsOf, envInt("HOURLY_FORECAST_LIMIT", 24)),

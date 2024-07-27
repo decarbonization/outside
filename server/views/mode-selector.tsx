@@ -22,7 +22,7 @@ import { LinkDestinationTo, linkTo } from "../routes/_links";
 import { Deps } from "./_deps";
 
 export type Mode =
-    | "weather"
+    | "forecast"
     | "astronomy"
     | "air";
 
@@ -35,8 +35,8 @@ export function ModeSelector({ mode, link }: ModeSelectorProps) {
     const { i18n } = useContext(Deps);
     return (
         <section className="mode-selector">
-            <a href={linkTo({ ...link, where: "weather", sub: undefined })} className={classNames({ selected: mode === "weather" })}>
-                {i18n.t("tabWeather")}
+            <a href={linkTo({ ...link, where: "weather", sub: undefined })} className={classNames({ selected: mode === "forecast" })}>
+                {i18n.t("tabForecast")}
             </a>
             <a href={linkTo({ ...link, where: "weather", sub: "astronomy" })} className={classNames({ selected: mode === "astronomy" })}>
                 {i18n.t("tabAstronomy")}

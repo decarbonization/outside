@@ -3,7 +3,7 @@
     "appDescription": "A data-dense Weather app.",
     "appPoweredBy": "Powered By",
     "errorTitle": "Error",
-    "tabWeather": "Weather",
+    "tabForecast": "Forecast",
     "tabAstronomy": "Astronomy",
     "tabAir": "Air",
     "forecast": {
