@@ -34,7 +34,7 @@
     "preact": "^10.20.2",
     "preact-render-to-string": "^6.4.2",
     "serene-front": "0.2.0",
-    "fruit-company": "0.1.0"
+    "fruit-company": "0.1.1"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

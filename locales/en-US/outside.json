@@ -91,6 +91,12 @@
             "likely": "High chance",
             "certain": "100% chance"
         },
+        "comfort": {
+            "tooLow": "Too Low",
+            "fair": "Fair",
+            "good": "Good",
+            "tooHigh": "Too High"
+        },
         "intensity": {
             "light": "light",
             "moderate": "moderate",

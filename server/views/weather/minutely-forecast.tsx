@@ -56,8 +56,7 @@ export function MinutelyForecast({ forecast }: MinutelyForecastProps) {
 function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
     const stormyPeriods = summary.filter(period => {
         return (period.condition !== PrecipitationType.clear
-            && period.precipitationChance > 0
-            && period.precipitationIntensity > 0);
+            && period.precipitationChance > 0);
     });
     if (stormyPeriods.length === 0) {
         return i18n.t('minutelyForecast.periodClearFullHour');
