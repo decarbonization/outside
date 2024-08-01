@@ -400,13 +400,13 @@ pre {
     padding-right: 0.3em;
 }
 
-/* -- Minutely Forecast -- */
+/* -- Next Hour Forecast -- */
 
-.minutely-forecast-minutes {
+.next-hour-forecast-minutes {
     height: 5em;
 }
 
-.minutely-forecast-minutes::after {
+.next-hour-forecast-minutes::after {
     content: "";
     position: absolute;
     top: 0;

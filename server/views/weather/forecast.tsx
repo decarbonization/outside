@@ -20,7 +20,7 @@ import { Weather } from "fruit-company/weather";
 import { CurrentForecast } from "./current-forecast";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";
-import { MinutelyForecast } from "./minutely-forecast";
+import { NextHourForecast } from "./next-hour-forecast";
 import { WeatherAlerts } from "./weather-alerts";
 
 export interface ForecastProps {
@@ -31,7 +31,7 @@ export function Forecast({ weather }: ForecastProps) {
     return (
         <>
             <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} />
-            <MinutelyForecast forecast={weather?.forecastNextHour} />
+            <NextHourForecast forecast={weather?.forecastNextHour} />
             <WeatherAlerts collection={weather?.weatherAlerts} />
             <HourlyForecast forecast={weather?.forecastHourly} />
             <DailyForecast forecast={weather?.forecastDaily} />

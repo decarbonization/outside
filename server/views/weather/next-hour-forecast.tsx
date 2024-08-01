@@ -23,11 +23,11 @@ import { Deps } from "../_deps";
 import { BarChart } from "../components/bar-chart";
 import { formatDate } from "../components/dates";
 
-export interface MinutelyForecastProps {
+export interface NextHourForecastProps {
     readonly forecast?: NextHourForecast;
 }
 
-export function MinutelyForecast({ forecast }: MinutelyForecastProps) {
+export function NextHourForecast({ forecast }: NextHourForecastProps) {
     if (forecast === undefined) {
         return null;
     }
@@ -40,13 +40,13 @@ export function MinutelyForecast({ forecast }: MinutelyForecastProps) {
         caption: formatDate(i18n, m.startTime, { timeStyle: 'short', timeZone }),
     }));
     return (
-        <section className="minutely-forecast">
+        <section className="next-hour-forecast">
             <p className="summary">
                 {summaryText(i18n, forecast.summary)}
             </p>
             {
                 hasPrecipitation(forecast.minutes)
-                    ? <BarChart className="minutely-forecast-minutes" min={0} max={1} points={points} />
+                    ? <BarChart className="next-hour-forecast-minutes" min={0} max={1} points={points} />
                     : null
             }
         </section>
@@ -54,10 +54,7 @@ export function MinutelyForecast({ forecast }: MinutelyForecastProps) {
 }
 
 function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
-    const stormyPeriods = summary.filter(period => {
-        return (period.condition !== PrecipitationType.clear
-            && period.precipitationChance > 0);
-    });
+    const stormyPeriods = summary.filter(p => p.condition !== PrecipitationType.clear);
     if (stormyPeriods.length === 0) {
         return i18n.t('minutelyForecast.periodClearFullHour');
     }
