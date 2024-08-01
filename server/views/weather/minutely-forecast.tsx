@@ -95,7 +95,7 @@ function nameOf(i18n: i18n, condition: PrecipitationType): string {
 }
 
 function intensityOf(i18n: i18n, precipitationIntensity: number): string {
-    if (precipitationIntensity <= 0.0) {
+    if (precipitationIntensity < 0.0) {
         throw new RangeError(`<${precipitationIntensity}> is not a valid precipitation intensity`);
     } else if (precipitationIntensity <= 2.5) {
         return i18n.t("minutelyForecast.precipitationIntensity.light");
