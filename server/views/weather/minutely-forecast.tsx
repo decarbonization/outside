@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ForecastMinute, ForecastPeriodSummary, NextHourForecast, PrecipitationType } from "fruit-company/weather";
+import { ForecastMinute, ForecastPeriodSummary, NextHourForecast, precipitationIntensityFrom, PrecipitationType, probabilityChanceFrom } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
@@ -54,58 +54,50 @@ export function MinutelyForecast({ forecast }: MinutelyForecastProps) {
 }
 
 function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
-    const stormyPeriods = summary.filter(period => period.condition !== PrecipitationType.clear && period.precipitationChance > 0);
+    const stormyPeriods = summary.filter(period => {
+        return (period.condition !== PrecipitationType.clear
+            && period.precipitationChance > 0
+            && period.precipitationIntensity > 0);
+    });
     if (stormyPeriods.length === 0) {
         return i18n.t('minutelyForecast.periodClearFullHour');
-    } else if (summary.length === 1) {
-        const onlyPeriod = summary[0];
-        return i18n.t('minutelyForecast.periodFullHour', {
-            interpolation: { escapeValue: false },
-            chance: onlyPeriod.precipitationChance,
-            intensity: intensityOf(i18n, onlyPeriod.precipitationIntensity),
-            type: nameOf(i18n, onlyPeriod.condition),
-        });
-    } else {
-        const summaryPeriods = summary.map(period => {
-            if (period.endTime !== undefined) {
-                return i18n.t('minutelyForecast.periodDefinite', {
-                    interpolation: { escapeValue: false },
-                    chance: period.precipitationChance,
-                    intensity: intensityOf(i18n, period.precipitationIntensity),
-                    type: nameOf(i18n, period.condition),
-                    start: period.startTime,
-                    end: period.endTime,
-                });
-            } else {
-                return i18n.t('minutelyForecast.periodIndefinite', {
-                    interpolation: { escapeValue: false },
-                    chance: period.precipitationChance,
-                    intensity: intensityOf(i18n, period.precipitationIntensity),
-                    type: nameOf(i18n, period.condition),
-                    start: period.startTime,
-                });
-            }
-        });
-        return summaryPeriods.join(i18n.t('minutelyForecast.periodJoiner'));
     }
+
+    const summaryPeriods = summary.map(period => {
+        if (period.endTime !== undefined) {
+            return i18n.t('minutelyForecast.periodDefinite', {
+                interpolation: { escapeValue: false },
+                chance: chanceOf(i18n, period.precipitationChance),
+                intensity: intensityOf(i18n, period.precipitationIntensity),
+                type: nameOf(i18n, period.condition),
+                start: period.startTime,
+                end: period.endTime,
+            });
+        } else {
+            return i18n.t('minutelyForecast.periodIndefinite', {
+                interpolation: { escapeValue: false },
+                chance: chanceOf(i18n, period.precipitationChance),
+                intensity: intensityOf(i18n, period.precipitationIntensity),
+                type: nameOf(i18n, period.condition),
+                start: period.startTime,
+            });
+        }
+    });
+    return summaryPeriods.join(i18n.t('minutelyForecast.periodJoiner'));
 }
 
 function nameOf(i18n: i18n, condition: PrecipitationType): string {
     return i18n.t(`forecast.precipitationType.${condition}`, { defaultValue: condition });
 }
 
+function chanceOf(i18n: i18n, p: number): string {
+    const chance = probabilityChanceFrom(p);
+    return i18n.t(`forecast.chance.${chance}`);
+}
+
 function intensityOf(i18n: i18n, precipitationIntensity: number): string {
-    if (precipitationIntensity < 0.0) {
-        throw new RangeError(`<${precipitationIntensity}> is not a valid precipitation intensity`);
-    } else if (precipitationIntensity <= 2.5) {
-        return i18n.t("minutelyForecast.precipitationIntensity.light");
-    } else if (precipitationIntensity <= 7.5) {
-        return i18n.t("minutelyForecast.precipitationIntensity.moderate");
-    } else if (precipitationIntensity <= 50) {
-        return i18n.t("minutelyForecast.precipitationIntensity.heavy");
-    } else {
-        return i18n.t("minutelyForecast.precipitationIntensity.violent");
-    }
+    const intensity = precipitationIntensityFrom(precipitationIntensity);
+    return i18n.t(`forecast.intensity.${intensity}`);
 }
 
 function hasPrecipitation(minutes: ForecastMinute[]): boolean {

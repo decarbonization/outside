@@ -84,7 +84,20 @@
             "hail": "Hail",
             "mixed": "Wintry\u00A0Mixed"
         },
-        "uvIndexRisk": {
+        "chance": {
+            "none": "0% chance",
+            "slight": "Slight chance",
+            "possible": "Chance",
+            "likely": "High chance",
+            "certain": "100% chance"
+        },
+        "intensity": {
+            "light": "light",
+            "moderate": "moderate",
+            "heavy": "heavy",
+            "violent": "violent"
+        },
+        "risk": {
             "low": "Low",
             "moderate": "Moderate",
             "high": "High",
@@ -104,16 +117,9 @@
     },
     "minutelyForecast": {
         "periodClearFullHour": "Clear for the next hour",
-        "periodFullHour": "{{chance, number(maximumFractionDigits: 1; style: percent)}} chance of {{intensity}} {{type}} for the next hour",
-        "periodIndefinite": "{{chance, number(maximumFractionDigits: 1; style: percent)}} chance of {{intensity}} {{type}} starting at {{start, datetime(timeStyle: 'short')}}",
-        "periodDefinite": "{{chance, number(maximumFractionDigits: 1; style: percent)}} chance of {{intensity}} {{type}} between {{start, datetime(timeStyle: 'short')}} and {{end, datetime(timeStyle: 'short')}}",
-        "periodJoiner": " then ",
-        "precipitationIntensity": {
-            "light": "light",
-            "moderate": "moderate",
-            "heavy": "heavy",
-            "violent": "violent"
-        }
+        "periodIndefinite": "{{chance}} chance of {{intensity}} {{type}} starting at {{start, datetime(timeStyle: 'short')}}",
+        "periodDefinite": "{{chance}} chance of {{intensity}} {{type}} between {{start, datetime(timeStyle: 'short')}} and {{end, datetime(timeStyle: 'short')}}",
+        "periodJoiner": " then "
     },
     "hourlyForecast": {
         "title": "{{count, number}} Hour Forecast"
