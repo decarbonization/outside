@@ -17,7 +17,7 @@
  */
 
 import classNames from "classnames";
-import { MoonPhase, WeatherCondition } from "fruit-company";
+import { MoonPhase, WeatherCondition } from "fruit-company/weather";
 import fs from "fs/promises";
 import { i18n } from "i18next";
 import path from "path";
@@ -77,7 +77,7 @@ export interface ThemeAppIcon {
      * A string containing space-separated image dimensions.
      */
     readonly sizes: string;
-    
+
     /**
      * The path to the image file.
      */

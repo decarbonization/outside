@@ -17,7 +17,7 @@
  */
 
 import classNames from "classnames";
-import { WeatherAlertCollection } from "fruit-company";
+import { WeatherAlertCollection } from "fruit-company/weather";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
 

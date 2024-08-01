@@ -18,13 +18,13 @@
 
 import { addDays, addHours } from "date-fns";
 import { Request, Response, Router } from "express";
-import { WeatherQuery, WeatherToken, allWeatherDataSets, parseWeather } from "fruit-company";
+import { allWeatherDataSets, parseWeather, WeatherQuery, WeatherToken } from "fruit-company/weather";
 import fs from "fs/promises";
 import path from "path";
 import { fulfill } from "serene-front";
+import { LocationCoordinates } from "serene-front/data";
 import { loadTheme } from "../styling/themes";
 import { renderWeather } from "../templates/weather";
-import { coordinate } from "../utilities/converters";
 import { envInt } from "../utilities/env";
 import { attributionFor, cacheControlFor, timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
@@ -44,10 +44,10 @@ async function getWeather(
 ): Promise<void> {
     const query = req.params.locality;
     const language = req.i18n.resolvedLanguage ?? req.language;
-    const location = {
-        latitude: coordinate(req.params.latitude),
-        longitude: coordinate(req.params.longitude),
-    };
+    const location = new LocationCoordinates(
+        LocationCoordinates.parseCoordinate(req.params.latitude),
+        LocationCoordinates.parseCoordinate(req.params.longitude),
+    );
     const timezone = timezoneFor(location);
     const countryCode = req.params.country;
     const ref = req.query["ref"] as string | undefined;
@@ -104,10 +104,7 @@ async function getWeatherSample(
     const link = linkDestination({
         where: "weather",
         countryCode: "ZZ",
-        location: {
-            latitude: 0,
-            longitude: 0,
-        },
+        location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
     const resp = renderWeather({ deps, link, weather, attribution });
@@ -125,10 +122,10 @@ export function WeatherRoutes(options: WeatherRoutesOptions): Router {
         })
         .get('/weather/:country/:latitude/:longitude', async (req, res) => {
             const query = req.query["q"] as string | undefined;
-            const location = {
-                latitude: coordinate(req.params.latitude),
-                longitude: coordinate(req.params.longitude),
-            };
+            const location = new LocationCoordinates(
+                LocationCoordinates.parseCoordinate(req.params.latitude),
+                LocationCoordinates.parseCoordinate(req.params.longitude),
+            );
             if (query !== undefined) {
                 // Redirect legacy weather links
                 const countryCode = req.params.country;

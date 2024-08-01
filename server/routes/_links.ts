@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { LocationCoordinates, truncateLocationCoordinates } from "serene-front/models";
+import { LocationCoordinates } from "serene-front/data";
 
 export type WeatherSubdestination =
     | "astronomy"
@@ -67,7 +67,7 @@ function linkToSearchByCoordinates({ location: { latitude, longitude } }: LinkDe
 }
 
 function linkToWeather({ countryCode, sub, location, query, ref }: LinkDestinationTo<"weather">): string {
-    const { latitude, longitude } = truncateLocationCoordinates(location, 3);
+    const { latitude, longitude } = location.truncatedTo(3);
     let link = `/weather/${encodeURIComponent(countryCode)}/${latitude}/${longitude}/${encodeURIComponent(query)}`;
     if (sub !== undefined) {
         link += `/${sub}`;

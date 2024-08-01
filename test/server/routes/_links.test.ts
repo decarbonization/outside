@@ -1,4 +1,23 @@
+/*
+ * outside weather app
+ * Copyright (C) 2024  MAINTAINERS
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { describe, expect, it } from '@jest/globals';
+import { LocationCoordinates } from 'serene-front/data';
 import { linkTo } from '../../../server/routes/_links';
 
 describe("routes#_links module", () => {
@@ -7,26 +26,26 @@ describe("routes#_links module", () => {
             expect(linkTo({ where: "index" })).toStrictEqual('/');
             expect(linkTo({ where: "index", query: "New York" })).toStrictEqual('/?q=New%20York');
         });
-        
+
         it("should include search query when specified", () => {
             expect(linkTo({ where: "searchByQuery" })).toStrictEqual('/search');
             expect(linkTo({ where: "searchByQuery", query: "New York" })).toStrictEqual('/search?q=New%20York');
         });
 
         it("should not reduce precision of search geo coordinates", () => {
-            expect(linkTo({ where: "searchByCoordinates", location: { latitude: 40.7129822, longitude: -74.007205 } })).toStrictEqual('/search/40.7129822/-74.007205');
+            expect(linkTo({ where: "searchByCoordinates", location: new LocationCoordinates(40.7129822, -74.007205) })).toStrictEqual('/search/40.7129822/-74.007205');
         });
 
         it("should reduce precision of weather geo coordinates", () => {
-            expect(linkTo({ where: "weather", countryCode: "US", location: { latitude: 40.7129822, longitude: -74.007205 }, query: "New York" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York");
+            expect(linkTo({ where: "weather", countryCode: "US", location: new LocationCoordinates(40.7129822, -74.007205), query: "New York" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York");
         });
 
         it("should include weather subcategory when specified", () => {
-            expect(linkTo({ where: "weather", sub: "air", countryCode: "US", location: { latitude: 40.7129822, longitude: -74.007205 }, query: "New York" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York/air");
+            expect(linkTo({ where: "weather", sub: "air", countryCode: "US", location: new LocationCoordinates(40.7129822, -74.007205), query: "New York" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York/air");
         });
 
         it("should include weather ref when specified", () => {
-            expect(linkTo({ where: "weather", countryCode: "US", location: { latitude: 40.7129822, longitude: -74.007205 }, query: "New York", ref: "loc" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York?ref=loc");
+            expect(linkTo({ where: "weather", countryCode: "US", location: new LocationCoordinates(40.7129822, -74.007205), query: "New York", ref: "loc" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York?ref=loc");
         });
     });
 });

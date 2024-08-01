@@ -1,7 +1,25 @@
+/*
+ * outside weather app
+ * Copyright (C) 2024  MAINTAINERS
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Request, Response, Router } from "express";
-import { GeocodeAddress, MapsToken, ReverseGeocodeAddress } from "fruit-company";
+import { GeocodeAddress, MapsToken, ReverseGeocodeAddress } from "fruit-company/maps";
 import { fulfill } from "serene-front";
-import { coordinate } from "../utilities/converters";
+import { LocationCoordinates } from "serene-front/data";
 import { linkTo } from "./_links";
 
 export interface SearchRoutesOptions {
@@ -47,10 +65,10 @@ async function getSearchByCoordinates(
     res: Response
 ): Promise<void> {
     const language = req.i18n.resolvedLanguage ?? req.language;
-    const location = {
-        latitude: coordinate(req.params.latitude),
-        longitude: coordinate(req.params.longitude),
-    };
+    const location = new LocationCoordinates(
+        LocationCoordinates.parseCoordinate(req.params.latitude),
+        LocationCoordinates.parseCoordinate(req.params.longitude),
+    );
     const ref = req.query["ref"] as string | undefined;
     const reverseGeocodeAddress = new ReverseGeocodeAddress({ location, language });
     console.info(`GET /search perform(${reverseGeocodeAddress})`);

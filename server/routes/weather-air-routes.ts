@@ -17,9 +17,9 @@
  */
 
 import { Request, Response, Router } from "express";
+import { LocationCoordinates } from "serene-front/data";
 import { loadTheme } from "../styling/themes";
 import { renderWeatherAir } from "../templates/weather-air";
-import { coordinate } from "../utilities/converters";
 import { timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
 import { linkDestination } from "./_links";
@@ -33,10 +33,10 @@ async function getWeatherAir(
     res: Response
 ): Promise<void> {
     const query = req.params.locality;
-    const location = {
-        latitude: coordinate(req.params.latitude),
-        longitude: coordinate(req.params.longitude),
-    };
+    const location = new LocationCoordinates(
+        LocationCoordinates.parseCoordinate(req.params.latitude),
+        LocationCoordinates.parseCoordinate(req.params.longitude),
+    );
     const timezone = timezoneFor(location);
     const countryCode = req.params.country;
     const ref = req.query["ref"] as string | undefined;
@@ -70,10 +70,7 @@ async function getWeatherAirSample(
         where: "weather",
         sub: "astronomy",
         countryCode: "ZZ",
-        location: {
-            latitude: 0,
-            longitude: 0,
-        },
+        location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
     const resp = renderWeatherAir({ deps, link });

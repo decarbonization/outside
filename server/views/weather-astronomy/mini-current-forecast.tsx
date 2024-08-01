@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { CurrentWeather } from "fruit-company";
+import { CurrentWeather } from "fruit-company/weather";
+import { useContext } from "preact/hooks";
+import { Deps } from "../_deps";
 import { Condition } from "../components/condition";
 import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureUnit, VisibilityUnit } from "../components/units";
-import { Deps } from "../_deps";
-import { useContext } from "preact/hooks";
 
 export interface MiniCurrentForecastProps {
     readonly now?: CurrentWeather;

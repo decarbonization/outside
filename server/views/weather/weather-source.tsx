@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Attribution, Weather } from "fruit-company";
+import { Attribution, Weather } from "fruit-company/weather";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
 

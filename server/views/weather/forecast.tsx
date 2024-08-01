@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Weather } from "fruit-company";
+import { Weather } from "fruit-company/weather";
 import { CurrentForecast } from "./current-forecast";
 import { DailyForecast } from "./daily-forecast";
 import { HourlyForecast } from "./hourly-forecast";

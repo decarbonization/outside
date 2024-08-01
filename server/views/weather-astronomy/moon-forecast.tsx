@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DayWeatherConditions } from "fruit-company";
-import { Moon } from "../components/moon";
+import { DayWeatherConditions } from "fruit-company/weather";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
 import { ShortTime } from "../components/dates";
+import { Moon } from "../components/moon";
 
 export interface MoonForecastProps {
     readonly today?: DayWeatherConditions;

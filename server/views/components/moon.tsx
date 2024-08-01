@@ -17,7 +17,7 @@
  */
 
 import classNames from "classnames";
-import { MoonPhase } from "fruit-company";
+import { MoonPhase } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { themeIcon } from "../../styling/themes";

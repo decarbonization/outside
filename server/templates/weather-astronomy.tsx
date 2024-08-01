@@ -16,17 +16,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Attribution, Weather } from "fruit-company";
+import { Attribution, Weather } from "fruit-company/weather";
 import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
 import { ModeSelector } from "../views/mode-selector";
 import { PlaceSearch } from "../views/place-search";
-import { WeatherSource } from "../views/weather/weather-source";
-import { renderApp } from "./_app";
 import { MiniCurrentForecast } from "../views/weather-astronomy/mini-current-forecast";
 import { MoonForecast } from "../views/weather-astronomy/moon-forecast";
 import { SolarForecast } from "../views/weather-astronomy/solar-forecast";
+import { WeatherSource } from "../views/weather/weather-source";
+import { renderApp } from "./_app";
 
 export interface RenderWeatherAstronomyOptions {
     readonly deps: DepsObject;

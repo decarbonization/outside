@@ -17,10 +17,10 @@
  */
 
 import { differenceInSeconds } from "date-fns";
-import { Attribution, Weather, WeatherAttribution, WeatherToken } from "fruit-company";
+import { Attribution, Weather, WeatherAttribution, WeatherToken } from "fruit-company/weather";
 import { find } from "geo-tz";
 import { fulfill } from "serene-front";
-import { LocationCoordinates } from "serene-front/models";
+import { LocationCoordinates } from "serene-front/data";
 
 const attributionCache = new Map<string, Attribution>();
 export async function attributionFor(token: WeatherToken, language: string): Promise<Attribution> {

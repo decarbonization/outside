@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ForecastMinute, ForecastPeriodSummary, NextHourForecast, PrecipitationType } from "fruit-company";
+import { ForecastMinute, ForecastPeriodSummary, NextHourForecast, PrecipitationType } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";

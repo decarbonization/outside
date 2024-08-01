@@ -18,13 +18,13 @@
 
 import { addDays } from "date-fns";
 import { Request, Response, Router } from "express";
-import { parseWeather, WeatherDataSet, WeatherQuery, WeatherToken } from "fruit-company";
+import { parseWeather, WeatherDataSet, WeatherQuery, WeatherToken } from "fruit-company/weather";
 import fs from "fs/promises";
 import path from "path";
 import { fulfill } from "serene-front";
+import { LocationCoordinates } from "serene-front/data";
 import { loadTheme } from "../styling/themes";
 import { renderWeatherAstronomy } from "../templates/weather-astronomy";
-import { coordinate } from "../utilities/converters";
 import { attributionFor, cacheControlFor, timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
 import { linkDestination } from "./_links";
@@ -40,10 +40,10 @@ async function getWeatherAstronomy(
 ): Promise<void> {
     const query = req.params.locality;
     const language = req.i18n.resolvedLanguage ?? req.language;
-    const location = {
-        latitude: coordinate(req.params.latitude),
-        longitude: coordinate(req.params.longitude),
-    };
+    const location = new LocationCoordinates(
+        LocationCoordinates.parseCoordinate(req.params.latitude),
+        LocationCoordinates.parseCoordinate(req.params.longitude),
+    );
     const timezone = timezoneFor(location);
     const countryCode = req.params.country;
     const ref = req.query["ref"] as string | undefined;
@@ -99,10 +99,7 @@ async function getWeatherAstronomySample(
         where: "weather",
         sub: "astronomy",
         countryCode: "ZZ",
-        location: {
-            latitude: 0,
-            longitude: 0,
-        },
+        location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
     const resp = renderWeatherAstronomy({ deps, link, weather, attribution });

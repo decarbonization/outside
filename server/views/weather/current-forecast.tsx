@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { CurrentWeather, DayWeatherConditions } from "fruit-company";
+import { CurrentWeather, DayWeatherConditions } from "fruit-company/weather";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
 import { Condition } from "../components/condition";
