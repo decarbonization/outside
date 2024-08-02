@@ -21,6 +21,7 @@ import express from 'express';
 import "express-async-errors";
 import { MapsToken } from 'fruit-company/maps';
 import { WeatherToken } from 'fruit-company/weather';
+import { GoogleMapsApiKey } from 'good-breathing';
 import http from "http";
 import { createHttpTerminator } from 'http-terminator';
 import i18next from "i18next";
@@ -72,6 +73,9 @@ const weatherToken = new WeatherToken(
     env("APPLE_WEATHER_KEY_ID"),
     env("APPLE_WEATHER_KEY"),
 );
+const gMapsApiKey = new GoogleMapsApiKey(
+    env("GOOGLE_MAPS_API_KEY"),
+)
 
 const app = express();
 
@@ -82,7 +86,7 @@ app.use(IndexRoutes({}));
 app.use(SearchRoutes({ mapsToken }));
 app.use(WeatherRoutes({ weatherToken }));
 app.use(WeatherAstronomyRoutes({ weatherToken }));
-app.use(WeatherAirRoutes({}));
+app.use(WeatherAirRoutes({ gMapsApiKey }));
 app.use(express.static(staticDir));
 
 // Must come last!

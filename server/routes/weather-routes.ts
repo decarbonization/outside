@@ -64,7 +64,7 @@ async function getWeather(
         hourlyEnd: addHours(currentAsOf, envInt("HOURLY_FORECAST_LIMIT", 24)),
         hourlyStart: currentAsOf,
     });
-    console.info(`GET /weather perform(${weatherQuery})`);
+    console.info(`GET /weather fulfill(${weatherQuery})`);
     const weather = await fulfill({
         authority: weatherToken,
         request: weatherQuery,

@@ -16,23 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { minutesToSeconds } from "date-fns";
 import { Request, Response, Router } from "express";
+import { GoogleMapsApiKey } from 'good-breathing';
+import { allExtraComputations, GetCurrentAirConditions } from 'good-breathing/aqi';
+import { GetPollenForecast } from 'good-breathing/pollen';
+import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { loadTheme } from "../styling/themes";
 import { renderWeatherAir } from "../templates/weather-air";
+import { envInt } from "../utilities/env";
 import { timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
 import { linkDestination } from "./_links";
 
 export interface WeatherAirRoutesOptions {
+    readonly gMapsApiKey: GoogleMapsApiKey;
 }
 
 async function getWeatherAir(
-    { }: WeatherAirRoutesOptions,
+    { gMapsApiKey }: WeatherAirRoutesOptions,
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
     const query = req.params.locality;
+    const languageCode = req.i18n.resolvedLanguage ?? req.language;
     const location = new LocationCoordinates(
         LocationCoordinates.parseCoordinate(req.params.latitude),
         LocationCoordinates.parseCoordinate(req.params.longitude),
@@ -40,6 +48,23 @@ async function getWeatherAir(
     const timezone = timezoneFor(location);
     const countryCode = req.params.country;
     const ref = req.query["ref"] as string | undefined;
+
+    const getAirConditions = new GetCurrentAirConditions({
+        location,
+        languageCode,
+        extraComputations: allExtraComputations,
+    });
+    const getPollenForecast = new GetPollenForecast({
+        location,
+        languageCode,
+        days: envInt("DAILY_POLLEN_FORECAST_LIMIT", 3),
+    });
+    console.info(`GET /weather/.../air fulfill(${getAirConditions}), fulfill(${getPollenForecast})`);
+    const [airConditions, pollenForecast] = await Promise.all([
+        fulfill({ request: getAirConditions, authority: gMapsApiKey }),
+        fulfill({ request: getPollenForecast, authority: gMapsApiKey }),
+    ]);
+
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
@@ -52,7 +77,8 @@ async function getWeatherAir(
         query,
         ref,
     });
-    const resp = renderWeatherAir({ deps, link });
+    const resp = renderWeatherAir({ deps, link, airConditions, pollenForecast });
+    res.set("Cache-Control", `public, max-age=${minutesToSeconds(5)}`);
     res.type('html').send(resp);
 }
 
@@ -73,6 +99,7 @@ async function getWeatherAirSample(
         location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
+    // TODO: Hook up sample
     const resp = renderWeatherAir({ deps, link });
     res.type('html').send(resp);
 }

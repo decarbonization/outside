@@ -35,10 +35,6 @@ export function NextHourForecast({ forecast }: NextHourForecastProps) {
         return null;
     }
     const { i18n, timeZone } = useContext(Deps);
-    const points = forecast.minutes.map(m => ({
-        value: m.precipitationChance,
-        caption: formatDate(i18n, m.startTime, { timeStyle: 'short', timeZone }),
-    }));
     return (
         <section className="next-hour-forecast">
             <p className="summary">

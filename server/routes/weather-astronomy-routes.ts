@@ -58,7 +58,7 @@ async function getWeatherAstronomy(
         dailyStart: currentAsOf,
         dataSets: [WeatherDataSet.currentWeather, WeatherDataSet.forecastDaily],
     });
-    console.info(`GET /weather/.../astronomy perform(${weatherQuery})`);
+    console.info(`GET /weather/.../astronomy fulfill(${weatherQuery})`);
     const weather = await fulfill({
         authority: weatherToken,
         request: weatherQuery,

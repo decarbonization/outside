@@ -154,5 +154,8 @@
         "sunsetAstronomical": "Astronomical Sunset",
         "sunsetCivil": "Civil Sunset",
         "sunsetNautical": "Nautical Sunset"
+    },
+    "dailyPollenForecast": {
+        "title": "Daily Pollen Forecast"
     }
 }
