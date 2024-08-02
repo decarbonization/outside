@@ -49,6 +49,12 @@ Once these prerequisites have been created, the following environment variables 
 - `APPLE_WEATHER_KEY_ID`: A WeatherKit REST key identifier.
 - `APPLE_WEATHER_KEY`: A WeatherKit REST private key downloaded from the developer portal.
 
+### Configuring Google Services
+
+In order for Outside to fetch air quality data, it must be configured with a Google Maps platform API key. Once an API key has been created, the following environment variable must be set:
+
+- `GOOGLE_MAPS_API_KEY`: A Google Maps platform API key with access to both the Air Quality and Pollen data features.
+
 ### Additional Options
 
 The following environment variables may be provided:
