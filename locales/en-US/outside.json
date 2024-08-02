@@ -123,8 +123,8 @@
     },
     "nextHourForecast": {
         "periodClearFullHour": "Clear for the next hour",
-        "periodIndefinite": "{{chance}} chance of {{intensity}} {{type}} starting at {{start, datetime(timeStyle: 'short')}}",
-        "periodDefinite": "{{chance}} chance of {{intensity}} {{type}} between {{start, datetime(timeStyle: 'short')}} and {{end, datetime(timeStyle: 'short')}}",
+        "periodIndefinite": "{{chance}} of {{intensity}} {{type}}",
+        "periodDefinite": "{{chance}} of {{intensity}} {{type}} lasting for {{duration, number}}M",
         "periodJoiner": " then ",
         "xLabelNow": "Now",
         "xLabel": "{{minutes}}M",

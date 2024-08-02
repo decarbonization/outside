@@ -358,15 +358,16 @@ pre {
 .precipitation-chart .minute {
     flex-grow: 1;
     height: var(--chance);
-    border-radius: 0.5vw;
+    border-radius: 1vw;
+    margin-right: 0.1em;
 }
 
 .precipitation-chart .minute.light {
-    background: var(--accent);
+    background: #e6e600;
 }
 
 .precipitation-chart .minute.moderate {
-    background: #737373;
+    background: #e6bf00;
 }
 
 .precipitation-chart .minute.heavy {
@@ -379,10 +380,6 @@ pre {
 
 .precipitation-chart .minute.violent {
     background: #e62600;
-}
-
-.precipitation-chart .minute:not(:last-child) {
-    margin-right: 0.1em;
 }
 
 .next-hour-forecast-minutes {

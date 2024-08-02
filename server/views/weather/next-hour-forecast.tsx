@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ForecastMinute, ForecastPeriodSummary, NextHourForecast, precipitationIntensityFrom, PrecipitationType, probabilityChanceFrom } from "fruit-company/weather";
+import { differenceInMinutes } from "date-fns";
+import { ForecastPeriodSummary, NextHourForecast, precipitationIntensityFrom, PrecipitationType, probabilityChanceFrom } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
-import { formatDate } from "../components/dates";
 import { PrecipitationChart } from "../components/precipitation-chart";
 
 export interface NextHourForecastProps {
@@ -51,15 +51,14 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
         return i18n.t('nextHourForecast.periodClearFullHour');
     }
 
-    const summaryPeriods = summary.map(period => {
+    const summaryPeriods = stormyPeriods.map(period => {
         if (period.endTime !== undefined) {
             return i18n.t('nextHourForecast.periodDefinite', {
                 interpolation: { escapeValue: false },
                 chance: chanceOf(i18n, period.precipitationChance),
                 intensity: intensityOf(i18n, period.precipitationIntensity),
                 type: nameOf(i18n, period.condition),
-                start: period.startTime,
-                end: period.endTime,
+                duration: differenceInMinutes(period.endTime, period.startTime),
             });
         } else {
             return i18n.t('nextHourForecast.periodIndefinite', {
@@ -67,7 +66,6 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
                 chance: chanceOf(i18n, period.precipitationChance),
                 intensity: intensityOf(i18n, period.precipitationIntensity),
                 type: nameOf(i18n, period.condition),
-                start: period.startTime,
             });
         }
     });
@@ -86,8 +84,4 @@ function chanceOf(i18n: i18n, p: number): string {
 function intensityOf(i18n: i18n, precipitationIntensity: number): string {
     const intensity = precipitationIntensityFrom(precipitationIntensity);
     return i18n.t(`forecast.intensity.${intensity}`);
-}
-
-function hasPrecipitation(minutes: ForecastMinute[]): boolean {
-    return minutes.some(m => m.precipitationChance > 0);
 }
