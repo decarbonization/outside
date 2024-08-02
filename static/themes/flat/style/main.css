@@ -67,7 +67,7 @@ a:hover {
     text-decoration: underline;
 }
 
-main {
+body > main {
     max-width: calc(780px - (var(--h-spacing) * 2));
     margin: 0 auto;
     padding: 0 var(--h-spacing);
@@ -334,6 +334,12 @@ pre {
     flex-grow: 1;
 }
 
+.precipitation-chart .y-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    align-self: center;
+}
+
 .precipitation-chart .group {
     height: calc(100% - 1em);
     display: flex;
@@ -360,15 +366,15 @@ pre {
 }
 
 .precipitation-chart .minute.moderate {
-    background: linear-gradient(to top, var(--accent), #737373);
+    background: #737373;
 }
 
 .precipitation-chart .minute.heavy {
-    background: linear-gradient(to top, var(--accent), #e39700);
+    background: #e39700;
 }
 
 .precipitation-chart .minute.extreme {
-    background: linear-gradient(to top, var(--accent), #e62600);
+    background: #e64d00;
 }
 
 .precipitation-chart .minute.violent {

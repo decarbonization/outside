@@ -23,6 +23,7 @@ import { differenceInMinutes } from "date-fns";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
+import { percentage } from "../../styling/transforms";
 
 export interface PrecipitationChartProps {
     readonly className?: string;
@@ -45,17 +46,20 @@ export function PrecipitationChart({
     const segments = segmentBy(samples, groupSize).slice(0, maxGroups);
     return (
         <div className={classNames("precipitation-chart", "h-flow", className)}>
+            <footer className="y-label">
+                {i18n.t('nextHourForecast.yLabel')}
+            </footer>
             {segments.map(segment => (
                 <section>
                     <div className="group">
                         {segment.map(minute => (
                             <div
                                 className={classNames("minute", precipitationIntensityFrom(minute.precipitationIntensity))}
-                                style={`--chance: ${Math.round(minute.precipitationChance * 100)}%;`} />
+                                style={`--chance: ${percentage(minute.precipitationChance)};`} />
                         ))}
                     </div>
-                    <footer>
-                        {groupLabel(i18n, segment[0].startTime, startTime)}
+                    <footer className="x-label">
+                        {groupLabelFor(i18n, segment[0].startTime, startTime)}
                     </footer>
                 </section>
             ))}
@@ -63,10 +67,10 @@ export function PrecipitationChart({
     );
 }
 
-function groupLabel(i18n: i18n, baseTime: Date, startTime: Date): string {
+function groupLabelFor(i18n: i18n, baseTime: Date, startTime: Date): string {
     if (baseTime === startTime) {
-        return i18n.t('nextHourForecast.groupLabelNow');
+        return i18n.t('nextHourForecast.xLabelNow');
     } else {
-        return i18n.t('nextHourForecast.groupLabel', { minutes: differenceInMinutes(baseTime, startTime) });
+        return i18n.t('nextHourForecast.xLabel', { minutes: differenceInMinutes(baseTime, startTime) });
     }
 }

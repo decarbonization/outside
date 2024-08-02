@@ -25,3 +25,7 @@ export function camelCaseToKebabCase(subject: string): string {
 export function camelCaseToSnakeCase(subject: string): string {
     return subject.replace(/(([a-z])(?=[A-Z][a-zA-Z])|([A-Z])(?=[A-Z][a-z]))/g, '$1_').toLowerCase();
 }
+
+export function percentage(percent: number, fractionDigits: number = 0): string {
+    return `${(percent * 100).toFixed(fractionDigits)}%`;
+}

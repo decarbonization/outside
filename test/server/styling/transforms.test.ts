@@ -17,7 +17,7 @@
  */
 
 import { describe, expect, it } from '@jest/globals';
-import { camelCaseToKebabCase, camelCaseToSnakeCase } from '../../../server/styling/transforms';
+import { camelCaseToKebabCase, camelCaseToSnakeCase, percentage } from '../../../server/styling/transforms';
 
 describe("transforms module", () => {
     describe("#camelCaseToKebabCase", () => {
@@ -45,6 +45,18 @@ describe("transforms module", () => {
 
         it("should lowercase abbreviations and join them with an underscore", () => {
             expect(camelCaseToSnakeCase("toISOString")).toStrictEqual("to_iso_string");
+        });
+    });
+
+    describe("#percentage", () => {
+        it("should produce a CSS percentage value", () => {
+            expect(percentage(0.0)).toStrictEqual("0%");
+            expect(percentage(0.5)).toStrictEqual("50%");
+            expect(percentage(1.0)).toStrictEqual("100%");
+        });
+
+        it("should include fraction digits when specified", () => {
+            expect(percentage(0.555, 1)).toStrictEqual("55.5%");
         });
     });
 });
