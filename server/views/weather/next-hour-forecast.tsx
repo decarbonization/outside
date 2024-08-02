@@ -20,8 +20,8 @@ import { ForecastMinute, ForecastPeriodSummary, NextHourForecast, precipitationI
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
-import { BarChart } from "../components/bar-chart";
 import { formatDate } from "../components/dates";
+import { PrecipitationChart } from "../components/precipitation-chart";
 
 export interface NextHourForecastProps {
     readonly forecast?: NextHourForecast;
@@ -44,11 +44,7 @@ export function NextHourForecast({ forecast }: NextHourForecastProps) {
             <p className="summary">
                 {summaryText(i18n, forecast.summary)}
             </p>
-            {
-                hasPrecipitation(forecast.minutes)
-                    ? <BarChart className="next-hour-forecast-minutes" min={0} max={1} points={points} />
-                    : null
-            }
+            <PrecipitationChart samples={forecast.minutes} />
         </section>
     );
 }
@@ -56,12 +52,12 @@ export function NextHourForecast({ forecast }: NextHourForecastProps) {
 function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
     const stormyPeriods = summary.filter(p => p.condition !== PrecipitationType.clear);
     if (stormyPeriods.length === 0) {
-        return i18n.t('minutelyForecast.periodClearFullHour');
+        return i18n.t('nextHourForecast.periodClearFullHour');
     }
 
     const summaryPeriods = summary.map(period => {
         if (period.endTime !== undefined) {
-            return i18n.t('minutelyForecast.periodDefinite', {
+            return i18n.t('nextHourForecast.periodDefinite', {
                 interpolation: { escapeValue: false },
                 chance: chanceOf(i18n, period.precipitationChance),
                 intensity: intensityOf(i18n, period.precipitationIntensity),
@@ -70,7 +66,7 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
                 end: period.endTime,
             });
         } else {
-            return i18n.t('minutelyForecast.periodIndefinite', {
+            return i18n.t('nextHourForecast.periodIndefinite', {
                 interpolation: { escapeValue: false },
                 chance: chanceOf(i18n, period.precipitationChance),
                 intensity: intensityOf(i18n, period.precipitationIntensity),
@@ -79,7 +75,7 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
             });
         }
     });
-    return summaryPeriods.join(i18n.t('minutelyForecast.periodJoiner'));
+    return summaryPeriods.join(i18n.t('nextHourForecast.periodJoiner'));
 }
 
 function nameOf(i18n: i18n, condition: PrecipitationType): string {

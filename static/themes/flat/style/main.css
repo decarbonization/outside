@@ -245,84 +245,6 @@ pre {
     mask-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 5%, white 95%, rgba(255, 255, 255, 0) 100%);
 }
 
-/* -- Charts -- */
-
-.bar-chart {
-    position: relative;
-    padding: 0;
-    margin: var(--v-spacing) 0;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: end;
-    justify-content: center;
-}
-
-.bar-chart-item {
-    margin-right: 0.1em;
-    width: var(--bar-chart-item-width, 1%);
-    height: var(--bar-chart-item-percent);
-    background: var(--accent);
-    border-radius: 0.5vw;
-}
-
-[data-tooltip]:hover::after {
-    pointer-events: none;
-    display: block;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    content: attr(data-tooltip);
-    background: var(--background);
-    opacity: 0.8;
-    backdrop-filter: blur(10px);
-    padding: 0.2em 0.4em;
-    border-radius: 0.2em;
-}
-
-.bar-chart-item.p0 {
-    --bar-chart-item-percent: 0%;
-}
-
-.bar-chart-item.p10 {
-    --bar-chart-item-percent: 10%;
-}
-
-.bar-chart-item.p20 {
-    --bar-chart-item-percent: 20%;
-}
-
-.bar-chart-item.p30 {
-    --bar-chart-item-percent: 30%;
-}
-
-.bar-chart-item.p40 {
-    --bar-chart-item-percent: 40%;
-}
-
-.bar-chart-item.p50 {
-    --bar-chart-item-percent: 50%;
-}
-
-.bar-chart-item.p60 {
-    --bar-chart-item-percent: 60%;
-}
-
-.bar-chart-item.p70 {
-    --bar-chart-item-percent: 70%;
-}
-
-.bar-chart-item.p80 {
-    --bar-chart-item-percent: 80%;
-}
-
-.bar-chart-item.p90 {
-    --bar-chart-item-percent: 90%;
-}
-
-.bar-chart-item.p100 {
-    --bar-chart-item-percent: 100%;
-}
-
 /* -- Page Chrome -- */
 
 .mode-selector input[type="radio"] {
@@ -401,6 +323,61 @@ pre {
 }
 
 /* -- Next Hour Forecast -- */
+
+.precipitation-chart {
+    position: relative;
+    height: 5em;
+}
+
+.precipitation-chart section {
+    height: 100%;
+    flex-grow: 1;
+}
+
+.precipitation-chart .group {
+    height: calc(100% - 1em);
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: end;
+    justify-content: center;
+    border-top: 1px solid var(--separator);
+    border-bottom: 1px solid var(--separator);
+    background: linear-gradient(var(--separator), var(--separator)) no-repeat center/100% 1px;
+}
+
+.precipitation-chart section:not(:last-child) .group {
+    border-right: 1px dashed var(--separator);
+}
+
+.precipitation-chart .minute {
+    flex-grow: 1;
+    height: var(--chance);
+    border-radius: 0.5vw;
+}
+
+.precipitation-chart .minute.light {
+    background: var(--accent);
+}
+
+.precipitation-chart .minute.moderate {
+    background: linear-gradient(to top, var(--accent), #737373);
+}
+
+.precipitation-chart .minute.heavy {
+    background: linear-gradient(to top, var(--accent), #e39700);
+}
+
+.precipitation-chart .minute.extreme {
+    background: linear-gradient(to top, var(--accent), #e62600);
+}
+
+.precipitation-chart .minute.violent {
+    background: #e62600;
+}
+
+.precipitation-chart .minute:not(:last-child) {
+    margin-right: 0.1em;
+}
 
 .next-hour-forecast-minutes {
     height: 5em;
@@ -528,8 +505,7 @@ pre {
 
 .hourly-forecast-reading.conditions .unit {
     background: var(--background);
-    opacity: 0.8;
-    backdrop-filter: blur(10px);
+    opacity: 0.9;
     font-size: 0.8em;
     padding: 0.1em;
     border-radius: 0.2em;
@@ -621,8 +597,7 @@ pre {
 
 .daily-forecast-reading-condition-block .unit {
     background: var(--background);
-    opacity: 0.8;
-    backdrop-filter: blur(10px);
+    opacity: 0.9;
     font-size: 0.7em;
     padding: 0.1em;
     border-radius: 0.2em;
