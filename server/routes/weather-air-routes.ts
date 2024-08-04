@@ -18,9 +18,11 @@
 
 import { minutesToSeconds } from "date-fns";
 import { Request, Response, Router } from "express";
+import * as fs from "fs/promises";
 import { GoogleMapsApiKey } from 'good-breathing';
-import { allExtraComputations, GetCurrentAirConditions } from 'good-breathing/aqi';
-import { GetPollenForecast } from 'good-breathing/pollen';
+import { allExtraComputations, GetCurrentAirConditions, parseCurrentAirConditions } from 'good-breathing/aqi';
+import { GetPollenForecast, parsePollenForecast } from 'good-breathing/pollen';
+import * as path from "path";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { loadTheme } from "../styling/themes";
@@ -87,6 +89,11 @@ async function getWeatherAirSample(
     req: Request,
     res: Response
 ): Promise<void> {
+    const rawAirConditions = await fs.readFile(path.join(__dirname, "aqi-sample.json"), "utf-8");
+    const airConditions = parseCurrentAirConditions(rawAirConditions);
+    const rawPollenForecast = await fs.readFile(path.join(__dirname, "pollen-sample.json"), "utf-8");
+    const pollenForecast = parsePollenForecast(rawPollenForecast);
+
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
@@ -94,13 +101,13 @@ async function getWeatherAirSample(
     };
     const link = linkDestination({
         where: "weather",
-        sub: "astronomy",
+        sub: "air",
         countryCode: "ZZ",
         location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
-    // TODO: Hook up sample
-    const resp = renderWeatherAir({ deps, link });
+    const resp = renderWeatherAir({ deps, link, airConditions, pollenForecast });
+    res.set("Cache-Control", "no-store");
     res.type('html').send(resp);
 }
 

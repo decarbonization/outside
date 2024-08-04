@@ -1,0 +1,440 @@
+{
+  "regionCode": "US",
+  "dailyInfo": [
+    {
+      "date": "2024-08-04T00:00:00.000Z",
+      "pollenTypeInfo": [
+        {
+          "code": "GRASS",
+          "displayName": "Grass"
+        },
+        {
+          "code": "TREE",
+          "displayName": "Tree",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "healthRecommendations": [
+            "Pollen levels are very low right now. It's a great day to enjoy the outdoors!"
+          ]
+        },
+        {
+          "code": "WEED",
+          "displayName": "Weed",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "healthRecommendations": [
+            "Pollen levels are very low right now. It's a great day to enjoy the outdoors!"
+          ]
+        }
+      ],
+      "plantInfo": [
+        {
+          "code": "MAPLE",
+          "displayName": "Maple"
+        },
+        {
+          "code": "ELM",
+          "displayName": "Elm",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "plantDescription": {
+            "type": "TREE",
+            "family": "Ulmaceae (the Elm family)",
+            "season": "Two distinct seasons, late winter to early spring, and late summer to fall (species dependent)",
+            "specialColors": "None",
+            "specialShapes": "The leaves are alternate, obovate with a pointed tip, usually a lopsided base, and serrated margins.",
+            "crossReaction": "There is no known cross-allergies related to elm.",
+            "picture": "https://storage.googleapis.com/pollen-pictures/elm_full.jpg",
+            "pictureCloseup": "https://storage.googleapis.com/pollen-pictures/elm_closeup.jpg"
+          }
+        },
+        {
+          "code": "COTTONWOOD",
+          "displayName": "Cottonwood"
+        },
+        {
+          "code": "ALDER",
+          "displayName": "Alder"
+        },
+        {
+          "code": "BIRCH",
+          "displayName": "Birch"
+        },
+        {
+          "code": "ASH",
+          "displayName": "Ash"
+        },
+        {
+          "code": "PINE",
+          "displayName": "Pine"
+        },
+        {
+          "code": "OAK",
+          "displayName": "Oak"
+        },
+        {
+          "code": "JUNIPER",
+          "displayName": "Juniper"
+        },
+        {
+          "code": "GRAMINALES",
+          "displayName": "Grasses"
+        },
+        {
+          "code": "RAGWEED",
+          "displayName": "Ragweed",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "plantDescription": {
+            "type": "WEED",
+            "family": "Asteraceae (the daisy family)",
+            "season": "Late summer, fall",
+            "specialColors": "None",
+            "specialShapes": "The leaves are alternate or opposite, divided and lobed. The leaf margin is smooth or serrated.",
+            "crossReaction": "Mugwort and Goldenrod as well as daisies such as Sunflower, Dandelion, and Chamomile.",
+            "picture": "https://storage.googleapis.com/pollen-pictures/ragweed_full.jpg",
+            "pictureCloseup": "https://storage.googleapis.com/pollen-pictures/ragweed_closeup.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2024-08-05T00:00:00.000Z",
+      "pollenTypeInfo": [
+        {
+          "code": "GRASS",
+          "displayName": "Grass"
+        },
+        {
+          "code": "TREE",
+          "displayName": "Tree",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "healthRecommendations": [
+            "Pollen levels are very low right now. It's a great day to enjoy the outdoors!"
+          ]
+        },
+        {
+          "code": "WEED",
+          "displayName": "Weed",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "healthRecommendations": [
+            "Pollen levels are very low right now. It's a great day to enjoy the outdoors!"
+          ]
+        }
+      ],
+      "plantInfo": [
+        {
+          "code": "MAPLE",
+          "displayName": "Maple"
+        },
+        {
+          "code": "ELM",
+          "displayName": "Elm",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "plantDescription": {
+            "type": "TREE",
+            "family": "Ulmaceae (the Elm family)",
+            "season": "Two distinct seasons, late winter to early spring, and late summer to fall (species dependent)",
+            "specialColors": "None",
+            "specialShapes": "The leaves are alternate, obovate with a pointed tip, usually a lopsided base, and serrated margins.",
+            "crossReaction": "There is no known cross-allergies related to elm.",
+            "picture": "https://storage.googleapis.com/pollen-pictures/elm_full.jpg",
+            "pictureCloseup": "https://storage.googleapis.com/pollen-pictures/elm_closeup.jpg"
+          }
+        },
+        {
+          "code": "COTTONWOOD",
+          "displayName": "Cottonwood"
+        },
+        {
+          "code": "ALDER",
+          "displayName": "Alder"
+        },
+        {
+          "code": "BIRCH",
+          "displayName": "Birch"
+        },
+        {
+          "code": "ASH",
+          "displayName": "Ash"
+        },
+        {
+          "code": "PINE",
+          "displayName": "Pine"
+        },
+        {
+          "code": "OAK",
+          "displayName": "Oak"
+        },
+        {
+          "code": "JUNIPER",
+          "displayName": "Juniper"
+        },
+        {
+          "code": "GRAMINALES",
+          "displayName": "Grasses"
+        },
+        {
+          "code": "RAGWEED",
+          "displayName": "Ragweed",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "plantDescription": {
+            "type": "WEED",
+            "family": "Asteraceae (the daisy family)",
+            "season": "Late summer, fall",
+            "specialColors": "None",
+            "specialShapes": "The leaves are alternate or opposite, divided and lobed. The leaf margin is smooth or serrated.",
+            "crossReaction": "Mugwort and Goldenrod as well as daisies such as Sunflower, Dandelion, and Chamomile.",
+            "picture": "https://storage.googleapis.com/pollen-pictures/ragweed_full.jpg",
+            "pictureCloseup": "https://storage.googleapis.com/pollen-pictures/ragweed_closeup.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2024-08-06T00:00:00.000Z",
+      "pollenTypeInfo": [
+        {
+          "code": "GRASS",
+          "displayName": "Grass"
+        },
+        {
+          "code": "TREE",
+          "displayName": "Tree",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "healthRecommendations": [
+            "Pollen levels are very low right now. It's a great day to enjoy the outdoors!"
+          ]
+        },
+        {
+          "code": "WEED",
+          "displayName": "Weed",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "healthRecommendations": [
+            "Pollen levels are very low right now. It's a great day to enjoy the outdoors!"
+          ]
+        }
+      ],
+      "plantInfo": [
+        {
+          "code": "MAPLE",
+          "displayName": "Maple"
+        },
+        {
+          "code": "ELM",
+          "displayName": "Elm",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "plantDescription": {
+            "type": "TREE",
+            "family": "Ulmaceae (the Elm family)",
+            "season": "Two distinct seasons, late winter to early spring, and late summer to fall (species dependent)",
+            "specialColors": "None",
+            "specialShapes": "The leaves are alternate, obovate with a pointed tip, usually a lopsided base, and serrated margins.",
+            "crossReaction": "There is no known cross-allergies related to elm.",
+            "picture": "https://storage.googleapis.com/pollen-pictures/elm_full.jpg",
+            "pictureCloseup": "https://storage.googleapis.com/pollen-pictures/elm_closeup.jpg"
+          }
+        },
+        {
+          "code": "COTTONWOOD",
+          "displayName": "Cottonwood"
+        },
+        {
+          "code": "ALDER",
+          "displayName": "Alder"
+        },
+        {
+          "code": "BIRCH",
+          "displayName": "Birch"
+        },
+        {
+          "code": "ASH",
+          "displayName": "Ash"
+        },
+        {
+          "code": "PINE",
+          "displayName": "Pine"
+        },
+        {
+          "code": "OAK",
+          "displayName": "Oak"
+        },
+        {
+          "code": "JUNIPER",
+          "displayName": "Juniper"
+        },
+        {
+          "code": "GRAMINALES",
+          "displayName": "Grasses"
+        },
+        {
+          "code": "RAGWEED",
+          "displayName": "Ragweed",
+          "inSeason": false,
+          "indexInfo": {
+            "code": "UPI",
+            "displayName": "Universal Pollen Index",
+            "value": 1,
+            "category": "Very Low",
+            "indexDescription": "People with very high allergy to pollen are likely to experience symptoms",
+            "color": {
+              "red": 0,
+              "green": 0.61960787,
+              "blue": 0.22745098,
+              "alpha": 1
+            }
+          },
+          "plantDescription": {
+            "type": "WEED",
+            "family": "Asteraceae (the daisy family)",
+            "season": "Late summer, fall",
+            "specialColors": "None",
+            "specialShapes": "The leaves are alternate or opposite, divided and lobed. The leaf margin is smooth or serrated.",
+            "crossReaction": "Mugwort and Goldenrod as well as daisies such as Sunflower, Dandelion, and Chamomile.",
+            "picture": "https://storage.googleapis.com/pollen-pictures/ragweed_full.jpg",
+            "pictureCloseup": "https://storage.googleapis.com/pollen-pictures/ragweed_closeup.jpg"
+          }
+        }
+      ]
+    }
+  ]
+}

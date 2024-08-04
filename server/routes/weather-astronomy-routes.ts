@@ -71,6 +71,7 @@ async function getWeatherAstronomy(
     };
     const link = linkDestination({
         where: "weather",
+        sub: "astronomy",
         countryCode,
         location,
         query,
