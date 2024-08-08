@@ -40,10 +40,7 @@ export function App({ className, children }: AppProps) {
                 <title>{i18n.t('appName')}</title>
             </head>
             <body className={className}>
-                <main>
-                    <h1>{i18n.t('appName')}</h1>
-                    {children}
-                </main>
+                {children}
 
                 <script src="/script/client.js" />
             </body>

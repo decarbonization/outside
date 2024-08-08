@@ -17,22 +17,19 @@
  */
 
 import { useContext } from "preact/hooks";
-import { linkTo } from "../routes/_links";
 import { Deps } from "./_deps";
 
-export interface PlaceSearchProps {
-    readonly query?: string;
-    readonly disabled?: boolean;
+export interface GlobalFooterProps {
+
 }
 
-export function PlaceSearch({ query, disabled }: PlaceSearchProps) {
+export function GlobalFooter({ }: GlobalFooterProps) {
     const { i18n } = useContext(Deps);
     return (
-        <section className="place-search">
-            <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
-                <button class="place-search-current-location" type="button" aria-label={i18n.t('placeSearch.useCurrentLocation')} disabled>➤</button>
-                <input type="search" name="q" value={query} placeholder={i18n.t('placeSearch.inputLabel')} disabled={disabled} />
-            </form>
-        </section>
+        <footer className="global">
+            <a href="https://justthegoodparts.kevinmacwhinnie.com">
+                {i18n.t('appByline')}
+            </a>
+        </footer>
     );
 }

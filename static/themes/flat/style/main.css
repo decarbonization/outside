@@ -67,7 +67,7 @@ a:hover {
     text-decoration: underline;
 }
 
-body > main {
+body>main {
     max-width: calc(780px - (var(--h-spacing) * 2));
     margin: 0 auto;
     padding: 0 var(--h-spacing);
@@ -247,6 +247,50 @@ pre {
 
 /* -- Page Chrome -- */
 
+header.global {
+    margin: var(--h-spacing) 0;
+    align-items: center;
+}
+
+.place-search-form {
+    flex-grow: 1;
+    font-weight: normal;
+
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: last baseline;
+    justify-content: left;
+    gap: 0.5em;
+
+    padding: 0.5em;
+    background: var(--background);
+    border: 2px solid var(--separator);
+    border-radius: 8px;
+}
+
+.place-search-form:has(input[type="search"]:focus) {
+    border-color: var(--accent);
+}
+
+.place-search-form input[type="search"] {
+    width: 0;
+    flex-grow: 1;
+
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    height: fit-content;
+}
+
+.place-search-form button {
+    padding: 0;
+}
+
+.place-search-current-location {
+    font-size: 1.5em;
+}
+
 .mode-selector input[type="radio"] {
     display: none;
 }
@@ -269,40 +313,9 @@ pre {
     font-weight: bold;
 }
 
-.place-search form {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: last baseline;
-    justify-content: left;
-    gap: var(--h-spacing) var(--v-spacing);
-
-    padding: var(--h-spacing) var(--v-spacing);
-    background: var(--background);
-    border: 2px solid var(--separator);
-    border-radius: 8px;
-}
-
-.place-search form:has(input[type="search"]:focus) {
-    border-color: var(--accent);
-}
-
-.place-search-form input[type="search"] {
-    flex-grow: 1;
-    font-size: 1.25em;
-
-    padding: 0;
-    background: none;
-    border: none;
-    border-radius: 0;
-    height: fit-content;
-}
-
-.place-search-form button {
-    padding: 0;
-}
-
-.place-search-current-location {
-    font-size: 1.5em;
+footer.global {
+    text-align: center;
+    margin: var(--v-spacing) var(--h-spacing);
 }
 
 /* -- Current Forecast -- */
@@ -350,6 +363,7 @@ pre {
     border-top: 1px solid var(--separator);
     border-bottom: 1px solid var(--separator);
 }
+
 .precipitation-chart .group:not(:last-child) {
     padding-right: 0.1em;
 }
@@ -436,7 +450,6 @@ pre {
 }
 
 .hourly-forecast h1 {
-    margin: 0;
     float: left;
 }
 
@@ -531,7 +544,6 @@ pre {
 }
 
 .daily-forecast h1 {
-    margin: 0;
     float: left;
 }
 

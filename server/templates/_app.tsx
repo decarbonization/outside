@@ -20,22 +20,30 @@ import { ComponentChildren } from "preact";
 import render from "preact-render-to-string";
 import { App } from "../views/_app";
 import { Deps, DepsObject } from "../views/_deps";
+import { GlobalHeader } from "../views/global-header";
+import { GlobalFooter } from "../views/global-footer";
 
 const templatePrelude = "<!DOCTYPE html>";
 
 export interface RenderAppOptions {
     readonly className?: string;
     readonly deps: DepsObject;
+    readonly searchQuery?: string;
+    readonly searchDisabled?: boolean;
 }
 
 export function renderApp(
-    { className, deps }: RenderAppOptions,
+    { className, deps, searchQuery, searchDisabled }: RenderAppOptions,
     children: ComponentChildren
 ): string {
     return templatePrelude + render(
         <Deps.Provider value={deps}>
             <App className={className}>
-                {children}
+                <main>
+                    <GlobalHeader searchQuery={searchQuery} searchDisabled={searchDisabled} />
+                    {children}
+                    <GlobalFooter />
+                </main>
             </App>
         </Deps.Provider>
     );

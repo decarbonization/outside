@@ -17,18 +17,20 @@
  */
 
 import { DepsObject } from "../views/_deps";
-import { PlaceSearch } from "../views/place-search";
 import { renderApp } from "./_app";
 
 export interface IndexOptions {
     readonly deps: DepsObject;
-    readonly query?: string;
+    readonly searchQuery?: string;
 }
 
-export function renderIndex({ deps, query }: IndexOptions): string {
-    return renderApp({ deps }, (
+export function renderIndex({ deps, searchQuery }: IndexOptions): string {
+    const { i18n } = deps;
+    return renderApp({ deps, searchQuery }, (
         <>
-            <PlaceSearch query={query} />
+            <p>
+                {i18n.t('appDescription')}
+            </p>
         </>
     ));
 }

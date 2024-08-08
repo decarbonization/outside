@@ -33,7 +33,7 @@ import { IndexRoutes } from './routes/index-routes';
 import { SearchRoutes } from './routes/search-routes';
 import { WeatherAirRoutes } from './routes/weather-air-routes';
 import { WeatherAstronomyRoutes } from './routes/weather-astronomy-routes';
-import { WeatherRoutes } from './routes/weather-routes';
+import { WeatherForecastRoutes } from './routes/weather-forecast-routes';
 import { env } from './utilities/env';
 import { setUpShutDownHooks } from './utilities/shut-down';
 
@@ -84,7 +84,7 @@ app.use(i18nextMiddleware.handle(i18next));
 
 app.use(IndexRoutes({}));
 app.use(SearchRoutes({ mapsToken }));
-app.use(WeatherRoutes({ weatherToken }));
+app.use(WeatherForecastRoutes({ weatherToken }));
 app.use(WeatherAstronomyRoutes({ weatherToken }));
 app.use(WeatherAirRoutes({ gMapsApiKey }));
 app.use(express.static(staticDir));

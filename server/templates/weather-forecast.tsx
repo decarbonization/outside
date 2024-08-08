@@ -21,27 +21,24 @@ import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
 import { ModeSelector } from "../views/mode-selector";
-import { PlaceSearch } from "../views/place-search";
 import { CompleteForecast } from "../views/weather-forecast/complete";
-import { WeatherSource } from "../views/components/weather-source";
 import { renderApp } from "./_app";
 
-export interface RenderWeatherOptions {
+export interface RenderWeatherForecastOptions {
     readonly deps: DepsObject;
-    readonly disableSearch?: boolean;
+    readonly searchDisabled?: boolean;
     readonly link: LinkDestinationTo<"weather">;
     readonly weather: Weather;
     readonly attribution: Attribution;
 }
 
-export function renderWeather({ deps, link, disableSearch, weather, attribution }: RenderWeatherOptions): string {
+export function renderWeatherForecast({ deps, link, searchDisabled, weather, attribution }: RenderWeatherForecastOptions): string {
     const className = elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight);
-    return renderApp({ className, deps }, (
+    const searchQuery = link.query;
+    return renderApp({ className, deps, searchQuery, searchDisabled }, (
         <>
-            <PlaceSearch query={link.query} disabled={disableSearch} />
             <ModeSelector link={link} mode="forecast" />
             <CompleteForecast weather={weather} />
-            <WeatherSource weather={weather} attribution={attribution} />
         </>
     ));
 }

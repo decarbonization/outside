@@ -21,23 +21,22 @@ import { PollenForecast } from "good-breathing/pollen";
 import { LinkDestinationTo } from "../routes/_links";
 import { DepsObject } from "../views/_deps";
 import { ModeSelector } from "../views/mode-selector";
-import { PlaceSearch } from "../views/place-search";
 import { CurrentAirForecast } from "../views/weather-air/current-air-forecast";
-import { renderApp } from "./_app";
 import { PollenDailyForecast } from "../views/weather-air/pollen-daily-forecast";
+import { renderApp } from "./_app";
 
 export interface RenderWeatherAstronomyOptions {
     readonly deps: DepsObject;
-    readonly disableSearch?: boolean;
+    readonly searchDisabled?: boolean;
     readonly link: LinkDestinationTo<"weather">;
     readonly airConditions?: CurrentAirConditions;
     readonly pollenForecast?: PollenForecast;
 }
 
-export function renderWeatherAir({ deps, link, disableSearch, airConditions, pollenForecast }: RenderWeatherAstronomyOptions): string {
-    return renderApp({ deps }, (
+export function renderWeatherAir({ deps, link, searchDisabled, airConditions, pollenForecast }: RenderWeatherAstronomyOptions): string {
+    const searchQuery = link.query;
+    return renderApp({ deps, searchQuery, searchDisabled }, (
         <>
-            <PlaceSearch query={link.query} disabled={disableSearch} />
             <ModeSelector link={link} mode="air" />
             <CurrentAirForecast conditions={airConditions} />
             <PollenDailyForecast forecast={pollenForecast} />

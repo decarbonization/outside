@@ -1,6 +1,7 @@
 {
     "appName": "Outside",
-    "appDescription": "A data-dense Weather app.",
+    "appDescription": "Prepare for any occasion with comprehensive weather forecasts from any device with a web browser.",
+    "appByline": "A Just the Good Parts Project",
     "appPoweredBy": "Powered By",
     "errorTitle": "Error",
     "tabForecast": "Forecast",

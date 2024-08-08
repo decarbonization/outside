@@ -29,13 +29,13 @@ async function getIndex(
     req: Request,
     res: Response
 ): Promise<void> {
-    const query = req.query["q"] as string | undefined;
+    const searchQuery = req.query["q"] as string | undefined;
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
         timeZone: "UTC",
     };
-    const resp = renderIndex({ deps, query });
+    const resp = renderIndex({ deps, searchQuery });
     res.type('html').send(resp);
 }
 

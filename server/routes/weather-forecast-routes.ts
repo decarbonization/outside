@@ -24,7 +24,7 @@ import path from "path";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { loadTheme } from "../styling/themes";
-import { renderWeather } from "../templates/weather";
+import { renderWeatherForecast } from "../templates/weather-forecast";
 import { envInt } from "../utilities/env";
 import { attributionFor, cacheControlFor, timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
@@ -33,12 +33,12 @@ import { linkDestination, linkTo } from "./_links";
 // TODO: Currently limiting daily forecasts to 7 days because of
 //       <https://forums.developer.apple.com/forums/thread/757910>.
 
-export interface WeatherRoutesOptions {
+export interface WeatherForecastRoutesOptions {
     readonly weatherToken: WeatherToken;
 }
 
-async function getWeather(
-    { weatherToken }: WeatherRoutesOptions,
+async function getWeatherForecast(
+    { weatherToken }: WeatherForecastRoutesOptions,
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
@@ -82,13 +82,13 @@ async function getWeather(
         query,
         ref,
     });
-    const resp = renderWeather({ deps, link, weather, attribution });
+    const resp = renderWeatherForecast({ deps, link, weather, attribution });
     res.set("Cache-Control", cacheControlFor(weather));
     res.type('html').send(resp);
 }
 
-async function getWeatherSample(
-    { weatherToken }: WeatherRoutesOptions,
+async function getWeatherForecastSample(
+    { weatherToken }: WeatherForecastRoutesOptions,
     req: Request,
     res: Response
 ): Promise<void> {
@@ -107,18 +107,18 @@ async function getWeatherSample(
         location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
-    const resp = renderWeather({ deps, link, weather, attribution });
+    const resp = renderWeatherForecast({ deps, link, weather, attribution });
     res.set("Cache-Control", "no-store");
     res.type('html').send(resp);
 }
 
-export function WeatherRoutes(options: WeatherRoutesOptions): Router {
+export function WeatherForecastRoutes(options: WeatherForecastRoutesOptions): Router {
     return Router()
         .get('/weather/ZZ/0/0/!Sample', async (req, res) => {
-            await getWeatherSample(options, req, res);
+            await getWeatherForecastSample(options, req, res);
         })
         .get('/weather/:country/:latitude/:longitude/:locality', async (req, res) => {
-            await getWeather(options, req, res);
+            await getWeatherForecast(options, req, res);
         })
         .get('/weather/:country/:latitude/:longitude', async (req, res) => {
             const query = req.query["q"] as string | undefined;

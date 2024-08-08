@@ -20,27 +20,26 @@ import { Attribution, Weather } from "fruit-company/weather";
 import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
+import { WeatherSource } from "../views/components/weather-source";
 import { ModeSelector } from "../views/mode-selector";
-import { PlaceSearch } from "../views/place-search";
 import { MiniCurrentForecast } from "../views/weather-astronomy/mini-current-forecast";
 import { MoonForecast } from "../views/weather-astronomy/moon-forecast";
 import { SolarForecast } from "../views/weather-astronomy/solar-forecast";
-import { WeatherSource } from "../views/components/weather-source";
 import { renderApp } from "./_app";
 
 export interface RenderWeatherAstronomyOptions {
     readonly deps: DepsObject;
-    readonly disableSearch?: boolean;
+    readonly searchDisabled?: boolean;
     readonly link: LinkDestinationTo<"weather">;
     readonly weather: Weather;
     readonly attribution: Attribution;
 }
 
-export function renderWeatherAstronomy({ deps, link, disableSearch, weather, attribution }: RenderWeatherAstronomyOptions): string {
+export function renderWeatherAstronomy({ deps, link, searchDisabled, weather, attribution }: RenderWeatherAstronomyOptions): string {
     const className = elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight);
-    return renderApp({ className, deps }, (
+    const searchQuery = link.query;
+    return renderApp({ className, deps, searchQuery, searchDisabled }, (
         <>
-            <PlaceSearch query={link.query} disabled={disableSearch} />
             <ModeSelector link={link} mode="astronomy" />
             <MiniCurrentForecast now={weather.currentWeather} />
             <MoonForecast today={weather.forecastDaily?.days?.[0]} />
