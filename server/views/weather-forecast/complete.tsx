@@ -17,17 +17,17 @@
  */
 
 import { Weather } from "fruit-company/weather";
-import { CurrentForecast } from "./current-forecast";
-import { DailyForecast } from "./daily-forecast";
-import { HourlyForecast } from "./hourly-forecast";
-import { NextHourForecast } from "./next-hour-forecast";
-import { WeatherAlerts } from "./weather-alerts";
+import { CurrentForecast } from "./current";
+import { DailyForecast } from "./daily";
+import { HourlyForecast } from "./hourly";
+import { NextHourForecast } from "./next-hour";
+import { WeatherAlerts } from "./alerts";
 
 export interface ForecastProps {
     readonly weather?: Weather;
 }
 
-export function Forecast({ weather }: ForecastProps) {
+export function CompleteForecast({ weather }: ForecastProps) {
     return (
         <>
             <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} />

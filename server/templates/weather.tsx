@@ -22,8 +22,8 @@ import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
 import { ModeSelector } from "../views/mode-selector";
 import { PlaceSearch } from "../views/place-search";
-import { Forecast } from "../views/weather/forecast";
-import { WeatherSource } from "../views/weather/weather-source";
+import { CompleteForecast } from "../views/weather-forecast/complete";
+import { WeatherSource } from "../views/components/weather-source";
 import { renderApp } from "./_app";
 
 export interface RenderWeatherOptions {
@@ -40,7 +40,7 @@ export function renderWeather({ deps, link, disableSearch, weather, attribution 
         <>
             <PlaceSearch query={link.query} disabled={disableSearch} />
             <ModeSelector link={link} mode="forecast" />
-            <Forecast weather={weather} />
+            <CompleteForecast weather={weather} />
             <WeatherSource weather={weather} attribution={attribution} />
         </>
     ));

@@ -25,7 +25,7 @@ import { PlaceSearch } from "../views/place-search";
 import { MiniCurrentForecast } from "../views/weather-astronomy/mini-current-forecast";
 import { MoonForecast } from "../views/weather-astronomy/moon-forecast";
 import { SolarForecast } from "../views/weather-astronomy/solar-forecast";
-import { WeatherSource } from "../views/weather/weather-source";
+import { WeatherSource } from "../views/components/weather-source";
 import { renderApp } from "./_app";
 
 export interface RenderWeatherAstronomyOptions {
