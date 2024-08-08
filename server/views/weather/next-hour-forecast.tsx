@@ -17,9 +17,10 @@
  */
 
 import { differenceInMinutes } from "date-fns";
-import { ForecastPeriodSummary, NextHourForecast, precipitationIntensityFrom, PrecipitationType, probabilityChanceFrom } from "fruit-company/weather";
+import { ForecastPeriodSummary, NextHourForecast, PrecipitationType } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
+import { chanceFragment, precipitationIntensityFragment, precipitationTypeFragment } from "../../formatting/fragments";
 import { Deps } from "../_deps";
 import { PrecipitationChart } from "../components/precipitation-chart";
 
@@ -34,54 +35,41 @@ export function NextHourForecast({ forecast }: NextHourForecastProps) {
     if (forecast.summary.length === 0) {
         return null;
     }
-    const { i18n, timeZone } = useContext(Deps);
+    const { i18n } = useContext(Deps);
+    const summary = summaryText(i18n, forecast.summary);
     return (
         <section className="next-hour-forecast">
-            <p className="summary">
-                {summaryText(i18n, forecast.summary)}
-            </p>
+            {summary !== undefined
+                ? <p className="summary">{summary}</p>
+                : null}
             <PrecipitationChart samples={forecast.minutes} />
         </section>
     );
 }
 
-function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string {
+function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string | undefined {
     const stormyPeriods = summary.filter(p => p.condition !== PrecipitationType.clear);
     if (stormyPeriods.length === 0) {
-        return i18n.t('nextHourForecast.periodClearFullHour');
+        return undefined;
     }
 
     const summaryPeriods = stormyPeriods.map(period => {
         if (period.endTime !== undefined) {
             return i18n.t('nextHourForecast.periodDefinite', {
                 interpolation: { escapeValue: false },
-                chance: chanceOf(i18n, period.precipitationChance),
-                intensity: intensityOf(i18n, period.precipitationIntensity),
-                type: nameOf(i18n, period.condition),
+                chance: chanceFragment(period.precipitationChance, { i18n }),
+                intensity: precipitationIntensityFragment(period.precipitationIntensity, { i18n, lowercase: true }),
+                type: precipitationTypeFragment(period.condition, { i18n, lowercase: true }),
                 duration: differenceInMinutes(period.endTime, period.startTime),
             });
         } else {
             return i18n.t('nextHourForecast.periodIndefinite', {
                 interpolation: { escapeValue: false },
-                chance: chanceOf(i18n, period.precipitationChance),
-                intensity: intensityOf(i18n, period.precipitationIntensity),
-                type: nameOf(i18n, period.condition),
+                chance: chanceFragment(period.precipitationChance, { i18n }),
+                intensity: precipitationIntensityFragment(period.precipitationIntensity, { i18n, lowercase: true }),
+                type: precipitationTypeFragment(period.condition, { i18n, lowercase: true }),
             });
         }
     });
     return summaryPeriods.join(i18n.t('nextHourForecast.periodJoiner'));
-}
-
-function nameOf(i18n: i18n, condition: PrecipitationType): string {
-    return i18n.t(`forecast.precipitationType.${condition}`, { defaultValue: condition });
-}
-
-function chanceOf(i18n: i18n, p: number): string {
-    const chance = probabilityChanceFrom(p);
-    return i18n.t(`forecast.chance.${chance}`);
-}
-
-function intensityOf(i18n: i18n, precipitationIntensity: number): string {
-    const intensity = precipitationIntensityFrom(precipitationIntensity);
-    return i18n.t(`forecast.intensity.${intensity}`);
 }

@@ -18,8 +18,8 @@
 
 import classNames from "classnames";
 import { WeatherCondition } from "fruit-company/weather";
-import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
+import { weatherConditionFragment } from "../../formatting/fragments";
 import { themeIcon } from "../../styling/themes";
 import { Deps } from "../_deps";
 
@@ -32,10 +32,6 @@ export interface ConditionProps {
 export function Condition({ className, code, daylight = true }: ConditionProps) {
     const { i18n, theme } = useContext(Deps);
     return (
-        <span className={classNames("icon", className, themeIcon(theme, { name: code, daylight }))} alt={labelFor(i18n, code)} />
+        <span className={classNames("icon", className, themeIcon(theme, { name: code, daylight }))} alt={weatherConditionFragment(code, { i18n })} />
     );
-}
-
-function labelFor(i18n: i18n, code: WeatherCondition): string {
-    return i18n.t(`forecast.weatherCondition.${code}`, { defaultValue: code as string });
 }

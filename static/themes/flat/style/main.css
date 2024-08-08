@@ -346,9 +346,12 @@ pre {
     flex-wrap: nowrap;
     align-items: end;
     justify-content: center;
+    gap: 0 0.1em;
     border-top: 1px solid var(--separator);
     border-bottom: 1px solid var(--separator);
-    background: linear-gradient(var(--separator), var(--separator)) no-repeat center/100% 1px;
+}
+.precipitation-chart .group:not(:last-child) {
+    padding-right: 0.1em;
 }
 
 .precipitation-chart section:not(:last-child) .group {
@@ -359,27 +362,27 @@ pre {
     flex-grow: 1;
     height: var(--chance);
     border-radius: 1vw;
-    margin-right: 0.1em;
+    background: var(--accent);
 }
 
 .precipitation-chart .minute.light {
-    background: #e6e600;
+    filter: brightness(120%);
 }
 
 .precipitation-chart .minute.moderate {
-    background: #e6bf00;
+    filter: brightness(110%);
 }
 
 .precipitation-chart .minute.heavy {
-    background: #e39700;
+    filter: brightness(90%);
 }
 
 .precipitation-chart .minute.extreme {
-    background: #e64d00;
+    filter: brightness(80%);
 }
 
 .precipitation-chart .minute.violent {
-    background: #e62600;
+    filter: brightness(70%);
 }
 
 .next-hour-forecast-minutes {

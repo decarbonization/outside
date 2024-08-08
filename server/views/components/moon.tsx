@@ -18,8 +18,8 @@
 
 import classNames from "classnames";
 import { MoonPhase } from "fruit-company/weather";
-import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
+import { moonPhaseFragment } from "../../formatting/fragments";
 import { themeIcon } from "../../styling/themes";
 import { Deps } from "../_deps";
 
@@ -31,10 +31,6 @@ export interface MoonProps {
 export function Moon({ className, phase }: MoonProps) {
     const { i18n, theme } = useContext(Deps);
     return (
-        <span className={classNames("icon", "moon", className, themeIcon(theme, { name: phase, daylight: false }))} aria-label={labelFor(i18n, phase)} />
+        <span className={classNames("icon", "moon", className, themeIcon(theme, { name: phase, daylight: false }))} aria-label={moonPhaseFragment(phase, { i18n })} />
     );
-}
-
-function labelFor(i18n: i18n, phase: MoonPhase): string {
-    return i18n.t(`forecast.moonPhase.${phase}`, { defaultValue: String(phase) });
 }

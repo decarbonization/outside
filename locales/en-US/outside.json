@@ -122,7 +122,6 @@
         "dayNightSeparator": "\u00A0/\u00A0"
     },
     "nextHourForecast": {
-        "periodClearFullHour": "Clear for the next hour",
         "periodIndefinite": "{{chance}} of {{intensity}} {{type}}",
         "periodDefinite": "{{chance}} of {{intensity}} {{type}} lasting for {{duration, number}}M",
         "periodJoiner": " then ",

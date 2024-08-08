@@ -18,6 +18,7 @@
 
 import { DayWeatherConditions } from "fruit-company/weather";
 import { useContext } from "preact/hooks";
+import { moonPhaseFragment } from "../../formatting/fragments";
 import { Deps } from "../_deps";
 import { ShortTime } from "../components/dates";
 import { Moon } from "../components/moon";
@@ -38,7 +39,7 @@ export function MoonForecast({ today }: MoonForecastProps) {
                 <li>
                     <Moon className="sidekick" phase={today.moonPhase} />
                     &nbsp;
-                    {i18n.t(`forecast.moonPhase.${today.moonPhase}`, { defaultValue: String(today.moonPhase) })}
+                    {moonPhaseFragment(today.moonPhase, { i18n })}
                 </li>
                 <li className="flexible-spacer" />
                 <li>
