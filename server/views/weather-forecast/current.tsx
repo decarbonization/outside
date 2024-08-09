@@ -34,8 +34,8 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <section className="current-forecast">
-            <Condition className="superhero bottom-spacing" code={now.conditionCode} daylight={now.daylight} />
-            <ol className="h-flow centered spacing bottom-spacing">
+            <Condition className="superhero outset-bottom" code={now.conditionCode} daylight={now.daylight} />
+            <ol className="h-flow centered spacing outset-bottom">
                 <li>
                     <TemperatureUnit className="hero" measurement={now.temperature} />
                 </li>
@@ -43,12 +43,12 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                     <TemperatureRangeUnit max={today?.temperatureMax} min={today?.temperatureMin} compact={false} />
                 </li>
             </ol>
-            <ol className="h-flow centered spacing bottom-spacing">
+            <ol className="h-flow centered spacing outset-bottom">
                 <li>
                     {i18n.t("forecast.measurementLabels.feelsLike")} <TemperatureUnit measurement={now.temperatureApparent} />
                 </li>
             </ol>
-            <ol className="h-flow centered spacing bottom-spacing">
+            <ol className="h-flow centered spacing outset-bottom">
                 <li>
                     <header>{i18n.t("forecast.measurementLabels.humidity")}</header>
                     <PercentageUnit measurement={now.humidity} />

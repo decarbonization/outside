@@ -46,9 +46,9 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
             <ol className="daily-forecast-main">
                 {forecast.days.map(day => (
                     <li className="daily-forecast-reading-group v-flow centered spacing">
-                        <div className="daily-forecast-reading day">
+                        <header className="daily-forecast-reading day">
                             <Weekday when={day.forecastStart} />
-                        </div>
+                        </header>
                         <div className="daily-forecast-reading condition">
                             <div className="daily-forecast-reading-condition-block">
                                 <Condition code={day.conditionCode} />

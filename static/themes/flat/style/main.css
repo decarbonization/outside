@@ -19,21 +19,25 @@
 /* -- Global Styles -- */
 
 :root {
-    font-family: "Rokkitt", serif;
-    font-size: 16px;
+    --font-sans-serif: "Play", sans-serif;
+    --font-serif: "Rokkitt", serif;
+    --font-monospace: "Kode Mono", monospace;
 
-    color-scheme: light dark;
-    --background: #fcfcfc;
+    font-family: var(--font-sans-serif);
+
+    --content-width: calc(780px - (var(--h-spacing) * 2));
     --v-spacing: 1rem;
     --h-spacing: 1rem;
+    --card-columns: repeat(4, 25%);
+
+    --page-bg: #fcfcfc;
     --accent: #0066e4;
     --accent-inactive: #737373;
     --separator: #aaa;
     --transition-timing: cubic-bezier(.28, .84, .58, .98);
-    --differentiate-bg-color: rgba(0, 102, 228, 0.05);
-    --hover-bg-color: rgba(0, 0, 0, 0.091);
-    --focus-bg-color: rgba(0, 0, 0, 0.091);
-    --card-columns: repeat(4, 25%);
+    --differentiate-bg: rgba(0, 102, 228, 0.05);
+    --hover-bg: rgba(0, 0, 0, 0.091);
+    --focus-bg: rgba(0, 0, 0, 0.091);
 }
 
 @media (width < 375px) {
@@ -45,16 +49,16 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --background: #222;
+        --page-bg: #222;
         --accent: #4d9dff;
         --accent-inactive: #a6a6a6;
         --separator: #555;
-        --differentiate-bg-color: rgba(77, 157, 255, 0.05);
+        --differentiate-bg: rgba(77, 157, 255, 0.05);
     }
 }
 
 body {
-    background-color: var(--background);
+    background: var(--page-bg);
 }
 
 a,
@@ -68,7 +72,7 @@ a:hover {
 }
 
 body>main {
-    max-width: calc(780px - (var(--h-spacing) * 2));
+    max-width: var(--content-width);
     margin: 0 auto;
     padding: 0 var(--h-spacing);
 }
@@ -105,7 +109,7 @@ select:disabled {
 button:focus,
 select:focus {
     outline: 2px solid var(--accent);
-    background-color: var(--focus-bg-color);
+    background-color: var(--focus-bg);
 }
 
 input[type="search"],
@@ -114,7 +118,7 @@ textarea {
     font: inherit;
 
     padding: var(--h-spacing) var(--v-spacing);
-    background: var(--background);
+    background: var(--page-bg);
     border: 2px solid var(--separator);
     border-radius: 8px;
 }
@@ -127,11 +131,11 @@ textarea:focus {
 }
 
 pre {
-    font-family: "Kode Mono", monospace;
+    font-family: var(--font-monospace);
 }
 
 .unit {
-    font-family: "Kode Mono", monospace;
+    font-family: var(--font-monospace);
 }
 
 .unit-range .high {
@@ -156,7 +160,17 @@ pre {
     font-size: 0.9em;
 }
 
-/* Common Text Styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header {
+    font-family: var(--font-serif);
+}
+
+/* -- Common Text Styles -- */
 
 .sidekick {
     font-size: 2em;
@@ -176,62 +190,22 @@ pre {
     line-height: 5rem;
 }
 
-/* Common Layouts */
-
-.h-flow {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-}
-
-.h-flow.centered {
-    justify-content: center;
-}
-
-.h-flow.trailing {
-    justify-content: flex-end;
-}
-
-.h-flow.orthogonal-scrollable {
-    flex-wrap: nowrap;
-    align-items: start;
-    justify-content: left;
-}
-
-.v-flow {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-}
-
-.v-flow.centered {
-    align-items: center;
-}
-
-.v-flow.trailing {
-    align-items: flex-end;
-}
+/* -- Common Layouts -- */
 
 .h-flow.spacing,
 .v-flow.spacing {
     gap: var(--v-spacing) var(--h-spacing);
 }
 
-.h-flow .flexible-spacer,
-.v-flow .flexible-spacer {
-    flex-grow: 1;
+.outset-top {
+    margin-top: var(--h-spacing);
 }
 
-.bottom-spacing {
+.outset-bottom {
     margin-bottom: var(--h-spacing);
 }
 
 /* -- Scrollable Areas -- */
-
-.orthogonal-scrollable {
-    position: relative;
-    overflow: auto hidden;
-}
 
 .orthogonal-scrollable.start {
     mask-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 5%, white 95%, white 100%);
@@ -263,7 +237,7 @@ header.global {
     gap: 0.5em;
 
     padding: 0.5em;
-    background: var(--background);
+    background: var(--page-bg);
     border: 2px solid var(--separator);
     border-radius: 8px;
 }
@@ -308,7 +282,7 @@ header.global {
 }
 
 .mode-selector a.selected {
-    background: var(--hover-bg-color);
+    background: var(--hover-bg);
     border-radius: .25rem;
     font-weight: bold;
 }
@@ -490,7 +464,7 @@ footer.global {
 }
 
 .hourly-forecast-reading-group:first-child {
-    background: var(--differentiate-bg-color);
+    background: var(--differentiate-bg);
 }
 
 .hourly-forecast-reading-group {
@@ -504,7 +478,7 @@ footer.global {
 }
 
 .hourly-forecast-reading-group:hover {
-    background-color: var(--hover-bg-color);
+    background-color: var(--hover-bg);
     border-color: rgba(255, 255, 255, 0.11);
     box-shadow: 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
@@ -523,7 +497,7 @@ footer.global {
 }
 
 .hourly-forecast-reading.conditions .unit {
-    background: var(--background);
+    background: var(--page-bg);
     opacity: 0.9;
     font-size: 0.8em;
     padding: 0.1em;
@@ -578,11 +552,11 @@ footer.global {
 }
 
 .daily-forecast-reading-group:first-child {
-    background: var(--differentiate-bg-color);
+    background: var(--differentiate-bg);
 }
 
 .daily-forecast-reading-group:hover {
-    background-color: var(--hover-bg-color);
+    background-color: var(--hover-bg);
     box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
@@ -614,7 +588,7 @@ footer.global {
 }
 
 .daily-forecast-reading-condition-block .unit {
-    background: var(--background);
+    background: var(--page-bg);
     opacity: 0.9;
     font-size: 0.7em;
     padding: 0.1em;
@@ -651,11 +625,11 @@ footer.global {
 }
 
 .current-air-forecast-reading-group:first-child {
-    background: var(--differentiate-bg-color);
+    background: var(--differentiate-bg);
 }
 
 .current-air-forecast-reading-group:hover {
-    background-color: var(--hover-bg-color);
+    background-color: var(--hover-bg);
     box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
@@ -684,11 +658,11 @@ footer.global {
 }
 
 .pollen-daily-forecast-day-reading-group:first-child {
-    background: var(--differentiate-bg-color);
+    background: var(--differentiate-bg);
 }
 
 .pollen-daily-forecast-day-reading-group:hover {
-    background-color: var(--hover-bg-color);
+    background-color: var(--hover-bg);
     box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 

@@ -18,11 +18,12 @@
 
 :root {
     font-size: 16px;
-
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    color-scheme: light dark;
 }
 
 body {
@@ -60,6 +61,69 @@ pre {
     white-space: pre-wrap;
 }
 
+/* -- Utilities -- */
+
 .nowrap {
     white-space: nowrap;
+}
+
+/* -- Common Layouts -- */
+
+.h-flow {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.h-flow.centered {
+    justify-content: center;
+}
+
+.h-flow.trailing {
+    justify-content: flex-end;
+}
+
+.h-flow.orthogonal-scrollable {
+    flex-wrap: nowrap;
+    align-items: start;
+    justify-content: left;
+}
+
+.v-flow {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.v-flow.centered {
+    align-items: center;
+}
+
+.v-flow.trailing {
+    align-items: flex-end;
+}
+
+.h-flow.spacing,
+.v-flow.spacing {
+    gap: 0;
+}
+
+.h-flow .flexible-spacer,
+.v-flow .flexible-spacer {
+    flex-grow: 1;
+}
+
+.outset-top {
+    margin-top: 0;
+}
+
+.outset-bottom {
+    margin-bottom: 0;
+}
+
+/* -- Scrollable Areas -- */
+
+.orthogonal-scrollable {
+    position: relative;
+    overflow: auto hidden;
 }
