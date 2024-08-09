@@ -25,9 +25,9 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
-    "fruit-company": "0.1.1",
+    "fruit-company": "0.1.2",
     "geo-tz": "^8.0.2",
-    "good-breathing": "0.0.1",
+    "good-breathing": "0.0.2",
     "http-terminator": "^3.2.0",
     "i18next": "^23.11.1",
     "i18next-fs-backend": "^2.3.1",
@@ -35,7 +35,7 @@
     "jsonwebtoken": "^9.0.2",
     "preact": "^10.20.2",
     "preact-render-to-string": "^6.4.2",
-    "serene-front": "0.2.0"
+    "serene-front": "0.2.1"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
