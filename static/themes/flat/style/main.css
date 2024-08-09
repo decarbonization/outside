@@ -222,7 +222,9 @@ header {
 /* -- Page Chrome -- */
 
 header.global {
-    margin: var(--h-spacing) 0;
+    max-width: var(--content-width);
+    margin: var(--v-spacing) auto;
+    padding: 0 var(--h-spacing);
     align-items: center;
 }
 
@@ -232,14 +234,14 @@ header.global {
 
     display: flex;
     flex-wrap: nowrap;
-    align-items: last baseline;
+    align-items: center;
     justify-content: left;
     gap: 0.5em;
 
     padding: 0.5em;
     background: var(--page-bg);
-    border: 2px solid var(--separator);
-    border-radius: 8px;
+    border: 1px solid var(--separator);
+    border-radius: 0.5em;
 }
 
 .place-search-form:has(input[type="search"]:focus) {
@@ -283,13 +285,15 @@ header.global {
 
 .mode-selector a.selected {
     background: var(--hover-bg);
-    border-radius: .25rem;
+    border-radius: 0.5em;
     font-weight: bold;
 }
 
 footer.global {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: var(--v-spacing) var(--h-spacing);
     text-align: center;
-    margin: var(--v-spacing) var(--h-spacing);
 }
 
 /* -- Current Forecast -- */
@@ -392,14 +396,16 @@ footer.global {
 /* -- Weather Alerts -- */
 
 .weather-alert details {
+    cursor: default;
     background: #ff6700;
     color: #fff;
     padding: 0.1em 0.5em;
-    border-radius: 0.3em;
+    border-radius: 0.5em;
 }
 
 .weather-alert details summary {
-    font-size: 1.2em;
+    font-size: 1.1em;
+    font-weight: bolder;
 }
 
 .weather-alert details[open] summary {
@@ -412,7 +418,7 @@ footer.global {
 
 .weather-alert details a {
     display: block;
-    margin-top: 0.5em;
+    margin: 0.5em 0;
     color: #fff;
     text-decoration: underline;
 }
@@ -590,7 +596,7 @@ footer.global {
 .daily-forecast-reading-condition-block .unit {
     background: var(--page-bg);
     opacity: 0.9;
-    font-size: 0.7em;
+    font-size: 0.8em;
     padding: 0.1em;
     border-radius: 0.2em;
     position: absolute;

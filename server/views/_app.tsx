@@ -19,13 +19,17 @@
 import { ComponentChildren } from "preact";
 import { useContext } from "preact/hooks";
 import { Deps } from "./_deps";
+import { GlobalFooter } from "./global-footer";
+import { GlobalHeader } from "./global-header";
 
 export interface AppProps {
     readonly className?: string;
+    readonly searchQuery?: string;
+    readonly searchDisabled?: boolean;
     readonly children: ComponentChildren;
 }
 
-export function App({ className, children }: AppProps) {
+export function App({ className, searchQuery, searchDisabled, children }: AppProps) {
     const { i18n, theme } = useContext(Deps);
     return (
         <html lang={i18n.resolvedLanguage}>
@@ -37,10 +41,16 @@ export function App({ className, children }: AppProps) {
                     <link rel={rel} href={href} crossorigin={crossorigin ? "" : undefined} />
                 ))}
                 <link rel="manifest" href="/app.webmanifest" crossorigin="use-credentials" />
-                <title>{i18n.t('appName')}</title>
+                <title>
+                    {i18n.t('appName')}{searchQuery !== undefined ? ` – ${searchQuery}` : null}
+                </title>
             </head>
             <body className={className}>
-                {children}
+                <GlobalHeader searchQuery={searchQuery} searchDisabled={searchDisabled} />
+                <main>
+                    {children}
+                </main>
+                <GlobalFooter />
 
                 <script src="/script/client.js" />
             </body>

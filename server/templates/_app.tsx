@@ -20,8 +20,6 @@ import { ComponentChildren } from "preact";
 import render from "preact-render-to-string";
 import { App } from "../views/_app";
 import { Deps, DepsObject } from "../views/_deps";
-import { GlobalHeader } from "../views/global-header";
-import { GlobalFooter } from "../views/global-footer";
 
 const templatePrelude = "<!DOCTYPE html>";
 
@@ -38,12 +36,8 @@ export function renderApp(
 ): string {
     return templatePrelude + render(
         <Deps.Provider value={deps}>
-            <App className={className}>
-                <main>
-                    <GlobalHeader searchQuery={searchQuery} searchDisabled={searchDisabled} />
-                    {children}
-                    <GlobalFooter />
-                </main>
+            <App className={className} searchQuery={searchQuery} searchDisabled={searchDisabled}>
+                {children}
             </App>
         </Deps.Provider>
     );
