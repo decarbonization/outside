@@ -106,7 +106,7 @@ async function getWeatherAirSample(
         location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
-    const resp = renderWeatherAir({ deps, link, airConditions, pollenForecast });
+    const resp = renderWeatherAir({ deps, link, searchDisabled: true, airConditions, pollenForecast });
     res.set("Cache-Control", "no-store");
     res.type('html').send(resp);
 }

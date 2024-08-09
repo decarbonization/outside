@@ -26,7 +26,7 @@ import { LocationCoordinates } from "serene-front/data";
 import { loadTheme } from "../styling/themes";
 import { renderWeatherForecast } from "../templates/weather-forecast";
 import { envInt } from "../utilities/env";
-import { attributionFor, cacheControlFor, timezoneFor } from "../utilities/weather-utils";
+import { cacheControlFor, timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
 import { linkDestination, linkTo } from "./_links";
 
@@ -69,7 +69,6 @@ async function getWeatherForecast(
         authority: weatherToken,
         request: weatherQuery,
     });
-    const attribution = await attributionFor(weatherToken, language);
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
@@ -82,20 +81,18 @@ async function getWeatherForecast(
         query,
         ref,
     });
-    const resp = renderWeatherForecast({ deps, link, weather, attribution });
+    const resp = renderWeatherForecast({ deps, link, weather });
     res.set("Cache-Control", cacheControlFor(weather));
     res.type('html').send(resp);
 }
 
 async function getWeatherForecastSample(
-    { weatherToken }: WeatherForecastRoutesOptions,
+    { }: WeatherForecastRoutesOptions,
     req: Request,
     res: Response
 ): Promise<void> {
-    const language = req.i18n.resolvedLanguage ?? req.language;
     const rawWeather = await fs.readFile(path.join(__dirname, "wk-sample.json"), "utf-8");
     const weather = parseWeather(rawWeather);
-    const attribution = await attributionFor(weatherToken, language);
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
@@ -107,7 +104,7 @@ async function getWeatherForecastSample(
         location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
-    const resp = renderWeatherForecast({ deps, link, weather, attribution });
+    const resp = renderWeatherForecast({ deps, link, searchDisabled: true, weather });
     res.set("Cache-Control", "no-store");
     res.type('html').send(resp);
 }

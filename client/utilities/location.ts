@@ -87,8 +87,7 @@ function navigateToForecastAtCurrentLocation(body?: (result: NavigateToForecastA
  */
 export function reloadSupportingCurrentLocation() {
     if (shouldUseCurrentLocationWhenReloading()) {
-        const buttons = document.querySelectorAll<HTMLButtonElement>(".place-search-current-location");
-        buttons.forEach(b => b.disabled = true);
+        locationButtonsDisabled(true);
         navigateToForecastAtCurrentLocation(result => {
             if (!result.success) {
                 // Fallback to whatever the page's location already was.

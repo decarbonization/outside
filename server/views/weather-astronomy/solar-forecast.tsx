@@ -33,7 +33,7 @@ export function SolarForecast({ today }: SolarForecastProps) {
     return (
         <section className="solar-forecast">
             <h1 className="outset-top outset-bottom">{i18n.t("solarForecast.title")}</h1>
-            <ul className="h-flow centered spacing outset-bottom">
+            <ul className="h-flow spread spacing outset-bottom">
                 <li>
                     <header>{i18n.t("solarForecast.sunrise")}</header>
                     <ShortTime when={today.sunrise} />
@@ -51,7 +51,7 @@ export function SolarForecast({ today }: SolarForecastProps) {
                     <ShortTime when={today.sunriseNautical} />
                 </li>
             </ul>
-            <ul className="h-flow centered spacing outset-bottom">
+            <ul className="h-flow spread spacing outset-bottom">
                 <li>
                     <header>{i18n.t("solarForecast.sunset")}</header>
                     <ShortTime when={today.sunset} />
@@ -69,7 +69,7 @@ export function SolarForecast({ today }: SolarForecastProps) {
                     <ShortTime when={today.sunsetNautical} />
                 </li>
             </ul>
-            <ul className="h-flow centered spacing">
+            <ul className="h-flow spread spacing">
                 <li>
                     <header>{i18n.t("solarForecast.solarNoon")}</header>
                     <ShortTime when={today.solarNoon} />

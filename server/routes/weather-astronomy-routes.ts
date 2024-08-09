@@ -103,7 +103,7 @@ async function getWeatherAstronomySample(
         location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
-    const resp = renderWeatherAstronomy({ deps, link, weather, attribution });
+    const resp = renderWeatherAstronomy({ deps, link, searchDisabled: true, weather, attribution });
     res.set("Cache-Control", "no-store");
     res.type('html').send(resp);
 }

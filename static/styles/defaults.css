@@ -79,6 +79,10 @@ pre {
     justify-content: center;
 }
 
+.h-flow.spread {
+    justify-content: space-between;
+}
+
 .h-flow.trailing {
     justify-content: flex-end;
 }
