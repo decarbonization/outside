@@ -10,11 +10,11 @@
 }
 
 .wi.day {
-    background-color: #4780b8;
+    background-color: #56a7f7;
 }
 
 .wi.night {
-    background-color: #24405c;
+    background-color: #06407a;
 }
 
 @media (prefers-color-scheme: dark) {
