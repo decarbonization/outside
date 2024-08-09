@@ -74,7 +74,11 @@ a:hover {
 body>main {
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: 0 var(--h-spacing);
+    padding: calc(var(--v-spacing) * 0.5) var(--h-spacing);
+}
+
+section {
+    margin: var(--v-spacing) 0;
 }
 
 header {
@@ -299,7 +303,6 @@ footer.global {
 /* -- Current Forecast -- */
 
 .current-forecast {
-    margin-top: calc(var(--v-spacing)*1.5);
     text-align: center;
 }
 
@@ -317,7 +320,7 @@ footer.global {
 
 .precipitation-chart {
     position: relative;
-    height: 5em;
+    height: 6em;
 }
 
 .precipitation-chart section {
@@ -332,7 +335,7 @@ footer.global {
 }
 
 .precipitation-chart .group {
-    height: calc(100% - 1em);
+    height: calc(100% - 2em);
     display: flex;
     flex-wrap: nowrap;
     align-items: end;
@@ -425,10 +428,6 @@ footer.global {
 
 /* -- Hourly Forecast -- */
 
-.hourly-forecast {
-    margin-top: calc(var(--v-spacing)*1.5);
-}
-
 .hourly-forecast h1 {
     float: left;
 }
@@ -518,10 +517,6 @@ footer.global {
 }
 
 /* -- Daily Forecast -- */
-
-.daily-forecast {
-    margin-top: calc(var(--v-spacing)*1.5);
-}
 
 .daily-forecast h1 {
     float: left;

@@ -32,7 +32,7 @@ export function SolarForecast({ today }: SolarForecastProps) {
     const { i18n } = useContext(Deps);
     return (
         <section className="solar-forecast">
-            <h1 className="outset-top outset-bottom">{i18n.t("solarForecast.title")}</h1>
+            <h1 className="outset-bottom">{i18n.t("solarForecast.title")}</h1>
             <ul className="h-flow spread spacing outset-bottom">
                 <li>
                     <header>{i18n.t("solarForecast.sunrise")}</header>

@@ -32,7 +32,7 @@ export function WeatherAlerts({ collection }: WeatherAlertsProps) {
     const { i18n, timeZone } = useContext(Deps);
     return (
         <section className="weather-alerts">
-            <h1 className="outset-top outset-bottom">
+            <h1 className="outset-bottom">
                 {i18n.t("weatherAlerts.title")}
             </h1>
             <ol className="weather-alert-collection">

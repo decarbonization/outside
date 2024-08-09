@@ -34,7 +34,7 @@ export function MoonForecast({ today }: MoonForecastProps) {
     const { i18n } = useContext(Deps);
     return (
         <section className="moon-forecast">
-            <h1 className="outset-top outset-bottom">{i18n.t("moonForecast.title")}</h1>
+            <h1 className="outset-bottom">{i18n.t("moonForecast.title")}</h1>
             <ul className="h-flow spacing trailing">
                 <li>
                     <Moon className="sidekick" phase={today.moonPhase} />

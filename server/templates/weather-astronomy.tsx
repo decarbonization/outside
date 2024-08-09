@@ -20,7 +20,6 @@ import { Attribution, Weather } from "fruit-company/weather";
 import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
-import { WeatherSource } from "../views/components/weather-source";
 import { ModeSelector } from "../views/mode-selector";
 import { MiniCurrentForecast } from "../views/weather-astronomy/mini-current-forecast";
 import { MoonForecast } from "../views/weather-astronomy/moon-forecast";
@@ -32,10 +31,9 @@ export interface RenderWeatherAstronomyOptions {
     readonly searchDisabled?: boolean;
     readonly link: LinkDestinationTo<"weather">;
     readonly weather: Weather;
-    readonly attribution: Attribution;
 }
 
-export function renderWeatherAstronomy({ deps, link, searchDisabled, weather, attribution }: RenderWeatherAstronomyOptions): string {
+export function renderWeatherAstronomy({ deps, link, searchDisabled, weather }: RenderWeatherAstronomyOptions): string {
     const className = elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight);
     const searchQuery = link.query;
     return renderApp({ className, deps, searchQuery, searchDisabled }, (
@@ -44,7 +42,6 @@ export function renderWeatherAstronomy({ deps, link, searchDisabled, weather, at
             <MiniCurrentForecast now={weather.currentWeather} />
             <MoonForecast today={weather.forecastDaily?.days?.[0]} />
             <SolarForecast today={weather.forecastDaily?.days?.[0]} />
-            <WeatherSource weather={weather} attribution={attribution} />
         </>
     ));
 }

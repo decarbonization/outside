@@ -25,7 +25,7 @@ import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { loadTheme } from "../styling/themes";
 import { renderWeatherAstronomy } from "../templates/weather-astronomy";
-import { attributionFor, cacheControlFor, timezoneFor } from "../utilities/weather-utils";
+import { cacheControlFor, timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
 import { linkDestination } from "./_links";
 
@@ -63,7 +63,6 @@ async function getWeatherAstronomy(
         authority: weatherToken,
         request: weatherQuery,
     });
-    const attribution = await attributionFor(weatherToken, language);
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
@@ -77,7 +76,7 @@ async function getWeatherAstronomy(
         query,
         ref,
     });
-    const resp = renderWeatherAstronomy({ deps, link, weather, attribution });
+    const resp = renderWeatherAstronomy({ deps, link, weather });
     res.set("Cache-Control", cacheControlFor(weather));
     res.type('html').send(resp);
 }
@@ -90,7 +89,6 @@ async function getWeatherAstronomySample(
     const language = req.i18n.resolvedLanguage ?? req.language;
     const rawWeather = await fs.readFile(path.join(__dirname, "wk-sample.json"), "utf-8");
     const weather = parseWeather(rawWeather);
-    const attribution = await attributionFor(weatherToken, language);
     const deps: DepsObject = {
         i18n: req.i18n,
         theme: await loadTheme(),
@@ -103,7 +101,7 @@ async function getWeatherAstronomySample(
         location: new LocationCoordinates(0, 0),
         query: "!Sample",
     });
-    const resp = renderWeatherAstronomy({ deps, link, searchDisabled: true, weather, attribution });
+    const resp = renderWeatherAstronomy({ deps, link, searchDisabled: true, weather });
     res.set("Cache-Control", "no-store");
     res.type('html').send(resp);
 }
