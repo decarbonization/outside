@@ -20,7 +20,7 @@ import { minutesToSeconds } from "date-fns";
 import { Request, Response, Router } from "express";
 import * as fs from "fs/promises";
 import { GoogleMapsApiKey } from 'good-breathing';
-import { allExtraComputations, GetCurrentAirConditions, parseCurrentAirConditions } from 'good-breathing/aqi';
+import { allExtraComputations, ExtraComputation, GetCurrentAirConditions, parseCurrentAirConditions } from 'good-breathing/aqi';
 import { GetPollenForecast, parsePollenForecast } from 'good-breathing/pollen';
 import * as path from "path";
 import { fulfill } from "serene-front";
@@ -31,6 +31,7 @@ import { envInt } from "../utilities/env";
 import { timezoneFor } from "../utilities/weather-utils";
 import { DepsObject } from "../views/_deps";
 import { linkDestination } from "./_links";
+import { remove } from "serene-front/collections";
 
 export interface WeatherAirRoutesOptions {
     readonly gMapsApiKey: GoogleMapsApiKey;
@@ -54,7 +55,7 @@ async function getWeatherAir(
     const getAirConditions = new GetCurrentAirConditions({
         location,
         languageCode,
-        extraComputations: allExtraComputations,
+        extraComputations: remove(allExtraComputations, ExtraComputation.localAqi),
     });
     const getPollenForecast = new GetPollenForecast({
         location,

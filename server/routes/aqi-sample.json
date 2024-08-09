@@ -15,20 +15,6 @@
       },
       "category": "Good air quality",
       "dominantPollutant": "o3"
-    },
-    {
-      "code": "usa_epa",
-      "displayName": "AQI (US)",
-      "aqi": 37,
-      "aqiDisplay": "37",
-      "color": {
-        "red": 0,
-        "green": 0.89411765,
-        "blue": 0,
-        "alpha": 1
-      },
-      "category": "Good air quality",
-      "dominantPollutant": "o3"
     }
   ],
   "pollutants": [
