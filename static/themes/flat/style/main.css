@@ -232,6 +232,23 @@ header.global {
     align-items: center;
 }
 
+header .logo {
+    font-size: 0;
+}
+
+header .logo::before {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-image: image-set(url(/themes/flat/image/icon.png) 1x,
+            url(/themes/flat/image/icon@2x.png) 2x,
+            url(/themes/flat/image/icon@3x.png) 3x);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .place-search-form {
     flex-grow: 1;
     font-weight: normal;
@@ -268,7 +285,20 @@ header.global {
 }
 
 .place-search-current-location {
-    font-size: 1.5em;
+    font-size: 0;
+}
+
+.place-search-current-location::after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-size: auto;
+    background-image: image-set(url(/themes/flat/image/use-location.png) 1x,
+            url(/themes/flat/image/use-location@2x.png) 2x,
+            url(/themes/flat/image/use-location@3x.png) 3x);
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .mode-selector input[type="radio"] {

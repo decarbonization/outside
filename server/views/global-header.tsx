@@ -19,6 +19,8 @@
 import { useContext } from "preact/hooks";
 import { linkTo } from "../routes/_links";
 import { Deps } from "./_deps";
+import { ThemeDecoration } from "../styling/themes";
+import { Decoration } from "./components/decoration";
 
 export interface GlobalHeaderProps {
     readonly searchQuery?: string;
@@ -29,12 +31,14 @@ export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps)
     const { i18n } = useContext(Deps);
     return (
         <header className="global h-flow spacing">
-            <div className="sidekick">
+            <div className="logo">
                 {i18n.t('appName')}
             </div>
             <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
-                <button class="place-search-current-location" type="button" aria-label={i18n.t('placeSearch.useCurrentLocation')} disabled>➤</button>
                 <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled} />
+                <button class="place-search-current-location" type="button" disabled>
+                    {i18n.t('placeSearch.useCurrentLocation')}
+                </button>
             </form>
         </header>
     );

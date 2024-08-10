@@ -122,8 +122,7 @@
 
         "daytime": "clear-day",
         "overnight": "starry-night",
-        "trendUp": "direction-up",
-        "trendDown": "direction-down"
+        "location": "location"
     },
     "appAccentColor": "blue",
     "appIcons": [
