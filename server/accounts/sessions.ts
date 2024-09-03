@@ -79,9 +79,10 @@ export interface UserSessionStore {
      * Look up the user information associated with a session identifier.
      * 
      * @param sid The unique identifier of a user session.
-     * @returns Information about the user which the session id belongs to.
+     * @returns Information about the user which the session id belongs to,
+     * or `undefined` if the session is not valid.
      */
-    getSessionUserID(sid: UserSessionID): Promise<UserID>;
+    getSessionUserID(sid: UserSessionID): Promise<UserID | undefined>;
 }
 
 /**

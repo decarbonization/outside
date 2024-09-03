@@ -125,18 +125,19 @@ class InMemoryUserSessionStore implements UserSessionStore {
     private nextSid: UserSessionID;
 
     async startSession(email: string): Promise<NewUserSession> {
-        const identity = await this.users.getUser({ by: "email", email });
-        const newSid = this.nextSid++;
-        const session: UserSession = {
-            sid: newSid,
-            uid: identity.uid,
-            expiresOn: addDays(new Date(), 28),
-            otp: randomBytes(16).toString("hex"),
-        };
-        this.active.set(newSid, session);
+        const { uid } = await this.users.getUser({ by: "email", email });
+        const sid = this.nextSid++;
+        const expiresOn = addDays(new Date(), 28);
+        const otp = randomBytes(16).toString("hex");
+        this.active.set(sid, {
+            sid,
+            uid,
+            expiresOn,
+            otp,
+        });
         return {
-            sid: session.sid,
-            otp: session.otp!,
+            sid,
+            otp,
         };
     }
 
@@ -161,13 +162,12 @@ class InMemoryUserSessionStore implements UserSessionStore {
         }
     }
 
-    async getSessionUserID(sid: UserSessionID): Promise<UserID> {
+    async getSessionUserID(sid: UserSessionID): Promise<UserID | undefined> {
         const session = this.active.get(sid);
-        if (session === undefined || session.otp !== undefined) {
-            throw new UnauthenticatedUserSessionError(sid);
-        }
-        if (new Date() > session.expiresOn) {
-            throw new ExpiredUserSessionError(sid);
+        if (session === undefined
+            || session.otp !== undefined
+            || new Date() > session.expiresOn) {
+            return undefined;
         }
         return session.uid;
     }
