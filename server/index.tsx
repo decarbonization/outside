@@ -19,6 +19,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import "express-async-errors";
+import session from "express-session";
 import { MapsToken } from 'fruit-company/maps';
 import { WeatherToken } from 'fruit-company/weather';
 import { GoogleMapsApiKey } from 'good-breathing';
@@ -28,8 +29,11 @@ import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import path from "path";
+import { defaultUserObjects } from './accounts/backends/default';
+import { accountMiddleware } from './middlewares/account-middleware';
 import { ErrorMiddleware } from './middlewares/error-middleware';
 import { IndexRoutes } from './routes/index-routes';
+import { LoginRoutes } from './routes/login-routes';
 import { SearchRoutes } from './routes/search-routes';
 import { WeatherAirRoutes } from './routes/weather-air-routes';
 import { WeatherAstronomyRoutes } from './routes/weather-astronomy-routes';
@@ -76,13 +80,21 @@ const weatherToken = new WeatherToken(
 const gMapsApiKey = new GoogleMapsApiKey(
     env("GOOGLE_MAPS_API_KEY"),
 )
+const [users, sessions, preferences] = defaultUserObjects();
 
 const app = express();
 
 app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
+app.use(session({
+    secret: env("SESSION_SECRETS").split(","),
+    resave: true,
+    saveUninitialized: true,
+}));
+app.use(accountMiddleware({ sessions }));
 
 app.use(IndexRoutes({}));
+app.use(LoginRoutes({ users, sessions, preferences }))
 app.use(SearchRoutes({ mapsToken }));
 app.use(WeatherForecastRoutes({ weatherToken }));
 app.use(WeatherAstronomyRoutes({ weatherToken }));

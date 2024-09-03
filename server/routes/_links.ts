@@ -24,6 +24,8 @@ export type WeatherSubdestination =
 
 export type LinkDestination =
     | { where: "index", query?: string }
+    | { where: "login" }
+    | { where: "loginVerify", otp: string }
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
     | { where: "weather", sub?: WeatherSubdestination, countryCode: string, location: LocationCoordinates, query: string, ref?: string };
@@ -37,6 +39,10 @@ export function linkTo(destination: LinkDestination): string {
     switch (destination.where) {
         case "index":
             return linkToIndex(destination);
+        case "login":
+            return linkToUserSession(destination);
+        case "loginVerify":
+            return linkToUserSessionVerify(destination);
         case "searchByQuery":
             return linkToSearchByQuery(destination);
         case "searchByCoordinates":
@@ -52,6 +58,14 @@ function linkToIndex({ query }: LinkDestinationTo<"index">): string {
         link += `?q=${encodeURIComponent(query)}`;
     }
     return link;
+}
+
+function linkToUserSession({ }: LinkDestinationTo<"login">): string {
+    return "/login";
+}
+
+function linkToUserSessionVerify({ otp }: LinkDestinationTo<"loginVerify">): string {
+    return `/login/verify/${encodeURIComponent(otp)}`;
 }
 
 function linkToSearchByQuery({ query }: LinkDestinationTo<"searchByQuery">): string {

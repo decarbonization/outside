@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Attribution, Weather } from "fruit-company/weather";
+import { Weather } from "fruit-company/weather";
 import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";

@@ -28,7 +28,7 @@ import { DuplicateEmailUserError, NewUser, UnknownUserError, User, UserID, UserQ
  * @param initialUsers A pre-existing collection of users.
  * @returns A triplet of objects related to user accounts.
  */
-export function inMemoryUserObjects(initialUsers: User[] = []): [UserStore, UserSessionStore, UserPreferenceStore] {
+export function inMemoryUserObjects(initialUsers: User[]): [UserStore, UserSessionStore, UserPreferenceStore] {
     const users = new InMemoryUserStore(initialUsers);
     const sessions = new InMemoryUserSessionStore(users);
     const preferences = new InMemoryUserPreferenceStore(users);

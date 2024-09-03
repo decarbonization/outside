@@ -55,6 +55,12 @@ In order for Outside to fetch air quality data, it must be configured with a Goo
 
 - `GOOGLE_MAPS_API_KEY`: A Google Maps platform API key with access to both the Air Quality and Pollen data features.
 
+### Configuring Sessions
+
+In order for Outside to allow users to sign in, it must be configured with the following environment variables:
+
+- `SESSION_SECRETS`: A comma-separated list of secrets to sign session cookies with.
+
 ### Additional Options
 
 The following environment variables may be provided:
