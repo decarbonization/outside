@@ -19,10 +19,11 @@
 import { urlencoded } from "body-parser";
 import { Request, Response, Router } from "express";
 import { UserSessionStore } from "../accounts/sessions";
-import { UserStore } from "../accounts/users";
+import { UnknownUserError, UserStore } from "../accounts/users";
 import { renderLogin } from "../templates/login";
 import { makeDeps } from "../views/_deps";
 import { linkTo } from "./_links";
+import { envFlag } from "../utilities/env";
 
 export interface LoginRouteOptions {
     readonly users: UserStore;
@@ -40,7 +41,7 @@ async function getLogin(
 }
 
 async function postLogin(
-    { sessions }: LoginRouteOptions,
+    { users, sessions }: LoginRouteOptions,
     req: Request<object, any, { email?: string }>,
     res: Response
 ): Promise<void> {
@@ -48,13 +49,25 @@ async function postLogin(
     if (email === undefined) {
         throw new Error();
     }
-    const { sid, otp } = await sessions.startSession(email);
-    req.session.sid = String(sid);
-    // TODO: Send email
-    console.info(`Started session <${sid}> with otp <${otp}> for <${email}>`);
-    const deps = await makeDeps({ req });
-    const resp = renderLogin({ deps, email, sentEmail: true });
-    res.type('html').send(resp);
+    try {
+        const { uid } = envFlag("ENABLE_NEW_ACCOUNTS", false)
+            ? await users.getOrInsertUser({ by: "email", email }, () => ({ email }))
+            : await users.getUser({ by: "email", email });
+        const { sid, otp } = await sessions.startSession(uid);
+        req.session.sid = String(sid);
+        // TODO: Send email
+        console.info(`Started session <${sid}> with otp <${otp}> for <${email}>`);
+        const deps = await makeDeps({ req });
+        const resp = renderLogin({ deps, email, message: 'emailSent' });
+        res.type('html').send(resp);
+    } catch (err) {
+        if (!(err instanceof UnknownUserError)) {
+            throw err;
+        }
+        const deps = await makeDeps({ req });
+        const resp = renderLogin({ deps, email, message: 'noSuchUser' });
+        res.status(401).type('html').send(resp);
+    }
 }
 
 async function getLoginVerify(

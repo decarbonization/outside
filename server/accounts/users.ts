@@ -98,6 +98,15 @@ export interface UserStore {
      * @param query A query specifying the user to delete.
      */
     deleteUser(query: UserQuery): Promise<void>;
+
+    /**
+     * Find a user matching the given query in the store,
+     * or insert a new user with the specified details.
+     * 
+     * @param query A query specifying the user to find.
+     * @param newUser The details of a new user if none can be found.
+     */
+    getOrInsertUser(query: UserQuery, newUser: () => NewUser): Promise<User>;
 }
 
 /**

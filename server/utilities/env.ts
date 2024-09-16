@@ -47,3 +47,18 @@ export function envInt(key: string, defaultValue?: number): number {
     }
     return value;
 }
+
+/**
+ * Access a boolean environment variable, throwing an error if no value is found.
+ * 
+ * @param key A key which should be present in the environment.
+ * @param defaultValue An optional default value for the variable.
+ * @returns The boolean value for `key`.
+ */
+export function envFlag(key: string, defaultValue?: boolean): boolean {
+    const value = mapIfNotUndefined(process.env[key], value => Boolean(value)) ?? defaultValue;
+    if (value === undefined) {
+        throw new Error(`$${key} not present in environment`);
+    }
+    return value;
+}

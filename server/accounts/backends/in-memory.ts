@@ -95,6 +95,17 @@ class InMemoryUserStore implements UserStore {
         }
         this.users.splice(match, 1);
     }
+
+    async getOrInsertUser(query: UserQuery, newUser: () => NewUser): Promise<User> {
+        try {
+            return await this.getUser(query);
+        } catch (err) {
+            if (!(err instanceof UnknownUserError)) {
+                throw err;
+            }
+            return await this.insertUser(newUser());
+        }
+    }
 }
 
 class InMemoryUserSessionStore implements UserSessionStore {
@@ -124,8 +135,10 @@ class InMemoryUserSessionStore implements UserSessionStore {
      */
     private nextSid: UserSessionID;
 
-    async startSession(email: string): Promise<NewUserSession> {
-        const { uid } = await this.users.getUser({ by: "email", email });
+    async startSession(uid: UserID): Promise<NewUserSession> {
+        if (!(await this.users.hasUser({ by: "uid", uid }))) {
+            throw new UnknownUserError({ by: "uid", uid });
+        }
         const sid = this.nextSid++;
         const expiresOn = addDays(new Date(), 28);
         const otp = randomBytes(16).toString("hex");

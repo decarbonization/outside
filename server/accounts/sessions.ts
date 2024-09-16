@@ -53,12 +53,12 @@ export interface NewUserSession {
  */
 export interface UserSessionStore {
     /**
-     * Start a session for the user matching the given email address.
+     * Start a session for the specified user.
      * 
-     * @param email The email address associated with a user account.
+     * @param uid The unique identifier of the user. 
      * @returns A new unique session identifier.
      */
-    startSession(email: string): Promise<NewUserSession>;
+    startSession(uid: UserID): Promise<NewUserSession>;
 
     /**
      * Authenticate a previously started session.
