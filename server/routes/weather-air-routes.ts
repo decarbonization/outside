@@ -66,6 +66,7 @@ async function getWeatherAir(
     const deps = await makeDeps({ req, location });
     const link = linkDestination({
         where: "weather",
+        tab: "air",
         countryCode,
         location,
         query,

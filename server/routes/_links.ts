@@ -18,7 +18,8 @@
 
 import { LocationCoordinates } from "serene-front/data";
 
-export type WeatherSubdestination =
+export type WeatherTab =
+    | "forecast"
     | "astronomy"
     | "air";
 
@@ -28,7 +29,7 @@ export type LinkDestination =
     | { where: "loginVerify", otp: string }
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
-    | { where: "weather", sub?: WeatherSubdestination, countryCode: string, location: LocationCoordinates, query: string, ref?: string };
+    | { where: "weather", tab: WeatherTab, countryCode: string, location: LocationCoordinates, query: string, ref?: string };
 export type LinkDestinationTo<Where extends LinkDestination["where"]> = Extract<LinkDestination, { where: Where }>;
 
 export function linkDestination<Where extends LinkDestination["where"]>(destination: LinkDestinationTo<Where>): LinkDestinationTo<Where> {
@@ -80,11 +81,11 @@ function linkToSearchByCoordinates({ location: { latitude, longitude } }: LinkDe
     return `/search/${latitude}/${longitude}`;
 }
 
-function linkToWeather({ countryCode, sub, location, query, ref }: LinkDestinationTo<"weather">): string {
+function linkToWeather({ countryCode, tab, location, query, ref }: LinkDestinationTo<"weather">): string {
     const { latitude, longitude } = location.truncatedTo(3);
     let link = `/weather/${encodeURIComponent(countryCode)}/${latitude}/${longitude}/${encodeURIComponent(query)}`;
-    if (sub !== undefined) {
-        link += `/${sub}`;
+    if (tab !== 'forecast') {
+        link += `/${tab}`;
     }
     if (ref !== undefined) {
         link += `?ref=${encodeURIComponent(ref)}`;

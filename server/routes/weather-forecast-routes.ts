@@ -68,6 +68,7 @@ async function getWeatherForecast(
     });
     const link = linkDestination({
         where: "weather",
+        tab: "forecast",
         countryCode,
         location,
         query,
@@ -93,7 +94,7 @@ export function WeatherForecastRoutes(options: WeatherForecastRoutesOptions): Ro
                 // Redirect legacy weather links
                 const countryCode = req.params.country;
                 const ref = req.query["ref"] as string | undefined;
-                res.redirect(linkTo({ where: "weather", countryCode, location, query, ref }));
+                res.redirect(linkTo({ where: "weather", tab: "forecast", countryCode, location, query, ref }));
             } else {
                 // Redirect links without a locality
                 res.redirect(linkTo({ where: "searchByCoordinates", location }));

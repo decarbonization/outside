@@ -20,10 +20,10 @@ import { Weather } from "fruit-company/weather";
 import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
-import { ModeSelector } from "../views/mode-selector";
 import { MiniCurrentForecast } from "../views/weather-astronomy/mini-current-forecast";
 import { MoonForecast } from "../views/weather-astronomy/moon-forecast";
 import { SolarForecast } from "../views/weather-astronomy/solar-forecast";
+import { WeatherTabs } from "../views/weather-tabs";
 import { renderApp } from "./_app";
 
 export interface RenderWeatherAstronomyOptions {
@@ -38,7 +38,7 @@ export function renderWeatherAstronomy({ deps, link, searchDisabled, weather }: 
     const searchQuery = link.query;
     return renderApp({ className, deps, searchQuery, searchDisabled }, (
         <>
-            <ModeSelector link={link} mode="astronomy" />
+            <WeatherTabs link={link} selection="astronomy" />
             <MiniCurrentForecast now={weather.currentWeather} />
             <MoonForecast today={weather.forecastDaily?.days?.[0]} />
             <SolarForecast today={weather.forecastDaily?.days?.[0]} />

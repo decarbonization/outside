@@ -37,15 +37,11 @@ describe("routes#_links module", () => {
         });
 
         it("should reduce precision of weather geo coordinates", () => {
-            expect(linkTo({ where: "weather", countryCode: "US", location: new LocationCoordinates(40.7129822, -74.007205), query: "New York" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York");
+            expect(linkTo({ where: "weather", tab: "forecast", countryCode: "US", location: new LocationCoordinates(40.7129822, -74.007205), query: "New York" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York");
         });
 
-        it("should include weather subcategory when specified", () => {
-            expect(linkTo({ where: "weather", sub: "air", countryCode: "US", location: new LocationCoordinates(40.7129822, -74.007205), query: "New York" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York/air");
-        });
-
-        it("should include weather ref when specified", () => {
-            expect(linkTo({ where: "weather", countryCode: "US", location: new LocationCoordinates(40.7129822, -74.007205), query: "New York", ref: "loc" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York?ref=loc");
+        it("should include weather tab", () => {
+            expect(linkTo({ where: "weather", tab: "air", countryCode: "US", location: new LocationCoordinates(40.7129822, -74.007205), query: "New York" })).toStrictEqual("/weather/US/40.712/-74.008/New%20York/air");
         });
     });
 });

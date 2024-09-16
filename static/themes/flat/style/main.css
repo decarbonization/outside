@@ -301,23 +301,23 @@ header .logo::before {
     background-repeat: no-repeat;
 }
 
-.mode-selector input[type="radio"] {
+.weather-tabs input[type="radio"] {
     display: none;
 }
 
-.mode-selector {
+.weather-tabs {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--h-spacing) var(--v-spacing);
     margin: var(--h-spacing) 0;
 }
 
-.mode-selector a {
+.weather-tabs a {
     text-align: center;
     padding: var(--h-spacing) var(--v-spacing);
 }
 
-.mode-selector a.selected {
+.weather-tabs a.selected {
     background: var(--hover-bg);
     border-radius: 0.5em;
     font-weight: bold;

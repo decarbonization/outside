@@ -18,30 +18,25 @@
 
 import classNames from "classnames";
 import { useContext } from "preact/hooks";
-import { LinkDestinationTo, linkTo } from "../routes/_links";
+import { LinkDestinationTo, linkTo, WeatherTab } from "../routes/_links";
 import { Deps } from "./_deps";
 
-export type Mode =
-    | "forecast"
-    | "astronomy"
-    | "air";
-
-export interface ModeSelectorProps {
-    readonly mode: Mode;
+export interface WeatherTabsProps {
+    readonly selection: WeatherTab;
     readonly link: LinkDestinationTo<"weather">;
 }
 
-export function ModeSelector({ mode, link }: ModeSelectorProps) {
+export function WeatherTabs({ selection, link }: WeatherTabsProps) {
     const { i18n } = useContext(Deps);
     return (
-        <section className="mode-selector">
-            <a href={linkTo({ ...link, where: "weather", sub: undefined })} className={classNames({ selected: mode === "forecast" })}>
+        <section className="weather-tabs">
+            <a href={linkTo({ ...link, where: "weather", tab: "forecast" })} className={classNames({ selected: selection === "forecast" })}>
                 {i18n.t("tabForecast")}
             </a>
-            <a href={linkTo({ ...link, where: "weather", sub: "astronomy" })} className={classNames({ selected: mode === "astronomy" })}>
+            <a href={linkTo({ ...link, where: "weather", tab: "astronomy" })} className={classNames({ selected: selection === "astronomy" })}>
                 {i18n.t("tabAstronomy")}
             </a>
-            <a href={linkTo({ ...link, where: "weather", sub: "air" })} className={classNames({ selected: mode === "air" })}>
+            <a href={linkTo({ ...link, where: "weather", tab: "air" })} className={classNames({ selected: selection === "air" })}>
                 {i18n.t("tabAir")}
             </a>
         </section>

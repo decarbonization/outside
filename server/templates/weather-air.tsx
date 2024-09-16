@@ -20,9 +20,9 @@ import { CurrentAirConditions } from "good-breathing/aqi";
 import { PollenForecast } from "good-breathing/pollen";
 import { LinkDestinationTo } from "../routes/_links";
 import { DepsObject } from "../views/_deps";
-import { ModeSelector } from "../views/mode-selector";
 import { CurrentAirForecast } from "../views/weather-air/current-air-forecast";
 import { PollenDailyForecast } from "../views/weather-air/pollen-daily-forecast";
+import { WeatherTabs } from "../views/weather-tabs";
 import { renderApp } from "./_app";
 
 export interface RenderWeatherAstronomyOptions {
@@ -37,7 +37,7 @@ export function renderWeatherAir({ deps, link, searchDisabled, airConditions, po
     const searchQuery = link.query;
     return renderApp({ deps, searchQuery, searchDisabled }, (
         <>
-            <ModeSelector link={link} mode="air" />
+            <WeatherTabs link={link} selection="air" />
             <CurrentAirForecast conditions={airConditions} />
             <PollenDailyForecast forecast={pollenForecast} />
         </>
