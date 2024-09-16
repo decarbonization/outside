@@ -18,9 +18,7 @@
 
 import { addDays } from "date-fns";
 import { Request, Response, Router } from "express";
-import { parseWeather, WeatherDataSet, WeatherQuery, WeatherToken } from "fruit-company/weather";
-import fs from "fs/promises";
-import path from "path";
+import { WeatherDataSet, WeatherQuery, WeatherToken } from "fruit-company/weather";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { renderWeatherAstronomy } from "../templates/weather-astronomy";
@@ -75,31 +73,8 @@ async function getWeatherAstronomy(
     res.type('html').send(resp);
 }
 
-async function getWeatherAstronomySample(
-    { }: WeatherAstronomyRoutesOptions,
-    req: Request,
-    res: Response
-): Promise<void> {
-    const rawWeather = await fs.readFile(path.join(__dirname, "wk-sample.json"), "utf-8");
-    const weather = parseWeather(rawWeather);
-    const deps = await makeDeps({ req });
-    const link = linkDestination({
-        where: "weather",
-        sub: "astronomy",
-        countryCode: "ZZ",
-        location: new LocationCoordinates(0, 0),
-        query: "!Sample",
-    });
-    const resp = renderWeatherAstronomy({ deps, link, searchDisabled: true, weather });
-    res.set("Cache-Control", "no-store");
-    res.type('html').send(resp);
-}
-
 export function WeatherAstronomyRoutes(options: WeatherAstronomyRoutesOptions): Router {
     return Router()
-        .get('/weather/ZZ/0/0/!Sample/astronomy', async (req, res) => {
-            await getWeatherAstronomySample(options, req, res);
-        })
         .get('/weather/:country/:latitude/:longitude/:locality/astronomy', async (req, res) => {
             await getWeatherAstronomy(options, req, res);
         });

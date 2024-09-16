@@ -18,9 +18,7 @@
 
 import { addDays, addHours } from "date-fns";
 import { Request, Response, Router } from "express";
-import { allWeatherDataSets, parseWeather, WeatherQuery, WeatherToken } from "fruit-company/weather";
-import fs from "fs/promises";
-import path from "path";
+import { allWeatherDataSets, WeatherQuery, WeatherToken } from "fruit-company/weather";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { renderWeatherForecast } from "../templates/weather-forecast";
@@ -80,30 +78,8 @@ async function getWeatherForecast(
     res.type('html').send(resp);
 }
 
-async function getWeatherForecastSample(
-    { }: WeatherForecastRoutesOptions,
-    req: Request,
-    res: Response
-): Promise<void> {
-    const rawWeather = await fs.readFile(path.join(__dirname, "wk-sample.json"), "utf-8");
-    const weather = parseWeather(rawWeather);
-    const deps = await makeDeps({ req });
-    const link = linkDestination({
-        where: "weather",
-        countryCode: "ZZ",
-        location: new LocationCoordinates(0, 0),
-        query: "!Sample",
-    });
-    const resp = renderWeatherForecast({ deps, link, searchDisabled: true, weather });
-    res.set("Cache-Control", "no-store");
-    res.type('html').send(resp);
-}
-
 export function WeatherForecastRoutes(options: WeatherForecastRoutesOptions): Router {
     return Router()
-        .get('/weather/ZZ/0/0/!Sample', async (req, res) => {
-            await getWeatherForecastSample(options, req, res);
-        })
         .get('/weather/:country/:latitude/:longitude/:locality', async (req, res) => {
             await getWeatherForecast(options, req, res);
         })
@@ -122,13 +98,5 @@ export function WeatherForecastRoutes(options: WeatherForecastRoutesOptions): Ro
                 // Redirect links without a locality
                 res.redirect(linkTo({ where: "searchByCoordinates", location }));
             }
-        })
-        .get('/weather/sample', async (_req, res) => {
-            console.warn("This route is deprecated, prefer GET /weather/ZZ/0/0/!Sample");
-            res.redirect('/weather/ZZ/0/0/!Sample');
-        })
-        .get('/sample', async (_req, res) => {
-            console.warn("This route is deprecated, prefer GET /weather/sample");
-            res.redirect('/weather/ZZ/0/0/!Sample');
         });
 }

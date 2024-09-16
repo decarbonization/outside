@@ -18,11 +18,9 @@
 
 import { minutesToSeconds } from "date-fns";
 import { Request, Response, Router } from "express";
-import * as fs from "fs/promises";
 import { GoogleMapsApiKey } from 'good-breathing';
-import { allExtraComputations, ExtraComputation, GetCurrentAirConditions, parseCurrentAirConditions } from 'good-breathing/aqi';
-import { GetPollenForecast, parsePollenForecast } from 'good-breathing/pollen';
-import * as path from "path";
+import { allExtraComputations, ExtraComputation, GetCurrentAirConditions } from 'good-breathing/aqi';
+import { GetPollenForecast } from 'good-breathing/pollen';
 import { fulfill } from "serene-front";
 import { remove } from "serene-front/collections";
 import { LocationCoordinates } from "serene-front/data";
@@ -78,34 +76,8 @@ async function getWeatherAir(
     res.type('html').send(resp);
 }
 
-async function getWeatherAirSample(
-    { }: WeatherAirRoutesOptions,
-    req: Request,
-    res: Response
-): Promise<void> {
-    const rawAirConditions = await fs.readFile(path.join(__dirname, "aqi-sample.json"), "utf-8");
-    const airConditions = parseCurrentAirConditions(rawAirConditions);
-    const rawPollenForecast = await fs.readFile(path.join(__dirname, "pollen-sample.json"), "utf-8");
-    const pollenForecast = parsePollenForecast(rawPollenForecast);
-
-    const deps = await makeDeps({ req });
-    const link = linkDestination({
-        where: "weather",
-        sub: "air",
-        countryCode: "ZZ",
-        location: new LocationCoordinates(0, 0),
-        query: "!Sample",
-    });
-    const resp = renderWeatherAir({ deps, link, searchDisabled: true, airConditions, pollenForecast });
-    res.set("Cache-Control", "no-store");
-    res.type('html').send(resp);
-}
-
 export function WeatherAirRoutes(options: WeatherAirRoutesOptions): Router {
     return Router()
-        .get('/weather/ZZ/0/0/!Sample/air', async (req, res) => {
-            await getWeatherAirSample(options, req, res);
-        })
         .get('/weather/:country/:latitude/:longitude/:locality/air', async (req, res) => {
             await getWeatherAir(options, req, res);
         });
