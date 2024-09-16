@@ -11,7 +11,7 @@
     "build": "npm run build:client && npm run build:server",
     "build:digitalocean": "npm install --include=dev && npm run build && npm ci",
     "dev": "npx nodemon",
-    "start:dev": "npm run build:client && npx ts-node server/index.tsx",
+    "start:dev": "npm run build:client && npx ts-node server/index.ts",
     "start": "npm run build && node ./dist/server/index.js",
     "start:digitalocean": "node ./dist/server/index.js",
     "test": "npx jest"
