@@ -111,7 +111,7 @@ const httpTerminator = createHttpTerminator({
 
 const port = process.env.PORT ?? 8000;
 server.listen(port, () => {
-    console.log(`outside is running at http://localhost:${port} from ${__dirname}`);
+    console.log(`outside is running at http://${env('HOST', 'localhost')}:${port} from ${__dirname}`);
 });
 
 setUpShutDownHooks({ server, httpTerminator });

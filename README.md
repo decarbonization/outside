@@ -67,6 +67,7 @@ In order for Outside to allow users to sign in, it must be configured with the f
 The following environment variables may be provided:
 
 - `PORT`: The port to publish the HTTP server on. Defaults to `8000`.
+- `HOST`: The unqualified hostname of the app. Defaults to `localhost`.
 - `DAILY_FORECAST_LIMIT`: The number of days to include in the forecast. Defaults to `7`.
 - `HOURLY_FORECAST_LIMIT`: The number of hours to include in the forecast. Defaults to `24`.
 - `DAILY_POLLEN_FORECAST_LIMIT`: The number of days to include in the pollen forecast. Defaults to `3`.
