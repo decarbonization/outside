@@ -39,6 +39,10 @@ async function getWeatherForecast(
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
+    if (req.uid === undefined) {
+        res.redirect(linkTo({ where: "login" }));
+        return;
+    }
     const query = req.params.locality;
     const language = req.i18n.resolvedLanguage ?? req.language;
     const location = new LocationCoordinates(

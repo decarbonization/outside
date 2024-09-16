@@ -24,7 +24,7 @@ import { LocationCoordinates } from "serene-front/data";
 import { renderWeatherAstronomy } from "../templates/weather-astronomy";
 import { cacheControlFor } from "../utilities/weather-utils";
 import { makeDeps } from "../views/_deps";
-import { linkDestination } from "./_links";
+import { linkDestination, linkTo } from "./_links";
 
 export interface WeatherAstronomyRoutesOptions {
     readonly weatherToken: WeatherToken;
@@ -35,6 +35,10 @@ async function getWeatherAstronomy(
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
+    if (req.uid === undefined) {
+        res.redirect(linkTo({ where: "login" }));
+        return;
+    }
     const query = req.params.locality;
     const language = req.i18n.resolvedLanguage ?? req.language;
     const location = new LocationCoordinates(

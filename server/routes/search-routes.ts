@@ -31,6 +31,10 @@ async function getSearchByQuery(
     req: Request,
     res: Response
 ): Promise<void> {
+    if (req.uid === undefined) {
+        res.redirect(linkTo({ where: "login" }));
+        return;
+    }
     const query = req.query["q"];
     if (query === undefined || typeof query !== 'string') {
         res.redirect(linkTo({ where: "index" }));
@@ -65,6 +69,10 @@ async function getSearchByCoordinates(
     req: Request<{ latitude: string, longitude: string }>,
     res: Response
 ): Promise<void> {
+    if (req.uid === undefined) {
+        res.redirect(linkTo({ where: "login" }));
+        return;
+    }
     const language = req.i18n.resolvedLanguage ?? req.language;
     const location = new LocationCoordinates(
         LocationCoordinates.parseCoordinate(req.params.latitude),

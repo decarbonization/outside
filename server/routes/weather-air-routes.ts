@@ -27,7 +27,7 @@ import { LocationCoordinates } from "serene-front/data";
 import { renderWeatherAir } from "../templates/weather-air";
 import { envInt } from "../utilities/env";
 import { makeDeps } from "../views/_deps";
-import { linkDestination } from "./_links";
+import { linkDestination, linkTo } from "./_links";
 
 export interface WeatherAirRoutesOptions {
     readonly gMapsApiKey: GoogleMapsApiKey;
@@ -38,6 +38,10 @@ async function getWeatherAir(
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
+    if (req.uid === undefined) {
+        res.redirect(linkTo({ where: "login" }));
+        return;
+    }
     const query = req.params.locality;
     const languageCode = req.i18n.resolvedLanguage ?? req.language;
     const location = new LocationCoordinates(
