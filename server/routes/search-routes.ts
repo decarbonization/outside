@@ -20,6 +20,7 @@ import { Request, Response, Router } from "express";
 import { GeocodeAddress, MapsToken, ReverseGeocodeAddress } from "fruit-company/maps";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
+import { proveString } from "../utilities/maybe";
 import { linkTo } from "./_links";
 
 export interface SearchRoutesOptions {
@@ -42,7 +43,7 @@ async function getSearchByQuery(
     }
 
     const language = req.i18n.resolvedLanguage ?? req.language;
-    const ref = req.query["ref"] as string | undefined;
+    const ref = proveString(req.query["ref"]);
     const geocodeAddress = new GeocodeAddress({ query, language });
     console.info(`GET /search perform(${geocodeAddress})`);
     const { results } = await fulfill({
@@ -78,7 +79,7 @@ async function getSearchByCoordinates(
         LocationCoordinates.parseCoordinate(req.params.latitude),
         LocationCoordinates.parseCoordinate(req.params.longitude),
     );
-    const ref = req.query["ref"] as string | undefined;
+    const ref = proveString(req.query["ref"]);
     const reverseGeocodeAddress = new ReverseGeocodeAddress({ location, language });
     console.info(`GET /search perform(${reverseGeocodeAddress})`);
     const { results } = await fulfill({

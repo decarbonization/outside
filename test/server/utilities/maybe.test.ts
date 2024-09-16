@@ -17,9 +17,24 @@
  */
 
 import { describe, expect, it } from "@jest/globals";
-import { mapIfNotUndefined } from "../../../server/utilities/maybe";
+import { mapIfNotUndefined, proveString } from "../../../server/utilities/maybe";
 
 describe("maybe module", () => {
+    describe("#proveString", () => {
+        it("should propagate string values", () => {
+            expect(proveString("hello")).toStrictEqual("hello");
+        });
+
+        it("should return undefined otherwise", () => {
+            expect(proveString(undefined)).toBeUndefined();
+            expect(proveString(null)).toBeUndefined();
+            expect(proveString(1234)).toBeUndefined();
+            expect(proveString(Symbol())).toBeUndefined();
+            expect(proveString([])).toBeUndefined();
+            expect(proveString({})).toBeUndefined();
+        });
+    });
+
     describe("#mapIfNotUndefined", () => {
         it("should propagate undefined values", () => {
             const nothing = undefined as string | undefined;

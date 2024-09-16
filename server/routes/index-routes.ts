@@ -18,6 +18,7 @@
 
 import { Request, Response, Router } from "express";
 import { renderIndex } from "../templates";
+import { proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
 
 export interface IndexRoutesOptions {
@@ -28,7 +29,7 @@ async function getIndex(
     req: Request,
     res: Response
 ): Promise<void> {
-    const searchQuery = req.query["q"] as string | undefined;
+    const searchQuery = proveString(req.query["q"]);
     const deps = await makeDeps({ req });
     const resp = renderIndex({ deps, searchQuery });
     res.type('html').send(resp);

@@ -22,6 +22,7 @@ import { WeatherDataSet, WeatherQuery, WeatherToken } from "fruit-company/weathe
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { renderWeatherAstronomy } from "../templates/weather-astronomy";
+import { proveString } from "../utilities/maybe";
 import { cacheControlFor } from "../utilities/weather-utils";
 import { makeDeps } from "../views/_deps";
 import { linkDestination, linkTo } from "./_links";
@@ -46,7 +47,7 @@ async function getWeatherAstronomy(
         LocationCoordinates.parseCoordinate(req.params.longitude),
     );
     const countryCode = req.params.country;
-    const ref = req.query["ref"] as string | undefined;
+    const ref = proveString(req.query["ref"]);
     const deps = await makeDeps({ req, location });
     const currentAsOf = new Date();
     const weatherQuery = new WeatherQuery({

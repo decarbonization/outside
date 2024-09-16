@@ -26,6 +26,7 @@ import { remove } from "serene-front/collections";
 import { LocationCoordinates } from "serene-front/data";
 import { renderWeatherAir } from "../templates/weather-air";
 import { envInt } from "../utilities/env";
+import { proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
 import { linkDestination, linkTo } from "./_links";
 
@@ -49,7 +50,7 @@ async function getWeatherAir(
         LocationCoordinates.parseCoordinate(req.params.longitude),
     );
     const countryCode = req.params.country;
-    const ref = req.query["ref"] as string | undefined;
+    const ref = proveString(req.query["ref"]);
 
     const getAirConditions = new GetCurrentAirConditions({
         location,

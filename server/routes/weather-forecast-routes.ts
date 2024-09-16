@@ -23,6 +23,7 @@ import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { renderWeatherForecast } from "../templates/weather-forecast";
 import { envInt } from "../utilities/env";
+import { proveString } from "../utilities/maybe";
 import { cacheControlFor } from "../utilities/weather-utils";
 import { makeDeps } from "../views/_deps";
 import { linkDestination, linkTo } from "./_links";
@@ -50,7 +51,7 @@ async function getWeatherForecast(
         LocationCoordinates.parseCoordinate(req.params.longitude),
     );
     const countryCode = req.params.country;
-    const ref = req.query["ref"] as string | undefined;
+    const ref = proveString(req.query["ref"]);
     const deps = await makeDeps({ req, location });
     const currentAsOf = new Date();
     const weatherQuery = new WeatherQuery({
@@ -89,7 +90,7 @@ export function WeatherForecastRoutes(options: WeatherForecastRoutesOptions): Ro
             await getWeatherForecast(options, req, res);
         })
         .get('/weather/:country/:latitude/:longitude', async (req, res) => {
-            const query = req.query["q"] as string | undefined;
+            const query = proveString(req.query["q"]);
             const location = new LocationCoordinates(
                 LocationCoordinates.parseCoordinate(req.params.latitude),
                 LocationCoordinates.parseCoordinate(req.params.longitude),
@@ -97,7 +98,7 @@ export function WeatherForecastRoutes(options: WeatherForecastRoutesOptions): Ro
             if (query !== undefined) {
                 // Redirect legacy weather links
                 const countryCode = req.params.country;
-                const ref = req.query["ref"] as string | undefined;
+                const ref = proveString(req.query["ref"]);
                 res.redirect(linkTo({ where: "weather", tab: "forecast", countryCode, location, query, ref }));
             } else {
                 // Redirect links without a locality
