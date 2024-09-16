@@ -23,11 +23,10 @@ import fs from "fs/promises";
 import path from "path";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
-import { loadTheme } from "../styling/themes";
 import { renderWeatherForecast } from "../templates/weather-forecast";
 import { envInt } from "../utilities/env";
-import { cacheControlFor, timezoneFor } from "../utilities/weather-utils";
-import { DepsObject } from "../views/_deps";
+import { cacheControlFor } from "../utilities/weather-utils";
+import { makeDeps } from "../views/_deps";
 import { linkDestination, linkTo } from "./_links";
 
 // TODO: Currently limiting daily forecasts to 7 days because of
@@ -48,14 +47,14 @@ async function getWeatherForecast(
         LocationCoordinates.parseCoordinate(req.params.latitude),
         LocationCoordinates.parseCoordinate(req.params.longitude),
     );
-    const timezone = timezoneFor(location);
     const countryCode = req.params.country;
     const ref = req.query["ref"] as string | undefined;
+    const deps = await makeDeps({ req, location });
     const currentAsOf = new Date();
     const weatherQuery = new WeatherQuery({
         language,
         location,
-        timezone,
+        timezone: deps.timeZone,
         countryCode,
         currentAsOf,
         dailyEnd: addDays(currentAsOf, envInt("DAILY_FORECAST_LIMIT", 7)),
@@ -69,11 +68,6 @@ async function getWeatherForecast(
         authority: weatherToken,
         request: weatherQuery,
     });
-    const deps: DepsObject = {
-        i18n: req.i18n,
-        theme: await loadTheme(),
-        timeZone: timezone,
-    };
     const link = linkDestination({
         where: "weather",
         countryCode,
@@ -93,11 +87,7 @@ async function getWeatherForecastSample(
 ): Promise<void> {
     const rawWeather = await fs.readFile(path.join(__dirname, "wk-sample.json"), "utf-8");
     const weather = parseWeather(rawWeather);
-    const deps: DepsObject = {
-        i18n: req.i18n,
-        theme: await loadTheme(),
-        timeZone: "America/New_York",
-    };
+    const deps = await makeDeps({ req });
     const link = linkDestination({
         where: "weather",
         countryCode: "ZZ",

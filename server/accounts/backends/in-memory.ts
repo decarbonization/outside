@@ -18,7 +18,7 @@
 
 import { randomBytes } from "crypto";
 import { addDays } from "date-fns";
-import { UserPreferenceStore, UserPreferences } from "../preferences";
+import { UserPreferenceStore, UserPreferenceValues } from "../preferences";
 import { ExpiredUserSessionError, NewUserSession, NoSuchUserSessionError, UnauthenticatedUserSessionError, UserSessionID, UserSessionStore } from "../sessions";
 import { DuplicateEmailUserError, NewUser, UnknownUserError, User, UserID, UserQuery, UserStore } from "../users";
 
@@ -220,7 +220,7 @@ class InMemoryUserPreferenceStore implements UserPreferenceStore {
      */
     private readonly data: Map<UserID, Map<string, string>>;
 
-    async setValues<Keys extends string>(uid: UserID, newValues: UserPreferences<Keys>): Promise<Set<Keys>> {
+    async setValues<Keys extends string>(uid: UserID, newValues: UserPreferenceValues<Keys>): Promise<Set<Keys>> {
         if (!await this.users.hasUser({ by: "uid", uid })) {
             throw new UnknownUserError({ by: "uid", uid });
         }
@@ -237,7 +237,7 @@ class InMemoryUserPreferenceStore implements UserPreferenceStore {
         return updated;
     }
 
-    async getValues<Keys extends string>(uid: UserID, ...keys: Keys[]): Promise<UserPreferences<Keys>> {
+    async getValues<Keys extends string>(uid: UserID, ...keys: Keys[]): Promise<UserPreferenceValues<Keys>> {
         if (!await this.users.hasUser({ by: "uid", uid })) {
             throw new UnknownUserError({ by: "uid", uid });
         }
@@ -247,7 +247,10 @@ class InMemoryUserPreferenceStore implements UserPreferenceStore {
         }
         const values: WriteableUserPreferences<Keys> = {};
         for (const key of keys) {
-            values[key] = allValues.get(key);
+            const value = allValues.get(key);
+            if (value !== undefined) {
+                values[key] = value;
+            }
         }
         return values;
     }

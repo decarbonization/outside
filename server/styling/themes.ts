@@ -156,6 +156,15 @@ export interface Theme {
 }
 
 /**
+ * A theme with nothing in it.
+ */
+export const emptyTheme: Theme = {
+    name: "",
+    links: [],
+    icons: {},
+};
+
+/**
  * The location of the themes in the app.
  */
 const themesDirectory = path.join(

@@ -17,9 +17,8 @@
  */
 
 import { Request, Response, Router } from "express";
-import { loadTheme } from "../styling/themes";
 import { renderIndex } from "../templates";
-import { DepsObject } from "../views/_deps";
+import { makeDeps } from "../views/_deps";
 
 export interface IndexRoutesOptions {
 }
@@ -30,11 +29,7 @@ async function getIndex(
     res: Response
 ): Promise<void> {
     const searchQuery = req.query["q"] as string | undefined;
-    const deps: DepsObject = {
-        i18n: req.i18n,
-        theme: await loadTheme(),
-        timeZone: "UTC",
-    };
+    const deps = await makeDeps({ req });
     const resp = renderIndex({ deps, searchQuery });
     res.type('html').send(resp);
 }
@@ -44,11 +39,7 @@ async function getAppWebManifest(
     req: Request,
     res: Response
 ): Promise<void> {
-    const deps: DepsObject = {
-        i18n: req.i18n,
-        theme: await loadTheme(),
-        timeZone: "UTC",
-    };
+    const deps = await makeDeps({ req });
     const resp = JSON.stringify({
         "name": deps.i18n.t("appName"),
         "short_name": deps.i18n.t("appName"),

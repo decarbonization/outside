@@ -18,18 +18,15 @@
 
 import { urlencoded } from "body-parser";
 import { Request, Response, Router } from "express";
-import { UserPreferenceStore } from "../accounts/preferences";
 import { UserSessionStore } from "../accounts/sessions";
 import { UserStore } from "../accounts/users";
-import { loadTheme } from "../styling/themes";
 import { renderLogin } from "../templates/login";
-import { DepsObject } from "../views/_deps";
+import { makeDeps } from "../views/_deps";
 import { linkTo } from "./_links";
 
 export interface LoginRouteOptions {
     readonly users: UserStore;
     readonly sessions: UserSessionStore;
-    readonly preferences: UserPreferenceStore;
 }
 
 async function getLogin(
@@ -37,11 +34,7 @@ async function getLogin(
     req: Request,
     res: Response
 ): Promise<void> {
-    const deps: DepsObject = {
-        i18n: req.i18n,
-        theme: await loadTheme(),
-        timeZone: "UTC",
-    };
+    const deps = await makeDeps({ req });
     const resp = renderLogin({ deps });
     res.type('html').send(resp);
 }
@@ -59,11 +52,7 @@ async function postLogin(
     req.session.sid = String(sid);
     // TODO: Send email
     console.info(`Started session <${sid}> with otp <${otp}> for <${email}>`);
-    const deps: DepsObject = {
-        i18n: req.i18n,
-        theme: await loadTheme(),
-        timeZone: "UTC",
-    };
+    const deps = await makeDeps({ req });
     const resp = renderLogin({ deps, email, sentEmail: true });
     res.type('html').send(resp);
 }

@@ -19,12 +19,15 @@
 import { RequestHandler } from 'express';
 import { UserSessionStore } from '../accounts/sessions';
 import { UserID } from '../accounts/users';
+import { UserPreferences, UserPreferenceStore } from '../accounts/preferences';
+import { mapIfNotUndefined } from '../utilities/maybe';
 
 declare global {
     namespace Express {
         interface Request {
             sid?: number;
             uid?: UserID;
+            prefs: UserPreferences;
         }
     }
 }
@@ -37,19 +40,16 @@ declare module 'express-session' {
 
 export interface AccountMiddlewareOptions {
     readonly sessions: UserSessionStore;
+    readonly preferences: UserPreferenceStore;
 }
 
-export function accountMiddleware({ sessions }: AccountMiddlewareOptions): RequestHandler {
+export function accountMiddleware({ sessions, preferences }: AccountMiddlewareOptions): RequestHandler {
     return async (req, _res, next): Promise<void> => {
-        const rawSid = req.session.sid;
-        if (rawSid !== undefined) {
-            const sid = parseInt(rawSid, 10);
-            req.sid = sid;
-            req.uid = await sessions.getSessionUserID(sid);
-        } else {
-            req.sid = undefined;
-            req.uid = undefined;
-        }
+        const sid = mapIfNotUndefined(req.session.sid, raw => parseInt(raw, 10));
+        const uid = await mapIfNotUndefined(sid, sid => sessions.getSessionUserID(sid));
+        req.sid = sid;
+        req.uid = uid;
+        req.prefs = new UserPreferences(uid, preferences);
         next();
     };
 }

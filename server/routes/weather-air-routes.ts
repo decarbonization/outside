@@ -24,14 +24,12 @@ import { allExtraComputations, ExtraComputation, GetCurrentAirConditions, parseC
 import { GetPollenForecast, parsePollenForecast } from 'good-breathing/pollen';
 import * as path from "path";
 import { fulfill } from "serene-front";
+import { remove } from "serene-front/collections";
 import { LocationCoordinates } from "serene-front/data";
-import { loadTheme } from "../styling/themes";
 import { renderWeatherAir } from "../templates/weather-air";
 import { envInt } from "../utilities/env";
-import { timezoneFor } from "../utilities/weather-utils";
-import { DepsObject } from "../views/_deps";
+import { makeDeps } from "../views/_deps";
 import { linkDestination } from "./_links";
-import { remove } from "serene-front/collections";
 
 export interface WeatherAirRoutesOptions {
     readonly gMapsApiKey: GoogleMapsApiKey;
@@ -48,7 +46,6 @@ async function getWeatherAir(
         LocationCoordinates.parseCoordinate(req.params.latitude),
         LocationCoordinates.parseCoordinate(req.params.longitude),
     );
-    const timezone = timezoneFor(location);
     const countryCode = req.params.country;
     const ref = req.query["ref"] as string | undefined;
 
@@ -68,11 +65,7 @@ async function getWeatherAir(
         fulfill({ request: getPollenForecast, authority: gMapsApiKey }),
     ]);
 
-    const deps: DepsObject = {
-        i18n: req.i18n,
-        theme: await loadTheme(),
-        timeZone: timezone,
-    };
+    const deps = await makeDeps({ req, location });
     const link = linkDestination({
         where: "weather",
         countryCode,
@@ -95,11 +88,7 @@ async function getWeatherAirSample(
     const rawPollenForecast = await fs.readFile(path.join(__dirname, "pollen-sample.json"), "utf-8");
     const pollenForecast = parsePollenForecast(rawPollenForecast);
 
-    const deps: DepsObject = {
-        i18n: req.i18n,
-        theme: await loadTheme(),
-        timeZone: "America/New_York",
-    };
+    const deps = await makeDeps({ req });
     const link = linkDestination({
         where: "weather",
         sub: "air",

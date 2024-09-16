@@ -16,9 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Request } from "express";
 import i18next, { i18n } from "i18next";
 import { createContext } from "preact";
-import { Theme } from "../styling/themes";
+import { LocationCoordinates } from "serene-front/data";
+import { emptyTheme, loadTheme, Theme } from "../styling/themes";
+import { mapIfNotUndefined } from "../utilities/maybe";
+import { timezoneFor } from "../utilities/weather-utils";
 
 /**
  * Encapsulates the dependencies made available to components in this app.
@@ -41,10 +45,37 @@ export interface DepsObject {
 }
 
 /**
+ * Options for the `makeDeps` function.
+ */
+export interface MakeDepsOptions {
+    /**
+     * The request the dependencies are being created for.
+     */
+    readonly req: Request<any, any, any, any, any>;
+
+    /**
+     * The location the request was made for.
+     */
+    readonly location?: LocationCoordinates;
+}
+
+/**
+ * Create a dependencies object for a view template.
+ */
+export async function makeDeps({ req, location }: MakeDepsOptions): Promise<DepsObject> {
+    const { themeName, timeZone } = await req.prefs.get("themeName", "timeZone");
+    return {
+        i18n: req.i18n,
+        theme: await loadTheme(themeName),
+        timeZone: timeZone ?? mapIfNotUndefined(location, timezoneFor) ?? "UTC",
+    };
+}
+
+/**
  * Dependencies made available to components in this app.
  */
-export const Deps = createContext({
+export const Deps = createContext<DepsObject>({
     i18n: i18next,
-    theme: { name: "", links: [], icons: {} },
+    theme: emptyTheme,
     timeZone: "UTC",
-} as DepsObject);
+});

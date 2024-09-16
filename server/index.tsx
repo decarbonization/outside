@@ -91,10 +91,10 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }));
-app.use(accountMiddleware({ sessions }));
+app.use(accountMiddleware({ sessions, preferences }));
 
 app.use(IndexRoutes({}));
-app.use(LoginRoutes({ users, sessions, preferences }))
+app.use(LoginRoutes({ users, sessions }))
 app.use(SearchRoutes({ mapsToken }));
 app.use(WeatherForecastRoutes({ weatherToken }));
 app.use(WeatherAstronomyRoutes({ weatherToken }));
