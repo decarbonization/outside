@@ -26,7 +26,7 @@ export type WeatherTab =
 export type LinkDestination =
     | { where: "index", query?: string }
     | { where: "login" }
-    | { where: "loginVerify", otp: string }
+    | { where: "loginVerify", otp: string, returnTo?: string }
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
     | { where: "weather", tab: WeatherTab, countryCode: string, location: LocationCoordinates, query: string, ref?: string };
@@ -65,8 +65,12 @@ function linkToUserSession({ }: LinkDestinationTo<"login">): string {
     return "/login";
 }
 
-function linkToUserSessionVerify({ otp }: LinkDestinationTo<"loginVerify">): string {
-    return `/login/verify/${encodeURIComponent(otp)}`;
+function linkToUserSessionVerify({ otp, returnTo }: LinkDestinationTo<"loginVerify">): string {
+    let link = `/login/verify/${encodeURIComponent(otp)}`;
+    if (returnTo !== undefined) {
+        link += `?returnto=${encodeURIComponent(returnTo)}`
+    }
+    return link;
 }
 
 function linkToSearchByQuery({ query }: LinkDestinationTo<"searchByQuery">): string {

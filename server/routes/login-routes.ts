@@ -24,6 +24,7 @@ import { renderLogin } from "../templates/login";
 import { makeDeps } from "../views/_deps";
 import { linkTo } from "./_links";
 import { envFlag } from "../utilities/env";
+import { proveString } from "../utilities/maybe";
 
 export interface LoginRouteOptions {
     readonly users: UserStore;
@@ -82,7 +83,12 @@ async function getLoginVerify(
     const otp = req.params.otp;
     const uid = await sessions.authenticateSession(sid, otp);
     console.info(`Authenticated session <${sid}> for <${uid}>`);
-    res.redirect(linkTo({ where: "index" }));
+    const returnTo = proveString(req.query["returnto"]);
+    if (returnTo !== undefined) {
+        res.redirect(returnTo);
+    } else {
+        res.redirect(linkTo({ where: "index" }));
+    }
 }
 
 export function LoginRoutes(options: LoginRouteOptions) {

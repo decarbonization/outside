@@ -27,6 +27,11 @@ describe("routes#_links module", () => {
             expect(linkTo({ where: "index", query: "New York" })).toStrictEqual('/?q=New%20York');
         });
 
+        it("should include login verify return to when specified", () => {
+            expect(linkTo({where: "loginVerify", otp: "123" })).toStrictEqual('/login/verify/123');
+            expect(linkTo({where: "loginVerify", otp: "123", returnTo: "/" })).toStrictEqual('/login/verify/123?returnto=%2F');
+        });
+
         it("should include search query when specified", () => {
             expect(linkTo({ where: "searchByQuery" })).toStrictEqual('/search');
             expect(linkTo({ where: "searchByQuery", query: "New York" })).toStrictEqual('/search?q=New%20York');
