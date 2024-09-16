@@ -29,6 +29,7 @@ export type LinkDestination =
     | { where: "index", query?: string }
     | { where: "login" }
     | { where: "loginVerify", otp: string, returnTo?: string }
+    | { where: "logout", returnTo?: string }
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
     | { where: "weather", tab: WeatherTab, countryCode: string, location: LocationCoordinates, query: string, ref?: string };
@@ -50,9 +51,11 @@ export function linkTo(destination: LinkDestination): string {
         case "index":
             return linkToIndex(destination);
         case "login":
-            return linkToUserSession(destination);
+            return linkToLogin(destination);
         case "loginVerify":
-            return linkToUserSessionVerify(destination);
+            return linkToLoginVerify(destination);
+        case "logout":
+            return linkToLogout(destination);
         case "searchByQuery":
             return linkToSearchByQuery(destination);
         case "searchByCoordinates":
@@ -70,12 +73,20 @@ function linkToIndex({ query }: LinkDestinationTo<"index">): string {
     return link;
 }
 
-function linkToUserSession({ }: LinkDestinationTo<"login">): string {
+function linkToLogin({ }: LinkDestinationTo<"login">): string {
     return "/login";
 }
 
-function linkToUserSessionVerify({ otp, returnTo }: LinkDestinationTo<"loginVerify">): string {
+function linkToLoginVerify({ otp, returnTo }: LinkDestinationTo<"loginVerify">): string {
     let link = `/login/verify/${encodeURIComponent(otp)}`;
+    if (returnTo !== undefined) {
+        link += `?returnto=${encodeURIComponent(returnTo)}`
+    }
+    return link;
+}
+
+function linkToLogout({ returnTo }: LinkDestinationTo<"logout">): string {
+    let link = `/logout`;
     if (returnTo !== undefined) {
         link += `?returnto=${encodeURIComponent(returnTo)}`
     }

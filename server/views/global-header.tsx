@@ -33,12 +33,15 @@ export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps)
                 {i18n.t('appName')}
             </div>
             {isUserLoggedIn
-                ? <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
-                    <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled} />
-                    <button class="place-search-current-location" type="button" disabled>
-                        {i18n.t('placeSearch.useCurrentLocation')}
-                    </button>
-                </form>
+                ? <>
+                    <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
+                        <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled} />
+                        <button class="place-search-current-location" type="button" disabled>
+                            {i18n.t('placeSearch.useCurrentLocation')}
+                        </button>
+                    </form>
+                    <a href={linkTo({ where: "logout" })}>{i18n.t('session.logout')}</a>
+                </>
                 : <>
                     <div className="flexible-spacer" />
                     <a href={linkTo({ where: "login" })}>{i18n.t('session.login')}</a>

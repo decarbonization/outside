@@ -106,6 +106,25 @@ async function getLoginVerify(
     }
 }
 
+async function getLogout(
+    { sessions }: LoginRouteOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const sid = req.sid;
+    if (sid !== undefined) {
+        await sessions.endSession(sid);
+        req.session.sid = undefined;
+        console.info(`Ended session <${sid}>`);
+    }
+    const returnTo = proveString(req.query["returnto"]);
+    if (returnTo !== undefined) {
+        res.redirect(returnTo);
+    } else {
+        res.redirect(linkTo({ where: "index" }));
+    }
+}
+
 export function LoginRoutes(options: LoginRouteOptions) {
     return Router()
         .get('/login', async (req, res) => {
@@ -117,4 +136,7 @@ export function LoginRoutes(options: LoginRouteOptions) {
         .get('/login/verify/:otp', async (req, res) => {
             await getLoginVerify(options, req, res);
         })
+        .get('/logout', async (req, res) => {
+            await getLogout(options, req, res);
+        });
 }
