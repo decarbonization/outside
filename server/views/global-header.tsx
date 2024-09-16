@@ -19,8 +19,6 @@
 import { useContext } from "preact/hooks";
 import { linkTo } from "../routes/_links";
 import { Deps } from "./_deps";
-import { ThemeDecoration } from "../styling/themes";
-import { Decoration } from "./components/decoration";
 
 export interface GlobalHeaderProps {
     readonly searchQuery?: string;
@@ -28,18 +26,23 @@ export interface GlobalHeaderProps {
 }
 
 export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps) {
-    const { i18n } = useContext(Deps);
+    const { i18n, isUserLoggedIn } = useContext(Deps);
     return (
         <header className="global h-flow spacing">
             <div className="logo">
                 {i18n.t('appName')}
             </div>
-            <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
-                <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled} />
-                <button class="place-search-current-location" type="button" disabled>
-                    {i18n.t('placeSearch.useCurrentLocation')}
-                </button>
-            </form>
+            {isUserLoggedIn
+                ? <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
+                    <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled} />
+                    <button class="place-search-current-location" type="button" disabled>
+                        {i18n.t('placeSearch.useCurrentLocation')}
+                    </button>
+                </form>
+                : <>
+                    <div className="flexible-spacer" />
+                    <a href={linkTo({ where: "login" })}>{i18n.t('session.login')}</a>
+                </>}
         </header>
     );
 }

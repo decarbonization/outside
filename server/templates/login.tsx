@@ -16,8 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { useContext } from "preact/hooks";
 import { linkTo } from "../routes/_links";
-import { DepsObject } from "../views/_deps";
+import { Deps, DepsObject } from "../views/_deps";
 import { renderApp } from "./_app";
 
 export type LoginMessage =
@@ -35,9 +36,9 @@ export function renderLogin({ deps, email, message }: LoginOptions): string {
     return renderApp({ deps }, (
         <section className="login">
             <form method="post" action={linkTo({ where: "login" })}>
-                <label for="email">Email</label>
+                <label for="email">{deps.i18n.t('session.email')}</label>
                 <input type="email" name="email" value={email} />
-                <input type="submit" value="Login" />
+                <input type="submit" value={deps.i18n.t('session.login')} />
             </form>
             <Message what={message} />
         </section>
@@ -49,17 +50,17 @@ interface MessageProps {
 }
 
 function Message({ what = 'none' }: MessageProps) {
+    const { i18n } = useContext(Deps);
     switch (what) {
         case 'none':
             return null;
         case 'emailSent':
             return (
-                <p>Email sent, check your inbox</p>
-
+                <p className="message">{i18n.t('session.emailSent')}</p>
             );
         case 'noSuchUser':
             return (
-                <p>No user exists with that email</p>
+                <p className="message">{i18n.t('session.noSuchUser')}</p>
             );
     }
 }

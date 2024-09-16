@@ -7,6 +7,17 @@
     "tabForecast": "Forecast",
     "tabAstronomy": "Astronomy",
     "tabAir": "Air",
+    "placeSearch": {
+        "inputLabel": "How\u2018s the weather outside in…",
+        "useCurrentLocation": "Use Current Location"
+    },
+    "session": {
+        "login": "Login",
+        "logout": "Logout",
+        "email": "Email",
+        "emailSent": "Email sent, check your inbox",
+        "noSuchUser": "No user exists with that email"
+    },
     "forecast": {
         "measurementLabels": {
             "temperature": "Temperature",
@@ -132,10 +143,6 @@
     },
     "hourlyForecast": {
         "title": "{{count, number}} Hour Forecast"
-    },
-    "placeSearch": {
-        "inputLabel": "How\u2018s the weather outside in…",
-        "useCurrentLocation": "Use Current Location"
     },
     "moonForecast": {
         "title": "Moon",

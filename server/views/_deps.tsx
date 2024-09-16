@@ -34,6 +34,11 @@ export interface DepsObject {
     readonly i18n: i18n;
 
     /**
+     * Whether the user is signed in.
+     */
+    readonly isUserLoggedIn: boolean;
+    
+    /**
      * The currently active theme.
      */
     readonly theme: Theme;
@@ -66,6 +71,7 @@ export async function makeDeps({ req, location }: MakeDepsOptions): Promise<Deps
     const { themeName, timeZone } = await req.prefs.get("themeName", "timeZone");
     return {
         i18n: req.i18n,
+        isUserLoggedIn: (req.uid !== undefined),
         theme: await loadTheme(themeName),
         timeZone: timeZone ?? mapIfNotUndefined(location, timezoneFor) ?? "UTC",
     };
@@ -76,6 +82,7 @@ export async function makeDeps({ req, location }: MakeDepsOptions): Promise<Deps
  */
 export const Deps = createContext<DepsObject>({
     i18n: i18next,
+    isUserLoggedIn: false,
     theme: emptyTheme,
     timeZone: "UTC",
 });
