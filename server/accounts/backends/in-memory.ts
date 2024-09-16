@@ -19,7 +19,7 @@
 import { randomBytes } from "crypto";
 import { addDays } from "date-fns";
 import { UserPreferenceStore, UserPreferenceValues } from "../preferences";
-import { ExpiredUserSessionError, NewUserSession, NoSuchUserSessionError, UnauthenticatedUserSessionError, UserSessionID, UserSessionStore } from "../sessions";
+import { ExpiredUserSessionError, NewUserSession, NoSuchUserSessionError, UserSessionID, UserSessionStore } from "../sessions";
 import { DuplicateEmailUserError, NewUser, UnknownUserError, User, UserID, UserQuery, UserStore } from "../users";
 
 /**
@@ -62,8 +62,7 @@ class InMemoryUserStore implements UserStore {
     }
 
     async insertUser(newUser: NewUser): Promise<User> {
-        const existing = await this.getUser({ by: "email", email: newUser.email });
-        if (existing !== undefined) {
+        if (await this.hasUser({ by: "email", email: newUser.email })) {
             throw new DuplicateEmailUserError(newUser.email);
         }
         const newUid = this.users.reduce((prev, next) => Math.max(prev, next.uid + 1), 0);
@@ -94,17 +93,6 @@ class InMemoryUserStore implements UserStore {
             throw new UnknownUserError(query);
         }
         this.users.splice(match, 1);
-    }
-
-    async getOrInsertUser(query: UserQuery, newUser: () => NewUser): Promise<User> {
-        try {
-            return await this.getUser(query);
-        } catch (err) {
-            if (!(err instanceof UnknownUserError)) {
-                throw err;
-            }
-            return await this.insertUser(newUser());
-        }
     }
 }
 

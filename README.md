@@ -60,7 +60,7 @@ In order for Outside to fetch air quality data, it must be configured with a Goo
 In order for Outside to allow users to sign in, it must be configured with the following environment variables:
 
 - `SESSION_SECRETS`: A comma-separated list of secrets to sign session cookies with.
-- `ENABLE_NEW_ACCOUNTS`: A flag indicating whether new accounts may be created. Defaults to `false`.
+- `USER_EMAILS`: A comma-separated list of login emails for the in-memory user system.
 
 ### Additional Options
 

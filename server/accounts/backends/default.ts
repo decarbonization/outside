@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { env } from "../../utilities/env";
 import { UserPreferenceStore } from "../preferences";
 import { UserSessionStore } from "../sessions";
 import { UserStore } from "../users";
@@ -27,7 +28,9 @@ import { inMemoryUserObjects } from "./in-memory";
  * @returns A triplet of objects related to user accounts.
  */
 export function defaultUserObjects(): [UserStore, UserSessionStore, UserPreferenceStore] {
-    return inMemoryUserObjects([
-        { uid: 0, lastModified: new Date(), email: "test@localhost" },
-    ]);
+    const users = env("USER_EMAILS", "")
+        .split(",")
+        .filter(email => email.length > 0)
+        .map((email, index) => ({ uid: index + 1000, lastModified: new Date(), email }));
+    return inMemoryUserObjects(users);
 }
