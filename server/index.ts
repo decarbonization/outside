@@ -40,6 +40,7 @@ import { WeatherAstronomyRoutes } from './routes/weather-astronomy-routes';
 import { WeatherForecastRoutes } from './routes/weather-forecast-routes';
 import { env } from './utilities/env';
 import { setUpShutDownHooks } from './utilities/shut-down';
+import { MailtrapClient } from "mailtrap";
 
 dotenv.config();
 
@@ -81,6 +82,9 @@ const gMapsApiKey = new GoogleMapsApiKey(
     env("GOOGLE_MAPS_API_KEY"),
 )
 const [users, sessions, preferences] = defaultUserObjects();
+const mailer = new MailtrapClient({
+    token: env("MAILTRAP_API_KEY"),
+});
 
 const app = express();
 
@@ -94,7 +98,7 @@ app.use(session({
 app.use(accountMiddleware({ sessions, preferences }));
 
 app.use(IndexRoutes({}));
-app.use(LoginRoutes({ users, sessions }))
+app.use(LoginRoutes({ users, sessions, mailer }))
 app.use(SearchRoutes({ mapsToken }));
 app.use(WeatherForecastRoutes({ weatherToken }));
 app.use(WeatherAstronomyRoutes({ weatherToken }));

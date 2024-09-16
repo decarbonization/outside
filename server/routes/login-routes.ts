@@ -18,17 +18,19 @@
 
 import { urlencoded } from "body-parser";
 import { Request, Response, Router } from "express";
+import { MailtrapClient } from "mailtrap";
 import { UserSessionStore } from "../accounts/sessions";
 import { UnknownUserError, UserStore } from "../accounts/users";
 import { renderLogin } from "../templates/login";
-import { makeDeps } from "../views/_deps";
-import { linkTo } from "./_links";
-import { envFlag } from "../utilities/env";
+import { env } from "../utilities/env";
 import { proveString } from "../utilities/maybe";
+import { makeDeps } from "../views/_deps";
+import { fullyQualifiedLinkTo, linkTo } from "./_links";
 
 export interface LoginRouteOptions {
     readonly users: UserStore;
     readonly sessions: UserSessionStore;
+    readonly mailer: MailtrapClient;
 }
 
 async function getLogin(
@@ -42,7 +44,7 @@ async function getLogin(
 }
 
 async function postLogin(
-    { users, sessions }: LoginRouteOptions,
+    { users, sessions, mailer }: LoginRouteOptions,
     req: Request<object, any, { email?: string }>,
     res: Response
 ): Promise<void> {
@@ -51,13 +53,26 @@ async function postLogin(
         throw new Error();
     }
     try {
-        const { uid } = envFlag("ENABLE_NEW_ACCOUNTS", false)
-            ? await users.getOrInsertUser({ by: "email", email }, () => ({ email }))
-            : await users.getUser({ by: "email", email });
+        const i18n = req.i18n;
+        const { uid } = await users.getUser({ by: "email", email });
         const { sid, otp } = await sessions.startSession(uid);
         req.session.sid = String(sid);
-        // TODO: Send email
         console.info(`Started session <${sid}> with otp <${otp}> for <${email}>`);
+        const verifyLink = fullyQualifiedLinkTo({ where: "loginVerify", otp });
+        await mailer.send({
+            from: {
+                email: env("MAILTRAP_SENDER"),
+                name: i18n.t('session.emailSenderName'),
+            },
+            to: [
+                {
+                    email
+                }
+            ],
+            subject: i18n.t("session.emailSubject"),
+            text: i18n.t("session.emailText", { verifyLink, interpolation: { escapeValue: false } }),
+            category: "Outside Weather Logins"
+        });
         const deps = await makeDeps({ req });
         const resp = renderLogin({ deps, email, message: 'emailSent' });
         res.type('html').send(resp);

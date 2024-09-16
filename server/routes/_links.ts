@@ -17,6 +17,8 @@
  */
 
 import { LocationCoordinates } from "serene-front/data";
+import { mapIfNotUndefined } from "../utilities/maybe";
+import { envInt } from "../utilities/env";
 
 export type WeatherTab =
     | "forecast"
@@ -34,6 +36,13 @@ export type LinkDestinationTo<Where extends LinkDestination["where"]> = Extract<
 
 export function linkDestination<Where extends LinkDestination["where"]>(destination: LinkDestinationTo<Where>): LinkDestinationTo<Where> {
     return destination;
+}
+
+export function fullyQualifiedLinkTo(destination: LinkDestination): string {
+    const base = mapIfNotUndefined(process.env["HOST"], host => `https://${host}`)
+        ?? `http://localhost:${envInt("PORT", 8000)}`;
+    const link = linkTo(destination);
+    return `${base}${link}`;
 }
 
 export function linkTo(destination: LinkDestination): string {

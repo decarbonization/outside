@@ -35,10 +35,11 @@ export interface LoginOptions {
 export function renderLogin({ deps, email, message }: LoginOptions): string {
     return renderApp({ deps }, (
         <section className="login">
+            <p className="intro">{deps.i18n.t('session.intro')}</p>
             <form method="post" action={linkTo({ where: "login" })}>
-                <label for="email">{deps.i18n.t('session.email')}</label>
+                <label for="email">{deps.i18n.t('session.emailLabel')}</label>
                 <input type="email" name="email" value={email} />
-                <input type="submit" value={deps.i18n.t('session.login')} />
+                <button type="submit">{deps.i18n.t('session.submit')}</button>
             </form>
             <Message what={message} />
         </section>
