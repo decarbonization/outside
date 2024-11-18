@@ -11,17 +11,14 @@
         "inputLabel": "How\u2018s the weather outside in…",
         "useCurrentLocation": "Use Current Location"
     },
-    "session": {
-        "login": "Sign In",
-        "logout": "Sign Out",
-        "submit": "Continue",
-        "intro": "Enter your email and you'll receive a sign-in link",
+    "accounts": {
+        "signIn": "Sign In",
+        "signOut": "Sign Out",
+        "submit": "Sign In",
+        "intro": "Sign into Outside",
         "emailLabel": "Email:",
-        "emailSent": "Check your email for a message to finish signing in",
-        "noSuchUser": "No user exists with that email",
-        "emailSenderName": "Outside Weather",
-        "emailSubject": "Outside weather sign in",
-        "emailText": "To sign into Outside, click here <{{verifyLink}}>"
+        "passwordLabel": "Password:",
+        "noSuchUser": "No user exists with that email"
     },
     "forecast": {
         "measurementLabels": {

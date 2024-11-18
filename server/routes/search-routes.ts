@@ -33,7 +33,7 @@ async function getSearchByQuery(
     res: Response
 ): Promise<void> {
     if (req.userModel === undefined) {
-        res.redirect(linkTo({ where: "login" }));
+        res.redirect(linkTo({ where: "signIn" }));
         return;
     }
     const query = req.query["q"];
@@ -71,7 +71,7 @@ async function getSearchByCoordinates(
     res: Response
 ): Promise<void> {
     if (req.userModel === undefined) {
-        res.redirect(linkTo({ where: "login" }));
+        res.redirect(linkTo({ where: "signIn" }));
         return;
     }
     const language = req.i18n.resolvedLanguage ?? req.language;

@@ -17,24 +17,7 @@
  */
 
 import { ValidEmail } from "./email";
-import { HashedPassword } from "./password";
-
-export interface SessionModel {
-    readonly id: string;
-    readonly createdAt: Date;
-    readonly userID: string;
-    readonly otp?: HashedPassword;
-    readonly otpExpiresAt?: Date;
-}
-
-export interface UserModel {
-    readonly id: string;
-    readonly createdAt: Date;
-    readonly email: ValidEmail;
-    readonly password: HashedPassword;
-    readonly lastModified: Date;
-    readonly isVerified: boolean;
-}
+import { SessionModel, UserModel } from "./models";
 
 export type SessionQuery =
     | { by: 'id', id: string }

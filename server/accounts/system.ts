@@ -19,8 +19,9 @@
 import { addMinutes } from "date-fns";
 import { isValidEmail } from "./email";
 import { UserSystemError } from "./errors";
+import { SessionModel, UserModel } from "./models";
 import { checkPassword, hashPassword, isValidOTP, isValidPassword, otp } from "./password";
-import { SessionModel, UserModel, UserStore } from "./store";
+import { UserStore } from "./store";
 
 export interface UserSystemOptions {
     readonly store: UserStore;
@@ -69,7 +70,7 @@ export class UserSystem {
             id: await this.store.newSessionID(),
             createdAt,
             userID: newUser.id,
-            otp: await otp(this.primarySalt),
+            otp: await otp(),
             otpExpiresAt: addMinutes(createdAt, 15),
         };
         await this.store.insertSession(newSession);
@@ -93,10 +94,13 @@ export class UserSystem {
             throw new UserSystemError('incorrectPassword', "Wrong password");
         }
         
+        const createdAt = new Date();
         const newSession: SessionModel = {
             id: await this.store.newSessionID(),
-            createdAt: new Date(),
+            createdAt,
             userID: user.id,
+            otp: !user.isVerified ? await otp() : undefined,
+            otpExpiresAt: !user.isVerified ? addMinutes(createdAt, 15) : undefined,
         };
         await this.store.insertSession(newSession);
         
@@ -112,7 +116,7 @@ export class UserSystem {
             throw new UserSystemError('invalidEmail', "Invalid email");
         }
         if (!isValidOTP(otp)) {
-            throw new UserSystemError('invalidPassword', "Invalid OTP");
+            throw new UserSystemError('invalidPassword', `Invalid OTP`);
         }
 
         const session = await this.store.getSession({ by: 'id', id: sessionID });
@@ -125,7 +129,7 @@ export class UserSystem {
         if (session.otpExpiresAt !== undefined && new Date() > session.otpExpiresAt) {
             throw new UserSystemError('expiredSession', "OTP has expired");
         }
-        if (!await checkPassword(session.otp, otp, this.salts)) {
+        if (session.otp !== otp) {
             throw new UserSystemError('incorrectPassword', "Bad OTP");
         }
 

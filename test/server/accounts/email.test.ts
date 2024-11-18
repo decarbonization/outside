@@ -16,15 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export type ValidEmail = string & { readonly _ValidEmail: unique symbol };
+import { describe, expect, it } from '@jest/globals';
+import { isValidEmail } from '../../../server/accounts/email';
 
-export function isValidEmail(email: string): email is ValidEmail {
-    const atSymbol = email.indexOf('@');
-    if (atSymbol === -1) {
-        return false;
-    }
-    if (email.lastIndexOf('@') !== atSymbol) {
-        return false;
-    }
-    return true;
-}
+describe("accounts#email module", () => {
+    describe("#isValidEmail", () => {
+        it("should require exactly one @ symbol", () => {
+            expect(isValidEmail("me.com")).toStrictEqual(false);
+            expect(isValidEmail("hello@goodbye@me.com")).toStrictEqual(false);
+            expect(isValidEmail("hello@me.com")).toStrictEqual(true);
+        })
+    });
+});

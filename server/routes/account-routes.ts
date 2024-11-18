@@ -21,7 +21,7 @@ import { Request, Response, Router } from "express";
 import { MailtrapClient } from "mailtrap";
 import { UserSystemError } from "../accounts/errors";
 import { UserSystem } from "../accounts/system";
-import { renderLogin } from "../templates/login";
+import { renderSignIn } from "../templates/sign-in";
 import { proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
 import { linkTo } from "./_links";
@@ -37,7 +37,7 @@ async function getSignIn(
     res: Response
 ): Promise<void> {
     const deps = await makeDeps({ req });
-    const resp = renderLogin({ deps });
+    const resp = renderSignIn({ deps });
     res.type('html').send(resp);
 }
 
@@ -64,7 +64,7 @@ async function postSignIn(
             throw err;
         }
         const deps = await makeDeps({ req });
-        const resp = renderLogin({ deps, email, message: 'noSuchUser' });
+        const resp = renderSignIn({ deps, email, message: 'noSuchUser' });
         res.status(401).type('html').send(resp);
     }
 }
@@ -88,7 +88,7 @@ async function getSignOut(
     }
 }
 
-export function UserRoutes(options: UserRouteOptions) {
+export function AccountRoutes(options: UserRouteOptions) {
     return Router()
         .get('/sign-in', async (req, res) => {
             await getSignIn(options, req, res);

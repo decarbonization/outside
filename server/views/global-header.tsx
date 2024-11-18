@@ -40,11 +40,11 @@ export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps)
                             {i18n.t('placeSearch.useCurrentLocation')}
                         </button>
                     </form>
-                    <a href={linkTo({ where: "logout" })}>{i18n.t('session.logout')}</a>
+                    <a href={linkTo({ where: "signOut" })}>{i18n.t('accounts.signOut')}</a>
                 </>
                 : <>
                     <div className="flexible-spacer" />
-                    <a href={linkTo({ where: "login" })}>{i18n.t('session.login')}</a>
+                    <a href={linkTo({ where: "signIn" })}>{i18n.t('accounts.signIn')}</a>
                 </>}
         </header>
     );

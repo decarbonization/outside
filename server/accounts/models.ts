@@ -16,15 +16,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export type ValidEmail = string & { readonly _ValidEmail: unique symbol };
+import { ValidEmail } from "./email";
+import { HashedPassword, ValidOTP } from "./password";
 
-export function isValidEmail(email: string): email is ValidEmail {
-    const atSymbol = email.indexOf('@');
-    if (atSymbol === -1) {
-        return false;
-    }
-    if (email.lastIndexOf('@') !== atSymbol) {
-        return false;
-    }
-    return true;
+export interface SessionModel {
+    readonly id: string;
+    readonly createdAt: Date;
+    readonly userID: string;
+    readonly otp?: ValidOTP;
+    readonly otpExpiresAt?: Date;
+}
+
+export interface UserModel {
+    readonly id: string;
+    readonly createdAt: Date;
+    readonly email: ValidEmail;
+    readonly password: HashedPassword;
+    readonly lastModified: Date;
+    readonly isVerified: boolean;
 }

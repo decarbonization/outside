@@ -17,8 +17,8 @@
  */
 
 import { RequestHandler } from 'express';
-import { SessionModel, UserModel } from '../accounts/store';
 import { UserSystem } from '../accounts/system';
+import { SessionModel, UserModel } from '../accounts/models';
 
 declare global {
     namespace Express {

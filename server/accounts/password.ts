@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import uuid from "uuid";
+import { parse as uuidparse, v4 as uuidv4 } from "uuid";
 
 const passwordSymbols = /[[!@#$%^&*]/;
 const passwordUppercaseLetters = /[A-Z]/;
@@ -25,8 +25,11 @@ const passwordNumbers = /[0-9]/;
 
 export type ValidPassword = string & { readonly _ValidPassword: unique symbol };
 
+export type ValidOTP = string & { readonly _ValidOTP: unique symbol };
+
+
 export function isValidPassword(password: string): password is ValidPassword {
-    if (password.length === 0) {
+    if (password.length < 8) {
         return false;
     }
     if (!passwordSymbols.test(password)) {
@@ -44,11 +47,10 @@ export function isValidPassword(password: string): password is ValidPassword {
     return true;
 }
 
-export function isValidOTP(otp: string): otp is ValidPassword {
+export function isValidOTP(otp: string): otp is ValidOTP {
     try {
-        void uuid.parse(otp);
-        return true;
-    } catch {
+        return !!uuidparse(otp);
+    } catch (err) {
         return false;
     }
 }
@@ -69,12 +71,8 @@ export async function hashPassword(password: ValidPassword, salt: string): Promi
     return hashedPassword as unknown as HashedPassword;
 }
 
-export async function otp(salt: string): Promise<HashedPassword> {
-    const otp = uuid.v4();
-    if (!isValidOTP(otp)) {
-        throw new Error("Could not generate OTP");
-    }
-    return await hashPassword(otp, salt);
+export async function otp(): Promise<ValidOTP> {
+    return uuidv4() as unknown as ValidOTP;
 }
 
 export async function checkPassword(

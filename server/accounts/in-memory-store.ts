@@ -16,8 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SessionModel, SessionQuery, UserModel, UserQuery, UserStore } from "./store";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
+import { SessionQuery, UserQuery, UserStore } from "./store";
+import { SessionModel, UserModel } from "./models";
 
 export interface InMemoryUserStoreOptions {
     readonly users?: UserModel[]
@@ -33,7 +34,7 @@ export class InMemoryUserStore implements UserStore {
     private readonly sessions: SessionModel[];
 
     async newUserID(): Promise<string> {
-        return uuid.v4();
+        return uuidv4();
     }
 
     async insertUser(user: UserModel): Promise<void> {
@@ -59,13 +60,13 @@ export class InMemoryUserStore implements UserStore {
     async getUser(query: UserQuery): Promise<UserModel | undefined> {
         const user = this.users.find(userQueryPredicate(query));
         if (user === undefined) {
-            throw new Error(`User for <${JSON.stringify(query)}> does not exist`);
+            return undefined;
         }
         return { ...user };
     }
 
     async newSessionID(): Promise<string> {
-        return uuid.v4();
+        return uuidv4();
     }
 
     async insertSession(session: SessionModel): Promise<void> {
@@ -82,7 +83,7 @@ export class InMemoryUserStore implements UserStore {
     
     async deleteSession(query: SessionQuery): Promise<void> {
         const toDelete = this.sessions.findIndex(sessionQueryPredicate(query));
-        if (toDelete === undefined) {
+        if (toDelete === -1) {
             throw new Error(`Session for <${JSON.stringify(query)}> does not exist`);
         }
         this.sessions.splice(toDelete, 1);
@@ -91,7 +92,7 @@ export class InMemoryUserStore implements UserStore {
     async getSession(query: SessionQuery): Promise<SessionModel | undefined> {
         const session = this.sessions.find(sessionQueryPredicate(query));
         if (session === undefined) {
-            throw new Error(`Session for <${JSON.stringify(query)}> does not exist`);
+            return undefined;
         }
         return { ...session };
     }

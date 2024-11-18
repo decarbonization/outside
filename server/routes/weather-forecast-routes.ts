@@ -41,7 +41,7 @@ async function getWeatherForecast(
     res: Response
 ): Promise<void> {
     if (req.userModel === undefined) {
-        res.redirect(linkTo({ where: "login" }));
+        res.redirect(linkTo({ where: "signIn" }));
         return;
     }
     const query = req.params.locality;

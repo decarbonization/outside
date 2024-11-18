@@ -21,25 +21,26 @@ import { linkTo } from "../routes/_links";
 import { Deps, DepsObject } from "../views/_deps";
 import { renderApp } from "./_app";
 
-export type LoginMessage =
+export type SignInMessage =
     | 'none'
-    | 'emailSent'
     | 'noSuchUser';
 
 export interface LoginOptions {
     readonly deps: DepsObject;
     readonly email?: string;
-    readonly message?: LoginMessage;
+    readonly message?: SignInMessage;
 }
 
-export function renderLogin({ deps, email, message }: LoginOptions): string {
+export function renderSignIn({ deps, email, message }: LoginOptions): string {
     return renderApp({ deps }, (
         <section className="login">
-            <p className="intro">{deps.i18n.t('session.intro')}</p>
-            <form method="post" action={linkTo({ where: "login" })}>
-                <label for="email">{deps.i18n.t('session.emailLabel')}</label>
+            <p className="intro">{deps.i18n.t('accounts.intro')}</p>
+            <form method="post" action={linkTo({ where: "signIn" })}>
+                <label for="email">{deps.i18n.t('accounts.emailLabel')}</label>
                 <input type="email" name="email" value={email} />
-                <button type="submit">{deps.i18n.t('session.submit')}</button>
+                <label for="password">{deps.i18n.t('accounts.passwordLabel')}</label>
+                <input type="password" name="password" value={email} />
+                <button type="submit">{deps.i18n.t('accounts.submit')}</button>
             </form>
             <Message what={message} />
         </section>
@@ -47,7 +48,7 @@ export function renderLogin({ deps, email, message }: LoginOptions): string {
 }
 
 interface MessageProps {
-    readonly what?: LoginMessage;
+    readonly what?: SignInMessage;
 }
 
 function Message({ what = 'none' }: MessageProps) {
@@ -55,13 +56,9 @@ function Message({ what = 'none' }: MessageProps) {
     switch (what) {
         case 'none':
             return null;
-        case 'emailSent':
-            return (
-                <p className="message">{i18n.t('session.emailSent')}</p>
-            );
         case 'noSuchUser':
             return (
-                <p className="message">{i18n.t('session.noSuchUser')}</p>
+                <p className="message">{i18n.t('accounts.noSuchUser')}</p>
             );
     }
 }

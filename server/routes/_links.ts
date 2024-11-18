@@ -27,9 +27,8 @@ export type WeatherTab =
 
 export type LinkDestination =
     | { where: "index", query?: string }
-    | { where: "login" }
-    | { where: "loginVerify", otp: string, returnTo?: string }
-    | { where: "logout", returnTo?: string }
+    | { where: "signIn" }
+    | { where: "signOut", returnTo?: string }
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
     | { where: "weather", tab: WeatherTab, countryCode: string, location: LocationCoordinates, query: string, ref?: string };
@@ -50,12 +49,10 @@ export function linkTo(destination: LinkDestination): string {
     switch (destination.where) {
         case "index":
             return linkToIndex(destination);
-        case "login":
-            return linkToLogin(destination);
-        case "loginVerify":
-            return linkToLoginVerify(destination);
-        case "logout":
-            return linkToLogout(destination);
+        case "signIn":
+            return linkToSignIn(destination);
+        case "signOut":
+            return linkToSignOut(destination);
         case "searchByQuery":
             return linkToSearchByQuery(destination);
         case "searchByCoordinates":
@@ -73,20 +70,12 @@ function linkToIndex({ query }: LinkDestinationTo<"index">): string {
     return link;
 }
 
-function linkToLogin({ }: LinkDestinationTo<"login">): string {
-    return "/login";
+function linkToSignIn({ }: LinkDestinationTo<"signIn">): string {
+    return "/sign-in";
 }
 
-function linkToLoginVerify({ otp, returnTo }: LinkDestinationTo<"loginVerify">): string {
-    let link = `/login/verify/${encodeURIComponent(otp)}`;
-    if (returnTo !== undefined) {
-        link += `?returnto=${encodeURIComponent(returnTo)}`
-    }
-    return link;
-}
-
-function linkToLogout({ returnTo }: LinkDestinationTo<"logout">): string {
-    let link = `/logout`;
+function linkToSignOut({ returnTo }: LinkDestinationTo<"signOut">): string {
+    let link = `/sign-out`;
     if (returnTo !== undefined) {
         link += `?returnto=${encodeURIComponent(returnTo)}`
     }

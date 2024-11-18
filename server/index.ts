@@ -34,9 +34,9 @@ import { InMemoryUserStore } from './accounts/in-memory-store';
 import { UserSystem } from './accounts/system';
 import { accountMiddleware } from './middlewares/account-middleware';
 import { ErrorMiddleware } from './middlewares/error-middleware';
+import { AccountRoutes } from './routes/account-routes';
 import { IndexRoutes } from './routes/index-routes';
 import { SearchRoutes } from './routes/search-routes';
-import { UserRoutes } from './routes/user-routes';
 import { WeatherAirRoutes } from './routes/weather-air-routes';
 import { WeatherAstronomyRoutes } from './routes/weather-astronomy-routes';
 import { WeatherForecastRoutes } from './routes/weather-forecast-routes';
@@ -102,7 +102,7 @@ app.use(session({
 app.use(accountMiddleware({ userSystem }));
 
 app.use(IndexRoutes({}));
-app.use(UserRoutes({ userSystem, mailer }))
+app.use(AccountRoutes({ userSystem, mailer }))
 app.use(SearchRoutes({ mapsToken }));
 app.use(WeatherForecastRoutes({ weatherToken }));
 app.use(WeatherAstronomyRoutes({ weatherToken }));
