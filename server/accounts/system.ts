@@ -21,10 +21,10 @@ import { isValidEmail } from "./email";
 import { UserSystemError } from "./errors";
 import { SessionModel, UserModel } from "./models";
 import { checkPassword, hashPassword, isValidOTP, isValidPassword, otp } from "./password";
-import { UserStore } from "./store";
+import { AccountStore } from "./store";
 
 export interface UserSystemOptions {
-    readonly store: UserStore;
+    readonly store: AccountStore;
     readonly salts: string[];
 }
 
@@ -37,7 +37,7 @@ export class UserSystem {
         this.salts = salts;
     }
     
-    private readonly store: UserStore;
+    private readonly store: AccountStore;
     private readonly salts: string[];
 
     private get primarySalt(): string {

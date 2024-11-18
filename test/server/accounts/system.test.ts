@@ -18,7 +18,7 @@
 
 import { describe, expect, it } from '@jest/globals';
 import { UserSystem } from '../../../server/accounts/system';
-import { InMemoryUserStore } from '../../../server/accounts/in-memory-store';
+import { InMemoryAccountStore } from '../../../server/accounts/in-memory-store';
 import { HashedPassword } from '../../../server/accounts/password';
 import { ValidEmail } from '../../../server/accounts/email';
 
@@ -149,7 +149,7 @@ describe("accounts#system module", () => {
 function makeUserSystem(): UserSystem {
     const now = new Date();
     return new UserSystem({
-        store: new InMemoryUserStore({
+        store: new InMemoryAccountStore({
             users: [
                 {
                     id: 'd8d7212e-eab8-4b82-96da-37430c326b21',

@@ -30,7 +30,7 @@ import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import { MailtrapClient } from "mailtrap";
 import path from "path";
-import { InMemoryUserStore } from './accounts/in-memory-store';
+import { InMemoryAccountStore } from './accounts/in-memory-store';
 import { UserSystem } from './accounts/system';
 import { accountMiddleware } from './middlewares/account-middleware';
 import { ErrorMiddleware } from './middlewares/error-middleware';
@@ -83,7 +83,7 @@ const gMapsApiKey = new GoogleMapsApiKey(
     env("GOOGLE_MAPS_API_KEY"),
 )
 const userSystem = new UserSystem({
-    store: new InMemoryUserStore(),
+    store: new InMemoryAccountStore(),
     salts: env("SALTS").split(","),
 });
 const mailer = new MailtrapClient({

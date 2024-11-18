@@ -23,9 +23,9 @@ import { mapIfNotUndefined } from "../utilities/maybe";
 import { ValidEmail } from "./email";
 import { SessionModel, UserModel } from "./models";
 import { HashedPassword, ValidOTP } from "./password";
-import { UserQuery, UserStore } from "./store";
+import { UserQuery, AccountStore } from "./store";
 
-export class DynamoStore implements UserStore {
+export class DynamoStore implements AccountStore {
     constructor(client: DynamoDBClient) {
         this.docClient = DynamoDBDocumentClient.from(client);
     }

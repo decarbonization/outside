@@ -17,15 +17,15 @@
  */
 
 import { v4 as uuidv4 } from "uuid";
-import { UserQuery, UserStore } from "./store";
+import { UserQuery, AccountStore } from "./store";
 import { SessionModel, UserModel } from "./models";
 
-export interface InMemoryUserStoreOptions {
+export interface InMemoryAccountStoreOptions {
     readonly users?: UserModel[]
 }
 
-export class InMemoryUserStore implements UserStore {
-    constructor({ users = [] }: InMemoryUserStoreOptions = {}) {
+export class InMemoryAccountStore implements AccountStore {
+    constructor({ users = [] }: InMemoryAccountStoreOptions = {}) {
         this.users = users;
         this.sessions = [];
     }

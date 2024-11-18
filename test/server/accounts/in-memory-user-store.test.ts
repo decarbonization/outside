@@ -19,14 +19,14 @@
 import { describe, expect, it } from '@jest/globals';
 import { addMinutes } from 'date-fns';
 import { ValidEmail } from '../../../server/accounts/email';
-import { InMemoryUserStore } from '../../../server/accounts/in-memory-store';
+import { InMemoryAccountStore } from '../../../server/accounts/in-memory-store';
 import { SessionModel, UserModel } from '../../../server/accounts/models';
 import { HashedPassword, otp } from '../../../server/accounts/password';
 
 describe("accounts#in-memory-user-store module", () => {
-    describe("#InMemoryUserStore", () => {
+    describe("#InMemoryAccountStore", () => {
         it("should implement user lifecycle", async () => {
-            const subject = new InMemoryUserStore();
+            const subject = new InMemoryAccountStore();
 
             const id = await subject.newUserID();
             const createdAt = new Date();
@@ -60,7 +60,7 @@ describe("accounts#in-memory-user-store module", () => {
         });
 
         it("should implement session lifecycle", async () => {
-            const subject = new InMemoryUserStore();
+            const subject = new InMemoryAccountStore();
 
             const id = await subject.newSessionID();
             const createdAt = new Date();

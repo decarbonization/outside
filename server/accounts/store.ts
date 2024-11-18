@@ -23,7 +23,7 @@ export type UserQuery =
     | { by: 'id', id: string }
     | { by: 'email', email: ValidEmail };
 
-export interface UserStore {
+export interface AccountStore {
     newUserID(): Promise<string>;
     insertUser(user: UserModel): Promise<void>;
     updateUser(user: UserModel): Promise<void>;
