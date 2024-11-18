@@ -25,7 +25,7 @@ import { SessionModel, UserModel } from "./models";
 import { HashedPassword, ValidOTP } from "./password";
 import { UserQuery, AccountStore } from "./store";
 
-export class DynamoStore implements AccountStore {
+export class DynamoDBAccountStore implements AccountStore {
     constructor(client: DynamoDBClient) {
         this.docClient = DynamoDBDocumentClient.from(client);
     }
