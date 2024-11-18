@@ -32,7 +32,7 @@ async function getSearchByQuery(
     req: Request,
     res: Response
 ): Promise<void> {
-    if (req.uid === undefined) {
+    if (req.userModel === undefined) {
         res.redirect(linkTo({ where: "login" }));
         return;
     }
@@ -70,7 +70,7 @@ async function getSearchByCoordinates(
     req: Request<{ latitude: string, longitude: string }>,
     res: Response
 ): Promise<void> {
-    if (req.uid === undefined) {
+    if (req.userModel === undefined) {
         res.redirect(linkTo({ where: "login" }));
         return;
     }

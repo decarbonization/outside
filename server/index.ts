@@ -28,19 +28,20 @@ import { createHttpTerminator } from 'http-terminator';
 import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
+import { MailtrapClient } from "mailtrap";
 import path from "path";
-import { defaultUserObjects } from './accounts/backends/default';
+import { InMemoryUserStore } from './accounts/in-memory-store';
+import { UserSystem } from './accounts/system';
 import { accountMiddleware } from './middlewares/account-middleware';
 import { ErrorMiddleware } from './middlewares/error-middleware';
 import { IndexRoutes } from './routes/index-routes';
-import { LoginRoutes } from './routes/login-routes';
 import { SearchRoutes } from './routes/search-routes';
+import { UserRoutes } from './routes/user-routes';
 import { WeatherAirRoutes } from './routes/weather-air-routes';
 import { WeatherAstronomyRoutes } from './routes/weather-astronomy-routes';
 import { WeatherForecastRoutes } from './routes/weather-forecast-routes';
 import { env } from './utilities/env';
 import { setUpShutDownHooks } from './utilities/shut-down';
-import { MailtrapClient } from "mailtrap";
 
 dotenv.config();
 
@@ -81,7 +82,10 @@ const weatherToken = new WeatherToken(
 const gMapsApiKey = new GoogleMapsApiKey(
     env("GOOGLE_MAPS_API_KEY"),
 )
-const [users, sessions, preferences] = defaultUserObjects();
+const userSystem = new UserSystem({
+    store: new InMemoryUserStore(),
+    salts: env("SALTS").split(","),
+});
 const mailer = new MailtrapClient({
     token: env("MAILTRAP_API_KEY"),
 });
@@ -95,10 +99,10 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }));
-app.use(accountMiddleware({ sessions, preferences }));
+app.use(accountMiddleware({ userSystem }));
 
 app.use(IndexRoutes({}));
-app.use(LoginRoutes({ users, sessions, mailer }))
+app.use(UserRoutes({ userSystem, mailer }))
 app.use(SearchRoutes({ mapsToken }));
 app.use(WeatherForecastRoutes({ weatherToken }));
 app.use(WeatherAstronomyRoutes({ weatherToken }));

@@ -38,7 +38,8 @@
     "mailtrap": "^3.4.0",
     "preact": "^10.20.2",
     "preact-render-to-string": "^6.4.2",
-    "serene-front": "0.2.1"
+    "serene-front": "0.2.1",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

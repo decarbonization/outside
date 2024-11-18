@@ -68,12 +68,11 @@ export interface MakeDepsOptions {
  * Create a dependencies object for a view template.
  */
 export async function makeDeps({ req, location }: MakeDepsOptions): Promise<DepsObject> {
-    const { themeName, timeZone } = await req.prefs.get("themeName", "timeZone");
     return {
         i18n: req.i18n,
-        isUserLoggedIn: (req.uid !== undefined),
-        theme: await loadTheme(themeName),
-        timeZone: timeZone ?? mapIfNotUndefined(location, timezoneFor) ?? "UTC",
+        isUserLoggedIn: (req.sessionModel !== undefined),
+        theme: await loadTheme(),
+        timeZone: mapIfNotUndefined(location, timezoneFor) ?? "UTC",
     };
 }
 

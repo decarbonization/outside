@@ -36,7 +36,7 @@ async function getWeatherAstronomy(
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
-    if (req.uid === undefined) {
+    if (req.userModel === undefined) {
         res.redirect(linkTo({ where: "login" }));
         return;
     }
