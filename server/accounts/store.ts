@@ -19,10 +19,6 @@
 import { ValidEmail } from "./email";
 import { SessionModel, UserModel } from "./models";
 
-export type SessionQuery =
-    | { by: 'id', id: string }
-    | { by: 'userID', userID: string };
-
 export type UserQuery = 
     | { by: 'id', id: string }
     | { by: 'email', email: ValidEmail };
@@ -37,6 +33,6 @@ export interface UserStore {
     newSessionID(): Promise<string>;
     insertSession(session: SessionModel): Promise<void>;
     updateSession(session: SessionModel): Promise<void>;
-    deleteSession(query: SessionQuery): Promise<void>;
-    getSession(query: SessionQuery): Promise<SessionModel | undefined>;
+    deleteSession(sessionID: string): Promise<void>;
+    getSession(sessionID: string): Promise<SessionModel | undefined>;
 }

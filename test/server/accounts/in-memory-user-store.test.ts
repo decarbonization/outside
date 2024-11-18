@@ -72,8 +72,7 @@ describe("accounts#in-memory-user-store module", () => {
             };
             await subject.insertSession(referenceSession);
 
-            expect(await subject.getSession({ by: "id", id })).toStrictEqual(referenceSession);
-            expect(await subject.getSession({ by: "userID", userID })).toStrictEqual(referenceSession);
+            expect(await subject.getSession(id)).toStrictEqual(referenceSession);
 
             const updatedSession = {
                 ...referenceSession,
@@ -82,13 +81,11 @@ describe("accounts#in-memory-user-store module", () => {
             };
             await subject.updateSession(updatedSession);
 
-            expect(await subject.getSession({ by: "id", id })).toStrictEqual(updatedSession);
-            expect(await subject.getSession({ by: "userID", userID })).toStrictEqual(updatedSession);
+            expect(await subject.getSession(id)).toStrictEqual(updatedSession);
 
-            await subject.deleteSession({ by: "id", id });
+            await subject.deleteSession(id);
 
-            expect(await subject.getSession({ by: "id", id })).toBeUndefined();
-            expect(await subject.getSession({ by: "userID", userID })).toBeUndefined();
+            expect(await subject.getSession(id)).toBeUndefined();
         });
     });
 });

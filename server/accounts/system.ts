@@ -108,7 +108,7 @@ export class UserSystem {
     }
 
     async signOut(sessionID: string): Promise<void> {
-        await this.store.deleteSession({ by: "id", id: sessionID });
+        await this.store.deleteSession(sessionID);
     }
 
     async verifyEmail(sessionID: string, email: string, otp: string): Promise<void> {
@@ -119,7 +119,7 @@ export class UserSystem {
             throw new UserSystemError('invalidPassword', `Invalid OTP`);
         }
 
-        const session = await this.store.getSession({ by: 'id', id: sessionID });
+        const session = await this.store.getSession(sessionID);
         if (session === undefined) {
             throw new UserSystemError('unknownSession', "Invalid session");
         }
@@ -135,7 +135,7 @@ export class UserSystem {
 
         const user = await this.store.getUser({ by: 'email', email });
         if (user === undefined) {
-            await this.store.deleteSession({ by: 'id', id: sessionID });
+            await this.store.deleteSession(sessionID);
             throw new UserSystemError('unknownUser', "No user");
         }
         await this.store.updateUser({ ...user, isVerified: true });
@@ -148,14 +148,14 @@ export class UserSystem {
             return [undefined, undefined];
         }
 
-        const session = await this.store.getSession({ by: 'id', id: sessionID });
+        const session = await this.store.getSession(sessionID);
         if (session === undefined) {
             return [undefined, undefined];
         }
         
         const user = await this.store.getUser({ by: 'id', id: session.userID });
         if (user === undefined) {
-            await this.store.deleteSession({ by: 'id', id: sessionID });
+            await this.store.deleteSession(sessionID);
             return [undefined, undefined];
         }
         

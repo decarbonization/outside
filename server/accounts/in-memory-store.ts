@@ -17,7 +17,7 @@
  */
 
 import { v4 as uuidv4 } from "uuid";
-import { SessionQuery, UserQuery, UserStore } from "./store";
+import { UserQuery, UserStore } from "./store";
 import { SessionModel, UserModel } from "./models";
 
 export interface InMemoryUserStoreOptions {
@@ -81,16 +81,16 @@ export class InMemoryUserStore implements UserStore {
         this.sessions[toUpdate] = { ...session };
     }
     
-    async deleteSession(query: SessionQuery): Promise<void> {
-        const toDelete = this.sessions.findIndex(sessionQueryPredicate(query));
+    async deleteSession(sessionID: string): Promise<void> {
+        const toDelete = this.sessions.findIndex(session => session.id === sessionID);
         if (toDelete === -1) {
-            throw new Error(`Session for <${JSON.stringify(query)}> does not exist`);
+            throw new Error(`Session <${sessionID}> does not exist`);
         }
         this.sessions.splice(toDelete, 1);
     }
 
-    async getSession(query: SessionQuery): Promise<SessionModel | undefined> {
-        const session = this.sessions.find(sessionQueryPredicate(query));
+    async getSession(sessionID: string): Promise<SessionModel | undefined> {
+        const session = this.sessions.find(session => session.id === sessionID);
         if (session === undefined) {
             return undefined;
         }
@@ -104,14 +104,5 @@ function userQueryPredicate(query: UserQuery): (user: UserModel) => boolean {
             return user => user.id === query.id;
         case 'email':
             return user => user.email === query.email;
-    }
-}
-
-function sessionQueryPredicate(query: SessionQuery): (session: SessionModel) => boolean {
-    switch (query.by) {
-        case 'id':
-            return session => session.id === query.id;
-        case 'userID':
-            return session => session.userID === query.userID;
     }
 }
