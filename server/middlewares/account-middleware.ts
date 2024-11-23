@@ -17,21 +17,21 @@
  */
 
 import { RequestHandler } from 'express';
+import { Account } from '../accounts/account';
 import { UserSystem } from '../accounts/system';
-import { SessionModel, UserModel } from '../accounts/models';
+import { SessionID } from '../accounts/models';
 
 declare global {
     namespace Express {
         interface Request {
-            sessionModel?: SessionModel;
-            userModel?: UserModel;
+            userAccount?: Account;
         }
     }
 }
 
 declare module 'express-session' {
     interface SessionData {
-        sid?: string;
+        sid?: SessionID;
     }
 }
 
@@ -41,9 +41,7 @@ export interface AccountMiddlewareOptions {
 
 export function accountMiddleware({ userSystem }: AccountMiddlewareOptions): RequestHandler {
     return async (req, _res, next): Promise<void> => {
-        const [session, user] = await userSystem.getSessionAndUser(req.session.sid);
-        req.sessionModel = session;
-        req.userModel = user;
+        req.userAccount = await userSystem.getAccount(req.session.sid);
         next();
     };
 }

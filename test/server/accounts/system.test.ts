@@ -21,27 +21,28 @@ import { ValidEmail } from '../../../server/accounts/email';
 import { InMemoryAccountStore } from '../../../server/accounts/in-memory-store';
 import { HashedPassword } from '../../../server/accounts/password';
 import { UserSystem } from '../../../server/accounts/system';
+import { AccountStore } from '../../../server/accounts/store';
 
 describe("accounts#system module", () => {
     describe("#UserSystem", () => {
         describe("#signUp", () => {
             it("should require a valid email", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.signUp("me", "R3@ch0ut")).rejects.toThrowError();
             });
 
             it("should require a valid password", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.signUp("joan@real.com", "password")).rejects.toThrowError();
             });
 
             it("should require the user not already exist", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.signUp("john@real.com", "R3@ch0ut")).rejects.toThrowError();
             });
 
             it("should accept valid new credentials", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 const session = await subject.signUp("joan@real.com", "R3@ch0ut");
                 expect(session.token).not.toBeUndefined();
                 expect(session.tokenExpiresAt).not.toBeUndefined();
@@ -50,34 +51,34 @@ describe("accounts#system module", () => {
 
         describe("#signIn", () => {
             it("should require a valid email", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.signIn("me", "R3@ch0ut")).rejects.toThrowError();
             });
 
             it("should require a valid password", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.signIn("joan@real.com", "password")).rejects.toThrowError();
             });
 
             it("should require the user to exist", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.signIn("joan@real.com", "R3@ch0ut")).rejects.toThrowError();
             });
 
             it("should require the password to be correct", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.signIn("john@real.com", "N0tR3@l!")).rejects.toThrowError();
             });
 
             it("should return a new session with valid credentials", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 const session = await subject.signIn("john@real.com", "R3@ch0ut");
                 expect(session.token).toBeUndefined();
                 expect(session.tokenExpiresAt).toBeUndefined();
             });
 
             it("should generate token for unverified user", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 const session = await subject.signIn("guy@real.com", "R3@ch0ut");
                 expect(session.token).not.toBeUndefined();
                 expect(session.tokenExpiresAt).not.toBeUndefined();
@@ -86,24 +87,24 @@ describe("accounts#system module", () => {
 
         describe("#signOut", () => {
             it("should require the session to exist", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.signOut("not at all real")).rejects.toThrowError();
             });
         });
 
         describe("#verifyEmail", () => {
             it("should require a valid email", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.verifyEmail("ignored", "real.com", "6CE70EE1-15C8-44FD-B163-F7AD5F9058D8")).rejects.toThrowError();
             });
 
             it("should require a valid password", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.verifyEmail("ignored", "guy@real.com", "F7AD5F9058D8")).rejects.toThrowError();
             });
 
             it("should require session to exist", async () => {
-                const subject = makeUserSystem();
+                const [_, subject] = makeUserSystem();
                 await expect(subject.verifyEmail("41A8774B-496E-4FF7-8A9F-AB09AD3407B1", "guy@real.com", "6CE70EE1-15C8-44FD-B163-F7AD5F9058D8")).rejects.toThrowError();
             });
 
@@ -127,17 +128,19 @@ describe("accounts#system module", () => {
             });
 
             it("should update the user and the session", async () => {
-                const subject = makeUserSystem();
+                const [store, subject] = makeUserSystem();
                 const session = await subject.signUp("lady@real.com", "V1r@l1ty");
 
-                const [beforeSession, beforeUser] = await subject.getSessionAndUser(session.id);
+                const beforeSession = await store.getSession(session.id);
+                const beforeUser = await store.getUser({ by: "id", id: session.userID });
                 expect(beforeSession?.token).not.toBeUndefined();
                 expect(beforeSession?.tokenExpiresAt).not.toBeUndefined();
                 expect(beforeUser?.isVerified).toStrictEqual(false);
 
                 await subject.verifyEmail(session.id, "lady@real.com", session.token!);
 
-                const [afterSession, afterUser] = await subject.getSessionAndUser(session.id);
+                const afterSession = await store.getSession(session.id);
+                const afterUser = await store.getUser({ by: "id", id: session.userID });
                 expect(afterSession?.token).toBeUndefined();
                 expect(afterSession?.tokenExpiresAt).toBeUndefined();
                 expect(afterUser?.isVerified).toStrictEqual(true);
@@ -146,29 +149,31 @@ describe("accounts#system module", () => {
     });
 });
 
-function makeUserSystem(): UserSystem {
+function makeUserSystem(): [AccountStore, UserSystem] {
     const now = new Date();
-    return new UserSystem({
-        store: new InMemoryAccountStore({
-            users: [
-                {
-                    id: 'd8d7212e-eab8-4b82-96da-37430c326b21',
-                    createdAt: now,
-                    email: "john@real.com" as ValidEmail,
-                    password: "0b3ab4ede2053eed011ce31a16646f1c8c2e7c8c2c392cca4e2dbe14751aa442f26366301c5e3df4794cc75e7e095a4681137177be033ebf876c46d6b3a51ecf" as HashedPassword,
-                    lastModified: now,
-                    isVerified: true,
-                },
-                {
-                    id: 'd8d7212e-eab8-4b82-96da-37430c326b21',
-                    createdAt: now,
-                    email: "guy@real.com" as ValidEmail,
-                    password: "0b3ab4ede2053eed011ce31a16646f1c8c2e7c8c2c392cca4e2dbe14751aa442f26366301c5e3df4794cc75e7e095a4681137177be033ebf876c46d6b3a51ecf" as HashedPassword,
-                    lastModified: now,
-                    isVerified: false,
-                },
-            ],
-        }),
-        salts: ["Halo Gone Over Left"],
+    const store = new InMemoryAccountStore({
+        users: [
+            {
+                id: 'd8d7212e-eab8-4b82-96da-37430c326b21',
+                createdAt: now,
+                email: "john@real.com" as ValidEmail,
+                password: "0b3ab4ede2053eed011ce31a16646f1c8c2e7c8c2c392cca4e2dbe14751aa442f26366301c5e3df4794cc75e7e095a4681137177be033ebf876c46d6b3a51ecf" as HashedPassword,
+                lastModified: now,
+                isVerified: true,
+            },
+            {
+                id: 'd8d7212e-eab8-4b82-96da-37430c326b21',
+                createdAt: now,
+                email: "guy@real.com" as ValidEmail,
+                password: "0b3ab4ede2053eed011ce31a16646f1c8c2e7c8c2c392cca4e2dbe14751aa442f26366301c5e3df4794cc75e7e095a4681137177be033ebf876c46d6b3a51ecf" as HashedPassword,
+                lastModified: now,
+                isVerified: false,
+            },
+        ],
     });
+    const salts = [
+        "Halo Gone Over Left",
+    ]
+    const system = new UserSystem({ store, salts });
+    return [store, system];
 }

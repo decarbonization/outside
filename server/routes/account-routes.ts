@@ -74,11 +74,11 @@ async function getSignOut(
     req: Request,
     res: Response
 ): Promise<void> {
-    const session = req.sessionModel;
-    if (session !== undefined) {
-        await userSystem.signOut(session.id);
+    const account = req.userAccount;
+    if (account !== undefined) {
+        await userSystem.signOut(account.sessionID);
         req.session.sid = undefined;
-        console.info(`Ended session <${session}>`);
+        console.info(`Ended session <${account.sessionID}>`);
     }
     const returnTo = proveString(req.query["returnto"]);
     if (returnTo !== undefined) {

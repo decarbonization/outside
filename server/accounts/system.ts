@@ -22,6 +22,7 @@ import { UserSystemError } from "./errors";
 import { SessionID, SessionModel, UserModel } from "./models";
 import { checkPassword, hashPassword, isValidToken, isValidPassword, token } from "./password";
 import { AccountStore } from "./store";
+import { Account } from "./account";
 
 export interface UserSystemOptions {
     readonly store: AccountStore;
@@ -143,22 +144,20 @@ export class UserSystem {
         await this.store.updateSession({ ...session, token: undefined, tokenExpiresAt: undefined });
     }
 
-    async getSessionAndUser(sessionID: SessionID | undefined): Promise<[SessionModel | undefined, UserModel | undefined]> {
+    async getAccount(sessionID: SessionID | undefined): Promise<Account | undefined> {
         if (sessionID === undefined) {
-            return [undefined, undefined];
+            return undefined;
         }
-
         const session = await this.store.getSession(sessionID);
         if (session === undefined) {
-            return [undefined, undefined];
+            return undefined;
         }
-        
         const user = await this.store.getUser({ by: 'id', id: session.userID });
         if (user === undefined) {
-            await this.store.deleteSession(sessionID);
-            return [undefined, undefined];
+            console.warn(`No user associated with session <${session.id}>, destroying session`);
+            await this.store.deleteSession(session.id);
+            return undefined;
         }
-        
-        return [session, user];
+        return new Account(session, user);
     }
 }

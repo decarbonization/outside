@@ -70,7 +70,7 @@ export interface MakeDepsOptions {
 export async function makeDeps({ req, location }: MakeDepsOptions): Promise<DepsObject> {
     return {
         i18n: req.i18n,
-        isUserLoggedIn: (req.sessionModel !== undefined),
+        isUserLoggedIn: (req.userAccount !== undefined),
         theme: await loadTheme(),
         timeZone: mapIfNotUndefined(location, timezoneFor) ?? "UTC",
     };

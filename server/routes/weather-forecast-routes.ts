@@ -40,7 +40,7 @@ async function getWeatherForecast(
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
-    if (req.userModel === undefined) {
+    if (req.userAccount === undefined) {
         res.redirect(linkTo({ where: "signIn" }));
         return;
     }
