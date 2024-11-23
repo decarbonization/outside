@@ -38,7 +38,7 @@ export function App({ className, searchQuery, searchDisabled, children }: AppPro
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <link rel="stylesheet" href="/styles/defaults.css" />
                 {theme.links.map(({ rel, href, crossorigin = false }) => (
-                    <link rel={rel} href={href} crossorigin={crossorigin ? "" : undefined} />
+                    <link rel={rel} href={href} crossorigin={crossorigin ? "anonymous" : undefined} />
                 ))}
                 <link rel="manifest" href="/app.webmanifest" crossorigin="use-credentials" />
                 <title>

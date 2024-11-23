@@ -17,7 +17,7 @@
  */
 
 import { differenceInMinutes } from "date-fns";
-import { ForecastPeriodSummary, NextHourForecast, PrecipitationType } from "fruit-company/weather";
+import { ForecastPeriodSummary, NextHourForecast } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { useContext } from "preact/hooks";
 import { chanceFragment, precipitationIntensityFragment, precipitationTypeFragment } from "../../formatting/fragments";
@@ -48,7 +48,7 @@ export function NextHourForecast({ forecast }: NextHourForecastProps) {
 }
 
 function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string | undefined {
-    const stormyPeriods = summary.filter(p => p.condition !== PrecipitationType.clear);
+    const stormyPeriods = summary.filter(p => p.condition !== 'clear');
     if (stormyPeriods.length === 0) {
         return undefined;
     }

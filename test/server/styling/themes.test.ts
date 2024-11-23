@@ -17,7 +17,6 @@
  */
 
 import { describe, expect, it } from '@jest/globals';
-import { WeatherCondition } from 'fruit-company/weather';
 import { Theme, themeIcon } from '../../../server/styling/themes';
 
 describe("themes module", () => {
@@ -32,10 +31,10 @@ describe("themes module", () => {
             const subject = {
                 ...emptyTheme,
                 icons: {
-                    [WeatherCondition.clear]: "clear",
+                    ['Clear']: "clear",
                 },
             };
-            expect(themeIcon(subject, { name: WeatherCondition.clear })).toStrictEqual("clear");
+            expect(themeIcon(subject, { name: 'Clear' })).toStrictEqual("clear");
         });
 
         it("should include base on simple icons", () => {
@@ -43,40 +42,40 @@ describe("themes module", () => {
                 ...emptyTheme,
                 icons: {
                     "base": "icons",
-                    [WeatherCondition.clear]: "clear",
+                    ['Clear']: "clear",
                 },
             };
-            expect(themeIcon(subject, { name: WeatherCondition.clear })).toStrictEqual("icons clear");
+            expect(themeIcon(subject, { name: 'Clear' })).toStrictEqual("icons clear");
         });
 
         it("should default to day icons", () => {
             const subject = {
                 ...emptyTheme,
                 icons: {
-                    [WeatherCondition.clear]: { day: "sunny", night: "clear" },
+                    ['Clear']: { day: "sunny", night: "clear" },
                 },
             };
-            expect(themeIcon(subject, { name: WeatherCondition.clear })).toStrictEqual("sunny");
+            expect(themeIcon(subject, { name: 'Clear' })).toStrictEqual("sunny");
         });
 
         it("should return day icons", () => {
             const subject = {
                 ...emptyTheme,
                 icons: {
-                    [WeatherCondition.clear]: { day: "sunny", night: "clear" },
+                    ['Clear']: { day: "sunny", night: "clear" },
                 },
             };
-            expect(themeIcon(subject, { name: WeatherCondition.clear, daylight: true })).toStrictEqual("sunny");
+            expect(themeIcon(subject, { name: 'Clear', daylight: true })).toStrictEqual("sunny");
         });
 
         it("should return night icons", () => {
             const subject = {
                 ...emptyTheme,
                 icons: {
-                    [WeatherCondition.clear]: { day: "sunny", night: "clear" },
+                    ['Clear']: { day: "sunny", night: "clear" },
                 },
             };
-            expect(themeIcon(subject, { name: WeatherCondition.clear, daylight: false })).toStrictEqual("clear");
+            expect(themeIcon(subject, { name: 'Clear', daylight: false })).toStrictEqual("clear");
         });
 
         it("should include base on day icons", () => {
@@ -84,10 +83,10 @@ describe("themes module", () => {
                 ...emptyTheme,
                 icons: {
                     "base": "icons",
-                    [WeatherCondition.clear]: { day: "sunny", night: "clear" },
+                    ['Clear']: { day: "sunny", night: "clear" },
                 },
             };
-            expect(themeIcon(subject, { name: WeatherCondition.clear, daylight: true })).toStrictEqual("icons sunny");
+            expect(themeIcon(subject, { name: 'Clear', daylight: true })).toStrictEqual("icons sunny");
         });
 
         it("should include base on night icons", () => {
@@ -95,10 +94,10 @@ describe("themes module", () => {
                 ...emptyTheme,
                 icons: {
                     "base": "icons",
-                    [WeatherCondition.clear]: { day: "sunny", night: "clear" },
+                    ['Clear']: { day: "sunny", night: "clear" },
                 },
             };
-            expect(themeIcon(subject, { name: WeatherCondition.clear, daylight: false })).toStrictEqual("icons clear");
+            expect(themeIcon(subject, { name: 'Clear', daylight: false })).toStrictEqual("icons clear");
         });
     });
 });

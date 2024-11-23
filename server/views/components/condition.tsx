@@ -32,6 +32,6 @@ export interface ConditionProps {
 export function Condition({ className, code, daylight = true }: ConditionProps) {
     const { i18n, theme } = useContext(Deps);
     return (
-        <span className={classNames("icon", className, themeIcon(theme, { name: code, daylight }))} alt={weatherConditionFragment(code, { i18n })} />
+        <span className={classNames("icon", className, themeIcon(theme, { name: code, daylight }))} aria-label={weatherConditionFragment(code, { i18n })} />
     );
 }

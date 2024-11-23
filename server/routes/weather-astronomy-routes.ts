@@ -18,7 +18,7 @@
 
 import { addDays } from "date-fns";
 import { Request, Response, Router } from "express";
-import { WeatherDataSet, WeatherQuery, WeatherToken } from "fruit-company/weather";
+import { WeatherQuery, WeatherToken } from "fruit-company/weather";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { renderWeatherAstronomy } from "../templates/weather-astronomy";
@@ -58,7 +58,7 @@ async function getWeatherAstronomy(
         currentAsOf,
         dailyEnd: addDays(currentAsOf, 1),
         dailyStart: currentAsOf,
-        dataSets: [WeatherDataSet.currentWeather, WeatherDataSet.forecastDaily],
+        dataSets: ['currentWeather', 'forecastDaily'],
     });
     console.info(`GET /weather/.../astronomy fulfill(${weatherQuery})`);
     const weather = await fulfill({
