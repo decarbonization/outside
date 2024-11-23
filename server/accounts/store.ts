@@ -17,22 +17,26 @@
  */
 
 import { ValidEmail } from "./email";
-import { SessionModel, UserModel } from "./models";
+import { SessionModel, UserModel, SettingModel, SessionID, UserID, SettingName } from "./models";
 
 export type UserQuery = 
     | { by: 'id', id: string }
     | { by: 'email', email: ValidEmail };
 
 export interface AccountStore {
-    newUserID(): Promise<string>;
+    newUserID(): Promise<UserID>;
     insertUser(user: UserModel): Promise<void>;
     updateUser(user: UserModel): Promise<void>;
     deleteUser(user: UserModel): Promise<void>;
     getUser(query: UserQuery): Promise<UserModel | undefined>;
 
-    newSessionID(): Promise<string>;
+    newSessionID(): Promise<SessionID>;
     insertSession(session: SessionModel): Promise<void>;
     updateSession(session: SessionModel): Promise<void>;
-    deleteSession(sessionID: string): Promise<void>;
-    getSession(sessionID: string): Promise<SessionModel | undefined>;
+    deleteSession(sessionID: SessionID): Promise<void>;
+    getSession(sessionID: SessionID): Promise<SessionModel | undefined>;
+
+    putSettings(settings: SettingModel[]): Promise<void>;
+    deleteSettings(userID: UserID, names: SettingName[]): Promise<Set<SettingName>>;
+    getSettings(userID: UserID, names: SettingName[]): Promise<SettingModel[]>;
 }

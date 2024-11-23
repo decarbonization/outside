@@ -87,5 +87,36 @@ describe("accounts#in-memory-user-store module", () => {
 
             expect(await subject.getSession(id)).toBeUndefined();
         });
+
+        it("should implement setting lifecycle", async () => {
+            const subject = new InMemoryAccountStore();
+            const userID = await subject.newUserID();
+
+            expect(await subject.getSettings(userID, ['units', 'tz'])).toStrictEqual([]);
+
+            await subject.putSettings([
+                { userID, name: 'units', value: 'm' },
+            ]);
+
+            expect(await subject.getSettings(userID, ['units', 'tz'])).toStrictEqual([
+                { userID, name: 'units', value: 'm' },
+            ]);
+
+            await subject.putSettings([
+                { userID, name: 'units', value: 'us' },
+                { userID, name: 'tz', value: 'UTC' },
+            ]);
+
+            expect(await subject.getSettings(userID, ['units', 'tz'])).toStrictEqual([
+                { userID, name: 'units', value: 'us' },
+                { userID, name: 'tz', value: 'UTC' },
+            ]);
+
+            expect([...await subject.deleteSettings(userID, ['units'])]).toStrictEqual(['units']);
+
+            expect(await subject.getSettings(userID, ['units', 'tz'])).toStrictEqual([
+                { userID, name: 'tz', value: 'UTC' },
+            ]);
+        });
     });
 });

@@ -19,7 +19,7 @@
 import { addMinutes } from "date-fns";
 import { isValidEmail } from "./email";
 import { UserSystemError } from "./errors";
-import { SessionModel, UserModel } from "./models";
+import { SessionID, SessionModel, UserModel } from "./models";
 import { checkPassword, hashPassword, isValidOTP, isValidPassword, otp } from "./password";
 import { AccountStore } from "./store";
 
@@ -107,11 +107,11 @@ export class UserSystem {
         return newSession;
     }
 
-    async signOut(sessionID: string): Promise<void> {
+    async signOut(sessionID: SessionID): Promise<void> {
         await this.store.deleteSession(sessionID);
     }
 
-    async verifyEmail(sessionID: string, email: string, otp: string): Promise<void> {
+    async verifyEmail(sessionID: SessionID, email: string, otp: string): Promise<void> {
         if (!isValidEmail(email)) {
             throw new UserSystemError('invalidEmail', "Invalid email");
         }
@@ -143,7 +143,7 @@ export class UserSystem {
         await this.store.updateSession({ ...session, otp: undefined, otpExpiresAt: undefined });
     }
 
-    async getSessionAndUser(sessionID: string | undefined): Promise<[SessionModel | undefined, UserModel | undefined]> {
+    async getSessionAndUser(sessionID: SessionID | undefined): Promise<[SessionModel | undefined, UserModel | undefined]> {
         if (sessionID === undefined) {
             return [undefined, undefined];
         }

@@ -19,19 +19,33 @@
 import { ValidEmail } from "./email";
 import { HashedPassword, ValidOTP } from "./password";
 
+export type UserID = string;
+
+export interface UserModel {
+    readonly id: UserID;
+    readonly createdAt: Date;
+    readonly email: ValidEmail;
+    readonly password: HashedPassword;
+    readonly lastModified: Date;
+    readonly isVerified: boolean;
+}
+
+export type SessionID = string;
+
 export interface SessionModel {
-    readonly id: string;
+    readonly id: SessionID;
     readonly createdAt: Date;
     readonly userID: string;
     readonly otp?: ValidOTP;
     readonly otpExpiresAt?: Date;
 }
 
-export interface UserModel {
-    readonly id: string;
-    readonly createdAt: Date;
-    readonly email: ValidEmail;
-    readonly password: HashedPassword;
-    readonly lastModified: Date;
-    readonly isVerified: boolean;
+export type SettingName =
+    | 'units'
+    | 'tz'
+
+export interface SettingModel {
+    readonly userID: UserID;
+    readonly name: SettingName;
+    readonly value: string;
 }

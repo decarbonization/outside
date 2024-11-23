@@ -17,8 +17,8 @@
  */
 
 import { v4 as uuidv4 } from "uuid";
-import { UserQuery, AccountStore } from "./store";
-import { SessionModel, UserModel } from "./models";
+import { SessionID, SessionModel, SettingModel, SettingName, UserID, UserModel } from "./models";
+import { AccountStore, UserQuery } from "./store";
 
 export interface InMemoryAccountStoreOptions {
     readonly users?: UserModel[]
@@ -28,19 +28,21 @@ export class InMemoryAccountStore implements AccountStore {
     constructor({ users = [] }: InMemoryAccountStoreOptions = {}) {
         this.users = users;
         this.sessions = [];
+        this.settings = new Map();
     }
 
     private readonly users: UserModel[];
     private readonly sessions: SessionModel[];
+    private readonly settings: Map<UserID, Map<SettingName, string>>;
 
-    async newUserID(): Promise<string> {
+    async newUserID(): Promise<UserID> {
         return uuidv4();
     }
 
     async insertUser(user: UserModel): Promise<void> {
         this.users.push({ ...user });
     }
-    
+
     async updateUser(user: UserModel): Promise<void> {
         const toUpdate = this.users.findIndex(c => c.id === user.id);
         if (toUpdate === -1) {
@@ -48,7 +50,7 @@ export class InMemoryAccountStore implements AccountStore {
         }
         this.users[toUpdate] = { ...user };
     }
-    
+
     async deleteUser(user: UserModel): Promise<void> {
         const toUpdate = this.users.findIndex(c => c.id === user.id);
         if (toUpdate === -1) {
@@ -65,14 +67,14 @@ export class InMemoryAccountStore implements AccountStore {
         return { ...user };
     }
 
-    async newSessionID(): Promise<string> {
+    async newSessionID(): Promise<SessionID> {
         return uuidv4();
     }
 
     async insertSession(session: SessionModel): Promise<void> {
         this.sessions.push({ ...session });
     }
-    
+
     async updateSession(session: SessionModel): Promise<void> {
         const toUpdate = this.sessions.findIndex(c => c.id === session.id);
         if (toUpdate === -1) {
@@ -80,8 +82,8 @@ export class InMemoryAccountStore implements AccountStore {
         }
         this.sessions[toUpdate] = { ...session };
     }
-    
-    async deleteSession(sessionID: string): Promise<void> {
+
+    async deleteSession(sessionID: SessionID): Promise<void> {
         const toDelete = this.sessions.findIndex(session => session.id === sessionID);
         if (toDelete === -1) {
             throw new Error(`Session <${sessionID}> does not exist`);
@@ -89,12 +91,55 @@ export class InMemoryAccountStore implements AccountStore {
         this.sessions.splice(toDelete, 1);
     }
 
-    async getSession(sessionID: string): Promise<SessionModel | undefined> {
+    async getSession(sessionID: SessionID): Promise<SessionModel | undefined> {
         const session = this.sessions.find(session => session.id === sessionID);
         if (session === undefined) {
             return undefined;
         }
         return { ...session };
+    }
+
+    async putSettings(settings: SettingModel[]): Promise<void> {
+        for (const { userID, name, value } of settings) {
+            const existingUserSettings = this.settings.get(userID);
+            if (existingUserSettings !== undefined) {
+                existingUserSettings.set(name, value);
+            } else {
+                const newUserSettings = new Map<SettingName, string>();
+                newUserSettings.set(name, value);
+                this.settings.set(userID, newUserSettings);
+            }
+        }
+    }
+
+    async deleteSettings(userID: UserID, names: SettingName[]): Promise<Set<SettingName>> {
+        const deleted = new Set<SettingName>();
+        for (const name of names) {
+            const userSettings = this.settings.get(userID);
+            if (userSettings === undefined) {
+                continue;
+            }
+            if (userSettings.delete(name)) {
+                deleted.add(name);
+            }
+        }
+        return deleted;
+    }
+
+    async getSettings(userID: UserID, names: SettingName[]): Promise<SettingModel[]> {
+        const reads: SettingModel[] = [];
+        for (const name of names) {
+            const userSettings = this.settings.get(userID);
+            if (userSettings === undefined) {
+                continue;
+            }
+            const value = userSettings.get(name);
+            if (value === undefined) {
+                continue;
+            }
+            reads.push({ userID, name, value });
+        }
+        return reads;
     }
 }
 
