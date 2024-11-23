@@ -21,7 +21,7 @@ import { addMinutes } from 'date-fns';
 import { ValidEmail } from '../../../server/accounts/email';
 import { InMemoryAccountStore } from '../../../server/accounts/in-memory-store';
 import { SessionModel, UserModel } from '../../../server/accounts/models';
-import { HashedPassword, otp } from '../../../server/accounts/password';
+import { HashedPassword, token } from '../../../server/accounts/password';
 
 describe("accounts#in-memory-user-store module", () => {
     describe("#InMemoryAccountStore", () => {
@@ -76,8 +76,8 @@ describe("accounts#in-memory-user-store module", () => {
 
             const updatedSession = {
                 ...referenceSession,
-                otp: await otp(),
-                otpExpiresAt: addMinutes(new Date(), 15),
+                token: await token(),
+                tokenExpiresAt: addMinutes(new Date(), 15),
             };
             await subject.updateSession(updatedSession);
 

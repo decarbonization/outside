@@ -20,7 +20,7 @@ import { addMinutes } from "date-fns";
 import { isValidEmail } from "./email";
 import { UserSystemError } from "./errors";
 import { SessionID, SessionModel, UserModel } from "./models";
-import { checkPassword, hashPassword, isValidOTP, isValidPassword, otp } from "./password";
+import { checkPassword, hashPassword, isValidToken, isValidPassword, token } from "./password";
 import { AccountStore } from "./store";
 
 export interface UserSystemOptions {
@@ -70,8 +70,8 @@ export class UserSystem {
             id: await this.store.newSessionID(),
             createdAt,
             userID: newUser.id,
-            otp: await otp(),
-            otpExpiresAt: addMinutes(createdAt, 15),
+            token: await token(),
+            tokenExpiresAt: addMinutes(createdAt, 15),
         };
         await this.store.insertSession(newSession);
 
@@ -99,8 +99,8 @@ export class UserSystem {
             id: await this.store.newSessionID(),
             createdAt,
             userID: user.id,
-            otp: !user.isVerified ? await otp() : undefined,
-            otpExpiresAt: !user.isVerified ? addMinutes(createdAt, 15) : undefined,
+            token: !user.isVerified ? await token() : undefined,
+            tokenExpiresAt: !user.isVerified ? addMinutes(createdAt, 15) : undefined,
         };
         await this.store.insertSession(newSession);
         
@@ -111,26 +111,26 @@ export class UserSystem {
         await this.store.deleteSession(sessionID);
     }
 
-    async verifyEmail(sessionID: SessionID, email: string, otp: string): Promise<void> {
+    async verifyEmail(sessionID: SessionID, email: string, token: string): Promise<void> {
         if (!isValidEmail(email)) {
             throw new UserSystemError('invalidEmail', "Invalid email");
         }
-        if (!isValidOTP(otp)) {
-            throw new UserSystemError('invalidPassword', `Invalid OTP`);
+        if (!isValidToken(token)) {
+            throw new UserSystemError('invalidPassword', `Invalid Token`);
         }
 
         const session = await this.store.getSession(sessionID);
         if (session === undefined) {
             throw new UserSystemError('unknownSession', "Invalid session");
         }
-        if (session.otp === undefined) {
-            throw new UserSystemError('invalidPassword', "Invalid OTP");
+        if (session.token === undefined) {
+            throw new UserSystemError('invalidPassword', "Invalid Token");
         }
-        if (session.otpExpiresAt !== undefined && new Date() > session.otpExpiresAt) {
-            throw new UserSystemError('expiredSession', "OTP has expired");
+        if (session.tokenExpiresAt !== undefined && new Date() > session.tokenExpiresAt) {
+            throw new UserSystemError('expiredSession', "Token has expired");
         }
-        if (session.otp !== otp) {
-            throw new UserSystemError('incorrectPassword', "Bad OTP");
+        if (session.token !== token) {
+            throw new UserSystemError('incorrectPassword', "Bad token");
         }
 
         const user = await this.store.getUser({ by: 'email', email });
@@ -140,7 +140,7 @@ export class UserSystem {
         }
         await this.store.updateUser({ ...user, isVerified: true });
 
-        await this.store.updateSession({ ...session, otp: undefined, otpExpiresAt: undefined });
+        await this.store.updateSession({ ...session, token: undefined, tokenExpiresAt: undefined });
     }
 
     async getSessionAndUser(sessionID: SessionID | undefined): Promise<[SessionModel | undefined, UserModel | undefined]> {

@@ -17,7 +17,7 @@
  */
 
 import { ValidEmail } from "./email";
-import { HashedPassword, ValidOTP } from "./password";
+import { HashedPassword, ValidToken } from "./password";
 
 export type UserID = string;
 
@@ -36,8 +36,8 @@ export interface SessionModel {
     readonly id: SessionID;
     readonly createdAt: Date;
     readonly userID: string;
-    readonly otp?: ValidOTP;
-    readonly otpExpiresAt?: Date;
+    readonly token?: ValidToken;
+    readonly tokenExpiresAt?: Date;
 }
 
 export type SettingName =

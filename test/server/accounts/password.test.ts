@@ -17,7 +17,7 @@
  */
 
 import { describe, expect, it } from '@jest/globals';
-import { checkPassword, hashPassword, isValidOTP, isValidPassword, ValidPassword } from '../../../server/accounts/password';
+import { checkPassword, hashPassword, isValidPassword, isValidToken, token, ValidPassword } from '../../../server/accounts/password';
 
 describe("accounts#password module", () => {
     describe("#isValidPassword", () => {
@@ -47,15 +47,14 @@ describe("accounts#password module", () => {
         });
     });
 
-    describe("#isValidOTP", () => {
-        it("should reject non-UUID values", () => {
-            expect(isValidOTP("hello")).toStrictEqual(false);
-            expect(isValidOTP("751C0036-986F-4DD4-B8DB")).toStrictEqual(false);
-            expect(isValidOTP("751C0036986F4DD4B8DB32B3CD164FD0")).toStrictEqual(false);
+    describe("#isValidToken", () => {
+        it("should reject non-token values", () => {
+            expect(isValidToken("hello")).toStrictEqual(false);
+            expect(isValidToken("1f31a940ed5cc34cc81d328f0b07602b5fa6ea3ed413c5c8879a")).toStrictEqual(false);
         });
 
-        it("should accept a valid UUID", () => {
-            expect(isValidOTP("63f4a63a-cb39-40db-a932-49719fa5d889")).toStrictEqual(true);
+        it("should accept a valid token", () => {
+            expect(isValidToken("1f31a940ed5cc34cc81d328f0b07602b5fa6ea3ed413c5c8879a30f6022a780efc6fb9f026a05ae3609db1bee718cac6ed552e40fbdf71c4c7f292288f500385")).toStrictEqual(true);
         });
     });
 
@@ -94,6 +93,14 @@ describe("accounts#password module", () => {
                 "Let's Get Some Shoes",
                 "Halo Gone Over Left",
             ])).toStrictEqual(false);
+        });
+    });
+
+    describe("#token", () => {
+        it("should return a value with the expected shape", async () => {
+            const subject = await token();
+            expect(subject.length).toStrictEqual(128);
+            expect(Array.from(subject).every(c => (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')));
         });
     });
 });

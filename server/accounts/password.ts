@@ -16,16 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { parse as uuidparse, v4 as uuidv4 } from "uuid";
-
 const passwordSymbols = /[[!@#$%^&*]/;
 const passwordUppercaseLetters = /[A-Z]/;
 const passwordLowercaseLetters = /[a-z]/;
 const passwordNumbers = /[0-9]/;
+const tokenSymbols = /[0-9]|[a-f]]/;
 
 export type ValidPassword = string & { readonly _ValidPassword: unique symbol };
 
-export type ValidOTP = string & { readonly _ValidOTP: unique symbol };
+export type ValidToken = string & { readonly _ValidToken: unique symbol };
 
 
 export function isValidPassword(password: string): password is ValidPassword {
@@ -47,12 +46,14 @@ export function isValidPassword(password: string): password is ValidPassword {
     return true;
 }
 
-export function isValidOTP(otp: string): otp is ValidOTP {
-    try {
-        return !!uuidparse(otp);
-    } catch (err) {
+export function isValidToken(token: string): token is ValidToken {
+    if (token.length !== 128) {
         return false;
     }
+    if (!tokenSymbols.test(token)) {
+        return false;
+    }
+    return true;
 }
 
 export type HashedPassword = string & { readonly _HashedPassword: unique symbol };
@@ -64,15 +65,15 @@ export async function hashPassword(password: ValidPassword, salt: string): Promi
     const passwordBytes = new TextEncoder().encode(password + salt);
     const digest = await crypto.subtle.digest("SHA-512", passwordBytes);
     const digestBytes = new Uint8Array(digest);
-    let hashedPassword = '';
-    for (const byte of digestBytes) {
-        hashedPassword += `00${byte.toString(16)}`.slice(-2);
-    }
+    const hashedPassword = bytesToString(digestBytes);
     return hashedPassword as unknown as HashedPassword;
 }
 
-export async function otp(): Promise<ValidOTP> {
-    return uuidv4() as unknown as ValidOTP;
+export async function token(): Promise<ValidToken> {
+    const bytes = new Uint8Array(64);
+    crypto.getRandomValues(bytes);
+    const token = bytesToString(bytes);
+    return token as unknown as ValidToken;
 }
 
 export async function checkPassword(
@@ -90,4 +91,12 @@ export async function checkPassword(
         }
     }
     return false;
+}
+
+function bytesToString(bytes: Uint8Array): string {
+    let value = '';
+    for (const byte of bytes) {
+        value += `00${byte.toString(16)}`.slice(-2);
+    }
+    return value;
 }

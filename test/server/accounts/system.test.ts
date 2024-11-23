@@ -17,10 +17,10 @@
  */
 
 import { describe, expect, it } from '@jest/globals';
-import { UserSystem } from '../../../server/accounts/system';
+import { ValidEmail } from '../../../server/accounts/email';
 import { InMemoryAccountStore } from '../../../server/accounts/in-memory-store';
 import { HashedPassword } from '../../../server/accounts/password';
-import { ValidEmail } from '../../../server/accounts/email';
+import { UserSystem } from '../../../server/accounts/system';
 
 describe("accounts#system module", () => {
     describe("#UserSystem", () => {
@@ -43,8 +43,8 @@ describe("accounts#system module", () => {
             it("should accept valid new credentials", async () => {
                 const subject = makeUserSystem();
                 const session = await subject.signUp("joan@real.com", "R3@ch0ut");
-                expect(session.otp).not.toBeUndefined();
-                expect(session.otpExpiresAt).not.toBeUndefined();
+                expect(session.token).not.toBeUndefined();
+                expect(session.tokenExpiresAt).not.toBeUndefined();
             });
         });
 
@@ -72,15 +72,15 @@ describe("accounts#system module", () => {
             it("should return a new session with valid credentials", async () => {
                 const subject = makeUserSystem();
                 const session = await subject.signIn("john@real.com", "R3@ch0ut");
-                expect(session.otp).toBeUndefined();
-                expect(session.otpExpiresAt).toBeUndefined();
+                expect(session.token).toBeUndefined();
+                expect(session.tokenExpiresAt).toBeUndefined();
             });
 
-            it("should generate otp for unverified user", async () => {
+            it("should generate token for unverified user", async () => {
                 const subject = makeUserSystem();
                 const session = await subject.signIn("guy@real.com", "R3@ch0ut");
-                expect(session.otp).not.toBeUndefined();
-                expect(session.otpExpiresAt).not.toBeUndefined();
+                expect(session.token).not.toBeUndefined();
+                expect(session.tokenExpiresAt).not.toBeUndefined();
             });
         });
 
@@ -107,16 +107,16 @@ describe("accounts#system module", () => {
                 await expect(subject.verifyEmail("41A8774B-496E-4FF7-8A9F-AB09AD3407B1", "guy@real.com", "6CE70EE1-15C8-44FD-B163-F7AD5F9058D8")).rejects.toThrowError();
             });
 
-            it.skip("should require the session to have an OTP", async () => {
+            it.skip("should require the session to have an token", async () => {
                 expect(false).toStrictEqual(true);
             });
 
-            it.skip("should require the session's OTP to not be expired", async () => {
+            it.skip("should require the session's token to not be expired", async () => {
                 // TODO: Write this test
                 expect(false).toStrictEqual(true);
             });
 
-            it.skip("should require the session's OTP to match", async () => {
+            it.skip("should require the session's token to match", async () => {
                 // TODO: Write this test
                 expect(false).toStrictEqual(true);
             });
@@ -131,15 +131,15 @@ describe("accounts#system module", () => {
                 const session = await subject.signUp("lady@real.com", "V1r@l1ty");
 
                 const [beforeSession, beforeUser] = await subject.getSessionAndUser(session.id);
-                expect(beforeSession?.otp).not.toBeUndefined();
-                expect(beforeSession?.otpExpiresAt).not.toBeUndefined();
+                expect(beforeSession?.token).not.toBeUndefined();
+                expect(beforeSession?.tokenExpiresAt).not.toBeUndefined();
                 expect(beforeUser?.isVerified).toStrictEqual(false);
 
-                await subject.verifyEmail(session.id, "lady@real.com", session.otp!);
+                await subject.verifyEmail(session.id, "lady@real.com", session.token!);
 
                 const [afterSession, afterUser] = await subject.getSessionAndUser(session.id);
-                expect(afterSession?.otp).toBeUndefined();
-                expect(afterSession?.otpExpiresAt).toBeUndefined();
+                expect(afterSession?.token).toBeUndefined();
+                expect(afterSession?.tokenExpiresAt).toBeUndefined();
                 expect(afterUser?.isVerified).toStrictEqual(true);
             });
         });
