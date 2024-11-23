@@ -19,7 +19,7 @@
 import { addMinutes } from "date-fns";
 import { isValidEmail } from "./email";
 import { UserSystemError } from "./errors";
-import { SessionID, SessionModel, UserModel } from "./models";
+import { SessionID, SessionSchema, UserSchema } from "./schemas";
 import { checkPassword, hashPassword, isValidToken, isValidPassword, token } from "./password";
 import { AccountStore } from "./store";
 import { Account } from "./account";
@@ -45,7 +45,7 @@ export class UserSystem {
         return this.salts[0];
     }
 
-    async signUp(email: string, password: string): Promise<SessionModel> {
+    async signUp(email: string, password: string): Promise<SessionSchema> {
         if (!isValidEmail(email)) {
             throw new UserSystemError('invalidEmail', "Invalid email");
         }
@@ -56,30 +56,26 @@ export class UserSystem {
             throw new UserSystemError('duplicateEmail', "Email in use");
         }
 
-        const createdAt = new Date();
-        const newUser: UserModel = {
+        const newUser: UserSchema = {
             id: await this.store.newUserID(),
-            createdAt,
             email,
             password: await hashPassword(password, this.primarySalt),
-            lastModified: createdAt,
             isVerified: false,
         };
         await this.store.insertUser(newUser);
 
-        const newSession: SessionModel = {
+        const newSession: SessionSchema = {
             id: await this.store.newSessionID(),
-            createdAt,
             userID: newUser.id,
             token: await token(),
-            tokenExpiresAt: addMinutes(createdAt, 15),
+            tokenExpiresAt: addMinutes(new Date(), 15),
         };
         await this.store.insertSession(newSession);
 
         return newSession;
     }
 
-    async signIn(email: string, password: string): Promise<SessionModel> {
+    async signIn(email: string, password: string): Promise<SessionSchema> {
         if (!isValidEmail(email)) {
             throw new UserSystemError('invalidEmail', "Invalid email");
         }
@@ -95,13 +91,11 @@ export class UserSystem {
             throw new UserSystemError('incorrectPassword', "Wrong password");
         }
         
-        const createdAt = new Date();
-        const newSession: SessionModel = {
+        const newSession: SessionSchema = {
             id: await this.store.newSessionID(),
-            createdAt,
             userID: user.id,
             token: !user.isVerified ? await token() : undefined,
-            tokenExpiresAt: !user.isVerified ? addMinutes(createdAt, 15) : undefined,
+            tokenExpiresAt: !user.isVerified ? addMinutes(new Date(), 15) : undefined,
         };
         await this.store.insertSession(newSession);
         

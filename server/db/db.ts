@@ -16,32 +16,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { RequestHandler } from 'express';
-import { Account } from '../accounts/account';
-import { UserSystem } from '../accounts/system';
-import { SessionID } from '../accounts/schemas';
+import { Sequelize } from '@sequelize/core';
+import { PostgresDialect } from '@sequelize/postgres';
+import { env } from '../utilities/env';
+import { UserModel } from './models/user';
+import { SettingModel } from './models/setting';
+import { SessionModel } from './models/session';
 
-declare global {
-    namespace Express {
-        interface Request {
-            userAccount?: Account;
+export function initDB(): Sequelize {
+    const sequelize = new Sequelize({
+        url: env('SQL_SERVER'),
+        dialect: PostgresDialect,
+        models: [UserModel, SessionModel, SettingModel],
+    });
+    (async () => {
+        try {
+            await sequelize.authenticate();
+        } catch (error) {
+            console.error(`Could not authenticate DB:`, error);
+            process.exit(1);
         }
-    }
-}
-
-declare module 'express-session' {
-    interface SessionData {
-        sid?: SessionID;
-    }
-}
-
-export interface AccountMiddlewareOptions {
-    readonly userSystem: UserSystem;
-}
-
-export function accountMiddleware({ userSystem }: AccountMiddlewareOptions): RequestHandler {
-    return async (req, _res, next): Promise<void> => {
-        req.userAccount = await userSystem.getAccount(req.session.sid);
-        next();
-    };
+    })();
+    return sequelize;
 }

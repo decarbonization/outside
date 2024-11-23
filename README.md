@@ -55,12 +55,30 @@ In order for Outside to fetch air quality data, it must be configured with a Goo
 
 - `GOOGLE_MAPS_API_KEY`: A Google Maps platform API key with access to both the Air Quality and Pollen data features.
 
-### Configuring Sessions
+### Configuring User System
 
 In order for Outside to allow users to sign in, it must be configured with the following environment variables:
 
 - `SESSION_SECRETS`: A comma-separated list of secrets to sign session cookies with.
 - `SALTS`: A comma-separated list of salts for passwords. The first salt in the list used for new password entries.
+- `SQL_SERVER`: URL for the PostgreSQL server to connect to including username, password, and port.
+
+```sh
+brew install postgresql
+brew services start postgresql
+```
+
+```sql
+psql postgres
+```
+
+```sql
+create role outside with password 'alpine' login;
+```
+
+```sql
+create database outside with owner outside;
+```
 
 ### Additional Options
 

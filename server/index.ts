@@ -31,6 +31,7 @@ import { MailtrapClient } from "mailtrap";
 import path from "path";
 import { InMemoryAccountStore } from './accounts/in-memory-store';
 import { UserSystem } from './accounts/system';
+import { initDB } from './db/db';
 import { accountMiddleware } from './middlewares/account-middleware';
 import { ErrorMiddleware } from './middlewares/error-middleware';
 import { AccountRoutes } from './routes/account-routes';
@@ -88,6 +89,8 @@ const userSystem = new UserSystem({
 const mailer = new MailtrapClient({
     token: env("MAILTRAP_API_KEY"),
 });
+
+initDB();
 
 const app = express();
 

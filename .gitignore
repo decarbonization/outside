@@ -5,3 +5,4 @@ dist
 .env
 coverage
 static/script/client.js
+.DS_Store

@@ -21,20 +21,17 @@ import { HashedPassword, ValidToken } from "./password";
 
 export type UserID = string;
 
-export interface UserModel {
+export interface UserSchema {
     readonly id: UserID;
-    readonly createdAt: Date;
     readonly email: ValidEmail;
     readonly password: HashedPassword;
-    readonly lastModified: Date;
     readonly isVerified: boolean;
 }
 
 export type SessionID = string;
 
-export interface SessionModel {
+export interface SessionSchema {
     readonly id: SessionID;
-    readonly createdAt: Date;
     readonly userID: string;
     readonly token?: ValidToken;
     readonly tokenExpiresAt?: Date;
@@ -44,7 +41,7 @@ export type SettingName =
     | 'units'
     | 'tz'
 
-export interface SettingModel {
+export interface SettingSchema {
     readonly userID: UserID;
     readonly name: SettingName;
     readonly value: string;

@@ -17,7 +17,7 @@
  */
 
 import { ValidEmail } from "./email";
-import { SessionModel, UserModel, SettingModel, SessionID, UserID, SettingName } from "./models";
+import { SessionSchema, UserSchema, SettingSchema, SessionID, UserID, SettingName } from "./schemas";
 
 export type UserQuery = 
     | { by: 'id', id: string }
@@ -25,18 +25,18 @@ export type UserQuery =
 
 export interface AccountStore {
     newUserID(): Promise<UserID>;
-    insertUser(user: UserModel): Promise<void>;
-    updateUser(user: UserModel): Promise<void>;
-    deleteUser(user: UserModel): Promise<void>;
-    getUser(query: UserQuery): Promise<UserModel | undefined>;
+    insertUser(user: UserSchema): Promise<void>;
+    updateUser(user: UserSchema): Promise<void>;
+    deleteUser(user: UserSchema): Promise<void>;
+    getUser(query: UserQuery): Promise<UserSchema | undefined>;
 
     newSessionID(): Promise<SessionID>;
-    insertSession(session: SessionModel): Promise<void>;
-    updateSession(session: SessionModel): Promise<void>;
+    insertSession(session: SessionSchema): Promise<void>;
+    updateSession(session: SessionSchema): Promise<void>;
     deleteSession(sessionID: SessionID): Promise<void>;
-    getSession(sessionID: SessionID): Promise<SessionModel | undefined>;
+    getSession(sessionID: SessionID): Promise<SessionSchema | undefined>;
 
-    putSettings(settings: SettingModel[]): Promise<void>;
+    putSettings(settings: SettingSchema[]): Promise<void>;
     deleteSettings(userID: UserID, names: SettingName[]): Promise<Set<SettingName>>;
-    getSettings(userID: UserID, names: SettingName[]): Promise<SettingModel[]>;
+    getSettings(userID: UserID, names: SettingName[]): Promise<SettingSchema[]>;
 }

@@ -16,17 +16,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ValidEmail } from "./email";
-import { SessionID, SessionSchema, UserID, UserSchema } from "./schemas";
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "@sequelize/core";
+import { Attribute, NotNull, PrimaryKey, Table } from '@sequelize/core/decorators-legacy';
 
-export class Account {
-    constructor(session: SessionSchema, user: UserSchema) {
-        this.sessionID = session.id;
-        this.userID = session.userID;
-        this.email = user.email;
-    }
+@Table({ tableName: "settings" })
+export class SettingModel extends Model<InferAttributes<SettingModel>, InferCreationAttributes<SettingModel>> {
+    declare createdAt: CreationOptional<Date>;
+    declare updatedAt: CreationOptional<Date>;
 
-    readonly sessionID: SessionID;
-    readonly userID: UserID;
-    readonly email: ValidEmail;
+    @Attribute(DataTypes.STRING)
+    @PrimaryKey
+    @NotNull
+    declare userID: string;
+
+    @Attribute(DataTypes.STRING)
+    @NotNull
+    declare name: string;
+
+    @Attribute(DataTypes.STRING)
+    @NotNull
+    declare value: string;
 }

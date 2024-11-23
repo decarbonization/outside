@@ -17,11 +17,11 @@
  */
 
 import { v4 as uuidv4 } from "uuid";
-import { SessionID, SessionModel, SettingModel, SettingName, UserID, UserModel } from "./models";
+import { SessionID, SessionSchema, SettingSchema, SettingName, UserID, UserSchema } from "./schemas";
 import { AccountStore, UserQuery } from "./store";
 
 export interface InMemoryAccountStoreOptions {
-    readonly users?: UserModel[]
+    readonly users?: UserSchema[]
 }
 
 export class InMemoryAccountStore implements AccountStore {
@@ -31,19 +31,19 @@ export class InMemoryAccountStore implements AccountStore {
         this.settings = new Map();
     }
 
-    private readonly users: UserModel[];
-    private readonly sessions: SessionModel[];
+    private readonly users: UserSchema[];
+    private readonly sessions: SessionSchema[];
     private readonly settings: Map<UserID, Map<SettingName, string>>;
 
     async newUserID(): Promise<UserID> {
         return uuidv4();
     }
 
-    async insertUser(user: UserModel): Promise<void> {
+    async insertUser(user: UserSchema): Promise<void> {
         this.users.push({ ...user });
     }
 
-    async updateUser(user: UserModel): Promise<void> {
+    async updateUser(user: UserSchema): Promise<void> {
         const toUpdate = this.users.findIndex(c => c.id === user.id);
         if (toUpdate === -1) {
             throw new Error(`User <${user.id}> does not exist`);
@@ -51,7 +51,7 @@ export class InMemoryAccountStore implements AccountStore {
         this.users[toUpdate] = { ...user };
     }
 
-    async deleteUser(user: UserModel): Promise<void> {
+    async deleteUser(user: UserSchema): Promise<void> {
         const toUpdate = this.users.findIndex(c => c.id === user.id);
         if (toUpdate === -1) {
             throw new Error(`User <${user.id}> does not exist`);
@@ -59,7 +59,7 @@ export class InMemoryAccountStore implements AccountStore {
         this.users.splice(toUpdate, 1);
     }
 
-    async getUser(query: UserQuery): Promise<UserModel | undefined> {
+    async getUser(query: UserQuery): Promise<UserSchema | undefined> {
         const user = this.users.find(userQueryPredicate(query));
         if (user === undefined) {
             return undefined;
@@ -71,11 +71,11 @@ export class InMemoryAccountStore implements AccountStore {
         return uuidv4();
     }
 
-    async insertSession(session: SessionModel): Promise<void> {
+    async insertSession(session: SessionSchema): Promise<void> {
         this.sessions.push({ ...session });
     }
 
-    async updateSession(session: SessionModel): Promise<void> {
+    async updateSession(session: SessionSchema): Promise<void> {
         const toUpdate = this.sessions.findIndex(c => c.id === session.id);
         if (toUpdate === -1) {
             throw new Error(`Session <${session.id}> does not exist`);
@@ -91,7 +91,7 @@ export class InMemoryAccountStore implements AccountStore {
         this.sessions.splice(toDelete, 1);
     }
 
-    async getSession(sessionID: SessionID): Promise<SessionModel | undefined> {
+    async getSession(sessionID: SessionID): Promise<SessionSchema | undefined> {
         const session = this.sessions.find(session => session.id === sessionID);
         if (session === undefined) {
             return undefined;
@@ -99,7 +99,7 @@ export class InMemoryAccountStore implements AccountStore {
         return { ...session };
     }
 
-    async putSettings(settings: SettingModel[]): Promise<void> {
+    async putSettings(settings: SettingSchema[]): Promise<void> {
         for (const { userID, name, value } of settings) {
             const existingUserSettings = this.settings.get(userID);
             if (existingUserSettings !== undefined) {
@@ -126,8 +126,8 @@ export class InMemoryAccountStore implements AccountStore {
         return deleted;
     }
 
-    async getSettings(userID: UserID, names: SettingName[]): Promise<SettingModel[]> {
-        const reads: SettingModel[] = [];
+    async getSettings(userID: UserID, names: SettingName[]): Promise<SettingSchema[]> {
+        const reads: SettingSchema[] = [];
         for (const name of names) {
             const userSettings = this.settings.get(userID);
             if (userSettings === undefined) {
@@ -143,7 +143,7 @@ export class InMemoryAccountStore implements AccountStore {
     }
 }
 
-function userQueryPredicate(query: UserQuery): (user: UserModel) => boolean {
+function userQueryPredicate(query: UserQuery): (user: UserSchema) => boolean {
     switch (query.by) {
         case 'id':
             return user => user.id === query.id;
