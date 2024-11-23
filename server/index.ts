@@ -18,7 +18,6 @@
 
 import dotenv from 'dotenv';
 import express from 'express';
-import "express-async-errors";
 import session from "express-session";
 import { MapsToken } from 'fruit-company/maps';
 import { WeatherToken } from 'fruit-company/weather';
