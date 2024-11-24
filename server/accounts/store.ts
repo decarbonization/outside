@@ -17,21 +17,19 @@
  */
 
 import { ValidEmail } from "./email";
-import { SessionSchema, UserSchema, SettingSchema, SessionID, UserID, SettingName } from "./schemas";
+import { NewSessionSchema, NewUserSchema, SessionID, SessionSchema, SettingName, SettingSchema, UserID, UserSchema } from "./schemas";
 
 export type UserQuery = 
-    | { by: 'id', id: string }
+    | { by: 'id', id: UserID }
     | { by: 'email', email: ValidEmail };
 
 export interface AccountStore {
-    newUserID(): Promise<UserID>;
-    insertUser(user: UserSchema): Promise<void>;
+    insertUser(user: NewUserSchema): Promise<UserSchema>;
     updateUser(user: UserSchema): Promise<void>;
     deleteUser(user: UserSchema): Promise<void>;
     getUser(query: UserQuery): Promise<UserSchema | undefined>;
 
-    newSessionID(): Promise<SessionID>;
-    insertSession(session: SessionSchema): Promise<void>;
+    insertSession(session: NewSessionSchema): Promise<SessionSchema>;
     updateSession(session: SessionSchema): Promise<void>;
     deleteSession(sessionID: SessionID): Promise<void>;
     getSession(sessionID: SessionID): Promise<SessionSchema | undefined>;

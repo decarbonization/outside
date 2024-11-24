@@ -17,33 +17,34 @@
  */
 
 import { FindOptions, InferAttributes, Op, Sequelize } from "@sequelize/core";
-import { v4 as uuidv4 } from "uuid";
+import { UserModel } from "../db/models/user";
 import { UserSessionModel } from "../db/models/user-session";
 import { UserSettingModel } from "../db/models/user-setting";
-import { UserModel } from "../db/models/user";
 import { ValidEmail } from "./email";
 import { UserSystemError } from "./errors";
 import { HashedPassword, ValidToken } from "./password";
-import { SessionID, SessionSchema, SettingName, SettingSchema, UserID, UserSchema } from "./schemas";
+import { NewSessionSchema, NewUserSchema, SessionID, SessionSchema, SessionTokenScope, SettingName, SettingSchema, UserID, UserSchema, UserScope } from "./schemas";
 import { AccountStore, UserQuery } from "./store";
 
 export class SequelizeStore implements AccountStore {
     constructor(
         private readonly sequalize: Sequelize,
-    ) {}
+    ) { }
 
-    async newUserID(): Promise<UserID> {
-        return uuidv4();
-    }
-
-    async insertUser(user: UserSchema): Promise<void> {
-        await UserModel.create({
-            id: user.id,
+    async insertUser(user: NewUserSchema): Promise<UserSchema> {
+        const model = await UserModel.create({
             email: user.email,
             password: user.password,
             isVerified: user.isVerified,
-            scopes: [],
+            scopes: user.scopes,
         });
+        return {
+            id: model.id,
+            email: model.email as ValidEmail,
+            password: model.password as HashedPassword,
+            isVerified: model.isVerified,
+            scopes: model.scopes as UserScope[],
+        };
     }
 
     async updateUser(user: UserSchema): Promise<void> {
@@ -56,6 +57,7 @@ export class SequelizeStore implements AccountStore {
                 email: user.email,
                 password: user.password,
                 isVerified: user.isVerified,
+                scopes: model.scopes,
             });
         });
     }
@@ -88,20 +90,24 @@ export class SequelizeStore implements AccountStore {
             email: model.email as ValidEmail,
             password: model.password as HashedPassword,
             isVerified: model.isVerified,
+            scopes: model.scopes as UserScope[],
         };
     }
 
-    async newSessionID(): Promise<SessionID> {
-        return uuidv4();
-    }
-
-    async insertSession(session: SessionSchema): Promise<void> {
-        await UserSessionModel.create({
-            id: session.id,
+    async insertSession(session: NewSessionSchema): Promise<SessionSchema> {
+        const model = await UserSessionModel.create({
             userID: session.userID,
             token: session.token,
             tokenExpiresAt: session.tokenExpiresAt,
+            tokenScopes: session.tokenScopes,
         });
+        return {
+            id: model.id,
+            userID: model.userID,
+            token: (model.token ?? undefined) as ValidToken | undefined,
+            tokenExpiresAt: model.tokenExpiresAt ?? undefined,
+            tokenScopes: (model.tokenScopes ?? undefined) as SessionTokenScope[] | undefined,
+        };
     }
 
     async updateSession(session: SessionSchema): Promise<void> {
@@ -113,6 +119,7 @@ export class SequelizeStore implements AccountStore {
             await model.update({
                 token: session.token,
                 tokenExpiresAt: session.tokenExpiresAt,
+                tokenScopes: session.tokenScopes,
             });
         });
     }
@@ -137,6 +144,7 @@ export class SequelizeStore implements AccountStore {
             userID: model.userID,
             token: (model.token ?? undefined) as (ValidToken | undefined),
             tokenExpiresAt: model.tokenExpiresAt ?? undefined,
+            tokenScopes: (model.tokenScopes ?? undefined) as SessionTokenScope[] | undefined,
         };
     }
 
@@ -147,8 +155,7 @@ export class SequelizeStore implements AccountStore {
                 if (existing !== null) {
                     await existing.update({ value });
                 } else {
-                    await UserSettingModel.create({
-                        userID, name, value });
+                    await UserSettingModel.create({ userID, name, value });
                 }
             }
         });

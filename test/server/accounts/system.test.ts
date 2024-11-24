@@ -88,24 +88,24 @@ describe("accounts#system module", () => {
         describe("#signOut", () => {
             it("should require the session to exist", async () => {
                 const [_, subject] = makeUserSystem();
-                await expect(subject.signOut("not at all real")).rejects.toThrowError();
+                await expect(subject.signOut(8675309)).rejects.toThrowError();
             });
         });
 
         describe("#verifyEmail", () => {
             it("should require a valid email", async () => {
                 const [_, subject] = makeUserSystem();
-                await expect(subject.verifyEmail("ignored", "real.com", "6CE70EE1-15C8-44FD-B163-F7AD5F9058D8")).rejects.toThrowError();
+                await expect(subject.verifyEmail(-1, "real.com", "6CE70EE1-15C8-44FD-B163-F7AD5F9058D8")).rejects.toThrowError();
             });
 
             it("should require a valid password", async () => {
                 const [_, subject] = makeUserSystem();
-                await expect(subject.verifyEmail("ignored", "guy@real.com", "F7AD5F9058D8")).rejects.toThrowError();
+                await expect(subject.verifyEmail(-1, "guy@real.com", "F7AD5F9058D8")).rejects.toThrowError();
             });
 
             it("should require session to exist", async () => {
                 const [_, subject] = makeUserSystem();
-                await expect(subject.verifyEmail("41A8774B-496E-4FF7-8A9F-AB09AD3407B1", "guy@real.com", "6CE70EE1-15C8-44FD-B163-F7AD5F9058D8")).rejects.toThrowError();
+                await expect(subject.verifyEmail(8675309, "guy@real.com", "6CE70EE1-15C8-44FD-B163-F7AD5F9058D8")).rejects.toThrowError();
             });
 
             it.skip("should require the session to have an token", async () => {
@@ -153,16 +153,18 @@ function makeUserSystem(): [AccountStore, UserSystem] {
     const store = new InMemoryAccountStore({
         users: [
             {
-                id: 'd8d7212e-eab8-4b82-96da-37430c326b21',
+                id: 0,
                 email: "john@real.com" as ValidEmail,
                 password: "0b3ab4ede2053eed011ce31a16646f1c8c2e7c8c2c392cca4e2dbe14751aa442f26366301c5e3df4794cc75e7e095a4681137177be033ebf876c46d6b3a51ecf" as HashedPassword,
                 isVerified: true,
+                scopes: [],
             },
             {
-                id: 'd8d7212e-eab8-4b82-96da-37430c326b21',
+                id: 1,
                 email: "guy@real.com" as ValidEmail,
                 password: "0b3ab4ede2053eed011ce31a16646f1c8c2e7c8c2c392cca4e2dbe14751aa442f26366301c5e3df4794cc75e7e095a4681137177be033ebf876c46d6b3a51ecf" as HashedPassword,
                 isVerified: false,
+                scopes: [],
             },
         ],
     });

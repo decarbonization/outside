@@ -25,6 +25,7 @@ export type UserSystemErrorCode =
     | 'unknownUser'
     | 'unknownSession'
     | 'expiredSession'
+    | 'missingScope'
     | 'userAlreadyVerified';
 
 export class UserSystemError extends Error {

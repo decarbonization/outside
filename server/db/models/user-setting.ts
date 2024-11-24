@@ -21,13 +21,15 @@ import { Attribute, NotNull, PrimaryKey, Table } from '@sequelize/core/decorator
 
 @Table({ tableName: "user_settings" })
 export class UserSettingModel extends Model<InferAttributes<UserSettingModel>, InferCreationAttributes<UserSettingModel>> {
-    declare createdAt: CreationOptional<Date>;
-    declare updatedAt: CreationOptional<Date>;
-
-    @Attribute(DataTypes.STRING)
+    @Attribute(DataTypes.BIGINT)
     @PrimaryKey
+    declare userID: number;
+
     @NotNull
-    declare userID: string;
+    declare createdAt: CreationOptional<Date>;
+
+    @NotNull
+    declare updatedAt: CreationOptional<Date>;
 
     @Attribute(DataTypes.STRING)
     @NotNull

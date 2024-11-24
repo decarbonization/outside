@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const passwordSymbols = /[!@#$%^&*'()[\]]/;
+const passwordSymbols = /[!@#$%^&*'()[\]\-_:]/;
 const passwordUppercaseLetters = /[A-Z]/;
 const passwordLowercaseLetters = /[a-z]/;
 const passwordNumbers = /[0-9]/;

@@ -17,12 +17,12 @@
  */
 
 import { addMinutes } from "date-fns";
+import { Account } from "./account";
 import { isValidEmail } from "./email";
 import { UserSystemError } from "./errors";
-import { SessionID, SessionSchema, UserSchema } from "./schemas";
-import { checkPassword, hashPassword, isValidToken, isValidPassword, token } from "./password";
+import { checkPassword, hashPassword, isValidPassword, isValidToken, token } from "./password";
+import { SessionID, SessionSchema } from "./schemas";
 import { AccountStore } from "./store";
-import { Account } from "./account";
 
 export interface UserSystemOptions {
     readonly store: AccountStore;
@@ -37,7 +37,7 @@ export class UserSystem {
         this.store = store;
         this.salts = salts;
     }
-    
+
     private readonly store: AccountStore;
     private readonly salts: string[];
 
@@ -56,21 +56,19 @@ export class UserSystem {
             throw new UserSystemError('duplicateEmail', "Email in use");
         }
 
-        const newUser: UserSchema = {
-            id: await this.store.newUserID(),
+        const newUser = await this.store.insertUser({
             email,
             password: await hashPassword(password, this.primarySalt),
             isVerified: false,
-        };
-        await this.store.insertUser(newUser);
+            scopes: [],
+        });
 
-        const newSession: SessionSchema = {
-            id: await this.store.newSessionID(),
+        const newSession: SessionSchema = await this.store.insertSession({
             userID: newUser.id,
             token: await token(),
             tokenExpiresAt: addMinutes(new Date(), 15),
-        };
-        await this.store.insertSession(newSession);
+            tokenScopes: ['verifyPassword'],
+        });
 
         return newSession;
     }
@@ -90,15 +88,13 @@ export class UserSystem {
         if (!await checkPassword(user.password, password, this.salts)) {
             throw new UserSystemError('incorrectPassword', "Wrong password");
         }
-        
-        const newSession: SessionSchema = {
-            id: await this.store.newSessionID(),
+
+        const newSession: SessionSchema = await this.store.insertSession({
             userID: user.id,
             token: !user.isVerified ? await token() : undefined,
             tokenExpiresAt: !user.isVerified ? addMinutes(new Date(), 15) : undefined,
-        };
-        await this.store.insertSession(newSession);
-        
+        });
+
         return newSession;
     }
 
@@ -126,6 +122,9 @@ export class UserSystem {
         }
         if (session.token !== token) {
             throw new UserSystemError('incorrectPassword', "Bad token");
+        }
+        if (session.tokenScopes === undefined || !session.tokenScopes.includes('verifyPassword')) {
+            throw new UserSystemError('missingScope', "Token cannot verify password");
         }
 
         const user = await this.store.getUser({ by: 'email', email });

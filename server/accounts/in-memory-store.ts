@@ -16,8 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { v4 as uuidv4 } from "uuid";
-import { SessionID, SessionSchema, SettingSchema, SettingName, UserID, UserSchema } from "./schemas";
+import { NewSessionSchema, NewUserSchema, SessionID, SessionSchema, SettingName, SettingSchema, UserID, UserSchema } from "./schemas";
 import { AccountStore, UserQuery } from "./store";
 
 export interface InMemoryAccountStoreOptions {
@@ -35,12 +34,13 @@ export class InMemoryAccountStore implements AccountStore {
     private readonly sessions: SessionSchema[];
     private readonly settings: Map<UserID, Map<SettingName, string>>;
 
-    async newUserID(): Promise<UserID> {
-        return uuidv4();
-    }
-
-    async insertUser(user: UserSchema): Promise<void> {
-        this.users.push({ ...user });
+    async insertUser(user: NewUserSchema): Promise<UserSchema> {
+        const newUser: UserSchema = {
+            id: this.users.length,
+            ...user,
+        };
+        this.users.push(newUser);
+        return { ...newUser };
     }
 
     async updateUser(user: UserSchema): Promise<void> {
@@ -67,12 +67,13 @@ export class InMemoryAccountStore implements AccountStore {
         return { ...user };
     }
 
-    async newSessionID(): Promise<SessionID> {
-        return uuidv4();
-    }
-
-    async insertSession(session: SessionSchema): Promise<void> {
-        this.sessions.push({ ...session });
+    async insertSession(session: NewSessionSchema): Promise<SessionSchema> {
+        const newSession: SessionSchema = {
+            id: this.sessions.length,
+            ...session,
+        };
+        this.sessions.push(newSession);
+        return { ...newSession };
     }
 
     async updateSession(session: SessionSchema): Promise<void> {

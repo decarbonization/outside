@@ -19,23 +19,30 @@
 import { ValidEmail } from "./email";
 import { HashedPassword, ValidToken } from "./password";
 
-export type UserID = string;
+export type UserScope = string;
+export type UserID = number;
 
 export interface UserSchema {
     readonly id: UserID;
     readonly email: ValidEmail;
     readonly password: HashedPassword;
     readonly isVerified: boolean;
+    readonly scopes: UserScope[];
 }
+export type NewUserSchema = Omit<UserSchema, 'id'>;
 
-export type SessionID = string;
+
+export type SessionTokenScope = 'verifyPassword';
+export type SessionID = number;
 
 export interface SessionSchema {
     readonly id: SessionID;
-    readonly userID: string;
+    readonly userID: UserID;
     readonly token?: ValidToken;
     readonly tokenExpiresAt?: Date;
+    readonly tokenScopes?: SessionTokenScope[];
 }
+export type NewSessionSchema = Omit<SessionSchema, 'id'>;
 
 export type SettingName =
     | 'units'

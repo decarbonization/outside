@@ -17,19 +17,22 @@
  */
 
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from "@sequelize/core";
-import { Attribute, Default, HasMany, NotNull, PrimaryKey, Table, Unique } from '@sequelize/core/decorators-legacy';
+import { Attribute, AutoIncrement, Default, HasMany, NotNull, PrimaryKey, Table, Unique } from '@sequelize/core/decorators-legacy';
 import { UserSessionModel } from "./user-session";
 import { UserSettingModel } from "./user-setting";
 
 @Table({ tableName: "users" })
 export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
-    @Attribute(DataTypes.STRING)
+    @Attribute(DataTypes.BIGINT)
     @PrimaryKey
+    @AutoIncrement
     @Unique
-    @NotNull
-    declare id: string;
+    declare id: CreationOptional<number>;
 
+    @NotNull
     declare createdAt: CreationOptional<Date>;
+
+    @NotNull
     declare updatedAt: CreationOptional<Date>;
     
     @Attribute(DataTypes.STRING)
