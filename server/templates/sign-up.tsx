@@ -24,12 +24,14 @@ export interface SignUpOptions {
     readonly deps: DepsObject;
     readonly email?: string;
     readonly message?: SignUpMessage;
+    readonly returnTo?: string
 }
 
-export function renderSignUp({ deps, email, message }: SignUpOptions): string {
+export function renderSignUp({ deps, email, message, returnTo }: SignUpOptions): string {
     return renderApp({ deps }, (
         <SignUp
             email={email}
-            message={message} />
+            message={message} 
+            returnTo={returnTo} />
     ));
 }

@@ -27,9 +27,9 @@ export type WeatherTab =
 
 export type LinkDestination =
     | { where: "index", query?: string }
-    | { where: "signIn" }
+    | { where: "signIn", returnTo?: string }
     | { where: "signOut", returnTo?: string }
-    | { where: "signUp" }
+    | { where: "signUp", returnTo?: string }
     | { where: "signUpVerify", token: string, returnTo?: string }
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
@@ -76,8 +76,12 @@ function linkToIndex({ query }: LinkDestinationTo<"index">): string {
     return link;
 }
 
-function linkToSignIn({ }: LinkDestinationTo<"signIn">): string {
-    return "/sign-in";
+function linkToSignIn({ returnTo }: LinkDestinationTo<"signIn">): string {
+    let link = "/sign-in";
+    if (returnTo !== undefined) {
+        link += `?returnto=${encodeURIComponent(returnTo)}`
+    }
+    return link;
 }
 
 function linkToSignOut({ returnTo }: LinkDestinationTo<"signOut">): string {
@@ -88,8 +92,12 @@ function linkToSignOut({ returnTo }: LinkDestinationTo<"signOut">): string {
     return link;
 }
 
-function linkToSignUp({ }: LinkDestinationTo<"signUp">): string {
-    return "/sign-up";
+function linkToSignUp({ returnTo }: LinkDestinationTo<"signUp">): string {
+    let link = "/sign-up";
+    if (returnTo !== undefined) {
+        link += `?returnto=${encodeURIComponent(returnTo)}`
+    }
+    return link;
 }
 
 function linkToSignUpVerify({ token, returnTo }: LinkDestinationTo<"signUpVerify">): string {

@@ -28,9 +28,10 @@ export type SignUpMessage =
 export interface SignUpProps {
     readonly email?: string;
     readonly message?: SignUpMessage;
+    readonly returnTo?: string;
 }
 
-export function SignUp({ email, message }: SignUpProps) {
+export function SignUp({ email, message, returnTo }: SignUpProps) {
     const { i18n } = useContext(Deps);
     return (
         <section className="sign-up">
@@ -38,7 +39,7 @@ export function SignUp({ email, message }: SignUpProps) {
             <p>
                 {i18n.t("accounts.signUpExplanation")}
             </p>
-            <form method="post" action={linkTo({ where: "signUp" })} className="v-flow spacing outset-top">
+            <form method="post" action={linkTo({ where: "signUp", returnTo })} className="v-flow spacing outset-top">
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
                 <input type="email" name="email" value={email} required />
                 <label for="password">{i18n.t('accounts.passwordLabel')}</label>

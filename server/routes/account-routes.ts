@@ -38,8 +38,9 @@ async function getSignIn(
     req: Request,
     res: Response
 ): Promise<void> {
+    const returnTo = proveString(req.query["returnto"]);
     const deps = await makeDeps({ req });
-    const resp = renderSignIn({ deps });
+    const resp = renderSignIn({ deps, returnTo });
     res.type('html').send(resp);
 }
 
@@ -60,7 +61,12 @@ async function postSignIn(
         const session = await userSystem.signIn(email, password);
         req.session.sid = session.id;
         console.info(`Started session <${session.id}> for <${email}>`);
-        res.redirect("/");
+        const returnTo = proveString(req.query["returnto"]);
+        if (returnTo !== undefined) {
+            res.redirect(returnTo);
+        } else {
+            res.redirect(linkTo({ where: "index" }));
+        }
     } catch (err) {
         if (!UserSystemError.is(err, 'unknownUser')) {
             throw err;
@@ -95,8 +101,9 @@ async function getSignUp(
     req: Request,
     res: Response
 ): Promise<void> {
+    const returnTo = proveString(req.query["returnto"]);
     const deps = await makeDeps({ req });
-    const resp = renderSignUp({ deps });
+    const resp = renderSignUp({ deps, returnTo });
     res.type('html').send(resp);
 }
 
@@ -169,8 +176,8 @@ async function getVerify(
     }
     await userSystem.verifyEmail(account.sessionID, account.email, req.query.token);
 
-    const returnTo = req.query.returnto;
-    if (typeof returnTo === 'string') {
+    const returnTo = proveString(req.query["returnto"]);
+        if (returnTo !== undefined) {
         res.redirect(returnTo);
     } else {
         res.redirect(linkTo({ where: "index" }));

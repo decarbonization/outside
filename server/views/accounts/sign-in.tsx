@@ -27,14 +27,15 @@ export type SignInMessage =
 export interface SignInProps {
     readonly email?: string;
     readonly message?: SignInMessage;
+    readonly returnTo?: string;
 }
 
-export function SignIn({ email, message }: SignInProps) {
+export function SignIn({ email, message, returnTo }: SignInProps) {
     const { i18n } = useContext(Deps);
     return (
         <section className="sign-in">
             <h1>{i18n.t("accounts.signIn")}</h1>
-            <form method="post" action={linkTo({ where: "signIn" })} className="v-flow spacing outset-top">
+            <form method="post" action={linkTo({ where: "signIn", returnTo })} className="v-flow spacing outset-top">
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
                 <input type="email" name="email" value={email} />
                 <label for="password">{i18n.t('accounts.passwordLabel')}</label>

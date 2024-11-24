@@ -24,12 +24,14 @@ export interface SignInOptions {
     readonly deps: DepsObject;
     readonly email?: string;
     readonly message?: SignInMessage;
+    readonly returnTo?: string;
 }
 
-export function renderSignIn({ deps, email, message }: SignInOptions): string {
+export function renderSignIn({ deps, email, message, returnTo }: SignInOptions): string {
     return renderApp({ deps }, (
         <SignIn
             email={email}
-            message={message} />
+            message={message}
+            returnTo={returnTo} />
     ));
 }
