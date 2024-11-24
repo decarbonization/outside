@@ -94,7 +94,9 @@ const mailer = new MailtrapClient({
 
 const app = express();
 
-app.enable("trust proxy");
+if (env('HOST', 'localhost') !== 'localhost') {
+    app.enable("trust proxy");
+}
 
 app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
@@ -102,9 +104,9 @@ app.use(session({
     secret: env("SESSION_SECRETS").split(","),
     resave: true,
     saveUninitialized: true,
-    proxy: true,
+    proxy: env('HOST', 'localhost') !== 'localhost',
     cookie: {
-        secure: true,
+        secure: env('HOST', 'localhost') !== 'localhost',
         sameSite: "none",
     }
 }));

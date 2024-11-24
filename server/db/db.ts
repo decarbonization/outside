@@ -50,7 +50,7 @@ export function initDB(): Sequelize {
             process.exit(1);
         }
         try {
-            await sequelize.sync();
+            await sequelize.sync({ alter: true });
         } catch (error) {
             console.log(`Could not sync models with DB:`, error);
             process.exit(1);

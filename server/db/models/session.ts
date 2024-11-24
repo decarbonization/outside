@@ -39,4 +39,8 @@ export class SessionModel extends Model<InferAttributes<SessionModel>, InferCrea
 
     @Attribute(DataTypes.DATE)
     declare tokenExpiresAt: Date | null;
+
+    @Attribute(DataTypes.ARRAY(DataTypes.STRING))
+    declare tokenScopes: string[] | null;
+
 }
