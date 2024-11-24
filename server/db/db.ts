@@ -31,6 +31,9 @@ export function initDB(): Sequelize {
     const sequelize = new Sequelize({
         url: databaseURL,
         dialect: PostgresDialect,
+        ssl: {
+            rejectUnauthorized: false,
+        },
         models: [UserModel, SessionModel, SettingModel],
     });
     (async () => {
