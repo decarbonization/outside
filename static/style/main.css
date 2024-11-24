@@ -90,7 +90,8 @@ footer {
 }
 
 button,
-select {
+select,
+.button-like {
     font: inherit;
     appearance: none;
     border: none;
@@ -101,17 +102,20 @@ select {
 }
 
 button:active,
-select:active {
+select:active,
+.button-like:active {
     opacity: 0.8;
 }
 
 button:disabled,
-select:disabled {
+select:disabled,
+.button-like:disabled {
     color: var(--accent-inactive);
 }
 
 button:focus,
-select:focus {
+select:focus,
+.button-like:focus {
     outline: 2px solid var(--accent);
     background-color: var(--focus-bg);
 }

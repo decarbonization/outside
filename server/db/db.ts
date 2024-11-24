@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Sequelize } from '@sequelize/core';
+import { Options, Sequelize } from '@sequelize/core';
 import { PostgresDialect } from '@sequelize/postgres';
 import { env } from '../utilities/env';
 import { UserModel } from './models/user';
@@ -31,14 +31,17 @@ export function initDB(): Sequelize {
         databaseURL.searchParams.delete("sslmode");
         databaseURL.searchParams.set("ssl", "true");
     }
-    const sequelize = new Sequelize({
+    const options: Options<PostgresDialect> = {
         url: databaseURL.href,
         dialect: PostgresDialect,
-        ssl: {
-            rejectUnauthorized: false,
-        },
         models: [UserModel, SessionModel, SettingModel],
-    });
+    };
+    if (databaseURL.searchParams.get("ssl") === "true") {
+        options.ssl = {
+            rejectUnauthorized: false
+        };
+    }
+    const sequelize = new Sequelize(options);
     (async () => {
         try {
             await sequelize.authenticate();

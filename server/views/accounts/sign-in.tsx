@@ -45,8 +45,8 @@ export function SignIn({ email, message, returnTo }: SignInProps) {
                 <label for="password">{i18n.t('accounts.passwordLabel')}</label>
                 <input type="password" name="password" />
                 <div className="h-flow centered spacing">
-                    <Link where="signUp">{i18n.t('accounts.signUp')}</Link>
-                    <Link where="forgotPassword">{i18n.t('accounts.forgotPassword')}</Link>
+                    <Link className="button-like" where="signUp">{i18n.t('accounts.signUp')}</Link>
+                    <Link className="button-like" where="forgotPassword">{i18n.t('accounts.forgotPassword')}</Link>
                     <button type="submit">{i18n.t('accounts.signIn')}</button>
                 </div>
             </form>

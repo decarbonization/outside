@@ -32,6 +32,7 @@ export type LinkDestination =
     | { where: "signUp", returnTo?: string }
     | { where: "signUpVerify", token: string, returnTo?: string }
     | { where: "forgotPassword", email?: string }
+    | { where: "accountSettings" }
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
     | { where: "weather", tab: WeatherTab, countryCode: string, location: LocationCoordinates, query: string, ref?: string };
@@ -60,6 +61,8 @@ export function linkTo(destination: LinkDestination): string {
             return linkToSignUp(destination);
         case "signUpVerify":
             return linkToSignUpVerify(destination);
+        case "accountSettings":
+            return linkToAccountSettings(destination);
         case "forgotPassword":
             return linkToForgotPassword(destination);
         case "searchByQuery":
@@ -117,6 +120,10 @@ function linkToForgotPassword({ email }: LinkDestinationTo<"forgotPassword">): s
         link += `?email=${encodeURIComponent(email)}`;
     }
     return link;
+}
+
+function linkToAccountSettings({ }: LinkDestinationTo<"accountSettings">): string {
+    return "/account";
 }
 
 function linkToSearchByQuery({ query }: LinkDestinationTo<"searchByQuery">): string {

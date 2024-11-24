@@ -15,3 +15,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+import { useContext } from "preact/hooks";
+import { Account } from "../accounts/account";
+import { UserSystem } from "../accounts/system";
+import { Link } from "../views/components/link";
+import { Deps } from "../views/_deps";
+import { linkTo } from "../routes/_links";
+
+export interface AccountSettingsProps {
+    readonly userAccount: Account;
+}
+
+export function AccountSettings({ userAccount }: AccountSettingsProps) {
+    const { i18n } = useContext(Deps);
+    return (
+        <section className="account-settings">
+            <h1>{i18n.t('accounts.account')}</h1>
+            <div className="v-flow spacing outset-top">
+                <form method="post" action={linkTo({ where: "accountSettings" })} className="v-flow spacing outset-top">
+                    <label for="email">{i18n.t('accounts.emailLabel')}</label>
+                    <input type="email" name="email" value={userAccount.email} disabled />
+                </form>
+                <Link where="signOut">{i18n.t('accounts.signOut')}</Link>
+            </div>
+        </section>
+    );
+}

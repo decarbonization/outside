@@ -39,9 +39,9 @@ export function ForgotPassword({ email, message }: ForgotPasswordProps) {
             </p>
             <form method="post" action={linkTo({ where: "forgotPassword" })} className="v-flow spacing outset-top">
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
-                <input type="email" name="email" value={email} />
+                <input type="email" name="email" value={email} required />
                 <div className="h-flow centered spacing">
-                    <button type="submit">{i18n.t('accounts.forgotPasswordExplanation')}</button>
+                    <button type="submit">{i18n.t('accounts.forgotPassword')}</button>
                 </div>
             </form>
             <Message what={message} />

@@ -28,6 +28,7 @@ import { proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
 import { renderForgotPassword } from "../views/accounts/forgot-password";
 import { fullyQualifiedLinkTo, linkTo } from "./_links";
+import { renderAccountSettings } from "../views/accounts/account-settings";
 
 export interface UserRouteOptions {
     readonly userSystem: UserSystem;
@@ -204,6 +205,21 @@ async function postForgotPassword(
     throw new Error("Unimplemented");
 }
 
+async function getSettings(
+    { userSystem }: UserRouteOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const userAccount = req.userAccount;
+    if (userAccount === undefined) {
+        res.redirect(linkTo({ where: "index" }));
+        return;
+    }
+    const deps = await makeDeps({ req });
+    const resp = renderAccountSettings({ deps, userAccount });
+    res.type('html').send(resp);
+}
+
 export function AccountRoutes(options: UserRouteOptions) {
     return Router()
         .get('/sign-in', async (req, res) => {
@@ -229,5 +245,8 @@ export function AccountRoutes(options: UserRouteOptions) {
         })
         .post('/forgot-password', urlencoded({ extended: true }), async (req, res) => {
             await postForgotPassword(options, req, res);
+        })
+        .get('/account', async (req, res) => {
+            await getSettings(options, req, res);
         });
 }

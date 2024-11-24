@@ -41,7 +41,7 @@ export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps)
                         {i18n.t('placeSearch.useCurrentLocation')}
                     </button>
                 </form>
-                    <Link where="signOut">{i18n.t('accounts.signOut')}</Link>
+                    <Link where="accountSettings">{i18n.t('accounts.account')}</Link>
                 </>
             ) : (
                 <>

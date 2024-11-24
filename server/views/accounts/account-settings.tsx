@@ -15,3 +15,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+import { Account } from "../../accounts/account";
+import { UserSystem } from "../../accounts/system";
+import { renderApp } from "../../templates/_app";
+import { AccountSettings } from "../../templates/account-settings";
+import { DepsObject } from "../_deps";
+
+export interface AccountSettingsOptions {
+    readonly deps: DepsObject;
+    readonly userAccount: Account;
+}
+
+export function renderAccountSettings({ deps, userAccount }: AccountSettingsOptions): string {
+    return renderApp({ deps }, (
+        <AccountSettings
+            userAccount={userAccount} />
+    ));
+}

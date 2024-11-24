@@ -12,6 +12,7 @@
         "useCurrentLocation": "Use Current Location"
     },
     "accounts": {
+        "account": "Account",
         "confirmPasswordLabel": "Confirm Password:",
         "duplicateEmail": "Email already in use",
         "emailLabel": "Email:",
