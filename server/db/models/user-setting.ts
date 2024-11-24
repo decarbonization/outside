@@ -19,8 +19,8 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "@sequelize/core";
 import { Attribute, NotNull, PrimaryKey, Table } from '@sequelize/core/decorators-legacy';
 
-@Table({ tableName: "settings" })
-export class SettingModel extends Model<InferAttributes<SettingModel>, InferCreationAttributes<SettingModel>> {
+@Table({ tableName: "user_settings" })
+export class UserSettingModel extends Model<InferAttributes<UserSettingModel>, InferCreationAttributes<UserSettingModel>> {
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
 

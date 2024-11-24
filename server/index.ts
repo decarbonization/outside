@@ -42,6 +42,7 @@ import { WeatherAstronomyRoutes } from './routes/weather-astronomy-routes';
 import { WeatherForecastRoutes } from './routes/weather-forecast-routes';
 import { env } from './utilities/env';
 import { setUpShutDownHooks } from './utilities/shut-down';
+import { milliseconds } from 'date-fns';
 
 dotenv.config();
 
@@ -94,21 +95,15 @@ const mailer = new MailtrapClient({
 
 const app = express();
 
-if (env('HOST', 'localhost') !== 'localhost') {
-    app.enable("trust proxy");
-}
-
 app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
 app.use(session({
     secret: env("SESSION_SECRETS").split(","),
     resave: true,
     saveUninitialized: true,
-    proxy: env('HOST', 'localhost') !== 'localhost',
     cookie: {
-        secure: env('HOST', 'localhost') !== 'localhost',
-        sameSite: "none",
-    }
+        maxAge: milliseconds({ days: 30 }),
+    },
 }));
 app.use(accountMiddleware({ userSystem }));
 

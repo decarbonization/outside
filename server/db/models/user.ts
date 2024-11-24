@@ -18,8 +18,8 @@
 
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from "@sequelize/core";
 import { Attribute, Default, HasMany, NotNull, PrimaryKey, Table, Unique } from '@sequelize/core/decorators-legacy';
-import { SessionModel } from "./session";
-import { SettingModel } from "./setting";
+import { UserSessionModel } from "./user-session";
+import { UserSettingModel } from "./user-setting";
 
 @Table({ tableName: "users" })
 export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
@@ -47,9 +47,9 @@ export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAt
     @Attribute(DataTypes.ARRAY(DataTypes.STRING))
     declare scopes: string[];
 
-    @HasMany(() => SessionModel, /* foreign key */ 'userID')
-    declare sessions?: NonAttribute<SessionModel[]>;
+    @HasMany(() => UserSessionModel, /* foreign key */ 'userID')
+    declare sessions?: NonAttribute<UserSessionModel[]>;
 
-    @HasMany(() => SettingModel, /* foreign key */ 'userID')
-    declare settings?: NonAttribute<SettingModel[]>;
+    @HasMany(() => UserSettingModel, /* foreign key */ 'userID')
+    declare settings?: NonAttribute<UserSettingModel[]>;
 }

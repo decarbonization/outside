@@ -19,8 +19,8 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "@sequelize/core";
 import { Attribute, NotNull, PrimaryKey, Table, Unique } from '@sequelize/core/decorators-legacy';
 
-@Table({ tableName: "sessions" })
-export class SessionModel extends Model<InferAttributes<SessionModel>, InferCreationAttributes<SessionModel>> {
+@Table({ tableName: "user_sessions" })
+export class UserSessionModel extends Model<InferAttributes<UserSessionModel>, InferCreationAttributes<UserSessionModel>> {
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
     
@@ -42,5 +42,4 @@ export class SessionModel extends Model<InferAttributes<SessionModel>, InferCrea
 
     @Attribute(DataTypes.ARRAY(DataTypes.STRING))
     declare tokenScopes: string[] | null;
-
 }

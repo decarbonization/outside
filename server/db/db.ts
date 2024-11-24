@@ -20,8 +20,8 @@ import { Options, Sequelize } from '@sequelize/core';
 import { PostgresDialect } from '@sequelize/postgres';
 import { env } from '../utilities/env';
 import { UserModel } from './models/user';
-import { SettingModel } from './models/setting';
-import { SessionModel } from './models/session';
+import { UserSettingModel } from './models/user-setting';
+import { UserSessionModel } from './models/user-session';
 
 export function initDB(): Sequelize {
     // NOTE: Must swap out how ssl mode is specified to support DigitalOcean.
@@ -34,7 +34,7 @@ export function initDB(): Sequelize {
     const options: Options<PostgresDialect> = {
         url: databaseURL.href,
         dialect: PostgresDialect,
-        models: [UserModel, SessionModel, SettingModel],
+        models: [UserModel, UserSessionModel, UserSettingModel],
     };
     if (databaseURL.searchParams.get("ssl") === "true") {
         options.ssl = {
@@ -50,7 +50,7 @@ export function initDB(): Sequelize {
             process.exit(1);
         }
         try {
-            await sequelize.sync({ alter: true });
+            await sequelize.sync();
         } catch (error) {
             console.log(`Could not sync models with DB:`, error);
             process.exit(1);

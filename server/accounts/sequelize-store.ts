@@ -18,8 +18,8 @@
 
 import { FindOptions, InferAttributes, Op, Sequelize } from "@sequelize/core";
 import { v4 as uuidv4 } from "uuid";
-import { SessionModel } from "../db/models/session";
-import { SettingModel } from "../db/models/setting";
+import { UserSessionModel } from "../db/models/user-session";
+import { UserSettingModel } from "../db/models/user-setting";
 import { UserModel } from "../db/models/user";
 import { ValidEmail } from "./email";
 import { UserSystemError } from "./errors";
@@ -96,7 +96,7 @@ export class SequelizeStore implements AccountStore {
     }
 
     async insertSession(session: SessionSchema): Promise<void> {
-        await SessionModel.create({
+        await UserSessionModel.create({
             id: session.id,
             userID: session.userID,
             token: session.token,
@@ -106,7 +106,7 @@ export class SequelizeStore implements AccountStore {
 
     async updateSession(session: SessionSchema): Promise<void> {
         await this.sequalize.transaction(async () => {
-            const model = await SessionModel.findOne({ where: { id: session.id } });
+            const model = await UserSessionModel.findOne({ where: { id: session.id } });
             if (model === null) {
                 throw new UserSystemError('unknownSession', `Session <${session.id}> does not exist`);
             }
@@ -119,7 +119,7 @@ export class SequelizeStore implements AccountStore {
 
     async deleteSession(sessionID: SessionID): Promise<void> {
         await this.sequalize.transaction(async () => {
-            const model = await SessionModel.findOne({ where: { id: sessionID } });
+            const model = await UserSessionModel.findOne({ where: { id: sessionID } });
             if (model === null) {
                 throw new UserSystemError('unknownSession', `Session <${sessionID}> does not exist`);
             }
@@ -128,7 +128,7 @@ export class SequelizeStore implements AccountStore {
     }
 
     async getSession(sessionID: SessionID): Promise<SessionSchema | undefined> {
-        const model = await SessionModel.findOne({ where: { id: sessionID } });
+        const model = await UserSessionModel.findOne({ where: { id: sessionID } });
         if (model === null) {
             return undefined;
         }
@@ -143,11 +143,11 @@ export class SequelizeStore implements AccountStore {
     async putSettings(settings: SettingSchema[]): Promise<void> {
         await this.sequalize.transaction(async () => {
             for (const { userID, name, value } of settings) {
-                const existing = await SettingModel.findOne({ where: { userID, name } })
+                const existing = await UserSettingModel.findOne({ where: { userID, name } })
                 if (existing !== null) {
                     await existing.update({ value });
                 } else {
-                    await SettingModel.create({
+                    await UserSettingModel.create({
                         userID, name, value });
                 }
             }
@@ -157,7 +157,7 @@ export class SequelizeStore implements AccountStore {
     async deleteSettings(userID: UserID, names: SettingName[]): Promise<Set<SettingName>> {
         return await this.sequalize.transaction(async () => {
             const deleted = new Set<SettingName>();
-            const models = await SettingModel.findAll({ where: { userID, name: { [Op.in]: names } } });
+            const models = await UserSettingModel.findAll({ where: { userID, name: { [Op.in]: names } } });
             for (const model of models) {
                 deleted.add(model.name as SettingName);
                 await model.destroy();
@@ -167,7 +167,7 @@ export class SequelizeStore implements AccountStore {
     }
 
     async getSettings(userID: UserID, names: SettingName[]): Promise<SettingSchema[]> {
-        const models = await SettingModel.findAll({ where: { userID, name: { [Op.in]: names } } });
+        const models = await UserSettingModel.findAll({ where: { userID, name: { [Op.in]: names } } });
         return models.map(model => ({
             userID: model.userID,
             name: model.name as SettingName,
