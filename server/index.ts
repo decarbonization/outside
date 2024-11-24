@@ -97,7 +97,12 @@ const app = express();
 
 app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
+const PGStore = require('connect-pg-simple')(session);
 app.use(session({
+    store: new PGStore({
+        conString: env('DATABASE_URL'),
+        createTableIfMissing: true,
+    }),
     secret: env("SESSION_SECRETS").split(","),
     resave: true,
     saveUninitialized: true,
