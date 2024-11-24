@@ -23,7 +23,7 @@ import { UserSystemError } from "../accounts/errors";
 import { UserSystem } from "../accounts/system";
 import { renderSignIn } from "../templates/sign-in";
 import { renderSignUp } from "../templates/sign-up";
-import { env } from "../utilities/env";
+import { env, envFlag } from "../utilities/env";
 import { proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
 import { renderForgotPassword } from "../views/accounts/forgot-password";
@@ -103,6 +103,10 @@ async function getSignUp(
     req: Request,
     res: Response
 ): Promise<void> {
+    if (envFlag("DISABLE_SIGN_UP", false)) {
+        res.redirect(linkTo({ where: "index" }));
+        return;
+    }
     const returnTo = proveString(req.query["returnto"]);
     const deps = await makeDeps({ req });
     const resp = renderSignUp({ deps, returnTo });
@@ -114,6 +118,10 @@ async function postSignUp(
     req: Request<object, any, { email?: string, password?: string, confirm_password?: string }>,
     res: Response
 ): Promise<void> {
+    if (envFlag("DISABLE_SIGN_UP", false)) {
+        res.redirect(linkTo({ where: "index" }));
+        return;
+    }
     const email = req.body.email ?? "";
     const password = req.body.password ?? "";
     const confirmPassword = req.body.confirm_password ?? "";

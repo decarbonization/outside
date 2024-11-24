@@ -20,6 +20,7 @@ import { useContext } from "preact/hooks";
 import { linkTo } from "../../routes/_links";
 import { Deps } from "../_deps";
 import { Link } from "../components/link";
+import { envFlag } from "../../utilities/env";
 
 export type SignInMessage =
     | 'none'
@@ -45,7 +46,7 @@ export function SignIn({ email, message, returnTo }: SignInProps) {
                 <label for="password">{i18n.t('accounts.passwordLabel')}</label>
                 <input type="password" name="password" />
                 <div className="h-flow centered spacing">
-                    <Link className="button-like" where="signUp">{i18n.t('accounts.signUp')}</Link>
+                    {!envFlag("DISABLE_SIGN_UP", false) && <Link className="button-like" where="signUp">{i18n.t('accounts.signUp')}</Link>}
                     <Link className="button-like" where="forgotPassword">{i18n.t('accounts.forgotPassword')}</Link>
                     <button type="submit">{i18n.t('accounts.signIn')}</button>
                 </div>

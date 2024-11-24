@@ -110,6 +110,7 @@ The following environment variables may be provided:
 - `DAILY_FORECAST_LIMIT`: The number of days to include in the forecast. Defaults to `7`.
 - `HOURLY_FORECAST_LIMIT`: The number of hours to include in the forecast. Defaults to `24`.
 - `DAILY_POLLEN_FORECAST_LIMIT`: The number of days to include in the pollen forecast. Defaults to `3`.
+- `DISABLE_SIGN_UP`: Disables sign up functionality.
 
 All environment variables may be provided in a `.env` file.
 
