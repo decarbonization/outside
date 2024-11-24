@@ -61,23 +61,44 @@ In order for Outside to allow users to sign in, it must be configured with the f
 
 - `SESSION_SECRETS`: A comma-separated list of secrets to sign session cookies with.
 - `SALTS`: A comma-separated list of salts for passwords. The first salt in the list used for new password entries.
-- `SQL_SERVER`: URL for the PostgreSQL server to connect to including username, password, and port.
+- `DATABASE_URL`: URL for the PostgreSQL server to connect to including username, password, and port.
+
+####
+
+To set up postgres for local development on macOS, install it with homebrew:
 
 ```sh
 brew install postgresql
+```
+
+Once installed, you can start the server:
+
+```sh
 brew services start postgresql
 ```
+
+Next, enter into an interactive session:
 
 ```sql
 psql postgres
 ```
 
+Create a user for outside:
+
 ```sql
 create role outside with password 'alpine' login;
 ```
 
+Then create a database for outside:
+
 ```sql
 create database outside with owner outside;
+```
+
+It should then be possible to set the `DATABASE_URL` environment variable like so:
+
+```
+DATABASE_URL="postgres://outside:alpine@localhost:5432/outside"
 ```
 
 ### Additional Options

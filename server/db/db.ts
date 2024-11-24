@@ -25,7 +25,7 @@ import { SessionModel } from './models/session';
 
 export function initDB(): Sequelize {
     const sequelize = new Sequelize({
-        url: env('SQL_SERVER'),
+        url: env('DATABASE_URL'),
         dialect: PostgresDialect,
         models: [UserModel, SessionModel, SettingModel],
     });
