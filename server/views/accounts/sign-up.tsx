@@ -23,6 +23,7 @@ import { Deps } from "../_deps";
 export type SignUpMessage =
     | 'none'
     | 'duplicateEmail'
+    | 'mismatchedPasswords'
     | 'verificationEmailSent';
 
 export interface SignUpProps {
@@ -67,6 +68,10 @@ function Message({ what = 'none' }: MessageProps) {
         case 'duplicateEmail':
             return (
                 <p className="message">{i18n.t('accounts.duplicateEmail')}</p>
+            );
+        case 'mismatchedPasswords':
+            return (
+                <p className="message">{i18n.t('accounts.mismatchedPasswords')}</p>
             );
         case 'verificationEmailSent':
             return (

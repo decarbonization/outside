@@ -114,20 +114,13 @@ async function postSignUp(
     req: Request<object, any, { email?: string, password?: string, confirm_password?: string }>,
     res: Response
 ): Promise<void> {
-    const email = req.body.email;
-    if (email === undefined) {
-        throw new Error();
-    }
-    const password = req.body.password;
-    if (password === undefined) {
-        throw new Error();
-    }
-
-    const confirmPassword = req.body.confirm_password;
-    if (confirmPassword === undefined) {
-        throw new Error();
-    }
+    const email = req.body.email ?? "";
+    const password = req.body.password ?? "";
+    const confirmPassword = req.body.confirm_password ?? "";
     try {
+        if (password !== confirmPassword) {
+            throw new UserSystemError('mismatchedPasswords', 'Provided passwords do not match');
+        }
         const session = await userSystem.signUp(email, password);
         req.session.sid = session.id;
         console.info(`Started session <${session.id}> with for <${email}>`);
@@ -157,6 +150,10 @@ async function postSignUp(
             const deps = await makeDeps({ req });
             const resp = renderSignUp({ deps, email, message: 'duplicateEmail' });
             res.status(401).type('html').send(resp);
+        } else if (UserSystemError.is(err, 'mismatchedPasswords')) {
+            const deps = await makeDeps({ req });
+            const resp = renderSignUp({ deps, email, message: 'mismatchedPasswords' });
+            res.status(401).type('html').send(resp);
         } else {
             throw err;
         }
@@ -168,15 +165,13 @@ async function getVerify(
     req: Request,
     res: Response
 ): Promise<void> {
-    if (typeof req.query.token !== 'string') {
-        throw new Error();
-    }
+    const token = proveString(req.query['token']);
     const account = req.userAccount;
-    if (account === undefined) {
+    if (token === undefined || account === undefined) {
         res.redirect(linkTo({ where: "index" }));
         return;
     }
-    await userSystem.verifyEmail(account.sessionID, account.email, req.query.token);
+    await userSystem.verifyEmail(account.sessionID, account.email, token);
 
     const returnTo = proveString(req.query["returnto"]);
     if (returnTo !== undefined) {
@@ -206,7 +201,7 @@ async function postForgotPassword(
 }
 
 async function getSettings(
-    { userSystem }: UserRouteOptions,
+    { }: UserRouteOptions,
     req: Request,
     res: Response
 ): Promise<void> {

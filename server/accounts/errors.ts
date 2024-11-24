@@ -21,6 +21,7 @@ export type UserSystemErrorCode =
     | 'duplicateEmail'
     | 'invalidPassword'
     | 'incorrectPassword'
+    | 'mismatchedPasswords'
     | 'unknownUser'
     | 'unknownSession'
     | 'expiredSession'
