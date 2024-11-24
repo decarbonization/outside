@@ -20,8 +20,8 @@ import { describe, expect, it } from '@jest/globals';
 import { addMinutes } from 'date-fns';
 import { ValidEmail } from '../../../server/accounts/email';
 import { InMemoryAccountStore } from '../../../server/accounts/in-memory-store';
-import { SessionModel, UserModel } from '../../../server/accounts/models';
 import { HashedPassword, token } from '../../../server/accounts/password';
+import { SessionSchema, UserSchema } from '../../../server/accounts/schemas';
 
 describe("accounts#in-memory-user-store module", () => {
     describe("#InMemoryAccountStore", () => {
@@ -32,12 +32,10 @@ describe("accounts#in-memory-user-store module", () => {
             const createdAt = new Date();
             const email = "hello@real.com" as ValidEmail;
             const password = "0b3ab4ede2053eed011ce31a16646f1c8c2e7c8c2c392cca4e2dbe14751aa442f26366301c5e3df4794cc75e7e095a4681137177be033ebf876c46d6b3a51ecf" as HashedPassword;
-            const referenceUser: UserModel = {
+            const referenceUser: UserSchema = {
                 id,
-                createdAt,
                 email,
                 password,
-                lastModified: createdAt,
                 isVerified: false,
             };
             await subject.insertUser(referenceUser);
@@ -65,9 +63,8 @@ describe("accounts#in-memory-user-store module", () => {
             const id = await subject.newSessionID();
             const createdAt = new Date();
             const userID = await subject.newUserID();
-            const referenceSession: SessionModel = {
+            const referenceSession: SessionSchema = {
                 id,
-                createdAt,
                 userID,
             };
             await subject.insertSession(referenceSession);

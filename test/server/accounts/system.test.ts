@@ -20,8 +20,8 @@ import { describe, expect, it } from '@jest/globals';
 import { ValidEmail } from '../../../server/accounts/email';
 import { InMemoryAccountStore } from '../../../server/accounts/in-memory-store';
 import { HashedPassword } from '../../../server/accounts/password';
-import { UserSystem } from '../../../server/accounts/system';
 import { AccountStore } from '../../../server/accounts/store';
+import { UserSystem } from '../../../server/accounts/system';
 
 describe("accounts#system module", () => {
     describe("#UserSystem", () => {
@@ -150,23 +150,18 @@ describe("accounts#system module", () => {
 });
 
 function makeUserSystem(): [AccountStore, UserSystem] {
-    const now = new Date();
     const store = new InMemoryAccountStore({
         users: [
             {
                 id: 'd8d7212e-eab8-4b82-96da-37430c326b21',
-                createdAt: now,
                 email: "john@real.com" as ValidEmail,
                 password: "0b3ab4ede2053eed011ce31a16646f1c8c2e7c8c2c392cca4e2dbe14751aa442f26366301c5e3df4794cc75e7e095a4681137177be033ebf876c46d6b3a51ecf" as HashedPassword,
-                lastModified: now,
                 isVerified: true,
             },
             {
                 id: 'd8d7212e-eab8-4b82-96da-37430c326b21',
-                createdAt: now,
                 email: "guy@real.com" as ValidEmail,
                 password: "0b3ab4ede2053eed011ce31a16646f1c8c2e7c8c2c392cca4e2dbe14751aa442f26366301c5e3df4794cc75e7e095a4681137177be033ebf876c46d6b3a51ecf" as HashedPassword,
-                lastModified: now,
                 isVerified: false,
             },
         ],
