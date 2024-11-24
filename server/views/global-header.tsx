@@ -19,6 +19,7 @@
 import { useContext } from "preact/hooks";
 import { linkTo } from "../routes/_links";
 import { Deps } from "./_deps";
+import { Link } from "./components/link";
 
 export interface GlobalHeaderProps {
     readonly searchQuery?: string;
@@ -32,18 +33,20 @@ export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps)
             <div className="logo">
                 {i18n.t('appName')}
             </div>
-            <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
-                <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled || !isUserLoggedIn} />
-                {isUserLoggedIn && <button class="place-search-current-location" type="button" disabled>
-                    {i18n.t('placeSearch.useCurrentLocation')}
-                </button>}
-            </form>
             {isUserLoggedIn ? (
-                <a href={linkTo({ where: "signOut" })}>{i18n.t('accounts.signOut')}</a>
+                <>
+                    <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
+                    <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled || !isUserLoggedIn} />
+                    <button class="place-search-current-location" type="button" disabled>
+                        {i18n.t('placeSearch.useCurrentLocation')}
+                    </button>
+                </form>
+                    <Link where="signOut">{i18n.t('accounts.signOut')}</Link>
+                </>
             ) : (
                 <>
-                    <a href={linkTo({ where: "signIn" })}>{i18n.t('accounts.signIn')}</a>
-                    <a href={linkTo({ where: "signUp" })}>{i18n.t('accounts.signUp')}</a>
+                    <div className="flexible-spacer" />
+                    <Link where="signIn">{i18n.t('accounts.signIn')}</Link>
                 </>
             )}
         </header>

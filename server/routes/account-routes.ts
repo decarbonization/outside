@@ -22,11 +22,12 @@ import { MailtrapClient } from "mailtrap";
 import { UserSystemError } from "../accounts/errors";
 import { UserSystem } from "../accounts/system";
 import { renderSignIn } from "../templates/sign-in";
-import { proveString } from "../utilities/maybe";
-import { makeDeps } from "../views/_deps";
-import { fullyQualifiedLinkTo, linkTo } from "./_links";
 import { renderSignUp } from "../templates/sign-up";
 import { env } from "../utilities/env";
+import { proveString } from "../utilities/maybe";
+import { makeDeps } from "../views/_deps";
+import { renderForgotPassword } from "../views/accounts/forgot-password";
+import { fullyQualifiedLinkTo, linkTo } from "./_links";
 
 export interface UserRouteOptions {
     readonly userSystem: UserSystem;
@@ -177,11 +178,30 @@ async function getVerify(
     await userSystem.verifyEmail(account.sessionID, account.email, req.query.token);
 
     const returnTo = proveString(req.query["returnto"]);
-        if (returnTo !== undefined) {
+    if (returnTo !== undefined) {
         res.redirect(returnTo);
     } else {
         res.redirect(linkTo({ where: "index" }));
     }
+}
+
+async function getForgotPassword(
+    { }: UserRouteOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const email = proveString(req.query['email']);
+    const deps = await makeDeps({ req });
+    const resp = renderForgotPassword({ deps, email });
+    res.type('html').send(resp);
+}
+
+async function postForgotPassword(
+    { }: UserRouteOptions,
+    req: Request<{ email?: string }>,
+    res: Response
+): Promise<void> {
+    throw new Error("Unimplemented");
 }
 
 export function AccountRoutes(options: UserRouteOptions) {
@@ -203,5 +223,11 @@ export function AccountRoutes(options: UserRouteOptions) {
         })
         .get('/sign-up/verify', async (req, res) => {
             await getVerify(options, req, res);
+        })
+        .get('/forgot-password', async (req, res) => {
+            await getForgotPassword(options, req, res);
+        })
+        .post('/forgot-password', urlencoded({ extended: true }), async (req, res) => {
+            await postForgotPassword(options, req, res);
         });
 }

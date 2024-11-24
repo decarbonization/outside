@@ -17,37 +17,31 @@
  */
 
 import { useContext } from "preact/hooks";
-import { linkTo } from "../../routes/_links";
-import { Deps } from "../_deps";
-import { Link } from "../components/link";
+import { linkTo } from "../routes/_links";
+import { Deps } from "../views/_deps";
 
-export type SignInMessage =
+export type ForgotPasswordMessage =
     | 'none'
-    | 'noSuchUser';
+    | 'emailSent';
 
-export interface SignInProps {
+export interface ForgotPasswordProps {
     readonly email?: string;
-    readonly message?: SignInMessage;
-    readonly returnTo?: string;
+    readonly message?: ForgotPasswordMessage;
 }
 
-export function SignIn({ email, message, returnTo }: SignInProps) {
+export function ForgotPassword({ email, message }: ForgotPasswordProps) {
     const { i18n } = useContext(Deps);
     return (
-        <section className="sign-in">
-            <h1>{i18n.t("accounts.signIn")}</h1>
+        <section className="forgot-password">
+            <h1>{i18n.t("accounts.forgotPassword")}</h1>
             <p>
-                {i18n.t("accounts.signInExplanation")}
+                {i18n.t("accounts.forgotPasswordExplanation")}
             </p>
-            <form method="post" action={linkTo({ where: "signIn", returnTo })} className="v-flow spacing outset-top">
+            <form method="post" action={linkTo({ where: "forgotPassword" })} className="v-flow spacing outset-top">
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
                 <input type="email" name="email" value={email} />
-                <label for="password">{i18n.t('accounts.passwordLabel')}</label>
-                <input type="password" name="password" />
                 <div className="h-flow centered spacing">
-                    <Link where="signUp">{i18n.t('accounts.signUp')}</Link>
-                    <Link where="forgotPassword">{i18n.t('accounts.forgotPassword')}</Link>
-                    <button type="submit">{i18n.t('accounts.signIn')}</button>
+                    <button type="submit">{i18n.t('accounts.forgotPasswordExplanation')}</button>
                 </div>
             </form>
             <Message what={message} />
@@ -56,7 +50,7 @@ export function SignIn({ email, message, returnTo }: SignInProps) {
 }
 
 interface MessageProps {
-    readonly what?: SignInMessage;
+    readonly what?: ForgotPasswordMessage;
 }
 
 function Message({ what = 'none' }: MessageProps) {
@@ -64,7 +58,7 @@ function Message({ what = 'none' }: MessageProps) {
     switch (what) {
         case 'none':
             return null;
-        case 'noSuchUser':
+        case 'emailSent':
             return (
                 <p className="message">{i18n.t('accounts.noSuchUser')}</p>
             );

@@ -12,20 +12,23 @@
         "useCurrentLocation": "Use Current Location"
     },
     "accounts": {
+        "confirmPasswordLabel": "Confirm Password:",
+        "duplicateEmail": "Email already in use",
+        "emailLabel": "Email:",
+        "forgotPassword": "Forgot Password",
+        "forgotPasswordExplanation": "Enter your email to receive a link to reset your password.",
+        "noSuchUser": "No user exists with that email",
+        "passwordLabel": "Password:",
         "signIn": "Sign In",
+        "signInExplanation": "Sign in to use Outside weather.",
         "signOut": "Sign Out",
         "signUp": "Sign Up",
         "signUpExplanation": "Sign up for a free account to use Outside weather.",
-        "forgotPassword": "Forgot Password",
-        "emailLabel": "Email:",
-        "passwordLabel": "Password:",
-        "confirmPasswordLabel": "Confirm Password:",
-        "noSuchUser": "No user exists with that email",
-        "duplicateEmail": "Email already in use",
-        "verificationEmailSent": "Verification email sent, check your inbox. If you haven't received a verification email after a few minutes, check your spam folder.",
+        "submit": "Submit",
+        "verificationEmailBody": "Thank you for signing up for the Outside weather app. Use the link below to verify your email address:\n\n<{{verifyLink}}>\n\nOutside\nA Swamp Monkey Project\n",
         "verificationEmailFrom": "Outside Weather",
-        "verificationEmailSubject": "Please verify your email address",
-        "verificationEmailBody": "Thank you for signing up for the Outside weather app. Use the link below to verify your email address:\n\n<{{verifyLink}}>\n\nOutside\nA Swamp Monkey Project\n"
+        "verificationEmailSent": "Verification email sent, check your inbox. If you haven't received a verification email after a few minutes, check your spam folder.",
+        "verificationEmailSubject": "Please verify your email address"
     },
     "forecast": {
         "measurementLabels": {
