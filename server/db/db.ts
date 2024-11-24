@@ -24,8 +24,12 @@ import { SettingModel } from './models/setting';
 import { SessionModel } from './models/session';
 
 export function initDB(): Sequelize {
+    // NOTE: Must swap out how ssl mode is specified to support DigitalOcean.
+    //       See <https://github.com/sequelize/sequelize/issues/10015>.
+    const databaseURL = env('DATABASE_URL')
+        .replace("sslmode=require", "ssl=true");
     const sequelize = new Sequelize({
-        url: env('DATABASE_URL'),
+        url: databaseURL,
         dialect: PostgresDialect,
         models: [UserModel, SessionModel, SettingModel],
     });
