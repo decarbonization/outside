@@ -21,24 +21,27 @@ import { linkTo } from "../routes/_links";
 import { Deps, DepsObject } from "../views/_deps";
 import { renderApp } from "./_app";
 
-export type SignInMessage =
+export type SignUpMessage =
     | 'none'
-    | 'noSuchUser';
+    | 'duplicateEmail'
+    | 'verificationEmailSent';
 
-export interface SignInOptions {
+export interface SignUpOptions {
     readonly deps: DepsObject;
     readonly email?: string;
-    readonly message?: SignInMessage;
+    readonly message?: SignUpMessage;
 }
 
-export function renderSignIn({ deps, email, message }: SignInOptions): string {
+export function renderSignUp({ deps, email, message }: SignUpOptions): string {
     return renderApp({ deps }, (
-        <section className="sign-in">
-            <form method="post" action={linkTo({ where: "signIn" })}>
+        <section className="sign-up">
+            <form method="post" action={linkTo({ where: "signUp" })}>
                 <label for="email">{deps.i18n.t('accounts.emailLabel')}</label>
-                <input type="email" name="email" value={email} />
+                <input type="email" name="email" value={email} required />
                 <label for="password">{deps.i18n.t('accounts.passwordLabel')}</label>
-                <input type="password" name="password" />
+                <input type="password" name="password" required />
+                <label for="confirm_password">{deps.i18n.t('accounts.confirmPasswordLabel')}</label>
+                <input type="password" name="confirm_password" required />
                 <button type="submit">{deps.i18n.t('accounts.submit')}</button>
             </form>
             <Message what={message} />
@@ -47,7 +50,7 @@ export function renderSignIn({ deps, email, message }: SignInOptions): string {
 }
 
 interface MessageProps {
-    readonly what?: SignInMessage;
+    readonly what?: SignUpMessage;
 }
 
 function Message({ what = 'none' }: MessageProps) {
@@ -55,9 +58,13 @@ function Message({ what = 'none' }: MessageProps) {
     switch (what) {
         case 'none':
             return null;
-        case 'noSuchUser':
+        case 'duplicateEmail':
             return (
-                <p className="message">{i18n.t('accounts.noSuchUser')}</p>
+                <p className="message">{i18n.t('accounts.duplicateEmail')}</p>
+            );
+        case 'verificationEmailSent':
+            return (
+                <p className="message">{i18n.t('accounts.verificationEmailSent')}</p>
             );
     }
 }

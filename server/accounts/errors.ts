@@ -23,7 +23,8 @@ export type UserSystemErrorCode =
     | 'incorrectPassword'
     | 'unknownUser'
     | 'unknownSession'
-    | 'expiredSession';
+    | 'expiredSession'
+    | 'userAlreadyVerified';
 
 export class UserSystemError extends Error {
     static is(error: unknown, code: UserSystemErrorCode): boolean {

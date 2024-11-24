@@ -29,9 +29,9 @@ import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import { MailtrapClient } from "mailtrap";
 import path from "path";
-import { InMemoryAccountStore } from './accounts/in-memory-store';
+import { SequelizeStore } from './accounts/sequelize-store';
 import { UserSystem } from './accounts/system';
-import { initDB } from './db/db';
+import { initDB as initSequelize } from './db/db';
 import { accountMiddleware } from './middlewares/account-middleware';
 import { ErrorMiddleware } from './middlewares/error-middleware';
 import { AccountRoutes } from './routes/account-routes';
@@ -50,6 +50,8 @@ process.on('unhandledRejection', (reason: Error | any) => {
 
     throw new Error(reason.message || reason);
 });
+
+const sequelize = initSequelize();
 
 const localesDir = path.join(__dirname, "..", "locales");
 const staticDir = path.join(__dirname, "..", "static");
@@ -83,14 +85,12 @@ const gMapsApiKey = new GoogleMapsApiKey(
     env("GOOGLE_MAPS_API_KEY"),
 )
 const userSystem = new UserSystem({
-    store: new InMemoryAccountStore(),
+    store: new SequelizeStore(sequelize),
     salts: env("SALTS").split(","),
 });
 const mailer = new MailtrapClient({
     token: env("MAILTRAP_API_KEY"),
 });
-
-initDB();
 
 const app = express();
 

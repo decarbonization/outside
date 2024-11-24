@@ -36,6 +36,12 @@ export function initDB(): Sequelize {
             console.error(`Could not authenticate DB:`, error);
             process.exit(1);
         }
+        try {
+            await sequelize.sync();
+        } catch (error) {
+            console.log(`Could not sync models with DB:`, error);
+            process.exit(1);
+        }
     })();
     return sequelize;
 }

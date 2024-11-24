@@ -24,7 +24,9 @@ import { UserSystem } from "../accounts/system";
 import { renderSignIn } from "../templates/sign-in";
 import { proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
-import { linkTo } from "./_links";
+import { fullyQualifiedLinkTo, linkTo } from "./_links";
+import { renderSignUp } from "../templates/sign-up";
+import { env } from "../utilities/env";
 
 export interface UserRouteOptions {
     readonly userSystem: UserSystem;
@@ -88,15 +90,111 @@ async function getSignOut(
     }
 }
 
+async function getSignUp(
+    { }: UserRouteOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const deps = await makeDeps({ req });
+    const resp = renderSignUp({ deps });
+    res.type('html').send(resp);
+}
+
+async function postSignUp(
+    { userSystem, mailer }: UserRouteOptions,
+    req: Request<object, any, { email?: string, password?: string, confirm_password?: string }>,
+    res: Response
+): Promise<void> {
+    const email = req.body.email;
+    if (email === undefined) {
+        throw new Error();
+    }
+    const password = req.body.password;
+    if (password === undefined) {
+        throw new Error();
+    }
+
+    const confirmPassword = req.body.confirm_password;
+    if (confirmPassword === undefined) {
+        throw new Error();
+    }
+    try {
+        const session = await userSystem.signUp(email, password);
+        req.session.sid = session.id;
+        console.info(`Started session <${session.id}> with for <${email}>`);
+
+        const i18n = req.i18n;
+        const verifyLink = fullyQualifiedLinkTo({ where: "signUpVerify", token: session.token! });
+        await mailer.send({
+            from: {
+                email: env("MAILTRAP_SENDER"),
+                name: i18n.t('accounts.verificationEmailFrom'),
+            },
+            to: [
+                {
+                    email
+                }
+            ],
+            subject: i18n.t("accounts.verificationEmailSubject"),
+            text: i18n.t("accounts.verificationEmailBody", { verifyLink, interpolation: { escapeValue: false } }),
+            category: "Outside Weather Logins"
+        });
+
+        const deps = await makeDeps({ req });
+        const resp = renderSignUp({ deps, email, message: 'verificationEmailSent' });
+        res.status(401).type('html').send(resp);
+    } catch (err) {
+        if (UserSystemError.is(err, 'duplicateEmail')) {
+            const deps = await makeDeps({ req });
+            const resp = renderSignUp({ deps, email, message: 'duplicateEmail' });
+            res.status(401).type('html').send(resp);
+        } else {
+            throw err;
+        }
+    }
+}
+
+async function getVerify(
+    { userSystem }: UserRouteOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    if (typeof req.query.token !== 'string') {
+        throw new Error();
+    }
+    const account = req.userAccount;
+    if (account === undefined) {
+        res.redirect(linkTo({ where: "index" }));
+        return;
+    }
+    await userSystem.verifyEmail(account.sessionID, account.email, req.query.token);
+
+    const returnTo = req.query.returnto;
+    if (typeof returnTo === 'string') {
+        res.redirect(returnTo);
+    } else {
+        res.redirect(linkTo({ where: "index" }));
+    }
+}
+
 export function AccountRoutes(options: UserRouteOptions) {
     return Router()
         .get('/sign-in', async (req, res) => {
             await getSignIn(options, req, res);
         })
-        .post('/sign-in', urlencoded({ extended: true, parameterLimit: 1 }), async (req, res) => {
+        .post('/sign-in', urlencoded({ extended: true }), async (req, res) => {
             await postSignIn(options, req, res);
         })
         .get('/sign-out', async (req, res) => {
             await getSignOut(options, req, res);
+        })
+        .get('/sign-up', async (req, res) => {
+            await getSignUp(options, req, res);
+        })
+        .post('/sign-up', urlencoded({ extended: true }), async (req, res) => {
+            await postSignUp(options, req, res);
+        })
+        .get('/sign-up/verify', async (req, res) => {
+            await getVerify(options, req, res);
         });
 }

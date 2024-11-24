@@ -29,6 +29,8 @@ export type LinkDestination =
     | { where: "index", query?: string }
     | { where: "signIn" }
     | { where: "signOut", returnTo?: string }
+    | { where: "signUp" }
+    | { where: "signUpVerify", token: string, returnTo?: string }
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
     | { where: "weather", tab: WeatherTab, countryCode: string, location: LocationCoordinates, query: string, ref?: string };
@@ -53,6 +55,10 @@ export function linkTo(destination: LinkDestination): string {
             return linkToSignIn(destination);
         case "signOut":
             return linkToSignOut(destination);
+        case "signUp":
+            return linkToSignUp(destination);
+        case "signUpVerify":
+            return linkToSignUpVerify(destination);
         case "searchByQuery":
             return linkToSearchByQuery(destination);
         case "searchByCoordinates":
@@ -78,6 +84,18 @@ function linkToSignOut({ returnTo }: LinkDestinationTo<"signOut">): string {
     let link = `/sign-out`;
     if (returnTo !== undefined) {
         link += `?returnto=${encodeURIComponent(returnTo)}`
+    }
+    return link;
+}
+
+function linkToSignUp({ }: LinkDestinationTo<"signUp">): string {
+    return "/sign-up";
+}
+
+function linkToSignUpVerify({ token, returnTo }: LinkDestinationTo<"signUpVerify">): string {
+    let link = `/sign-up/verify?token=${encodeURIComponent(token)}`;
+    if (returnTo !== undefined) {
+        link += `&returnto=${encodeURIComponent(returnTo)}`;
     }
     return link;
 }

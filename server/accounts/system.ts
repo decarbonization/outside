@@ -133,6 +133,9 @@ export class UserSystem {
             await this.store.deleteSession(sessionID);
             throw new UserSystemError('unknownUser', "No user");
         }
+        if (user.isVerified) {
+            throw new UserSystemError('userAlreadyVerified', "User already verified");
+        }
         await this.store.updateUser({ ...user, isVerified: true });
 
         await this.store.updateSession({ ...session, token: undefined, tokenExpiresAt: undefined });

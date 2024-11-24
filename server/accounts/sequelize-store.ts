@@ -23,8 +23,8 @@ import { SettingModel } from "../db/models/setting";
 import { UserModel } from "../db/models/user";
 import { ValidEmail } from "./email";
 import { UserSystemError } from "./errors";
-import { SessionID, SessionSchema, SettingSchema, SettingName, UserID, UserSchema } from "./schemas";
 import { HashedPassword, ValidToken } from "./password";
+import { SessionID, SessionSchema, SettingName, SettingSchema, UserID, UserSchema } from "./schemas";
 import { AccountStore, UserQuery } from "./store";
 
 export class SequelizeStore implements AccountStore {
@@ -42,6 +42,7 @@ export class SequelizeStore implements AccountStore {
             email: user.email,
             password: user.password,
             isVerified: user.isVerified,
+            scopes: [],
         });
     }
 
