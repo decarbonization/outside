@@ -16,51 +16,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useContext } from "preact/hooks";
-import { linkTo } from "../routes/_links";
-import { Deps } from "../views/_deps";
+import { DepsObject } from "../views/_deps";
+import { ForgotPassword, ForgotPasswordMessage } from "../views/accounts/forgot-password";
+import { renderApp } from "./_app";
 
-export type ForgotPasswordMessage =
-    | 'none'
-    | 'emailSent';
-
-export interface ForgotPasswordProps {
+export interface ForgotPasswordOptions {
+    readonly deps: DepsObject;
     readonly email?: string;
     readonly message?: ForgotPasswordMessage;
 }
 
-export function ForgotPassword({ email, message }: ForgotPasswordProps) {
-    const { i18n } = useContext(Deps);
-    return (
-        <section className="forgot-password">
-            <h1>{i18n.t("accounts.forgotPassword")}</h1>
-            <p>
-                {i18n.t("accounts.forgotPasswordExplanation")}
-            </p>
-            <form method="post" action={linkTo({ where: "forgotPassword" })} className="v-flow spacing outset-top">
-                <label for="email">{i18n.t('accounts.emailLabel')}</label>
-                <input type="email" name="email" value={email} required />
-                <div className="h-flow centered spacing">
-                    <button type="submit">{i18n.t('accounts.forgotPassword')}</button>
-                </div>
-            </form>
-            <Message what={message} />
-        </section>
-    );
-}
-
-interface MessageProps {
-    readonly what?: ForgotPasswordMessage;
-}
-
-function Message({ what = 'none' }: MessageProps) {
-    const { i18n } = useContext(Deps);
-    switch (what) {
-        case 'none':
-            return null;
-        case 'emailSent':
-            return (
-                <p className="message">{i18n.t('accounts.noSuchUser')}</p>
-            );
-    }
+export function renderForgotPassword({ deps, email, message }: ForgotPasswordOptions): string {
+    return renderApp({ deps }, (
+        <ForgotPassword
+            email={email}
+            message={message} />
+    ));
 }

@@ -42,9 +42,9 @@ export function SignIn({ email, message, returnTo }: SignInProps) {
             </p>
             <form method="post" action={linkTo({ where: "signIn", returnTo })} className="v-flow spacing outset-top">
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
-                <input type="email" name="email" value={email} />
+                <input type="email" name="email" value={email} required />
                 <label for="password">{i18n.t('accounts.passwordLabel')}</label>
-                <input type="password" name="password" />
+                <input type="password" name="password" required />
                 <div className="h-flow centered spacing">
                     {!envFlag("DISABLE_SIGN_UP", false) && <Link className="button-like" where="signUp">{i18n.t('accounts.signUp')}</Link>}
                     <Link className="button-like" where="forgotPassword">{i18n.t('accounts.forgotPassword')}</Link>

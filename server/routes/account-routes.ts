@@ -26,9 +26,9 @@ import { renderSignUp } from "../templates/sign-up";
 import { env, envFlag } from "../utilities/env";
 import { proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
-import { renderForgotPassword } from "../views/accounts/forgot-password";
 import { fullyQualifiedLinkTo, linkTo } from "./_links";
 import { renderAccountSettings } from "../views/accounts/account-settings";
+import { renderForgotPassword } from "../templates/forgot-password";
 
 export interface UserRouteOptions {
     readonly userSystem: UserSystem;
