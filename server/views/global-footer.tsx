@@ -27,7 +27,7 @@ export function GlobalFooter({ }: GlobalFooterProps) {
     const { i18n } = useContext(Deps);
     return (
         <footer className="global">
-            <a href="https://justthegoodparts.kevinmacwhinnie.com">
+            <a href="https://swampmonkeyco.com">
                 {i18n.t('appByline')}
             </a>
         </footer>

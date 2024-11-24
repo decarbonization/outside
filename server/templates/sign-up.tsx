@@ -16,15 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useContext } from "preact/hooks";
-import { linkTo } from "../routes/_links";
-import { Deps, DepsObject } from "../views/_deps";
+import { DepsObject } from "../views/_deps";
+import { SignUp, SignUpMessage } from "../views/accounts/sign-up";
 import { renderApp } from "./_app";
-
-export type SignUpMessage =
-    | 'none'
-    | 'duplicateEmail'
-    | 'verificationEmailSent';
 
 export interface SignUpOptions {
     readonly deps: DepsObject;
@@ -34,37 +28,8 @@ export interface SignUpOptions {
 
 export function renderSignUp({ deps, email, message }: SignUpOptions): string {
     return renderApp({ deps }, (
-        <section className="sign-up">
-            <form method="post" action={linkTo({ where: "signUp" })}>
-                <label for="email">{deps.i18n.t('accounts.emailLabel')}</label>
-                <input type="email" name="email" value={email} required />
-                <label for="password">{deps.i18n.t('accounts.passwordLabel')}</label>
-                <input type="password" name="password" required />
-                <label for="confirm_password">{deps.i18n.t('accounts.confirmPasswordLabel')}</label>
-                <input type="password" name="confirm_password" required />
-                <button type="submit">{deps.i18n.t('accounts.submit')}</button>
-            </form>
-            <Message what={message} />
-        </section>
+        <SignUp
+            email={email}
+            message={message} />
     ));
-}
-
-interface MessageProps {
-    readonly what?: SignUpMessage;
-}
-
-function Message({ what = 'none' }: MessageProps) {
-    const { i18n } = useContext(Deps);
-    switch (what) {
-        case 'none':
-            return null;
-        case 'duplicateEmail':
-            return (
-                <p className="message">{i18n.t('accounts.duplicateEmail')}</p>
-            );
-        case 'verificationEmailSent':
-            return (
-                <p className="message">{i18n.t('accounts.verificationEmailSent')}</p>
-            );
-    }
 }

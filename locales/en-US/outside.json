@@ -1,7 +1,7 @@
 {
     "appName": "Outside",
     "appDescription": "Prepare for any occasion with comprehensive weather forecasts from any device with a web browser.",
-    "appByline": "A Just the Good Parts Project",
+    "appByline": "A Swamp Monkey Co Project",
     "appPoweredBy": "Powered By",
     "errorTitle": "Error",
     "tabForecast": "Forecast",
@@ -15,7 +15,8 @@
         "signIn": "Sign In",
         "signOut": "Sign Out",
         "signUp": "Sign Up",
-        "submit": "Submit",
+        "signUpExplanation": "Sign up for a free account to use Outside weather.",
+        "forgotPassword": "Forgot Password",
         "emailLabel": "Email:",
         "passwordLabel": "Password:",
         "confirmPasswordLabel": "Confirm Password:",

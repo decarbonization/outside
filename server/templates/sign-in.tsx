@@ -16,14 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useContext } from "preact/hooks";
-import { linkTo } from "../routes/_links";
-import { Deps, DepsObject } from "../views/_deps";
+import { DepsObject } from "../views/_deps";
+import { SignIn, SignInMessage } from "../views/accounts/sign-in";
 import { renderApp } from "./_app";
-
-export type SignInMessage =
-    | 'none'
-    | 'noSuchUser';
 
 export interface SignInOptions {
     readonly deps: DepsObject;
@@ -33,31 +28,8 @@ export interface SignInOptions {
 
 export function renderSignIn({ deps, email, message }: SignInOptions): string {
     return renderApp({ deps }, (
-        <section className="sign-in">
-            <form method="post" action={linkTo({ where: "signIn" })}>
-                <label for="email">{deps.i18n.t('accounts.emailLabel')}</label>
-                <input type="email" name="email" value={email} />
-                <label for="password">{deps.i18n.t('accounts.passwordLabel')}</label>
-                <input type="password" name="password" />
-                <button type="submit">{deps.i18n.t('accounts.submit')}</button>
-            </form>
-            <Message what={message} />
-        </section>
+        <SignIn
+            email={email}
+            message={message} />
     ));
-}
-
-interface MessageProps {
-    readonly what?: SignInMessage;
-}
-
-function Message({ what = 'none' }: MessageProps) {
-    const { i18n } = useContext(Deps);
-    switch (what) {
-        case 'none':
-            return null;
-        case 'noSuchUser':
-            return (
-                <p className="message">{i18n.t('accounts.noSuchUser')}</p>
-            );
-    }
 }

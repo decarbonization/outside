@@ -37,7 +37,9 @@ export function App({ className, searchQuery, searchDisabled, children }: AppPro
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <link rel="stylesheet" href="/style/reset.css" />
+                <link rel="stylesheet" href="/style/layout.css" />
                 <link rel="stylesheet" href="/style/main.css" />
+                <link rel="stylesheet" href="/style/icons.css" />
                 <link rel="icon" href="/image/icon.png" />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
