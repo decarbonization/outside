@@ -30,16 +30,20 @@ export interface AppProps {
 }
 
 export function App({ className, searchQuery, searchDisabled, children }: AppProps) {
-    const { i18n, theme } = useContext(Deps);
+    const { i18n } = useContext(Deps);
     return (
         <html lang={i18n.resolvedLanguage}>
             <head>
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <link rel="stylesheet" href="/styles/defaults.css" />
-                {theme.links.map(({ rel, href, crossorigin = false }) => (
-                    <link rel={rel} href={href} crossorigin={crossorigin ? "anonymous" : undefined} />
-                ))}
+                <link rel="stylesheet" href="/style/reset.css" />
+                <link rel="stylesheet" href="/style/main.css" />
+                <link rel="icon" href="/image/icon.png" />
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rokkitt:ital,wght@0,100..900;1,100..900&display=swap" />
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" />
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Rokkitt:ital,wght@0,100..900;1,100..900&display=swap" />
                 <link rel="manifest" href="/app.webmanifest" crossorigin="use-credentials" />
                 <title>
                     {i18n.t('appName')}{searchQuery !== undefined ? ` – ${searchQuery}` : null}

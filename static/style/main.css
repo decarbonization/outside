@@ -242,9 +242,9 @@ header .logo::before {
     width: 32px;
     height: 32px;
     background-size: contain;
-    background-image: image-set(url(/themes/flat/image/icon.png) 1x,
-            url(/themes/flat/image/icon@2x.png) 2x,
-            url(/themes/flat/image/icon@3x.png) 3x);
+    background-image: image-set(url(/image/icon.png) 1x,
+            url(/image/icon@2x.png) 2x,
+            url(/image/icon@3x.png) 3x);
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -294,9 +294,9 @@ header .logo::before {
     width: 20px;
     height: 20px;
     background-size: auto;
-    background-image: image-set(url(/themes/flat/image/use-location.png) 1x,
-            url(/themes/flat/image/use-location@2x.png) 2x,
-            url(/themes/flat/image/use-location@3x.png) 3x);
+    background-image: image-set(url(/image/use-location.png) 1x,
+            url(/image/use-location@2x.png) 2x,
+            url(/image/use-location@3x.png) 3x);
     background-position: center;
     background-repeat: no-repeat;
 }

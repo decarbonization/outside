@@ -22,7 +22,6 @@ import { Theme, themeIcon } from '../../../server/styling/themes';
 describe("themes module", () => {
     const emptyTheme: Theme = {
         name: 'test',
-        links: [],
         icons: {},
     };
 

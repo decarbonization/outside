@@ -130,11 +130,6 @@ export interface Theme {
     readonly description?: string;
 
     /**
-     * The links which import the theme's resources.
-     */
-    readonly links: ThemeLink[];
-
-    /**
      * The icons provided by the theme.
      */
     readonly icons: ThemeIcons;
@@ -160,7 +155,6 @@ export interface Theme {
  */
 export const emptyTheme: Theme = {
     name: "",
-    links: [],
     icons: {},
 };
 

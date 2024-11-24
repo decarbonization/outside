@@ -1,0 +1,512 @@
+.wi {
+    display: inline-block;
+    vertical-align: top;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 50%;
+}
+
+.wi.day {
+    background-color: #56a7f7;
+}
+
+.wi.night {
+    background-color: #06407a;
+}
+
+@media (prefers-color-scheme: dark) {
+    .wi {
+        filter: none;
+    }
+}
+
+.wi.fill.barometer {
+    background-image: url(/image/weather-icons/fill/barometer.svg);
+}
+
+.wi.fill.celsius {
+    background-image: url(/image/weather-icons/fill/celsius.svg);
+}
+
+.wi.fill.clear-day {
+    background-image: url(/image/weather-icons/fill/clear-day.svg);
+}
+
+.wi.fill.clear-night {
+    background-image: url(/image/weather-icons/fill/clear-night.svg);
+}
+
+.wi.fill.cloudy {
+    background-image: url(/image/weather-icons/fill/cloudy.svg);
+}
+
+.wi.fill.compass {
+    background-image: url(/image/weather-icons/fill/compass.svg);
+}
+
+.wi.fill.drizzle {
+    background-image: url(/image/weather-icons/fill/drizzle.svg);
+}
+
+.wi.fill.dust-day {
+    background-image: url(/image/weather-icons/fill/dust-day.svg);
+}
+
+.wi.fill.dust-night {
+    background-image: url(/image/weather-icons/fill/dust-night.svg);
+}
+
+.wi.fill.dust-wind {
+    background-image: url(/image/weather-icons/fill/dust-wind.svg);
+}
+
+.wi.fill.dust {
+    background-image: url(/image/weather-icons/fill/dust.svg);
+}
+
+.wi.fill.fahrenheit {
+    background-image: url(/image/weather-icons/fill/fahrenheit.svg);
+}
+
+.wi.fill.falling-stars {
+    background-image: url(/image/weather-icons/fill/falling-stars.svg);
+}
+
+.wi.fill.fog-day {
+    background-image: url(/image/weather-icons/fill/fog-day.svg);
+}
+
+.wi.fill.fog-night {
+    background-image: url(/image/weather-icons/fill/fog-night.svg);
+}
+
+.wi.fill.fog {
+    background-image: url(/image/weather-icons/fill/fog.svg);
+}
+
+.wi.fill.hail {
+    background-image: url(/image/weather-icons/fill/hail.svg);
+}
+
+.wi.fill.haze-day {
+    background-image: url(/image/weather-icons/fill/haze-day.svg);
+}
+
+.wi.fill.haze-night {
+    background-image: url(/image/weather-icons/fill/haze-night.svg);
+}
+
+.wi.fill.haze {
+    background-image: url(/image/weather-icons/fill/haze.svg);
+}
+
+.wi.fill.horizon {
+    background-image: url(/image/weather-icons/fill/horizon.svg);
+}
+
+.wi.fill.humidity {
+    background-image: url(/image/weather-icons/fill/humidity.svg);
+}
+
+.wi.fill.hurricane {
+    background-image: url(/image/weather-icons/fill/hurricane.svg);
+}
+
+.wi.fill.lightning-bolt {
+    background-image: url(/image/weather-icons/fill/lightning-bolt.svg);
+}
+
+.wi.fill.mist {
+    background-image: url(/image/weather-icons/fill/mist.svg);
+}
+
+.wi.fill.moon-first-quarter {
+    background-image: url(/image/weather-icons/fill/moon-first-quarter.svg);
+}
+
+.wi.fill.moon-full {
+    background-image: url(/image/weather-icons/fill/moon-full.svg);
+}
+
+.wi.fill.moon-last-quarter {
+    background-image: url(/image/weather-icons/fill/moon-last-quarter.svg);
+}
+
+.wi.fill.moon-new {
+    background-image: url(/image/weather-icons/fill/moon-new.svg);
+}
+
+.wi.fill.moon-waning-crescent {
+    background-image: url(/image/weather-icons/fill/moon-waning-crescent.svg);
+}
+
+.wi.fill.moon-waning-gibbous {
+    background-image: url(/image/weather-icons/fill/moon-waning-gibbous.svg);
+}
+
+.wi.fill.moon-waxing-crescent {
+    background-image: url(/image/weather-icons/fill/moon-waxing-crescent.svg);
+}
+
+.wi.fill.moon-waxing-gibbous {
+    background-image: url(/image/weather-icons/fill/moon-waxing-gibbous.svg);
+}
+
+.wi.fill.moonrise {
+    background-image: url(/image/weather-icons/fill/moonrise.svg);
+}
+
+.wi.fill.moonset {
+    background-image: url(/image/weather-icons/fill/moonset.svg);
+}
+
+.wi.fill.not-available {
+    background-image: url(/image/weather-icons/fill/not-available.svg);
+}
+
+.wi.fill.overcast-day {
+    background-image: url(/image/weather-icons/fill/overcast-day.svg);
+}
+
+.wi.fill.overcast-night {
+    background-image: url(/image/weather-icons/fill/overcast-night.svg);
+}
+
+.wi.fill.overcast {
+    background-image: url(/image/weather-icons/fill/overcast.svg);
+}
+
+.wi.fill.partly-cloudy-day-drizzle {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-day-drizzle.svg);
+}
+
+.wi.fill.partly-cloudy-day-fog {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-day-fog.svg);
+}
+
+.wi.fill.partly-cloudy-day-hail {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-day-hail.svg);
+}
+
+.wi.fill.partly-cloudy-day-haze {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-day-haze.svg);
+}
+
+.wi.fill.partly-cloudy-day-rain {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-day-rain.svg);
+}
+
+.wi.fill.partly-cloudy-day-sleet {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-day-sleet.svg);
+}
+
+.wi.fill.partly-cloudy-day-smoke {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-day-smoke.svg);
+}
+
+.wi.fill.partly-cloudy-day-snow {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-day-snow.svg);
+}
+
+.wi.fill.partly-cloudy-day {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-day.svg);
+}
+
+.wi.fill.partly-cloudy-night-drizzle {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-night-drizzle.svg);
+}
+
+.wi.fill.partly-cloudy-night-fog {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-night-fog.svg);
+}
+
+.wi.fill.partly-cloudy-night-hail {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-night-hail.svg);
+}
+
+.wi.fill.partly-cloudy-night-haze {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-night-haze.svg);
+}
+
+.wi.fill.partly-cloudy-night-rain {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-night-rain.svg);
+}
+
+.wi.fill.partly-cloudy-night-sleet {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-night-sleet.svg);
+}
+
+.wi.fill.partly-cloudy-night-smoke {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-night-smoke.svg);
+}
+
+.wi.fill.partly-cloudy-night-snow {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-night-snow.svg);
+}
+
+.wi.fill.partly-cloudy-night {
+    background-image: url(/image/weather-icons/fill/partly-cloudy-night.svg);
+}
+
+.wi.fill.pressure-high-alt {
+    background-image: url(/image/weather-icons/fill/pressure-high-alt.svg);
+}
+
+.wi.fill.pressure-high {
+    background-image: url(/image/weather-icons/fill/pressure-high.svg);
+}
+
+.wi.fill.pressure-low-alt {
+    background-image: url(/image/weather-icons/fill/pressure-low-alt.svg);
+}
+
+.wi.fill.pressure-low {
+    background-image: url(/image/weather-icons/fill/pressure-low.svg);
+}
+
+.wi.fill.rain {
+    background-image: url(/image/weather-icons/fill/rain.svg);
+}
+
+.wi.fill.raindrop {
+    background-image: url(/image/weather-icons/fill/raindrop.svg);
+}
+
+.wi.fill.raindrops {
+    background-image: url(/image/weather-icons/fill/raindrops.svg);
+}
+
+.wi.fill.sleet {
+    background-image: url(/image/weather-icons/fill/sleet.svg);
+}
+
+.wi.fill.smoke-particles {
+    background-image: url(/image/weather-icons/fill/smoke-particles.svg);
+}
+
+.wi.fill.smoke {
+    background-image: url(/image/weather-icons/fill/smoke.svg);
+}
+
+.wi.fill.snow {
+    background-image: url(/image/weather-icons/fill/snow.svg);
+}
+
+.wi.fill.snowflake {
+    background-image: url(/image/weather-icons/fill/snowflake.svg);
+}
+
+.wi.fill.solar-eclipse {
+    background-image: url(/image/weather-icons/fill/solar-eclipse.svg);
+}
+
+.wi.fill.star {
+    background-image: url(/image/weather-icons/fill/star.svg);
+}
+
+.wi.fill.starry-night {
+    background-image: url(/image/weather-icons/fill/starry-night.svg);
+}
+
+.wi.fill.sunrise {
+    background-image: url(/image/weather-icons/fill/sunrise.svg);
+}
+
+.wi.fill.sunset {
+    background-image: url(/image/weather-icons/fill/sunset.svg);
+}
+
+.wi.fill.thermometer-celsius {
+    background-image: url(/image/weather-icons/fill/thermometer-celsius.svg);
+}
+
+.wi.fill.thermometer-colder {
+    background-image: url(/image/weather-icons/fill/thermometer-colder.svg);
+}
+
+.wi.fill.thermometer-fahrenheit {
+    background-image: url(/image/weather-icons/fill/thermometer-fahrenheit.svg);
+}
+
+.wi.fill.thermometer-glass-celsius {
+    background-image: url(/image/weather-icons/fill/thermometer-glass-celsius.svg);
+}
+
+.wi.fill.thermometer-glass-fahrenheit {
+    background-image: url(/image/weather-icons/fill/thermometer-glass-fahrenheit.svg);
+}
+
+.wi.fill.thermometer-glass {
+    background-image: url(/image/weather-icons/fill/thermometer-glass.svg);
+}
+
+.wi.fill.thermometer-mercury-cold {
+    background-image: url(/image/weather-icons/fill/thermometer-mercury-cold.svg);
+}
+
+.wi.fill.thermometer-mercury {
+    background-image: url(/image/weather-icons/fill/thermometer-mercury.svg);
+}
+
+.wi.fill.thermometer-warmer {
+    background-image: url(/image/weather-icons/fill/thermometer-warmer.svg);
+}
+
+.wi.fill.thermometer {
+    background-image: url(/image/weather-icons/fill/thermometer.svg);
+}
+
+.wi.fill.thunderstorms-day-rain {
+    background-image: url(/image/weather-icons/fill/thunderstorms-day-rain.svg);
+}
+
+.wi.fill.thunderstorms-day-snow {
+    background-image: url(/image/weather-icons/fill/thunderstorms-day-snow.svg);
+}
+
+.wi.fill.thunderstorms-day {
+    background-image: url(/image/weather-icons/fill/thunderstorms-day.svg);
+}
+
+.wi.fill.thunderstorms-night-rain {
+    background-image: url(/image/weather-icons/fill/thunderstorms-night-rain.svg);
+}
+
+.wi.fill.thunderstorms-night-snow {
+    background-image: url(/image/weather-icons/fill/thunderstorms-night-snow.svg);
+}
+
+.wi.fill.thunderstorms-night {
+    background-image: url(/image/weather-icons/fill/thunderstorms-night.svg);
+}
+
+.wi.fill.thunderstorms-rain {
+    background-image: url(/image/weather-icons/fill/thunderstorms-rain.svg);
+}
+
+.wi.fill.thunderstorms-snow {
+    background-image: url(/image/weather-icons/fill/thunderstorms-snow.svg);
+}
+
+.wi.fill.thunderstorms {
+    background-image: url(/image/weather-icons/fill/thunderstorms.svg);
+}
+
+.wi.fill.tornado {
+    background-image: url(/image/weather-icons/fill/tornado.svg);
+}
+
+.wi.fill.umbrella {
+    background-image: url(/image/weather-icons/fill/umbrella.svg);
+}
+
+.wi.fill.uv-index-1 {
+    background-image: url(/image/weather-icons/fill/uv-index-1.svg);
+}
+
+.wi.fill.uv-index-10 {
+    background-image: url(/image/weather-icons/fill/uv-index-10.svg);
+}
+
+.wi.fill.uv-index-11 {
+    background-image: url(/image/weather-icons/fill/uv-index-11.svg);
+}
+
+.wi.fill.uv-index-2 {
+    background-image: url(/image/weather-icons/fill/uv-index-2.svg);
+}
+
+.wi.fill.uv-index-3 {
+    background-image: url(/image/weather-icons/fill/uv-index-3.svg);
+}
+
+.wi.fill.uv-index-4 {
+    background-image: url(/image/weather-icons/fill/uv-index-4.svg);
+}
+
+.wi.fill.uv-index-5 {
+    background-image: url(/image/weather-icons/fill/uv-index-5.svg);
+}
+
+.wi.fill.uv-index-6 {
+    background-image: url(/image/weather-icons/fill/uv-index-6.svg);
+}
+
+.wi.fill.uv-index-7 {
+    background-image: url(/image/weather-icons/fill/uv-index-7.svg);
+}
+
+.wi.fill.uv-index-8 {
+    background-image: url(/image/weather-icons/fill/uv-index-8.svg);
+}
+
+.wi.fill.uv-index-9 {
+    background-image: url(/image/weather-icons/fill/uv-index-9.svg);
+}
+
+.wi.fill.uv-index {
+    background-image: url(/image/weather-icons/fill/uv-index.svg);
+}
+
+.wi.fill.wind-beaufort-0 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-0.svg);
+}
+
+.wi.fill.wind-beaufort-1 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-1.svg);
+}
+
+.wi.fill.wind-beaufort-10 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-10.svg);
+}
+
+.wi.fill.wind-beaufort-11 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-11.svg);
+}
+
+.wi.fill.wind-beaufort-12 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-12.svg);
+}
+
+.wi.fill.wind-beaufort-2 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-2.svg);
+}
+
+.wi.fill.wind-beaufort-3 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-3.svg);
+}
+
+.wi.fill.wind-beaufort-4 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-4.svg);
+}
+
+.wi.fill.wind-beaufort-5 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-5.svg);
+}
+
+.wi.fill.wind-beaufort-6 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-6.svg);
+}
+
+.wi.fill.wind-beaufort-7 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-7.svg);
+}
+
+.wi.fill.wind-beaufort-8 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-8.svg);
+}
+
+.wi.fill.wind-beaufort-9 {
+    background-image: url(/image/weather-icons/fill/wind-beaufort-9.svg);
+}
+
+.wi.fill.wind {
+    background-image: url(/image/weather-icons/fill/wind.svg);
+}
+
+.wi.fill.windsock {
+    background-image: url(/image/weather-icons/fill/windsock.svg);
+}
