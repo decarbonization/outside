@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const passwordSymbols = /[[!@#$%^&*]/;
+const passwordSymbols = /[!@#$%^&*'()[\]]/;
 const passwordUppercaseLetters = /[A-Z]/;
 const passwordLowercaseLetters = /[a-z]/;
 const passwordNumbers = /[0-9]/;
@@ -29,6 +29,9 @@ export type ValidToken = string & { readonly _ValidToken: unique symbol };
 
 export function isValidPassword(password: string): password is ValidPassword {
     if (password.length < 8) {
+        return false;
+    }
+    if (password.length > 64) {
         return false;
     }
     if (!passwordSymbols.test(password)) {

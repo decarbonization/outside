@@ -45,6 +45,10 @@ describe("accounts#password module", () => {
         it("should accept a valid password", () => {
             expect(isValidPassword("R3@ch0ut")).toStrictEqual(true);
         });
+
+        it("should accept a typical generated password", () => {
+            expect(isValidPassword("NE'u7=VFmdPcW-D")).toStrictEqual(true);
+        });
     });
 
     describe("#isValidToken", () => {
