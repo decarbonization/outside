@@ -22,8 +22,9 @@ import { env } from '../utilities/env';
 import { UserModel } from './models/user';
 import { UserSettingModel } from './models/user-setting';
 import { UserSessionModel } from './models/user-session';
+import { ClientSessionModel } from './models/client-session';
 
-export function databaseURL(): string {
+export function initDB(): Sequelize {
     // NOTE: Must swap out how ssl mode is specified to support DigitalOcean.
     //       See <https://github.com/sequelize/sequelize/issues/10015>.
     const databaseURL = new URL(env('DATABASE_URL'));
@@ -31,17 +32,16 @@ export function databaseURL(): string {
         databaseURL.searchParams.delete("sslmode");
         databaseURL.searchParams.set("ssl", "true");
     }
-    return databaseURL.href
-}
-
-export function initDB(): Sequelize<PostgresDialect> {
-    const url = databaseURL();
     const options: Options<PostgresDialect> = {
-        url,
+        url: databaseURL.href,
         dialect: PostgresDialect,
-        ssl: url.includes("ssl=true") ? { rejectUnauthorized: false } : undefined,
-        models: [UserModel, UserSessionModel, UserSettingModel],
+        models: [ClientSessionModel, UserModel, UserSessionModel, UserSettingModel],
     };
+    if (databaseURL.searchParams.get("ssl") === "true") {
+        options.ssl = {
+            rejectUnauthorized: false
+        };
+    }
     const sequelize = new Sequelize(options);
     (async () => {
         try {

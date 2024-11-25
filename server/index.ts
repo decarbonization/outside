@@ -30,10 +30,10 @@ import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import i18nextMiddleware from "i18next-http-middleware";
 import { MailtrapClient } from "mailtrap";
 import path from "path";
-import { Pool } from 'pg';
 import { SequelizeStore } from './accounts/sequelize-store';
 import { UserSystem } from './accounts/system';
-import { databaseURL, initDB as initSequelize } from './db/db';
+import { initDB as initSequelize } from './db/db';
+import { ClientSessionStore } from './db/session-store';
 import { accountMiddleware } from './middlewares/account-middleware';
 import { ErrorMiddleware } from './middlewares/error-middleware';
 import { AccountRoutes } from './routes/account-routes';
@@ -98,20 +98,8 @@ const app = express();
 
 app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
-const PGStore = require('connect-pg-simple')(session);
-const url = databaseURL();
-const sessionPool = new Pool({
-    connectionString: url,
-    ssl: url.includes("ssl=true") ? { rejectUnauthorized: false } : undefined,
-});
-sessionPool.on('error', error => {
-    console.error('PGStore error:', error);
-});
 app.use(session({
-    store: new PGStore({
-        conobject: sessionPool,
-        createTableIfMissing: true,
-    }),
+    store: new ClientSessionStore(),
     secret: env("SESSION_SECRETS").split(","),
     resave: true,
     saveUninitialized: true,
