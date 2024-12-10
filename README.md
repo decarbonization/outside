@@ -2,9 +2,11 @@
 
 Prepare for any occasion with comprehensive weather forecasts from any device with a web browser.
 
-Part of the [Just the Good Parts](https://justthegoodparts.kevinmacwhinnie.com) project.
-
 [![Node.js CI](https://github.com/decarbonization/outside/actions/workflows/node.js.yml/badge.svg)](https://github.com/decarbonization/outside/actions/workflows/node.js.yml)
+
+## Background
+
+This was my first project after spending 7 years working at the same large company doing things a very specific way. It has quite a few questionable decisions, some hipster library choices, and a fair bit of Not Invented Here syndrome. It is a decent enough showcase but shouldn't be taken as a recommendation for how to build a web app. If I were to do this project over again, I would probably build it as a single page app and use technologies like vite, tailwind, and the many solid libraries in the react ecosystem.
 
 ## Building
 
