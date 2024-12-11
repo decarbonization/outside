@@ -19,6 +19,8 @@
 import { addDays, addHours } from "date-fns";
 import { Request, Response, Router } from "express";
 import { allWeatherDataSets, WeatherQuery, WeatherToken } from "fruit-company/weather";
+import { GoogleMapsApiKey } from "good-breathing";
+import { GetCurrentAirConditions } from "good-breathing/aqi";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { renderWeatherForecast } from "../templates/weather-forecast";
@@ -33,10 +35,11 @@ import { linkDestination, linkTo } from "./_links";
 
 export interface WeatherForecastRoutesOptions {
     readonly weatherToken: WeatherToken;
+    readonly gMapsApiKey: GoogleMapsApiKey;
 }
 
 async function getWeatherForecast(
-    { weatherToken }: WeatherForecastRoutesOptions,
+    { weatherToken, gMapsApiKey }: WeatherForecastRoutesOptions,
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
@@ -71,6 +74,15 @@ async function getWeatherForecast(
         authority: weatherToken,
         request: weatherQuery,
     });
+    const airQualityQuery = new GetCurrentAirConditions({
+        location,
+        languageCode: language,
+    })
+    console.info(`GET /weather fulfill(${airQualityQuery})`);
+    const airConditions = await fulfill({
+        authority: gMapsApiKey,
+        request: airQualityQuery,
+    });
     const link = linkDestination({
         where: "weather",
         countryCode,
@@ -78,7 +90,7 @@ async function getWeatherForecast(
         query,
         ref,
     });
-    const resp = renderWeatherForecast({ deps, link, weather });
+    const resp = renderWeatherForecast({ deps, link, weather, airConditions });
     res.set("Cache-Control", cacheControlFor(weather));
     res.type('html').send(resp);
 }

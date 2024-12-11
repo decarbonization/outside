@@ -49,7 +49,7 @@ export function routes({
         .use(IndexRoutes({}))
         .use(AccountRoutes({ userSystem, mailer }))
         .use(SearchRoutes({ mapsToken }))
-        .use(WeatherForecastRoutes({ weatherToken }))
+        .use(WeatherForecastRoutes({ weatherToken, gMapsApiKey }))
         .use(express.static(staticDir))
         .use(ErrorMiddleware({})); //< Must come last!
 }

@@ -45,6 +45,7 @@
             "pressure": "Pressure",
             "feelsLike": "Feels\u00A0Like",
             "moonPhase": "Moon Phase",
+            "aqi": "AQI",
             "daytime": "Daytime",
             "overnight": "Overnight",
             "trendingUp": "Trending\u00A0Up",
@@ -157,26 +158,5 @@
     },
     "hourlyForecast": {
         "title": "{{count, number}} Hour Forecast"
-    },
-    "moonForecast": {
-        "title": "Moon",
-        "moonrise": "Moonrise",
-        "moonset": "Moonset"
-    },
-    "solarForecast": {
-        "title": "Sun",
-        "solarMidnight": "Solar Midnight",
-        "solarNoon": "Solar Noon",
-        "sunrise": "Sunrise",
-        "sunriseAstronomical": "Astronomical Sunrise",
-        "sunriseCivil": "Civil Sunrise",
-        "sunriseNautical": "Nautical Sunrise",
-        "sunset": "Sunset",
-        "sunsetAstronomical": "Astronomical Sunset",
-        "sunsetCivil": "Civil Sunset",
-        "sunsetNautical": "Nautical Sunset"
-    },
-    "dailyPollenForecast": {
-        "title": "Daily Pollen Forecast"
     }
 }

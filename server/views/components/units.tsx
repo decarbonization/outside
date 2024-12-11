@@ -18,7 +18,7 @@
 
 import classNames from "classnames";
 import { useContext } from "preact/hooks";
-import { formatCompassDirection, formatDepth, formatPercentage, formatPressure, formatSpeed, formatTemperature, formatUVIndex, formatVisibility } from "../../formatting/units";
+import { formatAQI, formatCompassDirection, formatDepth, formatPercentage, formatPressure, formatSpeed, formatTemperature, formatUVIndex, formatVisibility } from "../../formatting/units";
 import { Deps } from "../_deps";
 
 export interface UnitProps<Measurement = number> {
@@ -110,6 +110,20 @@ export function UVIndexUnit({ className, measurement, autoHide }: UnitProps) {
     return (
         <span className={classNames("unit", "uv-index", className)}>
             {formatUVIndex(measurement, { i18n })}
+        </span>
+    );
+}
+
+export function AQIUnit({ className, measurement, autoHide }: UnitProps) {
+    if (measurement === undefined) {
+        return (
+            <Empty className={classNames("aqi", className)} autoHide={autoHide} />
+        );
+    }
+    const { i18n } = useContext(Deps);
+    return (
+        <span className={classNames("unit", "aqi", className)}>
+            {formatAQI(measurement, { i18n })}
         </span>
     );
 }

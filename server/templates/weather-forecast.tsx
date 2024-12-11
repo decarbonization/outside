@@ -22,20 +22,22 @@ import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
 import { CompleteForecast } from "../views/weather-forecast/complete";
 import { renderApp } from "./_app";
+import { CurrentAirConditions } from "good-breathing/aqi";
 
 export interface RenderWeatherForecastOptions {
     readonly deps: DepsObject;
     readonly searchDisabled?: boolean;
     readonly link: LinkDestinationTo<"weather">;
     readonly weather: Weather;
+    readonly airConditions: CurrentAirConditions;
 }
 
-export function renderWeatherForecast({ deps, link, searchDisabled, weather }: RenderWeatherForecastOptions): string {
+export function renderWeatherForecast({ deps, link, searchDisabled, weather, airConditions }: RenderWeatherForecastOptions): string {
     const className = elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight);
     const searchQuery = link.query;
     return renderApp({ className, deps, searchQuery, searchDisabled }, (
         <>
-            <CompleteForecast weather={weather} />
+            <CompleteForecast weather={weather} air={airConditions} />
         </>
     ));
 }

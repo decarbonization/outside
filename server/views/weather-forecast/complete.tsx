@@ -22,15 +22,17 @@ import { DailyForecast } from "./daily";
 import { HourlyForecast } from "./hourly";
 import { NextHourForecast } from "./next-hour";
 import { WeatherAlerts } from "./alerts";
+import { CurrentAirConditions } from "good-breathing/aqi";
 
 export interface ForecastProps {
     readonly weather?: Weather;
+    readonly air?: CurrentAirConditions;
 }
 
-export function CompleteForecast({ weather }: ForecastProps) {
+export function CompleteForecast({ weather, air }: ForecastProps) {
     return (
         <>
-            <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} />
+            <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} air={air} />
             <NextHourForecast forecast={weather?.forecastNextHour} />
             <WeatherAlerts collection={weather?.weatherAlerts} />
             <HourlyForecast forecast={weather?.forecastHourly} />

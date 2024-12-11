@@ -4,7 +4,8 @@
     "lowLabel": "Lo ",
 
     "percentage": "{{value, number(maximumFractionDigits: 0; style: percent)}}",
-    "uvIndex": "{{intensity, number(maximumFractionDigits: 0)}}",
+    "uvIndex": "{{value, number(maximumFractionDigits: 0)}}",
+    "aqi": "{{value, number(maximumFractionDigits: 0)}}",
     
     "celsius": "{{value, number(maximumFractionDigits: 1)}}°C",
     "kilometers": "{{value, number(maximumFractionDigits: 1)}}km",

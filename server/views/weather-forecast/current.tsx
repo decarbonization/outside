@@ -20,14 +20,16 @@ import { CurrentWeather, DayWeatherConditions } from "fruit-company/weather";
 import { useContext } from "preact/hooks";
 import { Deps } from "../_deps";
 import { Condition } from "../components/condition";
-import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "../components/units";
+import { AQIUnit, CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "../components/units";
+import { CurrentAirConditions } from "good-breathing/aqi";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;
     readonly today?: DayWeatherConditions;
+    readonly air?: CurrentAirConditions;
 }
 
-export function CurrentForecast({ now, today }: CurrentForecastProps) {
+export function CurrentForecast({ now, today, air }: CurrentForecastProps) {
     if (now === undefined) {
         return null;
     }
@@ -63,6 +65,14 @@ export function CurrentForecast({ now, today }: CurrentForecastProps) {
                 <li>
                     <header>{i18n.t("forecast.measurementLabels.uvIndex")}</header>
                     <UVIndexUnit measurement={now.uvIndex} />
+                </li>
+
+                <li>
+                    <header>{i18n.t("forecast.measurementLabels.aqi")}</header>
+                    <span style={{ color: air?.indexes[0].color.cssColor }}>
+                        <AQIUnit measurement={air?.indexes[0].aqi} />
+                    </span>
+                    <span className="unit context">{air?.indexes[0].dominantPollutant}</span>
                 </li>
             </ol>
             <footer className="last-updated" data-expires={now.metadata.expireTime.toISOString()}>

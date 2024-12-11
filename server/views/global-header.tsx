@@ -36,11 +36,11 @@ export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps)
             {isUserLoggedIn ? (
                 <>
                     <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
-                    <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled} />
-                    <button class="place-search-current-location" type="button" disabled>
-                        {i18n.t('placeSearch.useCurrentLocation')}
-                    </button>
-                </form>
+                        <button class="place-search-current-location" type="button" disabled>
+                            {i18n.t('placeSearch.useCurrentLocation')}
+                        </button>
+                        <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled} />
+                    </form>
                     <Link where="accountSettings">{i18n.t('accounts.account')}</Link>
                 </>
             ) : (

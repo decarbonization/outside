@@ -350,6 +350,11 @@ footer.global {
     padding-right: 0.3em;
 }
 
+.current-forecast .unit.context {
+    display: block;
+    font-size: 0.6em;
+}
+
 /* -- Next Hour Forecast -- */
 
 .precipitation-chart {
@@ -631,82 +636,4 @@ footer.global {
     position: absolute;
     right: 0;
     bottom: 0;
-}
-
-/* -- Moon Forecast -- */
-
-.moon-forecast .moon.icon {
-    vertical-align: middle;
-}
-
-/* -- Solar Forecast -- */
-
-.solar-forecast li {
-    text-align: center;
-}
-
-/* -- Current Air Forecast -- */
-
-.current-air-forecast-main {
-    padding: var(--v-spacing) 0;
-    display: grid;
-    grid-template-columns: var(--card-columns);
-}
-
-.current-air-forecast-reading-group {
-    padding: var(--h-spacing) var(--v-spacing);
-    border-radius: .25rem;
-    transition: var(--transition-timing) background-color .25s;
-}
-
-.current-air-forecast-reading-group:first-child {
-    background: var(--differentiate-bg);
-}
-
-.current-air-forecast-reading-group:hover {
-    background-color: var(--hover-bg);
-    box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
-}
-
-.current-air-forecast-reading.name {
-    font-weight: bold;
-    font-size: 1.5em;
-    align-self: flex-start;
-}
-
-.current-air-forecast-reading.dominant-pollutant {
-    color: var(--separator);
-}
-
-/* -- Pollen Daily Forecast -- */
-
-.pollen-daily-forecast-day-main {
-    padding: var(--v-spacing) 0;
-    display: grid;
-    grid-template-columns: var(--card-columns);
-}
-
-.pollen-daily-forecast-day-reading-group {
-    padding: var(--h-spacing) var(--v-spacing);
-    border-radius: .25rem;
-    transition: var(--transition-timing) background-color .25s;
-}
-
-.pollen-daily-forecast-day-reading-group:first-child {
-    background: var(--differentiate-bg);
-}
-
-.pollen-daily-forecast-day-reading-group:hover {
-    background-color: var(--hover-bg);
-    box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
-}
-
-.pollen-daily-forecast-day-reading.name {
-    font-weight: bold;
-    font-size: 1.5em;
-    align-self: flex-start;
-}
-
-.pollen-daily-forecast-day-reading.recommendation {
-    color: var(--separator);
 }

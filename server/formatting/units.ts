@@ -53,7 +53,11 @@ export function formatPercentage(measurement: number, { i18n = i18next }: UnitOp
 }
 
 export function formatUVIndex(measurement: number, { i18n = i18next }: UnitOptions = {}): string {
-    return i18n.t("units:uvIndex", { intensity: measurement });
+    return i18n.t("units:uvIndex", { value: measurement });
+}
+
+export function formatAQI(measurement: number, { i18n = i18next }: UnitOptions = {}): string {
+    return i18n.t("units:aqi", { value: measurement });
 }
 
 export function formatVisibility(measurement: number, { i18n = i18next, system = defaultUnitSystem(i18n) }: UnitOptions = {}): string {
