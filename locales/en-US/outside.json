@@ -158,5 +158,13 @@
     },
     "hourlyForecast": {
         "title": "{{count, number}} Hour Forecast"
+    },
+    "solarForecast": {
+        "title": "Solar Forecast",
+        "sunrise": "Sunrise",
+        "sunset": "Sunset",
+        "moonrise": "Moonrise",
+        "moonset": "Moonset",
+        "moonPhase": "Moon Phase"
     }
 }

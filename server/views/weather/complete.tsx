@@ -23,6 +23,7 @@ import { HourlyForecast } from "./hourly";
 import { NextHourForecast } from "./next-hour";
 import { WeatherAlerts } from "./alerts";
 import { CurrentAirConditions } from "good-breathing/aqi";
+import { SolarForecast } from "./solar";
 
 export interface ForecastProps {
     readonly weather?: Weather;
@@ -37,6 +38,7 @@ export function CompleteForecast({ weather, air }: ForecastProps) {
             <WeatherAlerts collection={weather?.weatherAlerts} />
             <HourlyForecast forecast={weather?.forecastHourly} />
             <DailyForecast forecast={weather?.forecastDaily} />
+            <SolarForecast today={weather?.forecastDaily?.days?.[0]} />
         </>
     );
 }
