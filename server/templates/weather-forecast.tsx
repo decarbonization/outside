@@ -21,7 +21,6 @@ import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
 import { CompleteForecast } from "../views/weather-forecast/complete";
-import { WeatherTabs } from "../views/weather-tabs";
 import { renderApp } from "./_app";
 
 export interface RenderWeatherForecastOptions {
@@ -36,7 +35,6 @@ export function renderWeatherForecast({ deps, link, searchDisabled, weather }: R
     const searchQuery = link.query;
     return renderApp({ className, deps, searchQuery, searchDisabled }, (
         <>
-            <WeatherTabs link={link} selection="forecast" />
             <CompleteForecast weather={weather} />
         </>
     ));

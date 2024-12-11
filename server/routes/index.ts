@@ -26,8 +26,6 @@ import { ErrorMiddleware } from '../middlewares/error-middleware';
 import { AccountRoutes } from './account-routes';
 import { IndexRoutes } from './index-routes';
 import { SearchRoutes } from './search-routes';
-import { WeatherAirRoutes } from './weather-air-routes';
-import { WeatherAstronomyRoutes } from './weather-astronomy-routes';
 import { WeatherForecastRoutes } from './weather-forecast-routes';
 
 export interface AllRoutesOptions {
@@ -52,8 +50,6 @@ export function routes({
         .use(AccountRoutes({ userSystem, mailer }))
         .use(SearchRoutes({ mapsToken }))
         .use(WeatherForecastRoutes({ weatherToken }))
-        .use(WeatherAstronomyRoutes({ weatherToken }))
-        .use(WeatherAirRoutes({ gMapsApiKey }))
         .use(express.static(staticDir))
         .use(ErrorMiddleware({})); //< Must come last!
 }

@@ -56,7 +56,6 @@ async function getSearchByQuery(
         const place = results[0];
         res.redirect(linkTo({
             where: "weather",
-            tab: "forecast",
             countryCode: place.countryCode,
             location: place.coordinate,
             query: place.structuredAddress.locality,
@@ -92,7 +91,6 @@ async function getSearchByCoordinates(
         const place = results[0];
         res.redirect(linkTo({
             where: "weather",
-            tab: "forecast",
             countryCode: place.countryCode,
             location: place.coordinate,
             query: place.structuredAddress.locality,
