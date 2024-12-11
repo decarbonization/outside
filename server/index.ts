@@ -32,17 +32,11 @@ import { MailtrapClient } from "mailtrap";
 import path from "path";
 import { SequelizeStore } from './accounts/sequelize-store';
 import { UserSystem } from './accounts/system';
-import { initDB as initSequelize } from './db/db';
+import { initSequelize } from './db/init';
 import { ClientSessionStore } from './db/session-store';
 import { accountMiddleware } from './middlewares/account-middleware';
-import { ErrorMiddleware } from './middlewares/error-middleware';
-import { AccountRoutes } from './routes/account-routes';
-import { IndexRoutes } from './routes/index-routes';
-import { SearchRoutes } from './routes/search-routes';
-import { WeatherAirRoutes } from './routes/weather-air-routes';
-import { WeatherAstronomyRoutes } from './routes/weather-astronomy-routes';
-import { WeatherForecastRoutes } from './routes/weather-forecast-routes';
-import { env } from './utilities/env';
+import { routes } from './routes';
+import { env, envInt } from './utilities/env';
 import { setUpShutDownHooks } from './utilities/shut-down';
 
 dotenv.config();
@@ -108,24 +102,21 @@ app.use(session({
     },
 }));
 app.use(accountMiddleware({ userSystem }));
-
-app.use(IndexRoutes({}));
-app.use(AccountRoutes({ userSystem, mailer }))
-app.use(SearchRoutes({ mapsToken }));
-app.use(WeatherForecastRoutes({ weatherToken }));
-app.use(WeatherAstronomyRoutes({ weatherToken }));
-app.use(WeatherAirRoutes({ gMapsApiKey }));
-app.use(express.static(staticDir));
-
-// Must come last!
-app.use(ErrorMiddleware({}));
+app.use(routes({
+    userSystem,
+    mailer,
+    mapsToken,
+    weatherToken,
+    gMapsApiKey,
+    staticDir,
+}));
 
 const server = http.createServer(app);
 const httpTerminator = createHttpTerminator({
     server,
 });
 
-const port = process.env.PORT ?? 8000;
+const port = envInt("PORT", 8000);
 server.listen(port, () => {
     console.log(`outside is running at http://${env('HOST', 'localhost')}:${port} from ${__dirname}`);
 });

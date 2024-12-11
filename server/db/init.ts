@@ -24,7 +24,7 @@ import { UserSettingModel } from './models/user-setting';
 import { UserSessionModel } from './models/user-session';
 import { ClientSessionModel } from './models/client-session';
 
-export function initDB(): Sequelize {
+export function initSequelize(): Sequelize {
     // NOTE: Must swap out how ssl mode is specified to support DigitalOcean.
     //       See <https://github.com/sequelize/sequelize/issues/10015>.
     const databaseURL = new URL(env('DATABASE_URL'));
