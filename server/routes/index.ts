@@ -26,7 +26,7 @@ import { ErrorMiddleware } from '../middlewares/error-middleware';
 import { AccountRoutes } from './account-routes';
 import { IndexRoutes } from './index-routes';
 import { SearchRoutes } from './search-routes';
-import { WeatherForecastRoutes } from './weather-forecast-routes';
+import { WeatherRoutes } from './weather-routes';
 
 export interface AllRoutesOptions {
     readonly userSystem: UserSystem;
@@ -49,7 +49,7 @@ export function routes({
         .use(IndexRoutes({}))
         .use(AccountRoutes({ userSystem, mailer }))
         .use(SearchRoutes({ mapsToken }))
-        .use(WeatherForecastRoutes({ weatherToken, gMapsApiKey }))
+        .use(WeatherRoutes({ weatherToken, gMapsApiKey }))
         .use(express.static(staticDir))
         .use(ErrorMiddleware({})); //< Must come last!
 }

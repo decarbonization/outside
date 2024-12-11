@@ -23,7 +23,7 @@ import { GoogleMapsApiKey } from "good-breathing";
 import { GetCurrentAirConditions } from "good-breathing/aqi";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
-import { renderWeatherForecast } from "../templates/weather-forecast";
+import { renderWeather } from "../templates/weather";
 import { envInt } from "../utilities/env";
 import { proveString } from "../utilities/maybe";
 import { cacheControlFor } from "../utilities/weather-utils";
@@ -33,13 +33,13 @@ import { linkDestination, linkTo } from "./_links";
 // TODO: Currently limiting daily forecasts to 7 days because of
 //       <https://forums.developer.apple.com/forums/thread/757910>.
 
-export interface WeatherForecastRoutesOptions {
+export interface WeatherRoutesOptions {
     readonly weatherToken: WeatherToken;
     readonly gMapsApiKey: GoogleMapsApiKey;
 }
 
-async function getWeatherForecast(
-    { weatherToken, gMapsApiKey }: WeatherForecastRoutesOptions,
+async function getWeather(
+    { weatherToken, gMapsApiKey }: WeatherRoutesOptions,
     req: Request<{ country: string, latitude: string, longitude: string, locality: string }>,
     res: Response
 ): Promise<void> {
@@ -90,15 +90,15 @@ async function getWeatherForecast(
         query,
         ref,
     });
-    const resp = renderWeatherForecast({ deps, link, weather, airConditions });
+    const resp = renderWeather({ deps, link, weather, airConditions });
     res.set("Cache-Control", cacheControlFor(weather));
     res.type('html').send(resp);
 }
 
-export function WeatherForecastRoutes(options: WeatherForecastRoutesOptions): Router {
+export function WeatherRoutes(options: WeatherRoutesOptions): Router {
     return Router()
         .get('/weather/:country/:latitude/:longitude/:locality', async (req, res) => {
-            await getWeatherForecast(options, req, res);
+            await getWeather(options, req, res);
         })
         .get('/weather/:country/:latitude/:longitude', async (req, res) => {
             const query = proveString(req.query["q"]);
