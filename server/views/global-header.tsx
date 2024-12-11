@@ -41,7 +41,7 @@ export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps)
                         </button>
                         <input type="search" name="q" value={searchQuery} placeholder={i18n.t('placeSearch.inputLabel')} disabled={searchDisabled} />
                     </form>
-                    <Link where="accountSettings">{i18n.t('accounts.account')}</Link>
+                    <Link where="accountSettings">{i18n.t('accounts.me')}</Link>
                 </>
             ) : (
                 <>

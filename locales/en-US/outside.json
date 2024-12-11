@@ -4,15 +4,13 @@
     "appByline": "A Swamp Monkey Co Project",
     "appPoweredBy": "Powered By",
     "errorTitle": "Error",
-    "tabForecast": "Forecast",
-    "tabAstronomy": "Astronomy",
-    "tabAir": "Air",
     "placeSearch": {
         "inputLabel": "How\u2018s the weather outside in…",
         "useCurrentLocation": "Use Current Location"
     },
     "accounts": {
         "account": "Account",
+        "me": "Me",
         "confirmPasswordLabel": "Confirm Password:",
         "duplicateEmail": "Email already in use",
         "emailLabel": "Email:",
