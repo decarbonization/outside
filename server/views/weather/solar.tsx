@@ -21,6 +21,7 @@ import { useDeps } from "../_deps";
 import { ShortTime } from "../components/dates";
 import { Moon } from "../components/moon";
 import { moonPhaseFragment } from "../../formatting/fragments";
+import { Clock } from "../components/clock";
 
 export interface SolarForecastProps {
     readonly today?: DayWeatherConditions;
@@ -38,18 +39,22 @@ export function SolarForecast({ today }: SolarForecastProps) {
             <ol className="solar-forecast-main card-grid">
                 <li className="solar-forecast-reading-group differentiated v-flow centered spacing">
                     <header>{i18n.t("solarForecast.sunrise")}</header>
+                    <Clock time={today?.sunrise} />
                     <ShortTime when={today?.sunrise} />
                 </li>
                 <li className="solar-forecast-reading-group differentiated v-flow centered spacing">
                     <header>{i18n.t("solarForecast.sunset")}</header>
+                    <Clock className="dark" time={today?.sunset} />
                     <ShortTime when={today?.sunset} />
                 </li>
                 <li className="solar-forecast-reading-group differentiated v-flow centered spacing">
                     <header>{i18n.t("solarForecast.moonrise")}</header>
+                    <Clock time={today?.moonrise} />
                     <ShortTime when={today?.moonrise} />
                 </li>
                 <li className="solar-forecast-reading-group differentiated v-flow centered spacing">
                     <header>{i18n.t("solarForecast.moonset")}</header>
+                    <Clock time={today?.moonset} />
                     <ShortTime when={today?.moonset} />
                 </li>
                 <li className="solar-forecast-reading-group differentiated v-flow centered spacing">

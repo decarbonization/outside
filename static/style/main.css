@@ -192,6 +192,76 @@ header {
     box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
+.clock-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.clock-face {
+    user-select: none;
+    width: 8em;
+    height: 8em;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--separator);
+    background-color: var(--page-bg);
+}
+
+.clock-face::after {
+    content: '';
+    position: absolute;
+    width: 0.25em;
+    height: 0.25em;
+
+    background-color: #111111;
+    border-radius: 50%;
+}
+
+.clock-numeral {
+    position: absolute;
+    transform: rotate(calc(30deg * var(--n)));
+    inset: 0.5em;
+    text-align: center;
+    font-weight: bold;
+}
+
+.clock-hand {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    transform: rotate(var(--degrees, 0deg));
+}
+.clock-hand::before {
+    content: '';
+    position: absolute;
+}
+
+.hour.clock-hand::before {
+    background-color: #111111;
+    width: 0.15em;
+    height: 2em;
+    border-radius: 0.15em;
+}
+
+.minute.clock-hand::before {
+    background-color: #111111;
+    width: 0.15em;
+    height: 3.3em;
+    border-radius: 0.15em;
+}
+
+.second.clock-hand::before {
+    background-color: var(--accent);
+    width: 0.08em;
+    height: 3.3em;
+    border-radius: 0.08em;
+}
+
 /* -- Common Text Styles -- */
 
 .sidekick {

@@ -17,6 +17,7 @@
  */
 
 import { DepsObject } from "../views/_deps";
+import { Clock } from "../views/components/clock";
 import { renderApp } from "./_app";
 
 export interface IndexOptions {
