@@ -43,7 +43,7 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
             </select>
             <ol className="hourly-forecast-main h-flow orthogonal-scrollable">
                 {hours.map(hour => (
-                    <li className="hourly-forecast-reading-group">
+                    <li className="hourly-forecast-reading-group differentiated">
                         <div className="hourly-forecast-reading conditions">
                             <Condition code={hour.conditionCode} daylight={hour.daylight} />
                             <Precipitation probability={hour.precipitationChance} />

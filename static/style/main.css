@@ -178,6 +178,20 @@ header {
     font-family: var(--font-serif);
 }
 
+.differentiated {
+    border-radius: .25rem;
+    transition: var(--transition-timing) background-color .25s;
+}
+
+.differentiated:first-child {
+    background: var(--differentiate-bg);
+}
+
+.differentiated:hover {
+    background-color: var(--hover-bg);
+    box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
+}
+
 /* -- Common Text Styles -- */
 
 .sidekick {
@@ -203,6 +217,11 @@ header {
 .h-flow.spacing,
 .v-flow.spacing {
     gap: var(--v-spacing) var(--h-spacing);
+}
+
+.card-grid {
+    padding: var(--v-spacing) 0;
+    grid-template-columns: var(--card-columns);
 }
 
 .outset-top {
@@ -303,28 +322,6 @@ header .logo::before {
             url(/image/use-location@3x.png) 3x);
     background-position: center;
     background-repeat: no-repeat;
-}
-
-.weather-tabs input[type="radio"] {
-    display: none;
-}
-
-.weather-tabs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--h-spacing) var(--v-spacing);
-    margin: var(--h-spacing) 0;
-}
-
-.weather-tabs a {
-    text-align: center;
-    padding: var(--h-spacing) var(--v-spacing);
-}
-
-.weather-tabs a.selected {
-    background: var(--hover-bg);
-    border-radius: 0.5em;
-    font-weight: bold;
 }
 
 footer.global {
@@ -507,24 +504,11 @@ footer.global {
     padding: var(--v-spacing) 0;
 }
 
-.hourly-forecast-reading-group:first-child {
-    background: var(--differentiate-bg);
-}
-
 .hourly-forecast-reading-group {
     min-width: 4rem;
     min-height: 3.5rem;
     text-align: center;
-    border-radius: .25rem;
     padding: calc(var(--v-spacing)/2.5) calc(var(--h-spacing)/2.5);
-    transition: var(--transition-timing) .25s background-color, border-color;
-    border: .5px solid rgba(255, 255, 255, 0.0);
-}
-
-.hourly-forecast-reading-group:hover {
-    background-color: var(--hover-bg);
-    border-color: rgba(255, 255, 255, 0.11);
-    box-shadow: 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
 .hourly-forecast-reading {
@@ -580,24 +564,10 @@ footer.global {
 
 .daily-forecast-main {
     clear: both;
-    padding: var(--v-spacing) 0;
-    display: grid;
-    grid-template-columns: var(--card-columns);
 }
 
 .daily-forecast-reading-group {
     padding: var(--h-spacing) var(--v-spacing);
-    border-radius: .25rem;
-    transition: var(--transition-timing) background-color .25s;
-}
-
-.daily-forecast-reading-group:first-child {
-    background: var(--differentiate-bg);
-}
-
-.daily-forecast-reading-group:hover {
-    background-color: var(--hover-bg);
-    box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
 }
 
 .daily-forecast-reading.day {
@@ -636,4 +606,21 @@ footer.global {
     position: absolute;
     right: 0;
     bottom: 0;
+}
+
+/* Solar Forecast */
+
+.solar-forecast-reading-group {
+    padding: var(--h-spacing) var(--v-spacing);
+}
+
+.solar-forecast-reading-group header {
+    font-weight: bold;
+    font-size: 1.5em;
+    align-self: flex-start;
+}
+
+.solar-forecast-reading-group .icon {
+    font-size: 2.5em;
+    margin: 0.3em 0;
 }

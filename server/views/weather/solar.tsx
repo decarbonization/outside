@@ -20,6 +20,7 @@ import { DayWeatherConditions } from "fruit-company/weather";
 import { useDeps } from "../_deps";
 import { ShortTime } from "../components/dates";
 import { Moon } from "../components/moon";
+import { moonPhaseFragment } from "../../formatting/fragments";
 
 export interface SolarForecastProps {
     readonly today?: DayWeatherConditions;
@@ -34,26 +35,29 @@ export function SolarForecast({ today }: SolarForecastProps) {
     return (
         <section className="solar-forecast">
             <h1>{i18n.t("solarForecast.title")}</h1>
-            <ol className="h-flow spacing outset-top">
-                <li>
+            <ol className="solar-forecast-main card-grid">
+                <li className="solar-forecast-reading-group differentiated v-flow centered spacing">
                     <header>{i18n.t("solarForecast.sunrise")}</header>
                     <ShortTime when={today?.sunrise} />
                 </li>
-                <li>
+                <li className="solar-forecast-reading-group differentiated v-flow centered spacing">
                     <header>{i18n.t("solarForecast.sunset")}</header>
                     <ShortTime when={today?.sunset} />
                 </li>
-                <li>
+                <li className="solar-forecast-reading-group differentiated v-flow centered spacing">
                     <header>{i18n.t("solarForecast.moonrise")}</header>
                     <ShortTime when={today?.moonrise} />
                 </li>
-                <li>
+                <li className="solar-forecast-reading-group differentiated v-flow centered spacing">
                     <header>{i18n.t("solarForecast.moonset")}</header>
                     <ShortTime when={today?.moonset} />
                 </li>
-                <li>
+                <li className="solar-forecast-reading-group differentiated v-flow centered spacing">
                     <header>{i18n.t("solarForecast.moonPhase")}</header>
                     <Moon phase={today?.moonPhase} />
+                    <footer className="unit">
+                        {today?.moonPhase && moonPhaseFragment(today.moonPhase, { i18n, lowercase: false })}
+                    </footer>
                 </li>
             </ol>
         </section>

@@ -72,6 +72,10 @@
     flex-grow: 1;
 }
 
+.card-grid {
+    display: grid;
+}
+
 .outset-top {
     margin-top: 0;
 }

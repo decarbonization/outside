@@ -41,9 +41,9 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                 <option value="humidity">{i18n.t("forecast.measurementLabels.humidity")}</option>
                 <option value="wind">{i18n.t("forecast.measurementLabels.wind")}</option>
             </select>
-            <ol className="daily-forecast-main">
+            <ol className="daily-forecast-main card-grid">
                 {forecast.days.map(day => (
-                    <li className="daily-forecast-reading-group v-flow centered spacing">
+                    <li className="daily-forecast-reading-group differentiated v-flow centered spacing">
                         <header className="daily-forecast-reading day">
                             <Weekday when={day.forecastStart} />
                         </header>
