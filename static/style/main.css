@@ -40,7 +40,7 @@
     --focus-bg: rgba(0, 0, 0, 0.091);
 }
 
-@media (width < 375px) {
+@media (width < 450px) {
     :root {
         font-size: 14px;
         --card-columns: repeat(2, 50%);
@@ -694,3 +694,7 @@ footer.global {
     font-size: 2.5em;
     margin: 0.3em 0;
 }
+
+.solar-forecast-reading-group .clock-face {
+    font-size: 0.5em;
+} 
