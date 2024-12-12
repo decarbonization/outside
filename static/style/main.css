@@ -122,6 +122,21 @@ select:focus,
     background-color: var(--focus-bg);
 }
 
+.bordered-button {
+    background-color: var(--accent);
+    color: white !important;
+    padding: 0.5em 1em;
+    border-radius: 0.3em;
+}
+
+.bordered-button:disabled {
+    background-color: var(--accent-inactive);
+}
+
+.bordered-button:focus {
+    background-color: var(--accent);
+}
+
 input[type="search"],
 input[type="text"],
 textarea {
@@ -266,6 +281,11 @@ header {
 
 /* -- Common Text Styles -- */
 
+.callout {
+    font-size: 1.8em;
+    text-align: center;
+}
+
 .sidekick {
     font-size: 2em;
     font-weight: bold;
@@ -379,11 +399,11 @@ header .logo::before {
     padding: 0;
 }
 
-.place-search-current-location {
+.place-search-location {
     font-size: 0;
 }
 
-.place-search-current-location::after {
+.place-search-location::after {
     content: "";
     display: block;
     width: 20px;

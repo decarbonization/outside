@@ -1,12 +1,12 @@
 {
     "appName": "Outside",
-    "appDescription": "Prepare for any occasion with comprehensive weather forecasts from any device with a web browser.",
+    "appDescription": "Prepare for all occasions with comprehensive, high density weather forecasts accessible from any device with a modern web browser.",
     "appByline": "A Swamp Monkey Co Project",
     "appPoweredBy": "Powered By",
     "errorTitle": "Error",
     "placeSearch": {
         "inputLabel": "How\u2018s the weather outside in…",
-        "useCurrentLocation": "Use Current Location"
+        "useCurrentLocation": "How\u2018s the weather outside where I am?"
     },
     "accounts": {
         "account": "Account",

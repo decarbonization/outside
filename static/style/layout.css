@@ -34,6 +34,10 @@
     justify-content: center;
 }
 
+.h-flow.fully.centered {
+    align-items: center;
+}
+
 .h-flow.spread {
     justify-content: space-between;
 }

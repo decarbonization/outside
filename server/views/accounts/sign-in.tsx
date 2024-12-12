@@ -17,7 +17,6 @@
  */
 
 import { linkTo } from "../../routes/_links";
-import { envFlag } from "../../utilities/env";
 import { useDeps } from "../_deps";
 import { Link } from "../components/link";
 
@@ -44,10 +43,9 @@ export function SignIn({ email, message, returnTo }: SignInProps) {
                 <input type="email" name="email" value={email} required />
                 <label for="password">{i18n.t('accounts.passwordLabel')}</label>
                 <input type="password" name="password" required />
-                <div className="h-flow centered spacing">
-                    {!envFlag("DISABLE_SIGN_UP", false) && <Link className="button-like" where="signUp">{i18n.t('accounts.signUp')}</Link>}
+                <div className="h-flow fully centered spacing">
                     <Link className="button-like" where="forgotPassword">{i18n.t('accounts.forgotPassword')}</Link>
-                    <button type="submit">{i18n.t('accounts.signIn')}</button>
+                    <button className="bordered-button" type="submit">{i18n.t('accounts.signIn')}</button>
                 </div>
             </form>
             <Message what={message} />

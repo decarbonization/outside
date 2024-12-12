@@ -46,8 +46,8 @@ export function SignUp({ email, message, returnTo }: SignUpProps) {
                 <input type="password" name="password" required />
                 <label for="confirm_password">{i18n.t('accounts.confirmPasswordLabel')}</label>
                 <input type="password" name="confirm_password" required />
-                <div className="h-flow centered spacing">
-                    <button type="submit">{i18n.t('accounts.signUp')}</button>
+                <div className="h-flow fully centered spacing">
+                    <button className="bordered-button" type="submit">{i18n.t('accounts.signUp')}</button>
                 </div>
             </form>
             <Message what={message} />

@@ -16,8 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { envFlag } from "../utilities/env";
 import { DepsObject } from "../views/_deps";
-import { Clock } from "../views/components/clock";
+import { Condition } from "../views/components/condition";
+import { Link } from "../views/components/link";
 import { renderApp } from "./_app";
 
 export interface IndexOptions {
@@ -26,12 +28,31 @@ export interface IndexOptions {
 }
 
 export function renderIndex({ deps, searchQuery }: IndexOptions): string {
-    const { i18n } = deps;
+    const { i18n, isUserLoggedIn } = deps;
     return renderApp({ deps, searchQuery }, (
         <>
-            <p>
-                {i18n.t('appDescription')}
-            </p>
+            <section className="overview">
+                <div className="h-flow spacing centered hero">
+                    <Condition code="Clear" />
+                    <Condition code="Rain" daylight={false} />
+                    <Condition code="Snow" />
+                </div>
+                <p className="callout">
+                    {i18n.t('appDescription')}
+                </p>
+            </section>
+            <section className="cta outset-top h-flow centered spacing">
+                {isUserLoggedIn ? (
+                    <button className="bordered-button use-current-location" type="button" disabled>
+                        {i18n.t('placeSearch.useCurrentLocation')}
+                    </button>
+                ) : (
+                    <>
+                        <Link className="bordered-button" where="signIn">{i18n.t('accounts.signIn')}</Link>
+                        {!envFlag("DISABLE_SIGN_UP", false) && <Link className="bordered-button" where="signUp">{i18n.t('accounts.signUp')}</Link>}
+                    </>
+                )}
+            </section>
         </>
     ));
 }

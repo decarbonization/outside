@@ -44,7 +44,7 @@ function shouldUseCurrentLocationWhenReloading(): boolean {
  * @param disabled The new disabled state.
  */
 function locationButtonsDisabled(disabled: boolean) {
-    const buttons = document.querySelectorAll<HTMLButtonElement>(".place-search-current-location");
+    const buttons = document.querySelectorAll<HTMLButtonElement>(".use-current-location");
     buttons.forEach(b => b.disabled = disabled);
 }
 
@@ -104,7 +104,7 @@ export function locationButton(): void {
         return;
     }
 
-    const buttons = document.querySelectorAll<HTMLButtonElement>(".place-search-current-location");
+    const buttons = document.querySelectorAll<HTMLButtonElement>(".use-current-location");
     for (let i = 0, length = buttons.length; i < length; i++) {
         const button = buttons[i];
         button.disabled = false;
