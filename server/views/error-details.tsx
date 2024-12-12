@@ -16,15 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useContext } from "preact/hooks";
-import { Deps } from "./_deps";
+import { useDeps } from "./_deps";
 
 export interface ErrorDetailsProps {
     readonly error: Error;
 }
 
 export function ErrorDetails({ error }: ErrorDetailsProps) {
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <section className="error-details">
             <h1>{i18n.t("errorTitle")}</h1>

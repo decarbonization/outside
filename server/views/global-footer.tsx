@@ -16,15 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useContext } from "preact/hooks";
-import { Deps } from "./_deps";
+import { useDeps } from "./_deps";
 
 export interface GlobalFooterProps {
 
 }
 
 export function GlobalFooter({ }: GlobalFooterProps) {
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <footer className="global">
             <a href="https://swampmonkeyco.com">

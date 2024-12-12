@@ -17,8 +17,7 @@
  */
 
 import { ComponentChildren } from "preact";
-import { useContext } from "preact/hooks";
-import { Deps } from "./_deps";
+import { useDeps } from "./_deps";
 import { GlobalFooter } from "./global-footer";
 import { GlobalHeader } from "./global-header";
 
@@ -30,7 +29,7 @@ export interface AppProps {
 }
 
 export function App({ className, searchQuery, searchDisabled, children }: AppProps) {
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <html lang={i18n.resolvedLanguage}>
             <head>

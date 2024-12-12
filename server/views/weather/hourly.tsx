@@ -17,8 +17,7 @@
  */
 
 import { HourlyForecast } from "fruit-company/weather";
-import { useContext } from "preact/hooks";
-import { Deps } from "../_deps";
+import { useDeps } from "../_deps";
 import { Condition } from "../components/condition";
 import { Hour } from "../components/dates";
 import { Precipitation } from "../components/precipitation";
@@ -32,7 +31,7 @@ export function HourlyForecast({ forecast }: HourlyForecastProps) {
     if (forecast === undefined) {
         return null;
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     const hours = forecast.hours;
     return (
         <section className="hourly-forecast">

@@ -19,7 +19,7 @@
 import { ComponentChildren } from "preact";
 import render from "preact-render-to-string";
 import { App } from "../views/_app";
-import { Deps, DepsObject } from "../views/_deps";
+import { DepsObject, DepsProvider } from "../views/_deps";
 
 const templatePrelude = "<!DOCTYPE html>";
 
@@ -35,10 +35,10 @@ export function renderApp(
     children: ComponentChildren
 ): string {
     return templatePrelude + render(
-        <Deps.Provider value={deps}>
+        <DepsProvider deps={deps}>
             <App className={className} searchQuery={searchQuery} searchDisabled={searchDisabled}>
                 {children}
             </App>
-        </Deps.Provider>
+        </DepsProvider>
     );
 }

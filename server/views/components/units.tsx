@@ -17,9 +17,8 @@
  */
 
 import classNames from "classnames";
-import { useContext } from "preact/hooks";
 import { formatAQI, formatCompassDirection, formatDepth, formatPercentage, formatPressure, formatSpeed, formatTemperature, formatUVIndex, formatVisibility } from "../../formatting/units";
-import { Deps } from "../_deps";
+import { useDeps } from "../_deps";
 
 export interface UnitProps<Measurement = number> {
     /**
@@ -49,7 +48,7 @@ function Empty({ className, autoHide = false }: UnitProps<undefined>) {
     if (autoHide) {
         return null;
     } else {
-        const { i18n } = useContext(Deps);
+        const { i18n } = useDeps();
         return (
             <span className={classNames("unit", "empty", className)}>
                 {i18n.t("units:placeholder")}
@@ -64,7 +63,7 @@ export function TemperatureUnit({ className, measurement, autoHide }: UnitProps)
             <Empty className={classNames("temperature", className)} autoHide={autoHide} />
         );
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "temperature", className)}>
             {formatTemperature(measurement, { i18n })}
@@ -73,7 +72,7 @@ export function TemperatureUnit({ className, measurement, autoHide }: UnitProps)
 }
 
 export function TemperatureRangeUnit({ className, max, min, compact = true }: UnitRangeProps) {
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "unit-range", { compact })}>
             <div className="high">
@@ -92,7 +91,7 @@ export function PercentageUnit({ className, measurement, autoHide }: UnitProps) 
             <Empty className={classNames("percentage", className)} autoHide={autoHide} />
         );
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "percentage", className)}>
             {formatPercentage(measurement, { i18n })}
@@ -106,7 +105,7 @@ export function UVIndexUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("uv-index", className)} autoHide={autoHide} />
         );
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "uv-index", className)}>
             {formatUVIndex(measurement, { i18n })}
@@ -120,7 +119,7 @@ export function AQIUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("aqi", className)} autoHide={autoHide} />
         );
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "aqi", className)}>
             {formatAQI(measurement, { i18n })}
@@ -134,7 +133,7 @@ export function VisibilityUnit({ className, measurement, autoHide }: UnitProps) 
             <Empty className={classNames("visibility", className)} autoHide={autoHide} />
         );
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "visibility", className)}>
             {formatVisibility(measurement, { i18n })}
@@ -148,7 +147,7 @@ export function PressureUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("pressure", className)} autoHide={autoHide} />
         );
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "pressure", className)}>
             {formatPressure(measurement, { i18n })}
@@ -162,7 +161,7 @@ export function SpeedUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("speed", className)} autoHide={autoHide} />
         );
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "speed", className)}>
             {formatSpeed(measurement, { i18n })}
@@ -176,7 +175,7 @@ export function DepthUnit({ className, measurement, autoHide }: UnitProps) {
             <Empty className={classNames("depth", className)} autoHide={autoHide} />
         );
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "depth", className)}>
             {formatDepth(measurement, { i18n })}
@@ -190,7 +189,7 @@ export function CompassDirectionUnit({ className, measurement, autoHide }: UnitP
             <Empty className="compass-direction" autoHide={autoHide} />
         );
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <span className={classNames("unit", "compass-direction", className)}>
             {formatCompassDirection(measurement, { i18n })}

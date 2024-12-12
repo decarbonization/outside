@@ -17,8 +17,7 @@
  */
 
 import { Attribution, Weather } from "fruit-company/weather";
-import { useContext } from "preact/hooks";
-import { Deps } from "../_deps";
+import { useDeps } from "../_deps";
 
 export interface WeatherSourceProps {
     readonly weather?: Weather;
@@ -29,7 +28,7 @@ export function WeatherSource({ weather, attribution }: WeatherSourceProps) {
     if (weather === undefined || attribution === undefined) {
         return null;
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     const attributionURL = [
         weather.currentWeather?.metadata.attributionURL,
         weather.forecastNextHour?.metadata.attributionURL,

@@ -16,11 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useContext } from "preact/hooks";
 import { linkTo } from "../../routes/_links";
-import { Deps } from "../_deps";
-import { Link } from "../components/link";
 import { envFlag } from "../../utilities/env";
+import { useDeps } from "../_deps";
+import { Link } from "../components/link";
 
 export type SignInMessage =
     | 'none'
@@ -33,7 +32,7 @@ export interface SignInProps {
 }
 
 export function SignIn({ email, message, returnTo }: SignInProps) {
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <section className="sign-in">
             <h1>{i18n.t("accounts.signIn")}</h1>
@@ -61,7 +60,7 @@ interface MessageProps {
 }
 
 function Message({ what = 'none' }: MessageProps) {
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     switch (what) {
         case 'none':
             return null;

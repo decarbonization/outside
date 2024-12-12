@@ -17,8 +17,7 @@
  */
 
 import { DayWeatherConditions } from "fruit-company/weather";
-import { useContext } from "preact/hooks";
-import { Deps } from "../_deps";
+import { useDeps } from "../_deps";
 import { ShortTime } from "../components/dates";
 import { Moon } from "../components/moon";
 
@@ -31,7 +30,7 @@ export function SolarForecast({ today }: SolarForecastProps) {
         return null;
     }
 
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <section className="solar-forecast">
             <h1>{i18n.t("solarForecast.title")}</h1>

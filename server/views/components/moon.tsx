@@ -18,10 +18,24 @@
 
 import classNames from "classnames";
 import { MoonPhase } from "fruit-company/weather";
-import { useContext } from "preact/hooks";
 import { moonPhaseFragment } from "../../formatting/fragments";
-import { themeIcon } from "../../styling/themes";
-import { Deps } from "../_deps";
+import { icon, IconPack } from "../../styling/icon-pack";
+import { useDeps } from "../_deps";
+
+const moonIcons: IconPack<MoonPhase> = {
+    "base": {
+        "day": "wi fill day",
+        "night": "wi fill night"
+    },
+    "new": "moon-new",
+    "waxingCrescent": "moon-waxing-crescent",
+    "firstQuarter": "moon-first-quarter",
+    "full": "moon-full",
+    "waxingGibbous": "moon-waxing-gibbous",
+    "waningGibbous": "moon-waning-gibbous",
+    "thirdQuarter": "moon-last-quarter",
+    "waningCrescent": "moon-waning-crescent",
+};
 
 export interface MoonProps {
     readonly className?: string;
@@ -29,8 +43,8 @@ export interface MoonProps {
 }
 
 export function Moon({ className, phase }: MoonProps) {
-    const { i18n, theme } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
-        <span className={classNames("icon", "moon", className, themeIcon(theme, { name: phase, daylight: false }))} aria-label={moonPhaseFragment(phase, { i18n })} />
+        <span className={classNames("icon", "moon", className, icon(moonIcons, { name: phase, daylight: false }))} aria-label={moonPhaseFragment(phase, { i18n })} />
     );
 }

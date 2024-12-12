@@ -17,11 +17,10 @@
  */
 
 import { CurrentWeather, DayWeatherConditions } from "fruit-company/weather";
-import { useContext } from "preact/hooks";
-import { Deps } from "../_deps";
+import { CurrentAirConditions } from "good-breathing/aqi";
+import { useDeps } from "../_deps";
 import { Condition } from "../components/condition";
 import { AQIUnit, CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "../components/units";
-import { CurrentAirConditions } from "good-breathing/aqi";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;
@@ -33,7 +32,7 @@ export function CurrentForecast({ now, today, air }: CurrentForecastProps) {
     if (now === undefined) {
         return null;
     }
-    const { i18n, timeZone } = useContext(Deps);
+    const { i18n, timeZone } = useDeps();
     return (
         <section className="current-forecast">
             <Condition className="superhero outset-bottom" code={now.conditionCode} daylight={now.daylight} />

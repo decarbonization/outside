@@ -17,13 +17,12 @@
  */
 
 import classNames from "classnames";
-import { ForecastMinute, precipitationIntensityFrom } from "fruit-company/weather";
-import { segmentBy } from "../../utilities/array-utils";
 import { differenceInMinutes } from "date-fns";
+import { ForecastMinute, precipitationIntensityFrom } from "fruit-company/weather";
 import { i18n } from "i18next";
-import { useContext } from "preact/hooks";
-import { Deps } from "../_deps";
 import { percentage } from "../../styling/transforms";
+import { segmentBy } from "../../utilities/array-utils";
+import { useDeps } from "../_deps";
 
 export interface PrecipitationChartProps {
     readonly className?: string;
@@ -41,7 +40,7 @@ export function PrecipitationChart({
     if (!samples.some(m => m.precipitationChance > 0)) {
         return null;
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     const startTime = samples[0].startTime;
     const segments = segmentBy(samples, groupSize).slice(0, maxGroups);
     return (

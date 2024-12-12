@@ -16,9 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useContext } from "preact/hooks";
 import { linkTo } from "../../routes/_links";
-import { Deps } from "../_deps";
+import { useDeps } from "../_deps";
 
 export type SignUpMessage =
     | 'none'
@@ -33,7 +32,7 @@ export interface SignUpProps {
 }
 
 export function SignUp({ email, message, returnTo }: SignUpProps) {
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <section className="sign-up">
             <h1>{i18n.t("accounts.signUp")}</h1>
@@ -61,7 +60,7 @@ interface MessageProps {
 }
 
 function Message({ what = 'none' }: MessageProps) {
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     switch (what) {
         case 'none':
             return null;

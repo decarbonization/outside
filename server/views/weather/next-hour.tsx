@@ -19,9 +19,8 @@
 import { differenceInMinutes } from "date-fns";
 import { ForecastPeriodSummary, NextHourForecast } from "fruit-company/weather";
 import { i18n } from "i18next";
-import { useContext } from "preact/hooks";
 import { chanceFragment, precipitationIntensityFragment, precipitationTypeFragment } from "../../formatting/fragments";
-import { Deps } from "../_deps";
+import { useDeps } from "../_deps";
 import { PrecipitationChart } from "../components/precipitation-chart";
 
 export interface NextHourForecastProps {
@@ -35,7 +34,7 @@ export function NextHourForecast({ forecast }: NextHourForecastProps) {
     if (forecast.summary.length === 0) {
         return null;
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     const summary = summaryText(i18n, forecast.summary);
     return (
         <section className="next-hour-forecast">

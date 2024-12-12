@@ -40,16 +40,35 @@ async function getAppWebManifest(
     req: Request,
     res: Response
 ): Promise<void> {
-    const deps = await makeDeps({ req });
+    const { i18n } = await makeDeps({ req });
     const resp = JSON.stringify({
-        "name": deps.i18n.t("appName"),
-        "short_name": deps.i18n.t("appName"),
+        "name": i18n.t("appName"),
+        "short_name": i18n.t("appName"),
         "start_url": ".",
         "display": "standalone",
-        "background_color": deps.theme.appBackgroundColor,
-        "theme_color": deps.theme.appAccentColor,
-        "description": deps.i18n.t("appDescription"),
-        "icons": deps.theme.appIcons,
+        "theme_color": "blue",
+        "description": i18n.t("appDescription"),
+        "icons": [
+            {
+                "src": "/image/icon.png",
+                "sizes": "128x128",
+                "type": "image/png",
+                "purpose": "maskable"
+            },
+            {
+                "src": "/image/icon@2x.png",
+                "sizes": "256x256",
+                "type": "image/png",
+                "purpose": "maskable"
+            },
+            
+            {
+                "src": "/image/icon@3x.png",
+                "sizes": "384x384",
+                "type": "image/png",
+                "purpose": "maskable"
+            }
+        ],
     });
     res.type('application/manifest+json').send(resp);
 }

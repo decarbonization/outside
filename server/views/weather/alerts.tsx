@@ -18,8 +18,7 @@
 
 import classNames from "classnames";
 import { WeatherAlertCollection } from "fruit-company/weather";
-import { useContext } from "preact/hooks";
-import { Deps } from "../_deps";
+import { useDeps } from "../_deps";
 
 export interface WeatherAlertsProps {
     readonly collection?: WeatherAlertCollection;
@@ -29,7 +28,7 @@ export function WeatherAlerts({ collection }: WeatherAlertsProps) {
     if (collection === undefined || collection.alerts.length === 0) {
         return null;
     }
-    const { i18n, timeZone } = useContext(Deps);
+    const { i18n, timeZone } = useDeps();
     return (
         <section className="weather-alerts">
             <h1 className="outset-bottom">

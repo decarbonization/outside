@@ -17,19 +17,32 @@
  */
 
 import classNames from "classnames";
-import { useContext } from "preact/hooks";
-import { ThemeDecoration, themeIcon, themeIconDescription } from "../../styling/themes";
-import { Deps } from "../_deps";
+import { i18n } from 'i18next';
+import { icon, IconOptions, IconPack } from "../../styling/icon-pack";
+import { useDeps } from "../_deps";
+
+export type DecorationIconName =
+    | 'daytime'
+    | 'overnight';
+
+const decorationIcons: IconPack<DecorationIconName> = {
+    "base": {
+        "day": "wi fill day",
+        "night": "wi fill night"
+    },
+    "daytime": "clear-day",
+    "overnight": "starry-night",
+};
 
 export interface DecorationProps {
     readonly className?: string;
-    readonly name: ThemeDecoration;
+    readonly name: DecorationIconName;
 }
 
 export function Decoration({ className, name }: DecorationProps) {
-    const { i18n, theme } = useContext(Deps);
-    const iconClassName = themeIcon(theme, { name });
-    const iconDescription = themeIconDescription(i18n, { name });
+    const { i18n } = useDeps();
+    const iconClassName = icon(decorationIcons, { name });
+    const iconDescription = decorationIconDescription(i18n, { name });
     if (iconClassName !== undefined) {
         return (
             <span className={classNames("icon", className, iconClassName)} aria-label={iconDescription} />
@@ -40,5 +53,23 @@ export function Decoration({ className, name }: DecorationProps) {
                 {iconDescription}
             </span>
         );
+    }
+}
+
+/**
+ * Get a description of an icon from a theme.
+ * 
+ * @param i18n The internationalization object to get strings from.
+ * @param options The options specifying what icon to get.
+ * @returns A human readable string.
+ */
+function decorationIconDescription(i18n: i18n, { name }: IconOptions<DecorationIconName>): string | undefined {
+    switch (name) {
+        case 'daytime':
+            return i18n.t("forecast.measurementLabels.daytime");
+        case 'overnight':
+            return i18n.t("forecast.measurementLabels.overnight");
+        default:
+            return undefined;
     }
 }

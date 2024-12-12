@@ -18,8 +18,7 @@
 
 import classNames from "classnames";
 import { i18n } from "i18next";
-import { useContext } from "preact/hooks";
-import { Deps } from "../_deps";
+import { useDeps } from "../_deps";
 
 export interface DateProps {
     /**
@@ -61,7 +60,7 @@ function Empty({ className, autoHide = false }: DateProps) {
     if (autoHide) {
         return null;
     } else {
-        const { i18n } = useContext(Deps);
+        const { i18n } = useDeps();
         return (
             <span className={classNames("datetime", "empty", className)}>
                 {i18n.t("units:placeholder")}
@@ -74,7 +73,7 @@ export function Hour({ className, when, autoHide }: DateProps) {
     if (when === undefined) {
         return <Empty className={className} autoHide={autoHide} />
     }
-    const { i18n, timeZone } = useContext(Deps);
+    const { i18n, timeZone } = useDeps();
     return (
         <span className={classNames("datetime", className)}>
             {formatDate(i18n, when, { hour: 'numeric', timeZone })}
@@ -86,7 +85,7 @@ export function ShortDate({ className, when, autoHide }: DateProps) {
     if (when === undefined) {
         return <Empty className={className} autoHide={autoHide} />
     }
-    const { i18n, timeZone } = useContext(Deps);
+    const { i18n, timeZone } = useDeps();
     return (
         <span className={classNames("datetime", className)}>
             {formatDate(i18n, when, { dateStyle: 'short', timeZone })}
@@ -98,7 +97,7 @@ export function ShortTime({ className, when, autoHide }: DateProps) {
     if (when === undefined) {
         return <Empty className={className} autoHide={autoHide} />
     }
-    const { i18n, timeZone } = useContext(Deps);
+    const { i18n, timeZone } = useDeps();
     return (
         <span className={classNames("datetime", className)}>
             {formatDate(i18n, when, { timeStyle: 'short', timeZone })}
@@ -110,7 +109,7 @@ export function Weekday({ className, when, autoHide }: DateProps) {
     if (when === undefined) {
         return <Empty className={className} autoHide={autoHide} />
     }
-    const { i18n, timeZone } = useContext(Deps);
+    const { i18n, timeZone } = useDeps();
     return (
         <span className={classNames("datetime", className)}>
             {formatDate(i18n, when, { weekday: 'short', timeZone })}

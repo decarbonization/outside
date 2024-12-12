@@ -17,10 +17,10 @@
  */
 
 import { Request } from "express";
-import i18next, { i18n } from "i18next";
-import { createContext } from "preact";
+import { i18n } from "i18next";
+import { ComponentChildren, createContext } from "preact";
+import { useContext } from "preact/hooks";
 import { LocationCoordinates } from "serene-front/data";
-import { emptyTheme, loadTheme, Theme } from "../styling/themes";
 import { mapIfNotUndefined } from "../utilities/maybe";
 import { timezoneFor } from "../utilities/weather-utils";
 
@@ -37,11 +37,6 @@ export interface DepsObject {
      * Whether the user is signed in.
      */
     readonly isUserLoggedIn: boolean;
-    
-    /**
-     * The currently active theme.
-     */
-    readonly theme: Theme;
 
     /**
      * The currently active time zone 
@@ -71,7 +66,6 @@ export async function makeDeps({ req, location }: MakeDepsOptions): Promise<Deps
     return {
         i18n: req.i18n,
         isUserLoggedIn: (req.userAccount !== undefined),
-        theme: await loadTheme(),
         timeZone: mapIfNotUndefined(location, timezoneFor) ?? "UTC",
     };
 }
@@ -79,9 +73,34 @@ export async function makeDeps({ req, location }: MakeDepsOptions): Promise<Deps
 /**
  * Dependencies made available to components in this app.
  */
-export const Deps = createContext<DepsObject>({
-    i18n: i18next,
-    isUserLoggedIn: false,
-    theme: emptyTheme,
-    timeZone: "UTC",
-});
+const Deps = createContext<DepsObject | undefined>(undefined);
+
+/**
+ * Props for a `DepsProvider` component.
+ */
+export interface DepsProviderProps {
+    readonly deps: DepsObject;
+    readonly children: ComponentChildren;
+}
+
+/**
+ * Component which makes dependencies available to child components.
+ */
+export function DepsProvider({ deps, children }: DepsProviderProps) {
+    return (
+        <Deps.Provider value={deps}>
+            {children}
+        </Deps.Provider>
+    );
+}
+
+/**
+ * Hook to access the dependencies made available to components.
+ */
+export function useDeps(): DepsObject {
+    const deps = useContext(Deps);
+    if (deps === undefined) {
+        throw new Error("useDeps() used outside of <DepsProvider>");
+    }
+    return deps;
+}

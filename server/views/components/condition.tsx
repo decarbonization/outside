@@ -18,10 +18,89 @@
 
 import classNames from "classnames";
 import { WeatherCondition } from "fruit-company/weather";
-import { useContext } from "preact/hooks";
 import { weatherConditionFragment } from "../../formatting/fragments";
-import { themeIcon } from "../../styling/themes";
-import { Deps } from "../_deps";
+import { icon, IconPack } from "../../styling/icon-pack";
+import { useDeps } from "../_deps";
+
+const conditionIcons: IconPack<WeatherCondition> = {
+    "base": {
+        "day": "wi fill day",
+        "night": "wi fill night"
+    },
+    "BlowingDust": "dust",
+    "Clear": {
+        "day": "clear-day",
+        "night": "clear-night"
+    },
+    "Cloudy": "cloudy",
+    "Foggy": {
+        "day": "fog-day",
+        "night": "fog-night"
+    },
+    "Haze": {
+        "day": "haze-day",
+        "night": "haze-night"
+    },
+    "MostlyClear": {
+        "day": "partly-cloudy-day",
+        "night": "partly-cloudy-night"
+    },
+    "MostlyCloudy": {
+        "day": "partly-cloudy-day",
+        "night": "partly-cloudy-night"
+    },
+    "PartlyCloudy": {
+        "day": "partly-cloudy-day",
+        "night": "partly-cloudy-night"
+    },
+    "Smoky": {
+        "day": "partly-cloudy-day-smoke",
+        "night": "partly-cloudy-night-smoke"
+    },
+    "Breezy": "wind",
+    "Windy": "wind",
+    "Drizzle": "drizzle",
+    "HeavyRain": "raindrops",
+    "IsolatedThunderstorms": {
+        "day": "thunderstorms-day-rain",
+        "night": "thunderstorms-night-rain"
+    },
+    "Rain": "rain",
+    "SunShowers": {
+        "day": "partly-cloudy-day-rain",
+        "night": "partly-cloudy-night-rain"
+    },
+    "ScatteredThunderstorms": {
+        "day": "thunderstorms-day-rain",
+        "night": "thunderstorms-night-rain"
+    },
+    "StrongStorms": "raindrops",
+    "Thunderstorms": {
+        "day": "thunderstorms-day-rain",
+        "night": "thunderstorms-night-rain"
+    },
+    "Frigid": "thermometer-mercury-cold",
+    "Hail": "hail",
+    "Hot": "thermometer-mercury",
+    "Flurries": {
+        "day": "partly-cloudy-day-snow",
+        "night": "partly-cloudy-night-snow"
+    },
+    "Sleet": "sleet",
+    "Snow": "snow",
+    "SunFlurries": {
+        "day": "partly-cloudy-day-snow",
+        "night": "partly-cloudy-night-snow"
+    },
+    "WintryMix": "snow",
+    "Blizzard": "snow",
+    "BlowingSnow": "snow",
+    "FreezingDrizzle": "rain",
+    "FreezingRain": "rain",
+    "HeavySnow": "snow",
+    "Hurricane": "hurricane",
+    "TropicalStorm": "hurricane",
+};
 
 export interface ConditionProps {
     readonly className?: string;
@@ -30,8 +109,8 @@ export interface ConditionProps {
 }
 
 export function Condition({ className, code, daylight = true }: ConditionProps) {
-    const { i18n, theme } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
-        <span className={classNames("icon", className, themeIcon(theme, { name: code, daylight }))} aria-label={weatherConditionFragment(code, { i18n })} />
+        <span className={classNames("icon", className, icon(conditionIcons, { name: code, daylight }))} aria-label={weatherConditionFragment(code, { i18n })} />
     );
 }

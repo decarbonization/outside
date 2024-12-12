@@ -16,9 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useContext } from "preact/hooks";
 import { linkTo } from "../routes/_links";
-import { Deps } from "./_deps";
+import { useDeps } from "./_deps";
 import { Link } from "./components/link";
 
 export interface GlobalHeaderProps {
@@ -27,7 +26,7 @@ export interface GlobalHeaderProps {
 }
 
 export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps) {
-    const { i18n, isUserLoggedIn } = useContext(Deps);
+    const { i18n, isUserLoggedIn } = useDeps();
     return (
         <header className="global h-flow spacing">
             <div className="logo">

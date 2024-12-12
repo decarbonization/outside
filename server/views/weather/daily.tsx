@@ -17,9 +17,7 @@
  */
 
 import { DailyForecast } from "fruit-company/weather";
-import { useContext } from "preact/hooks";
-import { ThemeDecoration } from "../../styling/themes";
-import { Deps } from "../_deps";
+import { useDeps } from "../_deps";
 import { Condition } from "../components/condition";
 import { Weekday } from "../components/dates";
 import { Decoration } from "../components/decoration";
@@ -34,7 +32,7 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
     if (forecast === undefined) {
         return null;
     }
-    const { i18n } = useContext(Deps);
+    const { i18n } = useDeps();
     return (
         <section className="daily-forecast">
             <h1>{i18n.t("dailyForecast.title", { count: forecast.days.length })}</h1>
@@ -59,9 +57,9 @@ export function DailyForecast({ forecast }: DailyForecastProps) {
                             <TemperatureRangeUnit max={day.temperatureMax} min={day.temperatureMin} compact={false} />
                         </div>
                         <div className="daily-forecast-reading humidity">
-                            <Decoration name={ThemeDecoration.daytime} /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
+                            <Decoration name="daytime" /> <PercentageUnit measurement={day.daytimeForecast?.humidity} />
                             <br />
-                            <Decoration name={ThemeDecoration.overnight} /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
+                            <Decoration name="overnight" /> <PercentageUnit measurement={day.overnightForecast?.humidity} />
                         </div>
                         <div className="daily-forecast-reading wind">
                             <SpeedUnit className="speed" measurement={day.windSpeedAvg} />
