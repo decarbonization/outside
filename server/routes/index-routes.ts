@@ -52,21 +52,18 @@ async function getAppWebManifest(
             {
                 "src": "/image/icon.png",
                 "sizes": "128x128",
-                "type": "image/png",
-                "purpose": "maskable"
+                "type": "image/png"
             },
             {
                 "src": "/image/icon@2x.png",
                 "sizes": "256x256",
-                "type": "image/png",
-                "purpose": "maskable"
+                "type": "image/png"
             },
             
             {
                 "src": "/image/icon@3x.png",
                 "sizes": "384x384",
-                "type": "image/png",
-                "purpose": "maskable"
+                "type": "image/png"
             }
         ],
     });
