@@ -34,6 +34,7 @@
     --accent: #0066e4;
     --accent-inactive: #737373;
     --separator: #aaa;
+    --off-color: #111;
     --transition-timing: cubic-bezier(.28, .84, .58, .98);
     --differentiate-bg: rgba(0, 102, 228, 0.05);
     --hover-bg: rgba(0, 0, 0, 0.091);
@@ -53,6 +54,7 @@
         --accent: #4d9dff;
         --accent-inactive: #a6a6a6;
         --separator: #555;
+        --off-color: #eee;
         --differentiate-bg: rgba(77, 157, 255, 0.05);
     }
 }
@@ -217,7 +219,7 @@ header {
     width: 0.25em;
     height: 0.25em;
 
-    background-color: #111111;
+    background-color: var(--off-color);
     border-radius: 50%;
 }
 
@@ -242,14 +244,14 @@ header {
 }
 
 .hour.clock-hand::before {
-    background-color: #111111;
+    background-color: var(--off-color);
     width: 0.15em;
     height: 2em;
     border-radius: 0.15em;
 }
 
 .minute.clock-hand::before {
-    background-color: #111111;
+    background-color: var(--off-color);
     width: 0.15em;
     height: 3.3em;
     border-radius: 0.15em;
