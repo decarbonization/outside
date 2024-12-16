@@ -36,7 +36,8 @@ import { initSequelize } from './db/init';
 import { ClientSessionStore } from './db/session-store';
 import { accountMiddleware } from './middlewares/account-middleware';
 import { routes } from './routes';
-import { env, envInt } from './utilities/env';
+import { fullyQualifiedLinkTo } from './routes/_links';
+import { env, envInt, envStrings } from './utilities/env';
 import { setUpShutDownHooks } from './utilities/shut-down';
 
 dotenv.config();
@@ -82,7 +83,7 @@ const gMapsApiKey = new GoogleMapsApiKey(
 )
 const userSystem = new UserSystem({
     store: new SequelizeStore(sequelize),
-    salts: env("SALTS").split(","),
+    salts: envStrings("SALTS"),
 });
 const mailer = new MailtrapClient({
     token: env("MAILTRAP_API_KEY"),
@@ -94,7 +95,7 @@ app.use('/locales', express.static(localesDir));
 app.use(i18nextMiddleware.handle(i18next));
 app.use(session({
     store: new ClientSessionStore(),
-    secret: env("SESSION_SECRETS").split(","),
+    secret: envStrings("SESSION_SECRETS"),
     resave: true,
     saveUninitialized: true,
     cookie: {
@@ -118,7 +119,8 @@ const httpTerminator = createHttpTerminator({
 
 const port = envInt("PORT", 8000);
 server.listen(port, () => {
-    console.log(`outside is running at http://${env('HOST', 'localhost')}:${port} from ${__dirname}`);
+    const link = fullyQualifiedLinkTo({ where: "index" });
+    console.log(`outside is running at <${link}> from ${__dirname}`);
 });
 
 setUpShutDownHooks({ server, httpTerminator });

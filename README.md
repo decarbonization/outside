@@ -57,6 +57,13 @@ In order for Outside to fetch air quality data, it must be configured with a Goo
 
 - `GOOGLE_MAPS_API_KEY`: A Google Maps platform API key with access to both the Air Quality and Pollen data features.
 
+### Configuring Mail Services
+
+In order for Outside to be able to send user account emails, it must be configured with a Mailtrap API key. Once an API key has been created, the following environment variable must be set:
+
+- `MAILTRAP_API_KEY`: A Mailtrap platform API key.
+- `MAILTRAP_SENDER`: The email address which is nominally sending emails from Outside.
+
 ### Configuring User System
 
 In order for Outside to allow users to sign in, it must be configured with the following environment variables:
