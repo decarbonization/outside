@@ -17,6 +17,7 @@
  */
 
 import { ComponentChildren } from "preact";
+import { envStrings } from "../utilities/env";
 import { useDeps } from "./_deps";
 import { GlobalFooter } from "./global-footer";
 import { GlobalHeader } from "./global-header";
@@ -58,6 +59,9 @@ export function App({ className, searchQuery, searchDisabled, children }: AppPro
                 <GlobalFooter />
 
                 <script src="/script/client.js" />
+                {envStrings("ANALYTICS_SCRIPTS", [], ";").map(scriptUrl => (
+                    <script src={scriptUrl} defer />
+                ))}
             </body>
         </html>
     );

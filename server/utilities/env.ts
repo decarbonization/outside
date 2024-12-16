@@ -100,7 +100,8 @@ export function envFlag(key: EnvFlagKey, defaultValue?: boolean): boolean {
 */
 export type EnvStringsKey =
     | 'SESSION_SECRETS'
-    | 'SALTS';
+    | 'SALTS'
+    | 'ANALYTICS_SCRIPTS';
 
 /**
  * Access a string array environment variable, throwing an error if no value is found.
