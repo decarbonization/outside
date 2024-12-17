@@ -28,7 +28,19 @@
         "verificationEmailBody": "Thank you for signing up for the Outside weather app. Use the link below to verify your email address:\n\n<{{verifyLink}}>\n\nOutside\nA Swamp Monkey Project\n",
         "verificationEmailFrom": "Outside Weather",
         "verificationEmailSent": "Verification email sent, check your inbox. If you haven't received a verification email after a few minutes, check your spam folder.",
-        "verificationEmailSubject": "Please verify your email address"
+        "verificationEmailSubject": "Please verify your email address",
+        "errors": {
+            "invalidEmail": "Not a valid email address",
+            "duplicateEmail": "Email address already in use",
+            "invalidPassword": "Not a valid password",
+            "incorrectPassword": "Incorrect password",
+            "mismatchedPasswords": "Passwords do not match",
+            "unknownUser": "Account is unknown",
+            "unknownSession": "Session is unknown",
+            "expiredSession": "Session expired",
+            "missingScope": "Insufficient authorization",
+            "userAlreadyVerified": "Account has already been verified"
+        }
     },
     "forecast": {
         "measurementLabels": {

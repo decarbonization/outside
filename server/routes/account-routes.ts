@@ -69,12 +69,9 @@ async function postSignIn(
         } else {
             res.redirect(linkTo({ where: "index" }));
         }
-    } catch (err) {
-        if (!UserSystemError.is(err, 'unknownUser')) {
-            throw err;
-        }
+    } catch (error) {
         const deps = await makeDeps({ req });
-        const resp = renderSignIn({ deps, email, message: 'noSuchUser' });
+        const resp = renderSignIn({ deps, email, error });
         res.status(401).type('html').send(resp);
     }
 }
@@ -151,20 +148,12 @@ async function postSignUp(
         });
 
         const deps = await makeDeps({ req });
-        const resp = renderSignUp({ deps, email, message: 'verificationEmailSent' });
+        const resp = renderSignUp({ deps, email, signedUp: true });
         res.status(401).type('html').send(resp);
-    } catch (err) {
-        if (UserSystemError.is(err, 'duplicateEmail')) {
-            const deps = await makeDeps({ req });
-            const resp = renderSignUp({ deps, email, message: 'duplicateEmail' });
-            res.status(401).type('html').send(resp);
-        } else if (UserSystemError.is(err, 'mismatchedPasswords')) {
-            const deps = await makeDeps({ req });
-            const resp = renderSignUp({ deps, email, message: 'mismatchedPasswords' });
-            res.status(401).type('html').send(resp);
-        } else {
-            throw err;
-        }
+    } catch (error) {
+        const deps = await makeDeps({ req });
+        const resp = renderSignUp({ deps, email, error });
+        res.status(401).type('html').send(resp);
     }
 }
 

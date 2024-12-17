@@ -18,6 +18,7 @@
 
 import { linkTo } from "../../routes/_links";
 import { useDeps } from "../_deps";
+import { ErrorMessage } from "../components/error-message";
 
 export type SignUpMessage =
     | 'none'
@@ -27,11 +28,12 @@ export type SignUpMessage =
 
 export interface SignUpProps {
     readonly email?: string;
-    readonly message?: SignUpMessage;
+    readonly error?: unknown;
+    readonly signedUp?: boolean;
     readonly returnTo?: string;
 }
 
-export function SignUp({ email, message, returnTo }: SignUpProps) {
+export function SignUp({ email, error, signedUp, returnTo }: SignUpProps) {
     const { i18n } = useDeps();
     return (
         <section className="sign-up">
@@ -50,31 +52,10 @@ export function SignUp({ email, message, returnTo }: SignUpProps) {
                     <button className="bordered-button" type="submit">{i18n.t('accounts.signUp')}</button>
                 </div>
             </form>
-            <Message what={message} />
+            <ErrorMessage error={error} />
+            {signedUp && <p className="message">
+                {i18n.t('accounts.verificationEmailSent')}
+            </p>}
         </section>
     );
-}
-
-interface MessageProps {
-    readonly what?: SignUpMessage;
-}
-
-function Message({ what = 'none' }: MessageProps) {
-    const { i18n } = useDeps();
-    switch (what) {
-        case 'none':
-            return null;
-        case 'duplicateEmail':
-            return (
-                <p className="message">{i18n.t('accounts.duplicateEmail')}</p>
-            );
-        case 'mismatchedPasswords':
-            return (
-                <p className="message">{i18n.t('accounts.mismatchedPasswords')}</p>
-            );
-        case 'verificationEmailSent':
-            return (
-                <p className="message">{i18n.t('accounts.verificationEmailSent')}</p>
-            );
-    }
 }

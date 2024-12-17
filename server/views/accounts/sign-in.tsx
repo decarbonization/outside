@@ -18,19 +18,16 @@
 
 import { linkTo } from "../../routes/_links";
 import { useDeps } from "../_deps";
+import { ErrorMessage } from "../components/error-message";
 import { Link } from "../components/link";
-
-export type SignInMessage =
-    | 'none'
-    | 'noSuchUser';
 
 export interface SignInProps {
     readonly email?: string;
-    readonly message?: SignInMessage;
+    readonly error?: unknown;
     readonly returnTo?: string;
 }
 
-export function SignIn({ email, message, returnTo }: SignInProps) {
+export function SignIn({ email, error, returnTo }: SignInProps) {
     const { i18n } = useDeps();
     return (
         <section className="sign-in">
@@ -48,23 +45,7 @@ export function SignIn({ email, message, returnTo }: SignInProps) {
                     <button className="bordered-button" type="submit">{i18n.t('accounts.signIn')}</button>
                 </div>
             </form>
-            <Message what={message} />
+            <ErrorMessage error={error} />
         </section>
     );
-}
-
-interface MessageProps {
-    readonly what?: SignInMessage;
-}
-
-function Message({ what = 'none' }: MessageProps) {
-    const { i18n } = useDeps();
-    switch (what) {
-        case 'none':
-            return null;
-        case 'noSuchUser':
-            return (
-                <p className="message">{i18n.t('accounts.noSuchUser')}</p>
-            );
-    }
 }

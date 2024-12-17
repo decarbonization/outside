@@ -23,15 +23,17 @@ import { renderApp } from "./_app";
 export interface SignUpOptions {
     readonly deps: DepsObject;
     readonly email?: string;
-    readonly message?: SignUpMessage;
-    readonly returnTo?: string
+    readonly error?: unknown;
+    readonly signedUp?: boolean;
+    readonly returnTo?: string;
 }
 
-export function renderSignUp({ deps, email, message, returnTo }: SignUpOptions): string {
+export function renderSignUp({ deps, email, error, signedUp, returnTo }: SignUpOptions): string {
     return renderApp({ deps }, (
         <SignUp
             email={email}
-            message={message} 
+            error={error}
+            signedUp={signedUp} 
             returnTo={returnTo} />
     ));
 }

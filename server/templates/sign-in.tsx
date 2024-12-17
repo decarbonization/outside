@@ -17,21 +17,21 @@
  */
 
 import { DepsObject } from "../views/_deps";
-import { SignIn, SignInMessage } from "../views/accounts/sign-in";
+import { SignIn } from "../views/accounts/sign-in";
 import { renderApp } from "./_app";
 
 export interface SignInOptions {
     readonly deps: DepsObject;
     readonly email?: string;
-    readonly message?: SignInMessage;
+    readonly error?: unknown;
     readonly returnTo?: string;
 }
 
-export function renderSignIn({ deps, email, message, returnTo }: SignInOptions): string {
+export function renderSignIn({ deps, email, error, returnTo }: SignInOptions): string {
     return renderApp({ deps }, (
         <SignIn
             email={email}
-            message={message}
+            error={error}
             returnTo={returnTo} />
     ));
 }
