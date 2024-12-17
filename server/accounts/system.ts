@@ -53,7 +53,7 @@ export class UserSystem {
      * @param token A token OTP.
      * @param scope The scope the token must have.
      */
-    private async tryConsumeToken(sessionID: SessionID, token: string, scope: SessionTokenScope) {
+    private async tryConsumeToken(sessionID: SessionID, token: string, scope: SessionTokenScope): Promise<SessionSchema> {
         if (!isValidToken(token)) {
             throw new UserSystemError('invalidPassword', `Invalid Token`);
         }
@@ -75,12 +75,14 @@ export class UserSystem {
             throw new UserSystemError('missingScope', "Token missing one or more required scopes");
         }
 
-        await this.store.updateSession({
+        const updatedSession = {
             ...session,
             token: undefined,
             tokenExpiresAt: undefined,
             tokenScopes: undefined,
-        });
+        };
+        await this.store.updateSession(updatedSession);
+        return updatedSession;
     }
 
     async signUp(email: string, password: string): Promise<SessionSchema> {
@@ -157,6 +159,45 @@ export class UserSystem {
             throw new UserSystemError('userAlreadyVerified', "User already verified");
         }
         await this.store.updateUser({ ...user, isVerified: true });
+    }
+
+    async beginForgotPassword(email: string): Promise<SessionSchema> {
+        if (!isValidEmail(email)) {
+            throw new UserSystemError('invalidEmail', "Invalid email");
+        }
+
+        const user = await this.store.getUser({ by: 'email', email });
+        if (user === undefined) {
+            throw new UserSystemError('unknownUser', "No user");
+        }
+
+        const newSession: SessionSchema = await this.store.insertSession({
+            userID: user.id,
+            token: await token(),
+            tokenExpiresAt: addMinutes(new Date(), 15),
+            tokenScopes: ['forgotPassword'],
+        });
+        return newSession;
+    }
+
+    async finishForgotPassword(sessionID: SessionID, token: string, newPassword: string): Promise<SessionSchema> {
+        if (!isValidPassword(newPassword)) {
+            throw new UserSystemError('invalidPassword', "Invalid password");
+        }
+
+        const session = await this.tryConsumeToken(sessionID, token, 'forgotPassword');
+
+        const user = await this.store.getUser({ by: 'id', id: session.id });
+        if (user === undefined) {
+            throw new UserSystemError('unknownUser', "No user");
+        }
+        await this.store.updateUser({
+            ...user,
+            password: await hashPassword(newPassword, this.primarySalt),
+            isVerified: true,
+        })
+        
+        return session;
     }
 
     async getAccount(sessionID: SessionID | undefined): Promise<Account | undefined> {

@@ -148,6 +148,50 @@ describe("accounts#system module", () => {
                 expect(afterUser?.isVerified).toStrictEqual(true);
             });
         });
+
+        describe("#beginForgotPassword", () => {
+            it("should require a valid email", async () => {
+                const [_, subject] = makeUserSystem();
+                await expect(subject.beginForgotPassword("real.com")).rejects.toThrowError();
+            });
+
+            it("should require a user to exist", async () => {
+                const [_, subject] = makeUserSystem();
+                await expect(subject.beginForgotPassword("not@real.com")).rejects.toThrowError();
+            });
+
+            it("should create a session with the required scope", async () => {
+                const [_, subject] = makeUserSystem();
+                const session = await subject.beginForgotPassword("john@real.com");
+                expect(session.token).not.toBeUndefined();
+                expect(session.tokenExpiresAt).not.toBeUndefined();
+                expect(session.tokenScopes).toStrictEqual(['forgotPassword'])
+            });
+        });
+
+        describe("#finishForgotPassword", () => {
+            it("should require a valid password", async () => {
+                const [_, subject] = makeUserSystem();
+                await expect(subject.finishForgotPassword(-1, "", "bad password")).rejects.toThrowError();
+            });
+
+            it("should require session to exist", async () => {
+                const [_, subject] = makeUserSystem();
+                await expect(subject.finishForgotPassword(-1, "2B91796E-E9D3-4FC9-B6EF-5E1C1B7ACAA1", "R3@ch0ut")).rejects.toThrowError();
+            });
+
+            it("should update the user's password", async () => {
+                const [store, subject] = makeUserSystem();
+                const beforeSession = await subject.beginForgotPassword("john@real.com");
+                const beforeUser = await store.getUser({ by: "id", id: beforeSession.userID });
+                const afterSession = await subject.finishForgotPassword(beforeSession.id, beforeSession.token!, "V1r@l1ty");
+                const afterUser = await store.getUser({ by: "id", id: beforeSession.userID });
+                expect(afterSession.token).not.toStrictEqual(beforeSession.token);
+                expect(afterSession.tokenExpiresAt).not.toStrictEqual(beforeSession.tokenExpiresAt);
+                expect(afterSession.tokenScopes).not.toStrictEqual(beforeSession.tokenScopes);
+                expect(afterUser?.password).not.toStrictEqual(beforeUser?.password)
+            });
+        });
     });
 });
 

@@ -32,7 +32,7 @@ export interface UserSchema {
 export type NewUserSchema = Omit<UserSchema, 'id'>;
 
 
-export type SessionTokenScope = 'verifyPassword';
+export type SessionTokenScope = 'verifyPassword' | 'forgotPassword';
 export type SessionID = number;
 
 export interface SessionSchema {
