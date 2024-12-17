@@ -24,11 +24,12 @@ import { UserSystem } from "../accounts/system";
 import { renderSignIn } from "../templates/sign-in";
 import { renderSignUp } from "../templates/sign-up";
 import { env, envFlag } from "../utilities/env";
-import { proveString } from "../utilities/maybe";
+import { mapIfNotUndefined, proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
 import { fullyQualifiedLinkTo, linkTo } from "./_links";
 import { renderAccountSettings } from "../views/accounts/account-settings";
 import { renderForgotPassword } from "../templates/forgot-password";
+import { renderForgotPasswordRecover } from "../templates/forgot-password-recover";
 
 export interface UserRouteOptions {
     readonly userSystem: UserSystem;
@@ -52,14 +53,14 @@ async function postSignIn(
     res: Response
 ): Promise<void> {
     const email = req.body.email;
-    if (email === undefined) {
-        throw new Error();
-    }
     const password = req.body.password;
-    if (password === undefined) {
-        throw new Error();
-    }
     try {
+        if (email === undefined) {
+            throw new Error("Missing email");
+        }
+        if (password === undefined) {
+            throw new Error("Missing password");
+        }
         const session = await userSystem.signIn(email, password);
         req.session.sid = session.id;
         console.info(`Started session <${session.id}> for <${email}>`);
@@ -183,18 +184,100 @@ async function getForgotPassword(
     req: Request,
     res: Response
 ): Promise<void> {
-    const email = proveString(req.query['email']);
     const deps = await makeDeps({ req });
-    const resp = renderForgotPassword({ deps, email });
+    const resp = renderForgotPassword({ deps });
     res.type('html').send(resp);
 }
 
 async function postForgotPassword(
-    { }: UserRouteOptions,
+    { userSystem, mailer }: UserRouteOptions,
     req: Request<{ email?: string }>,
     res: Response
 ): Promise<void> {
-    throw new Error("Unimplemented");
+    const email = req.body.email ?? "";
+    try {
+        const session = await userSystem.beginForgotPassword(email);
+        console.info(`Started forgot password session <${session.id}> with for <${email}>`);
+
+        const i18n = req.i18n;
+        const verifyLink = fullyQualifiedLinkTo({ where: "forgotPasswordRecover", sid: session.id, token: session.token! });
+        await mailer.send({
+            from: {
+                email: env("MAILTRAP_SENDER"),
+                name: i18n.t('accounts.verificationEmailFrom'),
+            },
+            to: [
+                {
+                    email
+                }
+            ],
+            subject: i18n.t("accounts.verificationEmailSubject"),
+            text: i18n.t("accounts.verificationEmailBody", { verifyLink, interpolation: { escapeValue: false } }),
+            category: "Outside Weather Logins"
+        });
+
+        const deps = await makeDeps({ req });
+        const resp = renderForgotPassword({ deps, email, sent: true });
+        res.type('html').send(resp);
+    } catch (error) {
+        const deps = await makeDeps({ req });
+        const resp = renderForgotPassword({ deps, email, error });
+        res.status(401).type('html').send(resp);
+    }
+}
+
+async function getForgotPasswordRecover(
+    { }: UserRouteOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const sessionID = mapIfNotUndefined(proveString(req.query["sid"]), sid => Number(sid));
+    if (sessionID === undefined) {
+        throw new Error("Missing sid");
+    }
+    const token = proveString(req.query["token"]);
+    if (token === undefined) {
+        throw new Error("Missing token");
+    }
+    try {
+        const deps = await makeDeps({ req });
+        const resp = renderForgotPasswordRecover({ deps, sessionID, token });
+        res.type('html').send(resp);
+    } catch (error) {
+        const deps = await makeDeps({ req });
+        const resp = renderForgotPasswordRecover({ deps, sessionID, token, error });
+        res.status(401).type('html').send(resp);
+    }
+}
+
+async function postForgotPasswordRecover(
+    { userSystem }: UserRouteOptions,
+    req: Request<{ password?: string, confirm_password?: string }>,
+    res: Response
+): Promise<void> {
+    const sessionID = mapIfNotUndefined(proveString(req.query["sid"]), sid => Number(sid));
+    if (sessionID === undefined) {
+        throw new Error("Missing sid");
+    }
+    const token = proveString(req.query["token"]);
+    if (token === undefined) {
+        throw new Error("Missing token");
+    }
+    try {
+        const password = req.body.password ?? "";
+        const confirmPassword = req.body.confirm_password ?? "";
+        if (password !== confirmPassword) {
+            throw new UserSystemError('mismatchedPasswords', 'Provided passwords do not match');
+        }
+        const session = await userSystem.finishForgotPassword(sessionID, token, password);
+        req.session.sid = session.id;
+        console.info(`Started session <${session.id}> from recovered password`);
+        res.redirect(linkTo({ where: "index" }));
+    } catch (error) {
+        const deps = await makeDeps({ req });
+        const resp = renderForgotPasswordRecover({ deps, sessionID, token, error });
+        res.status(401).type('html').send(resp);
+    }
 }
 
 async function getSettings(
@@ -237,6 +320,12 @@ export function AccountRoutes(options: UserRouteOptions) {
         })
         .post('/forgot-password', urlencoded({ extended: true }), async (req, res) => {
             await postForgotPassword(options, req, res);
+        })
+        .get('/forgot-password/recover', async (req, res) => {
+            await getForgotPasswordRecover(options, req, res);
+        })
+        .post('/forgot-password/recover', urlencoded({ extended: true }), async (req, res) => {
+            await postForgotPasswordRecover(options, req, res);
         })
         .get('/account', async (req, res) => {
             await getSettings(options, req, res);

@@ -29,6 +29,7 @@
         "verificationEmailFrom": "Outside Weather",
         "verificationEmailSent": "Verification email sent, check your inbox. If you haven't received a verification email after a few minutes, check your spam folder.",
         "verificationEmailSubject": "Please verify your email address",
+        "forgotPasswordEmailSent": "Password recovery email sent, check your inbox. If you haven't received an email after a few minutes, check your spam folder.",
         "errors": {
             "invalidEmail": "Not a valid email address",
             "duplicateEmail": "Email address already in use",

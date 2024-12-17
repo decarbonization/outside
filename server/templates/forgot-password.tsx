@@ -17,19 +17,21 @@
  */
 
 import { DepsObject } from "../views/_deps";
-import { ForgotPassword, ForgotPasswordMessage } from "../views/accounts/forgot-password";
+import { ForgotPassword } from "../views/accounts/forgot-password";
 import { renderApp } from "./_app";
 
 export interface ForgotPasswordOptions {
     readonly deps: DepsObject;
     readonly email?: string;
-    readonly message?: ForgotPasswordMessage;
+    readonly error?: unknown;
+    readonly sent?: boolean;
 }
 
-export function renderForgotPassword({ deps, email, message }: ForgotPasswordOptions): string {
+export function renderForgotPassword({ deps, email, error, sent }: ForgotPasswordOptions): string {
     return renderApp({ deps }, (
         <ForgotPassword
             email={email}
-            message={message} />
+            error={error}
+            sent={sent} />
     ));
 }

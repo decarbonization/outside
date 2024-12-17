@@ -18,17 +18,15 @@
 
 import { linkTo } from "../../routes/_links";
 import { useDeps } from "../_deps";
-
-export type ForgotPasswordMessage =
-    | 'none'
-    | 'emailSent';
+import { ErrorMessage } from "../components/error-message";
 
 export interface ForgotPasswordProps {
     readonly email?: string;
-    readonly message?: ForgotPasswordMessage;
+    readonly error?: unknown;
+    readonly sent?: boolean;
 }
 
-export function ForgotPassword({ email, message }: ForgotPasswordProps) {
+export function ForgotPassword({ email, error, sent }: ForgotPasswordProps) {
     const { i18n } = useDeps();
     return (
         <section className="forgot-password">
@@ -43,24 +41,10 @@ export function ForgotPassword({ email, message }: ForgotPasswordProps) {
                     <button type="submit">{i18n.t('accounts.forgotPassword')}</button>
                 </div>
             </form>
-            <Message what={message} />
+            <ErrorMessage error={error} />
+            {sent && <p className="message">
+                {i18n.t('accounts.forgotPasswordEmailSent')}
+            </p>}
         </section>
     );
 }
-
-interface MessageProps {
-    readonly what?: ForgotPasswordMessage;
-}
-
-function Message({ what = 'none' }: MessageProps) {
-    const { i18n } = useDeps();
-    switch (what) {
-        case 'none':
-            return null;
-        case 'emailSent':
-            return (
-                <p className="message">{i18n.t('accounts.noSuchUser')}</p>
-            );
-    }
-}
-

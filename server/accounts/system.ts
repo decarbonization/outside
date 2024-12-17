@@ -81,7 +81,7 @@ export class UserSystem {
             tokenExpiresAt: undefined,
             tokenScopes: undefined,
         };
-        await this.store.updateSession(updatedSession);
+        await this.store.updateSession(updatedSession); // TODO: is this actually updating?
         return updatedSession;
     }
 
@@ -187,7 +187,7 @@ export class UserSystem {
 
         const session = await this.tryConsumeToken(sessionID, token, 'forgotPassword');
 
-        const user = await this.store.getUser({ by: 'id', id: session.id });
+        const user = await this.store.getUser({ by: 'id', id: session.userID });
         if (user === undefined) {
             throw new UserSystemError('unknownUser', "No user");
         }
