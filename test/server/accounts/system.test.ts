@@ -135,6 +135,7 @@ describe("accounts#system module", () => {
                 const beforeUser = await store.getUser({ by: "id", id: session.userID });
                 expect(beforeSession?.token).not.toBeUndefined();
                 expect(beforeSession?.tokenExpiresAt).not.toBeUndefined();
+                expect(beforeSession?.tokenScopes).not.toBeUndefined();
                 expect(beforeUser?.isVerified).toStrictEqual(false);
 
                 await subject.verifyEmail(session.id, "lady@real.com", session.token!);
@@ -143,6 +144,7 @@ describe("accounts#system module", () => {
                 const afterUser = await store.getUser({ by: "id", id: session.userID });
                 expect(afterSession?.token).toBeUndefined();
                 expect(afterSession?.tokenExpiresAt).toBeUndefined();
+                expect(afterSession?.tokenScopes).toBeUndefined();
                 expect(afterUser?.isVerified).toStrictEqual(true);
             });
         });

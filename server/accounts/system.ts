@@ -21,7 +21,7 @@ import { Account } from "./account";
 import { isValidEmail } from "./email";
 import { UserSystemError } from "./errors";
 import { checkPassword, hashPassword, isValidPassword, isValidToken, token } from "./password";
-import { SessionID, SessionSchema } from "./schemas";
+import { SessionID, SessionSchema, SessionTokenScope } from "./schemas";
 import { AccountStore } from "./store";
 
 export interface UserSystemOptions {
@@ -43,6 +43,44 @@ export class UserSystem {
 
     private get primarySalt(): string {
         return this.salts[0];
+    }
+
+    /**
+     * Check that a token is valid and has a required scope,
+     * consuming it if the check passes, throwing an error otherwise.
+     * 
+     * @param sessionID The identifier for the session the token belongs to.
+     * @param token A token OTP.
+     * @param scope The scope the token must have.
+     */
+    private async tryConsumeToken(sessionID: SessionID, token: string, scope: SessionTokenScope) {
+        if (!isValidToken(token)) {
+            throw new UserSystemError('invalidPassword', `Invalid Token`);
+        }
+
+        const session = await this.store.getSession(sessionID);
+        if (session === undefined) {
+            throw new UserSystemError('unknownSession', "Invalid session");
+        }
+        if (session.token === undefined) {
+            throw new UserSystemError('invalidPassword', "Invalid Token");
+        }
+        if (session.tokenExpiresAt !== undefined && new Date() > session.tokenExpiresAt) {
+            throw new UserSystemError('expiredSession', "Token has expired");
+        }
+        if (session.token !== token) {
+            throw new UserSystemError('incorrectPassword', "Bad token");
+        }
+        if (session.tokenScopes === undefined || !session.tokenScopes.includes(scope)) {
+            throw new UserSystemError('missingScope', "Token missing one or more required scopes");
+        }
+
+        await this.store.updateSession({
+            ...session,
+            token: undefined,
+            tokenExpiresAt: undefined,
+            tokenScopes: undefined,
+        });
     }
 
     async signUp(email: string, password: string): Promise<SessionSchema> {
@@ -93,6 +131,7 @@ export class UserSystem {
             userID: user.id,
             token: !user.isVerified ? await token() : undefined,
             tokenExpiresAt: !user.isVerified ? addMinutes(new Date(), 15) : undefined,
+            tokenScopes: ['verifyPassword'],
         });
 
         return newSession;
@@ -106,26 +145,8 @@ export class UserSystem {
         if (!isValidEmail(email)) {
             throw new UserSystemError('invalidEmail', "Invalid email");
         }
-        if (!isValidToken(token)) {
-            throw new UserSystemError('invalidPassword', `Invalid Token`);
-        }
 
-        const session = await this.store.getSession(sessionID);
-        if (session === undefined) {
-            throw new UserSystemError('unknownSession', "Invalid session");
-        }
-        if (session.token === undefined) {
-            throw new UserSystemError('invalidPassword', "Invalid Token");
-        }
-        if (session.tokenExpiresAt !== undefined && new Date() > session.tokenExpiresAt) {
-            throw new UserSystemError('expiredSession', "Token has expired");
-        }
-        if (session.token !== token) {
-            throw new UserSystemError('incorrectPassword', "Bad token");
-        }
-        if (session.tokenScopes === undefined || !session.tokenScopes.includes('verifyPassword')) {
-            throw new UserSystemError('missingScope', "Token cannot verify password");
-        }
+        await this.tryConsumeToken(sessionID, token, 'verifyPassword');
 
         const user = await this.store.getUser({ by: 'email', email });
         if (user === undefined) {
@@ -136,8 +157,6 @@ export class UserSystem {
             throw new UserSystemError('userAlreadyVerified', "User already verified");
         }
         await this.store.updateUser({ ...user, isVerified: true });
-
-        await this.store.updateSession({ ...session, token: undefined, tokenExpiresAt: undefined });
     }
 
     async getAccount(sessionID: SessionID | undefined): Promise<Account | undefined> {
