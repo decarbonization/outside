@@ -17,8 +17,8 @@
  */
 
 import { Account } from "../accounts/account";
-import { DepsObject } from "../views/_deps";
-import AccountSettings from "../views/accounts/AccountSettings";
+import { DepsObject } from "../components/_deps";
+import AccountSettings from "../components/accounts/AccountSettings";
 import renderApp from "./_app";
 
 export interface AccountSettingsOptions {

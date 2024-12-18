@@ -19,9 +19,9 @@
 import { DayWeatherConditions } from "fruit-company/weather";
 import { moonPhaseFragment } from "../../formatting/fragments";
 import { useDeps } from "../_deps";
-import Clock from "../components/Clock";
-import { ShortTime } from "../components/Dates";
-import Moon from "../components/Moon";
+import Clock from "../reusable/Clock";
+import { ShortTime } from "../reusable/Dates";
+import Moon from "../reusable/Moon";
 
 export interface SolarForecastProps {
     readonly today?: DayWeatherConditions;

@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DepsObject } from "../views/_deps";
-import SignUp from "../views/accounts/SignUp";
+import { DepsObject } from "../components/_deps";
+import SignUp from "../components/accounts/SignUp";
 import renderApp from "./_app";
 
 export interface SignUpOptions {

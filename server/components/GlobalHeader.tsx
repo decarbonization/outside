@@ -18,7 +18,7 @@
 
 import { linkTo } from "../routes/_links";
 import { useDeps } from "./_deps";
-import Link from "./components/Link";
+import Link from "./reusable/Link";
 
 export interface GlobalHeaderProps {
     readonly searchQuery?: string;

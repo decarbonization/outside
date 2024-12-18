@@ -18,8 +18,8 @@
 
 import { ComponentChildren } from "preact";
 import render from "preact-render-to-string";
-import App from "../views/_app";
-import { DepsObject, DepsProvider } from "../views/_deps";
+import App from "../components/_app";
+import { DepsObject, DepsProvider } from "../components/_deps";
 
 const templatePrelude = "<!DOCTYPE html>";
 

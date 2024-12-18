@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DepsObject } from "../views/_deps";
-import ForgotPasswordRecover from "../views/accounts/ForgotPasswordRecover";
+import { DepsObject } from "../components/_deps";
+import ForgotPasswordRecover from "../components/accounts/ForgotPasswordRecover";
 import renderApp from "./_app";
 
 export interface ForgotPasswordRecoverOptions {

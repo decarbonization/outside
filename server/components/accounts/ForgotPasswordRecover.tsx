@@ -18,32 +18,25 @@
 
 import { linkTo } from "../../routes/_links";
 import { useDeps } from "../_deps";
-import ErrorMessage from "../components/ErrorMessage";
-import Link from "../components/Link";
+import ErrorMessage from "../reusable/ErrorMessage";
 
-export interface SignInProps {
-    readonly email?: string;
+export interface ForgotPasswordRecoverProps {
+    readonly sessionID: number;
+    readonly token: string;
     readonly error?: unknown;
-    readonly returnTo?: string;
 }
 
-export default function SignIn({ email, error, returnTo }: SignInProps) {
+export default function ForgotPasswordRecover({ sessionID, token, error }: ForgotPasswordRecoverProps) {
     const { i18n } = useDeps();
     return (
-        <section className="sign-in">
-            <h1>{i18n.t("accounts.signIn")}</h1>
-            <form
-                method="post"
-                action={linkTo({ where: "signIn", returnTo })}
-                className="v-flow spacing outset-top"
-            >
-                <label for="email">{i18n.t('accounts.emailLabel')}</label>
-                <input type="email" id="email" name="email" value={email} required />
+        <section className="forgot-password-recover">
+            <form method="post" action={linkTo({ where: "forgotPasswordRecover", sessionID, token })} className="v-flow spacing outset-top">
                 <label for="password">{i18n.t('accounts.passwordLabel')}</label>
                 <input type="password" id="password" name="password" required />
-                <div className="h-flow fully centered spacing">
-                    <Link className="button-like" where="forgotPassword">{i18n.t('accounts.forgotPassword')}</Link>
-                    <button className="bordered-button" type="submit">{i18n.t('accounts.signIn')}</button>
+                <label for="confirm_password">{i18n.t('accounts.confirmPasswordLabel')}</label>
+                <input type="password" id="confirm_password" name="confirm_password" required />
+                <div className="h-flow centered spacing">
+                    <button className="bordered-button" type="submit">{i18n.t('accounts.submit')}</button>
                 </div>
             </form>
             <ErrorMessage error={error} />

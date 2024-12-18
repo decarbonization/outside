@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DepsObject } from "../views/_deps";
-import ErrorDetails from "../views/ErrorDetails";
+import { DepsObject } from "../components/_deps";
+import ErrorDetails from "../components/ErrorDetails";
 import renderApp from "./_app";
 
 export interface ErrorOptions {

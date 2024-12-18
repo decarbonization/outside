@@ -18,7 +18,7 @@
 
 import { ErrorRequestHandler } from "express";
 import renderError from "../templates/_error";
-import { makeDeps } from "../views/_deps";
+import { makeDeps } from "../components/_deps";
 
 export interface ErrorMiddlewareOptions {
 

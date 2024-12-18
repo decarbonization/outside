@@ -21,7 +21,7 @@ import { ForecastPeriodSummary, NextHourForecast } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { chanceFragment, precipitationIntensityFragment, precipitationTypeFragment } from "../../formatting/fragments";
 import { useDeps } from "../_deps";
-import PrecipitationChart from "../components/PrecipitationChart";
+import PrecipitationChart from "../reusable/PrecipitationChart";
 
 export interface NextHourForecastProps {
     readonly forecast?: NextHourForecast;

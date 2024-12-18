@@ -17,9 +17,9 @@
  */
 
 import { envFlag } from "../utilities/env";
-import { DepsObject } from "../views/_deps";
-import Condition from "../views/components/Condition";
-import Link from "../views/components/Link";
+import { DepsObject } from "../components/_deps";
+import Condition from "../components/reusable/Condition";
+import Link from "../components/reusable/Link";
 import renderApp from "./_app";
 
 export interface IndexOptions {

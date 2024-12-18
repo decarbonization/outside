@@ -19,7 +19,7 @@
 import { Account } from "../../accounts/account";
 import { linkTo } from "../../routes/_links";
 import { useDeps } from "../_deps";
-import Link from "../components/Link";
+import Link from "../reusable/Link";
 
 export interface AccountSettingsProps {
     readonly userAccount: Account;

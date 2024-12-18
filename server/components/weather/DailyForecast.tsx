@@ -18,11 +18,11 @@
 
 import { DailyForecast } from "fruit-company/weather";
 import { useDeps } from "../_deps";
-import Condition from "../components/Condition";
-import { Weekday } from "../components/Dates";
-import Decoration from "../components/Decoration";
-import Precipitation from "../components/Precipitation";
-import { PercentageUnit, SpeedUnit, TemperatureRangeUnit } from "../components/Units";
+import Condition from "../reusable/Condition";
+import { Weekday } from "../reusable/Dates";
+import Decoration from "../reusable/Decoration";
+import Precipitation from "../reusable/Precipitation";
+import { PercentageUnit, SpeedUnit, TemperatureRangeUnit } from "../reusable/Units";
 
 export interface DailyForecastProps {
     readonly forecast?: DailyForecast;

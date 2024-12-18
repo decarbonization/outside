@@ -18,10 +18,10 @@
 
 import { HourlyForecast } from "fruit-company/weather";
 import { useDeps } from "../_deps";
-import Condition from "../components/Condition";
-import { Hour } from "../components/Dates";
-import Precipitation from "../components/Precipitation";
-import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureUnit } from "../components/Units";
+import Condition from "../reusable/Condition";
+import { Hour } from "../reusable/Dates";
+import Precipitation from "../reusable/Precipitation";
+import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureUnit } from "../reusable/Units";
 
 export interface HourlyForecastProps {
     readonly forecast?: HourlyForecast;

@@ -18,32 +18,37 @@
 
 import { linkTo } from "../../routes/_links";
 import { useDeps } from "../_deps";
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessage from "../reusable/ErrorMessage";
 
-export interface ForgotPasswordProps {
+export interface SignUpProps {
     readonly email?: string;
     readonly error?: unknown;
-    readonly sent?: boolean;
+    readonly signedUp?: boolean;
+    readonly returnTo?: string;
 }
 
-export default function ForgotPassword({ email, error, sent }: ForgotPasswordProps) {
+export default function SignUp({ email, error, signedUp, returnTo }: SignUpProps) {
     const { i18n } = useDeps();
     return (
-        <section className="forgot-password">
-            <h1>{i18n.t("accounts.forgotPassword")}</h1>
+        <section className="sign-up">
+            <h1>{i18n.t("accounts.signUp")}</h1>
             <form
                 method="post"
-                action={linkTo({ where: "forgotPassword" })}
+                action={linkTo({ where: "signUp", returnTo })}
                 className="v-flow spacing outset-top"
             >
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
                 <input type="email" id="email" name="email" value={email} required />
-                <div className="h-flow centered spacing">
-                    <button className="bordered-button" type="submit">{i18n.t('accounts.submit')}</button>
+                <label for="password">{i18n.t('accounts.passwordLabel')}</label>
+                <input type="password" id="password" name="password" required />
+                <label for="confirm_password">{i18n.t('accounts.confirmPasswordLabel')}</label>
+                <input type="password" id="confirm_password" name="confirm_password" required />
+                <div className="h-flow fully centered spacing">
+                    <button className="bordered-button" type="submit">{i18n.t('accounts.signUp')}</button>
                 </div>
             </form>
             <ErrorMessage error={error} />
-            {sent && (
+            {signedUp && (
                 <p className="message">
                     {i18n.t('accounts.emailSent')}
                 </p>
