@@ -46,7 +46,7 @@ async function getAppWebManifest(
         "short_name": i18n.t("appName"),
         "start_url": ".",
         "display": "standalone",
-        "theme_color": "blue",
+        "theme_color": "#56a7f7",
         "description": i18n.t("appDescription"),
         "icons": [
             {
