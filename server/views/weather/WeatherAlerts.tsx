@@ -24,7 +24,7 @@ export interface WeatherAlertsProps {
     readonly collection?: WeatherAlertCollection;
 }
 
-export function WeatherAlerts({ collection }: WeatherAlertsProps) {
+export default function WeatherAlerts({ collection }: WeatherAlertsProps) {
     if (collection === undefined || collection.alerts.length === 0) {
         return null;
     }

@@ -21,13 +21,13 @@ import { ForecastPeriodSummary, NextHourForecast } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { chanceFragment, precipitationIntensityFragment, precipitationTypeFragment } from "../../formatting/fragments";
 import { useDeps } from "../_deps";
-import { PrecipitationChart } from "../components/precipitation-chart";
+import PrecipitationChart from "../components/PrecipitationChart";
 
 export interface NextHourForecastProps {
     readonly forecast?: NextHourForecast;
 }
 
-export function NextHourForecast({ forecast }: NextHourForecastProps) {
+export default function NextHourForecast({ forecast }: NextHourForecastProps) {
     if (forecast === undefined) {
         return null;
     }

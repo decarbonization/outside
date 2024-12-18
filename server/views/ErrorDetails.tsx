@@ -16,20 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ComponentChildren } from "preact";
-import { LinkDestination, linkTo } from "../../routes/_links";
+import { useDeps } from "./_deps";
 
-export type LinkProps = LinkDestination & {
-    readonly className?: string;
-    readonly children?: ComponentChildren;
-};
+export interface ErrorDetailsProps {
+    readonly error: Error;
+}
 
-export function Link({ className, children, ...destination }: LinkProps) {
+export default function ErrorDetails({ error }: ErrorDetailsProps) {
+    const { i18n } = useDeps();
     return (
-        <a
-            className={className}
-            href={linkTo(destination)}>
-            {children}
-            </a>
-    )
+        <section className="error-details">
+            <h1>{i18n.t("errorTitle")}</h1>
+            <details>
+                <summary>{error.message}</summary>
+                <pre>
+                    {error.stack}
+                </pre>
+            </details>
+        </section>
+    );
 }

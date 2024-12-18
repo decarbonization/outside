@@ -18,14 +18,14 @@
 
 import { linkTo } from "../routes/_links";
 import { useDeps } from "./_deps";
-import { Link } from "./components/link";
+import Link from "./components/Link";
 
 export interface GlobalHeaderProps {
     readonly searchQuery?: string;
     readonly searchDisabled?: boolean;
 }
 
-export function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps) {
+export default function GlobalHeader({ searchQuery, searchDisabled }: GlobalHeaderProps) {
     const { i18n, isUserLoggedIn } = useDeps();
     return (
         <header className="global h-flow spacing">

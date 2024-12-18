@@ -18,16 +18,16 @@
 
 import { HourlyForecast } from "fruit-company/weather";
 import { useDeps } from "../_deps";
-import { Condition } from "../components/condition";
-import { Hour } from "../components/dates";
-import { Precipitation } from "../components/precipitation";
-import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureUnit } from "../components/units";
+import Condition from "../components/Condition";
+import { Hour } from "../components/Dates";
+import Precipitation from "../components/Precipitation";
+import { CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureUnit } from "../components/Units";
 
 export interface HourlyForecastProps {
     readonly forecast?: HourlyForecast;
 }
 
-export function HourlyForecast({ forecast }: HourlyForecastProps) {
+export default function HourlyForecast({ forecast }: HourlyForecastProps) {
     if (forecast === undefined) {
         return null;
     }

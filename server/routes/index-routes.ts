@@ -17,7 +17,7 @@
  */
 
 import { Request, Response, Router } from "express";
-import { renderIndex } from "../templates";
+import renderIndex from "../templates/index";
 import { proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
 
@@ -59,7 +59,7 @@ async function getAppWebManifest(
                 "sizes": "256x256",
                 "type": "image/png"
             },
-            
+
             {
                 "src": "/image/icon@3x.png",
                 "sizes": "384x384",

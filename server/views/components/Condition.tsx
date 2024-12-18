@@ -19,7 +19,7 @@
 import classNames from "classnames";
 import { WeatherCondition } from "fruit-company/weather";
 import { weatherConditionFragment } from "../../formatting/fragments";
-import { icon, IconPack } from "../../styling/icon-pack";
+import { IconPack, icon } from "../../styling/icon-pack";
 import { useDeps } from "../_deps";
 
 const conditionIcons: IconPack<WeatherCondition> = {
@@ -108,9 +108,12 @@ export interface ConditionProps {
     readonly daylight?: boolean;
 }
 
-export function Condition({ className, code, daylight = true }: ConditionProps) {
+export default function Condition({ className, code, daylight = true }: ConditionProps) {
     const { i18n } = useDeps();
     return (
-        <span className={classNames("icon", className, icon(conditionIcons, { name: code, daylight }))} aria-label={weatherConditionFragment(code, { i18n })} />
+        <span
+            className={classNames("icon", className, icon(conditionIcons, { name: code, daylight }))}
+            role="img"
+            aria-label={weatherConditionFragment(code, { i18n })} />
     );
 }

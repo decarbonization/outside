@@ -16,20 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Account } from "../../accounts/account";
-import { UserSystem } from "../../accounts/system";
-import { renderApp } from "../../templates/_app";
-import { AccountSettings } from "../../templates/account-settings";
-import { DepsObject } from "../_deps";
+import { useDeps } from "./_deps";
 
-export interface AccountSettingsOptions {
-    readonly deps: DepsObject;
-    readonly userAccount: Account;
-}
-
-export function renderAccountSettings({ deps, userAccount }: AccountSettingsOptions): string {
-    return renderApp({ deps }, (
-        <AccountSettings
-            userAccount={userAccount} />
-    ));
+export default function GlobalFooter() {
+    const { i18n } = useDeps();
+    return (
+        <footer className="global">
+            <a href="https://swampmonkeyco.com">
+                {i18n.t('appByline')}
+            </a>
+        </footer>
+    );
 }

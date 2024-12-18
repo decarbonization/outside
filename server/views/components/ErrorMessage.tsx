@@ -16,27 +16,34 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DepthUnit, PercentageUnit } from "./units";
+import { i18n } from "i18next";
+import { UserSystemError } from "../../accounts/errors";
+import { useDeps } from "../_deps";
 
-export interface PrecipitationProps {
-    readonly probability: number;
-    readonly amount?: number;
-    readonly hideAutomatically?: boolean;
+export interface ErrorMessageProps {
+    readonly error?: unknown
 }
 
-export function Precipitation({ probability, amount, hideAutomatically = true }: PrecipitationProps) {
-    if (probability === 0 && hideAutomatically) {
+export default function ErrorMessage({ error }: ErrorMessageProps) {
+    if (error === undefined || error === null) {
         return null;
     }
-    if (amount !== undefined) {
-        return (
-            <span>
-                <PercentageUnit measurement={probability} /> <DepthUnit measurement={amount} />
-            </span>
-        );
+
+    const { i18n } = useDeps();
+    const message = messageFrom(i18n, error);
+    return (
+        <p className="message">
+            {message}
+        </p>
+    );
+}
+
+function messageFrom(i18n: i18n, error: unknown) {
+    if (error instanceof UserSystemError) {
+        return i18n.t(`accounts.errors.${error.code}`)
+    } else if (error instanceof Error) {
+        return error.message;
     } else {
-        return (
-            <PercentageUnit measurement={probability} />
-        );
+        return `${error}`;
     }
 }

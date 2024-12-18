@@ -17,8 +17,8 @@
  */
 
 import { DepsObject } from "../views/_deps";
-import { ForgotPassword } from "../views/accounts/forgot-password";
-import { renderApp } from "./_app";
+import ForgotPassword from "../views/accounts/ForgotPassword";
+import renderApp from "./_app";
 
 export interface ForgotPasswordOptions {
     readonly deps: DepsObject;
@@ -27,7 +27,7 @@ export interface ForgotPasswordOptions {
     readonly sent?: boolean;
 }
 
-export function renderForgotPassword({ deps, email, error, sent }: ForgotPasswordOptions): string {
+export default function renderForgotPassword({ deps, email, error, sent }: ForgotPasswordOptions): string {
     return renderApp({ deps }, (
         <ForgotPassword
             email={email}

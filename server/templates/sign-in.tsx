@@ -17,8 +17,8 @@
  */
 
 import { DepsObject } from "../views/_deps";
-import { SignIn } from "../views/accounts/sign-in";
-import { renderApp } from "./_app";
+import SignIn from "../views/accounts/SignIn";
+import renderApp from "./_app";
 
 export interface SignInOptions {
     readonly deps: DepsObject;
@@ -27,7 +27,7 @@ export interface SignInOptions {
     readonly returnTo?: string;
 }
 
-export function renderSignIn({ deps, email, error, returnTo }: SignInOptions): string {
+export default function renderSignIn({ deps, email, error, returnTo }: SignInOptions): string {
     return renderApp({ deps }, (
         <SignIn
             email={email}

@@ -19,7 +19,7 @@
 import classNames from "classnames";
 import { MoonPhase } from "fruit-company/weather";
 import { moonPhaseFragment } from "../../formatting/fragments";
-import { icon, IconPack } from "../../styling/icon-pack";
+import { IconPack, icon } from "../../styling/icon-pack";
 import { useDeps } from "../_deps";
 
 const moonIcons: IconPack<MoonPhase> = {
@@ -42,9 +42,12 @@ export interface MoonProps {
     readonly phase: MoonPhase;
 }
 
-export function Moon({ className, phase }: MoonProps) {
+export default function Moon({ className, phase }: MoonProps) {
     const { i18n } = useDeps();
     return (
-        <span className={classNames("icon", "moon", className, icon(moonIcons, { name: phase, daylight: false }))} aria-label={moonPhaseFragment(phase, { i18n })} />
+        <span
+            className={classNames("icon", "moon", className, icon(moonIcons, { name: phase, daylight: false }))}
+            role="img"
+            aria-label={moonPhaseFragment(phase, { i18n })} />
     );
 }

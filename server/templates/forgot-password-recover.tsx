@@ -17,8 +17,8 @@
  */
 
 import { DepsObject } from "../views/_deps";
-import { ForgotPasswordRecover } from "../views/accounts/forgot-password-recover";
-import { renderApp } from "./_app";
+import ForgotPasswordRecover from "../views/accounts/ForgotPasswordRecover";
+import renderApp from "./_app";
 
 export interface ForgotPasswordRecoverOptions {
     readonly deps: DepsObject;
@@ -27,7 +27,7 @@ export interface ForgotPasswordRecoverOptions {
     readonly error?: unknown;
 }
 
-export function renderForgotPasswordRecover({ deps, sessionID, token, error }: ForgotPasswordRecoverOptions): string {
+export default function renderForgotPasswordRecover({ deps, sessionID, token, error }: ForgotPasswordRecoverOptions): string {
     return renderApp({ deps }, (
         <ForgotPasswordRecover
             sessionID={sessionID}
@@ -35,3 +35,4 @@ export function renderForgotPasswordRecover({ deps, sessionID, token, error }: F
             error={error} />
     ));
 }
+

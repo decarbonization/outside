@@ -24,7 +24,7 @@ export interface WeatherSourceProps {
     readonly attribution?: Attribution;
 }
 
-export function WeatherSource({ weather, attribution }: WeatherSourceProps) {
+export default function WeatherSource({ weather, attribution }: WeatherSourceProps) {
     if (weather === undefined || attribution === undefined) {
         return null;
     }

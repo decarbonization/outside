@@ -17,20 +17,20 @@
  */
 
 import { Weather } from "fruit-company/weather";
-import { CurrentForecast } from "./current";
-import { DailyForecast } from "./daily";
-import { HourlyForecast } from "./hourly";
-import { NextHourForecast } from "./next-hour";
-import { WeatherAlerts } from "./alerts";
 import { CurrentAirConditions } from "good-breathing/aqi";
-import { SolarForecast } from "./solar";
+import CurrentForecast from "./CurrentForecast";
+import DailyForecast from "./DailyForecast";
+import HourlyForecast from "./HourlyForecast";
+import NextHourForecast from "./NextHourForecast";
+import SolarForecast from "./SolarForecast";
+import WeatherAlerts from "./WeatherAlerts";
 
 export interface ForecastProps {
     readonly weather?: Weather;
     readonly air?: CurrentAirConditions;
 }
 
-export function CompleteForecast({ weather, air }: ForecastProps) {
+export default function CompleteForecast({ weather, air }: ForecastProps) {
     return (
         <>
             <CurrentForecast now={weather?.currentWeather} today={weather?.forecastDaily?.days?.[0]} air={air} />

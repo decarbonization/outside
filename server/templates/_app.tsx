@@ -18,7 +18,7 @@
 
 import { ComponentChildren } from "preact";
 import render from "preact-render-to-string";
-import { App } from "../views/_app";
+import App from "../views/_app";
 import { DepsObject, DepsProvider } from "../views/_deps";
 
 const templatePrelude = "<!DOCTYPE html>";
@@ -30,7 +30,7 @@ export interface RenderAppOptions {
     readonly searchDisabled?: boolean;
 }
 
-export function renderApp(
+export default function renderApp(
     { className, deps, searchQuery, searchDisabled }: RenderAppOptions,
     children: ComponentChildren
 ): string {

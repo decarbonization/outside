@@ -16,19 +16,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useDeps } from "./_deps";
+import { ComponentChildren } from "preact";
+import { LinkDestination, linkTo } from "../../routes/_links";
 
-export interface GlobalFooterProps {
+export type LinkProps = LinkDestination & {
+    readonly className?: string;
+    readonly children?: ComponentChildren;
+};
 
-}
-
-export function GlobalFooter({ }: GlobalFooterProps) {
-    const { i18n } = useDeps();
+export default function Link({ className, children, ...destination }: LinkProps) {
     return (
-        <footer className="global">
-            <a href="https://swampmonkeyco.com">
-                {i18n.t('appByline')}
-            </a>
-        </footer>
-    );
+        <a
+            className={className}
+            href={linkTo(destination)}
+        >
+            {children}
+        </a>
+    )
 }

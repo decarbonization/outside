@@ -17,8 +17,8 @@
  */
 
 import { DepsObject } from "../views/_deps";
-import { SignUp } from "../views/accounts/sign-up";
-import { renderApp } from "./_app";
+import SignUp from "../views/accounts/SignUp";
+import renderApp from "./_app";
 
 export interface SignUpOptions {
     readonly deps: DepsObject;
@@ -28,7 +28,7 @@ export interface SignUpOptions {
     readonly returnTo?: string;
 }
 
-export function renderSignUp({ deps, email, error, signedUp, returnTo }: SignUpOptions): string {
+export default function renderSignUp({ deps, email, error, signedUp, returnTo }: SignUpOptions): string {
     return renderApp({ deps }, (
         <SignUp
             email={email}
@@ -37,3 +37,4 @@ export function renderSignUp({ deps, email, error, signedUp, returnTo }: SignUpO
             returnTo={returnTo} />
     ));
 }
+

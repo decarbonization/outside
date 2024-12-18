@@ -17,7 +17,7 @@
  */
 
 import classNames from "classnames";
-import { formatAQI, formatCompassDirection, formatDepth, formatPercentage, formatPressure, formatSpeed, formatTemperature, formatUVIndex, formatVisibility } from "../../formatting/units";
+import { formatAQI, formatCompassDirection, formatDepth, formatPercentage, formatPressure, formatSpeed, formatTemperature, formatUVIndex, formatVisibility } from "../../formatting/Units";
 import { useDeps } from "../_deps";
 
 export interface UnitProps<Measurement = number> {

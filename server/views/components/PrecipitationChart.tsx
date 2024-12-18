@@ -31,7 +31,7 @@ export interface PrecipitationChartProps {
     readonly maxGroups?: number;
 }
 
-export function PrecipitationChart({
+export default function PrecipitationChart({
     className,
     samples,
     groupSize = 10,

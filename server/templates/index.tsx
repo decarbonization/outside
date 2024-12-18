@@ -18,16 +18,16 @@
 
 import { envFlag } from "../utilities/env";
 import { DepsObject } from "../views/_deps";
-import { Condition } from "../views/components/condition";
-import { Link } from "../views/components/link";
-import { renderApp } from "./_app";
+import Condition from "../views/components/Condition";
+import Link from "../views/components/Link";
+import renderApp from "./_app";
 
 export interface IndexOptions {
     readonly deps: DepsObject;
     readonly searchQuery?: string;
 }
 
-export function renderIndex({ deps, searchQuery }: IndexOptions): string {
+export default function renderIndex({ deps, searchQuery }: IndexOptions): string {
     const { i18n, isUserLoggedIn } = deps;
     return renderApp({ deps, searchQuery }, (
         <>

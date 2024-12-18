@@ -19,8 +19,8 @@
 import { ComponentChildren } from "preact";
 import { envStrings } from "../utilities/env";
 import { useDeps } from "./_deps";
-import { GlobalFooter } from "./global-footer";
-import { GlobalHeader } from "./global-header";
+import GlobalFooter from "./GlobalFooter";
+import GlobalHeader from "./GlobalHeader";
 
 export interface AppProps {
     readonly className?: string;
@@ -29,7 +29,7 @@ export interface AppProps {
     readonly children: ComponentChildren;
 }
 
-export function App({ className, searchQuery, searchDisabled, children }: AppProps) {
+export default function App({ className, searchQuery, searchDisabled, children }: AppProps) {
     const { i18n } = useDeps();
     return (
         <html lang={i18n.resolvedLanguage}>

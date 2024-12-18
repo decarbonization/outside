@@ -17,17 +17,17 @@
  */
 
 import { DayWeatherConditions } from "fruit-company/weather";
-import { useDeps } from "../_deps";
-import { ShortTime } from "../components/dates";
-import { Moon } from "../components/moon";
 import { moonPhaseFragment } from "../../formatting/fragments";
-import { Clock } from "../components/clock";
+import { useDeps } from "../_deps";
+import Clock from "../components/Clock";
+import { ShortTime } from "../components/Dates";
+import Moon from "../components/Moon";
 
 export interface SolarForecastProps {
     readonly today?: DayWeatherConditions;
 }
 
-export function SolarForecast({ today }: SolarForecastProps) {
+export default function SolarForecast({ today }: SolarForecastProps) {
     if (today === undefined) {
         return null;
     }

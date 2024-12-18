@@ -21,14 +21,14 @@ import { Request, Response, Router } from "express";
 import { MailtrapClient } from "mailtrap";
 import { UserSystemError } from "../accounts/errors";
 import { UserSystem } from "../accounts/system";
-import { renderForgotPassword } from "../templates/forgot-password";
-import { renderForgotPasswordRecover } from "../templates/forgot-password-recover";
-import { renderSignIn } from "../templates/sign-in";
-import { renderSignUp } from "../templates/sign-up";
+import renderAccountSettings from "../templates/account-settings";
+import renderForgotPassword from "../templates/forgot-password";
+import renderForgotPasswordRecover from "../templates/forgot-password-recover";
+import renderSignIn from "../templates/sign-in";
+import renderSignUp from "../templates/sign-up";
 import { env, envFlag } from "../utilities/env";
 import { mapIfNotUndefined, proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
-import { renderAccountSettings } from "../views/accounts/account-settings";
 import { fullyQualifiedLinkTo, linkTo } from "./_links";
 
 export interface UserRouteOptions {

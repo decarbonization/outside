@@ -23,7 +23,7 @@ import { GoogleMapsApiKey } from "good-breathing";
 import { GetCurrentAirConditions } from "good-breathing/aqi";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
-import { renderWeather } from "../templates/weather";
+import renderWeather from "../templates/weather";
 import { envInt } from "../utilities/env";
 import { proveString } from "../utilities/maybe";
 import { cacheControlFor } from "../utilities/weather-utils";

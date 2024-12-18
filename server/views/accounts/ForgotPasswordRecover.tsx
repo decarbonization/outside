@@ -18,7 +18,7 @@
 
 import { linkTo } from "../../routes/_links";
 import { useDeps } from "../_deps";
-import { ErrorMessage } from "../components/error-message";
+import ErrorMessage from "../components/ErrorMessage";
 
 export interface ForgotPasswordRecoverProps {
     readonly sessionID: number;
@@ -26,7 +26,7 @@ export interface ForgotPasswordRecoverProps {
     readonly error?: unknown;
 }
 
-export function ForgotPasswordRecover({ sessionID, token, error }: ForgotPasswordRecoverProps) {
+export default function ForgotPasswordRecover({ sessionID, token, error }: ForgotPasswordRecoverProps) {
     const { i18n } = useDeps();
     return (
         <section className="forgot-password-recover">

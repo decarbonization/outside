@@ -19,8 +19,8 @@
 import { CurrentWeather, DayWeatherConditions } from "fruit-company/weather";
 import { CurrentAirConditions } from "good-breathing/aqi";
 import { useDeps } from "../_deps";
-import { Condition } from "../components/condition";
-import { AQIUnit, CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "../components/units";
+import Condition from "../components/Condition";
+import { AQIUnit, CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "../components/Units";
 
 export interface CurrentForecastProps {
     readonly now?: CurrentWeather;
@@ -28,7 +28,7 @@ export interface CurrentForecastProps {
     readonly air?: CurrentAirConditions;
 }
 
-export function CurrentForecast({ now, today, air }: CurrentForecastProps) {
+export default function CurrentForecast({ now, today, air }: CurrentForecastProps) {
     if (now === undefined) {
         return null;
     }

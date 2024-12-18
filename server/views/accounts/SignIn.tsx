@@ -18,36 +18,35 @@
 
 import { linkTo } from "../../routes/_links";
 import { useDeps } from "../_deps";
-import { ErrorMessage } from "../components/error-message";
+import ErrorMessage from "../components/ErrorMessage";
+import Link from "../components/Link";
 
-export interface ForgotPasswordProps {
+export interface SignInProps {
     readonly email?: string;
     readonly error?: unknown;
-    readonly sent?: boolean;
+    readonly returnTo?: string;
 }
 
-export function ForgotPassword({ email, error, sent }: ForgotPasswordProps) {
+export default function SignIn({ email, error, returnTo }: SignInProps) {
     const { i18n } = useDeps();
     return (
-        <section className="forgot-password">
-            <h1>{i18n.t("accounts.forgotPassword")}</h1>
+        <section className="sign-in">
+            <h1>{i18n.t("accounts.signIn")}</h1>
             <form
                 method="post"
-                action={linkTo({ where: "forgotPassword" })}
+                action={linkTo({ where: "signIn", returnTo })}
                 className="v-flow spacing outset-top"
             >
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
                 <input type="email" id="email" name="email" value={email} required />
-                <div className="h-flow centered spacing">
-                    <button className="bordered-button" type="submit">{i18n.t('accounts.submit')}</button>
+                <label for="password">{i18n.t('accounts.passwordLabel')}</label>
+                <input type="password" id="password" name="password" required />
+                <div className="h-flow fully centered spacing">
+                    <Link className="button-like" where="forgotPassword">{i18n.t('accounts.forgotPassword')}</Link>
+                    <button className="bordered-button" type="submit">{i18n.t('accounts.signIn')}</button>
                 </div>
             </form>
             <ErrorMessage error={error} />
-            {sent && (
-                <p className="message">
-                    {i18n.t('accounts.emailSent')}
-                </p>
-            )}
         </section>
     );
 }

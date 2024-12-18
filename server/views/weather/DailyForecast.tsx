@@ -18,17 +18,17 @@
 
 import { DailyForecast } from "fruit-company/weather";
 import { useDeps } from "../_deps";
-import { Condition } from "../components/condition";
-import { Weekday } from "../components/dates";
-import { Decoration } from "../components/decoration";
-import { Precipitation } from "../components/precipitation";
-import { PercentageUnit, SpeedUnit, TemperatureRangeUnit } from "../components/units";
+import Condition from "../components/Condition";
+import { Weekday } from "../components/Dates";
+import Decoration from "../components/Decoration";
+import Precipitation from "../components/Precipitation";
+import { PercentageUnit, SpeedUnit, TemperatureRangeUnit } from "../components/Units";
 
 export interface DailyForecastProps {
     readonly forecast?: DailyForecast;
 }
 
-export function DailyForecast({ forecast }: DailyForecastProps) {
+export default function DailyForecast({ forecast }: DailyForecastProps) {
     if (forecast === undefined) {
         return null;
     }

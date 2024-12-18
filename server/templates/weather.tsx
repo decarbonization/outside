@@ -21,8 +21,8 @@ import { CurrentAirConditions } from "good-breathing/aqi";
 import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../views/_deps";
-import { CompleteForecast } from "../views/weather/complete";
-import { renderApp } from "./_app";
+import CompleteForecast from "../views/weather/CompleteForecast";
+import renderApp from "./_app";
 
 export interface RenderWeatherOptions {
     readonly deps: DepsObject;
@@ -32,7 +32,7 @@ export interface RenderWeatherOptions {
     readonly airConditions: CurrentAirConditions;
 }
 
-export function renderWeather({ deps, link, searchDisabled, weather, airConditions }: RenderWeatherOptions): string {
+export default function renderWeather({ deps, link, searchDisabled, weather, airConditions }: RenderWeatherOptions): string {
     const className = elementStyleFor(weather.currentWeather?.conditionCode, weather.currentWeather?.daylight);
     const searchQuery = link.query;
     return renderApp({ className, deps, searchQuery, searchDisabled }, (

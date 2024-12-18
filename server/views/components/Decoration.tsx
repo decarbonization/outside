@@ -17,7 +17,7 @@
  */
 
 import classNames from "classnames";
-import { i18n } from 'i18next';
+import { i18n } from "i18next";
 import { icon, IconOptions, IconPack } from "../../styling/icon-pack";
 import { useDeps } from "../_deps";
 
@@ -39,13 +39,16 @@ export interface DecorationProps {
     readonly name: DecorationIconName;
 }
 
-export function Decoration({ className, name }: DecorationProps) {
+export default function Decoration({ className, name }: DecorationProps) {
     const { i18n } = useDeps();
     const iconClassName = icon(decorationIcons, { name });
     const iconDescription = decorationIconDescription(i18n, { name });
     if (iconClassName !== undefined) {
         return (
-            <span className={classNames("icon", className, iconClassName)} aria-label={iconDescription} />
+            <span
+                className={classNames("icon", className, iconClassName)}
+                role="img"
+                aria-label={iconDescription} />
         );
     } else {
         return (

@@ -17,26 +17,18 @@
  */
 
 import { Account } from "../accounts/account";
-import { linkTo } from "../routes/_links";
-import { useDeps } from "../views/_deps";
-import { Link } from "../views/components/link";
+import { DepsObject } from "../views/_deps";
+import AccountSettings from "../views/accounts/AccountSettings";
+import renderApp from "./_app";
 
-export interface AccountSettingsProps {
+export interface AccountSettingsOptions {
+    readonly deps: DepsObject;
     readonly userAccount: Account;
 }
 
-export function AccountSettings({ userAccount }: AccountSettingsProps) {
-    const { i18n } = useDeps();
-    return (
-        <section className="account-settings">
-            <h1>{i18n.t('accounts.account')}</h1>
-            <div className="v-flow spacing outset-top">
-                <form method="post" action={linkTo({ where: "accountSettings" })} className="v-flow spacing outset-top">
-                    <label for="email">{i18n.t('accounts.emailLabel')}</label>
-                    <input type="email" id="email" name="email" value={userAccount.email} disabled />
-                </form>
-                <Link where="signOut">{i18n.t('accounts.signOut')}</Link>
-            </div>
-        </section>
-    );
+export default function renderAccountSettings({ deps, userAccount }: AccountSettingsOptions): string {
+    return renderApp({ deps }, (
+        <AccountSettings
+            userAccount={userAccount} />
+    ));
 }
