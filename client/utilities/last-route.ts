@@ -16,14 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { autoReload } from "./utilities/auto-reload";
-import { lastRoute } from "./utilities/last-route";
-import { locationButton } from "./utilities/location";
-import { prettyOrthogonalScrollables } from "./utilities/pretty-scrollables";
-
-document.addEventListener("DOMContentLoaded", () => {
-    prettyOrthogonalScrollables();
-    autoReload();
-    locationButton();
-    lastRoute();
-});
+export function lastRoute() {
+    if (!document.querySelector('.place-search-form')) {
+        // ^^ Not signed in.
+        return;
+    }
+    const { pathname, search } = window.location;
+    if (pathname === '/' && search === '') {
+        const lastRoute = localStorage.getItem("user.lastRoute");
+        if (lastRoute === null) {
+            return;
+        }
+        window.location.href = lastRoute;
+    } else if (pathname.startsWith("/weather")) {
+        localStorage.setItem("user.lastRoute", `${pathname}${search}`);
+    }
+}
