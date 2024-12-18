@@ -16,25 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Account } from "../accounts/account";
 import { DepsObject } from "../hooks/Deps";
-import SignUp from "../components/accounts/SignUp";
-import renderApp from "./_app";
+import AccountSettings from "../components/accounts/AccountSettings";
+import renderApp from "./_renderApp";
 
-export interface SignUpOptions {
+export interface AccountSettingsOptions {
     readonly deps: DepsObject;
-    readonly email?: string;
-    readonly error?: unknown;
-    readonly signedUp?: boolean;
-    readonly returnTo?: string;
+    readonly userAccount: Account;
 }
 
-export default function renderSignUp({ deps, email, error, signedUp, returnTo }: SignUpOptions): string {
+export default function renderAccountSettings({ deps, userAccount }: AccountSettingsOptions): string {
     return renderApp({ deps }, (
-        <SignUp
-            email={email}
-            error={error}
-            signedUp={signedUp}
-            returnTo={returnTo} />
+        <AccountSettings
+            userAccount={userAccount} />
     ));
 }
-

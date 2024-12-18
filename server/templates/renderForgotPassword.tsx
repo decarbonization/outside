@@ -16,19 +16,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Account } from "../accounts/account";
 import { DepsObject } from "../hooks/Deps";
-import AccountSettings from "../components/accounts/AccountSettings";
-import renderApp from "./_app";
+import ForgotPassword from "../components/accounts/ForgotPassword";
+import renderApp from "./_renderApp";
 
-export interface AccountSettingsOptions {
+export interface ForgotPasswordOptions {
     readonly deps: DepsObject;
-    readonly userAccount: Account;
+    readonly email?: string;
+    readonly error?: unknown;
+    readonly sent?: boolean;
 }
 
-export default function renderAccountSettings({ deps, userAccount }: AccountSettingsOptions): string {
+export default function renderForgotPassword({ deps, email, error, sent }: ForgotPasswordOptions): string {
     return renderApp({ deps }, (
-        <AccountSettings
-            userAccount={userAccount} />
+        <ForgotPassword
+            email={email}
+            error={error}
+            sent={sent} />
     ));
 }

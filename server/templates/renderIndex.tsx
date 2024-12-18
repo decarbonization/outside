@@ -20,7 +20,7 @@ import { envFlag } from "../utilities/env";
 import { DepsObject } from "../hooks/Deps";
 import Condition from "../components/reusable/Condition";
 import Link from "../components/reusable/Link";
-import renderApp from "./_app";
+import renderApp from "./_renderApp";
 
 export interface IndexOptions {
     readonly deps: DepsObject;

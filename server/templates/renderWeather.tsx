@@ -22,7 +22,7 @@ import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
 import { DepsObject } from "../hooks/Deps";
 import CompleteForecast from "../components/weather/CompleteForecast";
-import renderApp from "./_app";
+import renderApp from "./_renderApp";
 
 export interface RenderWeatherOptions {
     readonly deps: DepsObject;

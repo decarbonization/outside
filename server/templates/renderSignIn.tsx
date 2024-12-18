@@ -17,18 +17,21 @@
  */
 
 import { DepsObject } from "../hooks/Deps";
-import ErrorDetails from "../components/ErrorDetails";
-import renderApp from "./_app";
+import SignIn from "../components/accounts/SignIn";
+import renderApp from "./_renderApp";
 
-export interface ErrorOptions {
+export interface SignInOptions {
     readonly deps: DepsObject;
-    readonly error: Error;
+    readonly email?: string;
+    readonly error?: unknown;
+    readonly returnTo?: string;
 }
 
-export default function renderError({ deps, error }: ErrorOptions) {
+export default function renderSignIn({ deps, email, error, returnTo }: SignInOptions): string {
     return renderApp({ deps }, (
-        <>
-            <ErrorDetails error={error} />
-        </>
+        <SignIn
+            email={email}
+            error={error}
+            returnTo={returnTo} />
     ));
 }

@@ -17,21 +17,22 @@
  */
 
 import { DepsObject } from "../hooks/Deps";
-import SignIn from "../components/accounts/SignIn";
-import renderApp from "./_app";
+import ForgotPasswordRecover from "../components/accounts/ForgotPasswordRecover";
+import renderApp from "./_renderApp";
 
-export interface SignInOptions {
+export interface ForgotPasswordRecoverOptions {
     readonly deps: DepsObject;
-    readonly email?: string;
+    readonly sessionID: number;
+    readonly token: string;
     readonly error?: unknown;
-    readonly returnTo?: string;
 }
 
-export default function renderSignIn({ deps, email, error, returnTo }: SignInOptions): string {
+export default function renderForgotPasswordRecover({ deps, sessionID, token, error }: ForgotPasswordRecoverOptions): string {
     return renderApp({ deps }, (
-        <SignIn
-            email={email}
-            error={error}
-            returnTo={returnTo} />
+        <ForgotPasswordRecover
+            sessionID={sessionID}
+            token={token}
+            error={error} />
     ));
 }
+

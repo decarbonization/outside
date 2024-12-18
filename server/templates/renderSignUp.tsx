@@ -17,21 +17,24 @@
  */
 
 import { DepsObject } from "../hooks/Deps";
-import ForgotPassword from "../components/accounts/ForgotPassword";
-import renderApp from "./_app";
+import SignUp from "../components/accounts/SignUp";
+import renderApp from "./_renderApp";
 
-export interface ForgotPasswordOptions {
+export interface SignUpOptions {
     readonly deps: DepsObject;
     readonly email?: string;
     readonly error?: unknown;
-    readonly sent?: boolean;
+    readonly signedUp?: boolean;
+    readonly returnTo?: string;
 }
 
-export default function renderForgotPassword({ deps, email, error, sent }: ForgotPasswordOptions): string {
+export default function renderSignUp({ deps, email, error, signedUp, returnTo }: SignUpOptions): string {
     return renderApp({ deps }, (
-        <ForgotPassword
+        <SignUp
             email={email}
             error={error}
-            sent={sent} />
+            signedUp={signedUp}
+            returnTo={returnTo} />
     ));
 }
+

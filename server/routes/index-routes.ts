@@ -17,7 +17,7 @@
  */
 
 import { Request, Response, Router } from "express";
-import renderIndex from "../templates/index";
+import renderIndex from "../templates/renderIndex";
 import { proveString } from "../utilities/maybe";
 import { makeDeps } from "../hooks/Deps";
 

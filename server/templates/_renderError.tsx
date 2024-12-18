@@ -17,22 +17,18 @@
  */
 
 import { DepsObject } from "../hooks/Deps";
-import ForgotPasswordRecover from "../components/accounts/ForgotPasswordRecover";
-import renderApp from "./_app";
+import ErrorDetails from "../components/ErrorDetails";
+import renderApp from "./_renderApp";
 
-export interface ForgotPasswordRecoverOptions {
+export interface ErrorOptions {
     readonly deps: DepsObject;
-    readonly sessionID: number;
-    readonly token: string;
-    readonly error?: unknown;
+    readonly error: Error;
 }
 
-export default function renderForgotPasswordRecover({ deps, sessionID, token, error }: ForgotPasswordRecoverOptions): string {
+export default function renderError({ deps, error }: ErrorOptions) {
     return renderApp({ deps }, (
-        <ForgotPasswordRecover
-            sessionID={sessionID}
-            token={token}
-            error={error} />
+        <>
+            <ErrorDetails error={error} />
+        </>
     ));
 }
-
