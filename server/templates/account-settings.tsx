@@ -33,7 +33,7 @@ export function AccountSettings({ userAccount }: AccountSettingsProps) {
             <div className="v-flow spacing outset-top">
                 <form method="post" action={linkTo({ where: "accountSettings" })} className="v-flow spacing outset-top">
                     <label for="email">{i18n.t('accounts.emailLabel')}</label>
-                    <input type="email" name="email" value={userAccount.email} disabled />
+                    <input type="email" id="email" name="email" value={userAccount.email} disabled />
                 </form>
                 <Link where="signOut">{i18n.t('accounts.signOut')}</Link>
             </div>

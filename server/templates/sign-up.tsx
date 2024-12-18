@@ -17,7 +17,7 @@
  */
 
 import { DepsObject } from "../views/_deps";
-import { SignUp, SignUpMessage } from "../views/accounts/sign-up";
+import { SignUp } from "../views/accounts/sign-up";
 import { renderApp } from "./_app";
 
 export interface SignUpOptions {
@@ -33,7 +33,7 @@ export function renderSignUp({ deps, email, error, signedUp, returnTo }: SignUpO
         <SignUp
             email={email}
             error={error}
-            signedUp={signedUp} 
+            signedUp={signedUp}
             returnTo={returnTo} />
     ));
 }

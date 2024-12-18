@@ -21,15 +21,15 @@ import { Request, Response, Router } from "express";
 import { MailtrapClient } from "mailtrap";
 import { UserSystemError } from "../accounts/errors";
 import { UserSystem } from "../accounts/system";
+import { renderForgotPassword } from "../templates/forgot-password";
+import { renderForgotPasswordRecover } from "../templates/forgot-password-recover";
 import { renderSignIn } from "../templates/sign-in";
 import { renderSignUp } from "../templates/sign-up";
 import { env, envFlag } from "../utilities/env";
 import { mapIfNotUndefined, proveString } from "../utilities/maybe";
 import { makeDeps } from "../views/_deps";
-import { fullyQualifiedLinkTo, linkTo } from "./_links";
 import { renderAccountSettings } from "../views/accounts/account-settings";
-import { renderForgotPassword } from "../templates/forgot-password";
-import { renderForgotPasswordRecover } from "../templates/forgot-password-recover";
+import { fullyQualifiedLinkTo, linkTo } from "./_links";
 
 export interface UserRouteOptions {
     readonly userSystem: UserSystem;
@@ -136,7 +136,7 @@ async function postSignUp(
         await mailer.send({
             from: {
                 email: env("MAILTRAP_SENDER"),
-                name: i18n.t('accounts.verificationEmailFrom'),
+                name: i18n.t('appName'),
             },
             to: [
                 {
@@ -200,11 +200,11 @@ async function postForgotPassword(
         console.info(`Started forgot password session <${session.id}> with for <${email}>`);
 
         const i18n = req.i18n;
-        const verifyLink = fullyQualifiedLinkTo({ where: "forgotPasswordRecover", sid: session.id, token: session.token! });
+        const verifyLink = fullyQualifiedLinkTo({ where: "forgotPasswordRecover", sessionID: session.id, token: session.token! });
         await mailer.send({
             from: {
                 email: env("MAILTRAP_SENDER"),
-                name: i18n.t('accounts.verificationEmailFrom'),
+                name: i18n.t('appName'),
             },
             to: [
                 {

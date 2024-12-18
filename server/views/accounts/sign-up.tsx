@@ -20,12 +20,6 @@ import { linkTo } from "../../routes/_links";
 import { useDeps } from "../_deps";
 import { ErrorMessage } from "../components/error-message";
 
-export type SignUpMessage =
-    | 'none'
-    | 'duplicateEmail'
-    | 'mismatchedPasswords'
-    | 'verificationEmailSent';
-
 export interface SignUpProps {
     readonly email?: string;
     readonly error?: unknown;
@@ -38,24 +32,27 @@ export function SignUp({ email, error, signedUp, returnTo }: SignUpProps) {
     return (
         <section className="sign-up">
             <h1>{i18n.t("accounts.signUp")}</h1>
-            <p>
-                {i18n.t("accounts.signUpExplanation")}
-            </p>
-            <form method="post" action={linkTo({ where: "signUp", returnTo })} className="v-flow spacing outset-top">
+            <form
+                method="post"
+                action={linkTo({ where: "signUp", returnTo })}
+                className="v-flow spacing outset-top"
+            >
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
-                <input type="email" name="email" value={email} required />
+                <input type="email" id="email" name="email" value={email} required />
                 <label for="password">{i18n.t('accounts.passwordLabel')}</label>
-                <input type="password" name="password" required />
+                <input type="password" id="password" name="password" required />
                 <label for="confirm_password">{i18n.t('accounts.confirmPasswordLabel')}</label>
-                <input type="password" name="confirm_password" required />
+                <input type="password" id="confirm_password" name="confirm_password" required />
                 <div className="h-flow fully centered spacing">
                     <button className="bordered-button" type="submit">{i18n.t('accounts.signUp')}</button>
                 </div>
             </form>
             <ErrorMessage error={error} />
-            {signedUp && <p className="message">
-                {i18n.t('accounts.verificationEmailSent')}
-            </p>}
+            {signedUp && (
+                <p className="message">
+                    {i18n.t('accounts.emailSent')}
+                </p>
+            )}
         </section>
     );
 }

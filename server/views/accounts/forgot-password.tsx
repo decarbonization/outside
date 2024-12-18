@@ -31,20 +31,23 @@ export function ForgotPassword({ email, error, sent }: ForgotPasswordProps) {
     return (
         <section className="forgot-password">
             <h1>{i18n.t("accounts.forgotPassword")}</h1>
-            <p>
-                {i18n.t("accounts.forgotPasswordExplanation")}
-            </p>
-            <form method="post" action={linkTo({ where: "forgotPassword" })} className="v-flow spacing outset-top">
+            <form
+                method="post"
+                action={linkTo({ where: "forgotPassword" })}
+                className="v-flow spacing outset-top"
+            >
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
-                <input type="email" name="email" value={email} required />
+                <input type="email" id="email" name="email" value={email} required />
                 <div className="h-flow centered spacing">
-                    <button type="submit">{i18n.t('accounts.forgotPassword')}</button>
+                    <button className="bordered-button" type="submit">{i18n.t('accounts.submit')}</button>
                 </div>
             </form>
             <ErrorMessage error={error} />
-            {sent && <p className="message">
-                {i18n.t('accounts.forgotPasswordEmailSent')}
-            </p>}
+            {sent && (
+                <p className="message">
+                    {i18n.t('accounts.emailSent')}
+                </p>
+            )}
         </section>
     );
 }

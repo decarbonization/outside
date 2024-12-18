@@ -27,7 +27,7 @@ export type LinkDestination =
     | { where: "signUp", returnTo?: string }
     | { where: "signUpVerify", token: string, returnTo?: string }
     | { where: "forgotPassword" }
-    | { where: "forgotPasswordRecover", sid: number, token: string }
+    | { where: "forgotPasswordRecover", sessionID: number, token: string }
     | { where: "accountSettings" }
     | { where: "searchByQuery", query?: string }
     | { where: "searchByCoordinates", location: LocationCoordinates }
@@ -116,8 +116,8 @@ function linkToForgotPassword({ }: LinkDestinationTo<"forgotPassword">): string 
     return '/forgot-password';
 }
 
-function linkToForgotPasswordRecover({ sid, token }: LinkDestinationTo<"forgotPasswordRecover">): string {
-    return `/forgot-password/recover?sid=${encodeURIComponent(sid)}&token=${encodeURIComponent(token)}`;
+function linkToForgotPasswordRecover({ sessionID, token }: LinkDestinationTo<"forgotPasswordRecover">): string {
+    return `/forgot-password/recover?sid=${encodeURIComponent(sessionID)}&token=${encodeURIComponent(token)}`;
 }
 
 function linkToAccountSettings({ }: LinkDestinationTo<"accountSettings">): string {

@@ -16,9 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { linkTo } from "../routes/_links";
 import { DepsObject } from "../views/_deps";
-import { ErrorMessage } from "../views/components/error-message";
+import { ForgotPasswordRecover } from "../views/accounts/forgot-password-recover";
 import { renderApp } from "./_app";
 
 export interface ForgotPasswordRecoverOptions {
@@ -30,17 +29,9 @@ export interface ForgotPasswordRecoverOptions {
 
 export function renderForgotPasswordRecover({ deps, sessionID, token, error }: ForgotPasswordRecoverOptions): string {
     return renderApp({ deps }, (
-        <section className="forgot-password-recover">
-            <form method="post" action={linkTo({ where: "forgotPasswordRecover", sid: sessionID, token })} className="v-flow spacing outset-top">
-                <label for="password">Password</label>
-                <input type="password" name="password" required />
-                <label for="confirm_password">Confirm Password</label>
-                <input type="password" name="confirm_password" required />
-                <div className="h-flow centered spacing">
-                    <button type="submit">Change Password</button>
-                </div>
-            </form>
-            <ErrorMessage error={error} />
-        </section>
+        <ForgotPasswordRecover
+            sessionID={sessionID}
+            token={token}
+            error={error} />
     ));
 }
