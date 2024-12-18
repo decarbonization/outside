@@ -21,7 +21,7 @@ import { envInt } from "../utilities/env";
 import { mapIfNotUndefined } from "../utilities/maybe";
 
 export type LinkDestination =
-    | { where: "index", query?: string }
+    | { where: "index", query?: string, noRedirect?: boolean }
     | { where: "signIn", returnTo?: string }
     | { where: "signOut", returnTo?: string }
     | { where: "signUp", returnTo?: string }
@@ -72,10 +72,17 @@ export function linkTo(destination: LinkDestination): string {
     }
 }
 
-function linkToIndex({ query }: LinkDestinationTo<"index">): string {
+function linkToIndex({ query, noRedirect }: LinkDestinationTo<"index">): string {
     let link = "/";
     if (query !== undefined) {
         link += `?q=${encodeURIComponent(query)}`;
+    }
+    if (noRedirect === true) {
+        if (link.includes("?")) {
+            link += '&noredirect';
+        } else {
+            link += '?noredirect';
+        }
     }
     return link;
 }

@@ -29,9 +29,9 @@ export default function GlobalHeader({ searchQuery, searchDisabled }: GlobalHead
     const { i18n, isUserLoggedIn } = useDeps();
     return (
         <header className="global h-flow spacing">
-            <div className="logo">
+            <Link where="index" noRedirect className="logo">
                 {i18n.t('appName')}
-            </div>
+            </Link>
             {isUserLoggedIn ? (
                 <>
                     <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
