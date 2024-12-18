@@ -24,7 +24,7 @@ export interface ErrorMiddlewareOptions {
 
 }
 
-export function ErrorMiddleware({ }: ErrorMiddlewareOptions): ErrorRequestHandler {
+export default function ErrorMiddleware({ }: ErrorMiddlewareOptions): ErrorRequestHandler {
     return async (error: Error, req, res, _next): Promise<void> => {
         console.error(`${req.method} ${req.url}: ${error.message}`, error.stack);
         const deps = await makeDeps({ req });

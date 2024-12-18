@@ -34,7 +34,7 @@ import { SequelizeStore } from './accounts/sequelize-store';
 import { UserSystem } from './accounts/system';
 import { initSequelize } from './db/init';
 import { ClientSessionStore } from './db/session-store';
-import { accountMiddleware } from './middlewares/account-middleware';
+import AccountMiddleware from './middlewares/AccountMiddleware';
 import routes from './routes';
 import { fullyQualifiedLinkTo } from './routes/_links';
 import { env, envInt, envStrings } from './utilities/env';
@@ -102,7 +102,7 @@ app.use(session({
         maxAge: milliseconds({ days: 30 }),
     },
 }));
-app.use(accountMiddleware({ userSystem }));
+app.use(AccountMiddleware({ userSystem }));
 app.use(routes({
     userSystem,
     mailer,
@@ -119,7 +119,7 @@ const httpTerminator = createHttpTerminator({
 
 const port = envInt("PORT", 8000);
 server.listen(port, () => {
-    const link = fullyQualifiedLinkTo({ where: "index" });
+    const link = fullyQualifiedLinkTo({ where: "index" }).slice(0, -1);
     console.log(`outside is running at <${link}> from ${__dirname}`);
 });
 

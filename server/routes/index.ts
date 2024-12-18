@@ -22,7 +22,7 @@ import { WeatherToken } from 'fruit-company/weather';
 import { GoogleMapsApiKey } from 'good-breathing';
 import { MailtrapClient } from 'mailtrap';
 import { UserSystem } from '../accounts/system';
-import { ErrorMiddleware } from '../middlewares/error-middleware';
+import ErrorMiddleware from '../middlewares/ErrorMiddleware';
 import AccountRoutes from './AccountRoutes';
 import IndexRoutes from './IndexRoutes';
 import SearchRoutes from './SearchRoutes';

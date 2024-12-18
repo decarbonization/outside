@@ -39,7 +39,7 @@ export interface AccountMiddlewareOptions {
     readonly userSystem: UserSystem;
 }
 
-export function accountMiddleware({ userSystem }: AccountMiddlewareOptions): RequestHandler {
+export default function AccountMiddleware({ userSystem }: AccountMiddlewareOptions): RequestHandler {
     return async (req, _res, next): Promise<void> => {
         req.userAccount = await userSystem.getAccount(req.session.sid);
         next();
