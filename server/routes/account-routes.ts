@@ -200,7 +200,7 @@ async function postForgotPassword(
         console.info(`Started forgot password session <${session.id}> with for <${email}>`);
 
         const i18n = req.i18n;
-        const verifyLink = fullyQualifiedLinkTo({ where: "forgotPasswordRecover", sessionID: session.id, token: session.token! });
+        const recoverLink = fullyQualifiedLinkTo({ where: "forgotPasswordRecover", sessionID: session.id, token: session.token! });
         await mailer.send({
             from: {
                 email: env("MAILTRAP_SENDER"),
@@ -211,8 +211,8 @@ async function postForgotPassword(
                     email
                 }
             ],
-            subject: i18n.t("accounts.verificationEmailSubject"),
-            text: i18n.t("accounts.verificationEmailBody", { verifyLink, interpolation: { escapeValue: false } }),
+            subject: i18n.t("accounts.forgotPasswordEmailSubject"),
+            text: i18n.t("accounts.forgotPasswordEmailBody", { recoverLink, interpolation: { escapeValue: false } }),
             category: "Outside Weather Logins"
         });
 

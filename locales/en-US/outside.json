@@ -27,6 +27,9 @@
         "verificationEmailBody": "Thank you for signing up for the Outside weather app. Use the link below to verify your email address:\n\n<{{verifyLink}}>\n\nOutside\nA Swamp Monkey Project\n",
         "verificationEmailSubject": "Please verify your email address",
 
+        "forgotPasswordEmailBody": "Use the link below to reset your password:\n\n<{{recoverLink}}>\n\nOutside\nA Swamp Monkey Project\n",
+        "forgotPasswordEmailSubject": "Reset your password",
+
         "emailSent": "Email sent, check your inbox. If you haven't received an email after a few minutes, check your spam folder.",
         
         "errors": {

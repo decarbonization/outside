@@ -165,7 +165,7 @@ describe("accounts#system module", () => {
                 const session = await subject.beginForgotPassword("john@real.com");
                 expect(session.token).not.toBeUndefined();
                 expect(session.tokenExpiresAt).not.toBeUndefined();
-                expect(session.tokenScopes).toStrictEqual(['forgotPassword'])
+                expect(session.tokenScopes).toStrictEqual(['verifyPassword', 'recoverPassword'])
             });
         });
 

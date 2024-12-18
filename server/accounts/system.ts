@@ -53,7 +53,7 @@ export class UserSystem {
      * @param token A token OTP.
      * @param scope The scope the token must have.
      */
-    private async tryConsumeToken(sessionID: SessionID, token: string, scope: SessionTokenScope): Promise<SessionSchema> {
+    private async tryConsumeToken(sessionID: SessionID, token: string, scopes: readonly SessionTokenScope[]): Promise<SessionSchema> {
         if (!isValidToken(token)) {
             throw new UserSystemError('invalidPassword', `Invalid Token`);
         }
@@ -71,7 +71,7 @@ export class UserSystem {
         if (session.token !== token) {
             throw new UserSystemError('incorrectPassword', "Bad token");
         }
-        if (session.tokenScopes === undefined || !session.tokenScopes.includes(scope)) {
+        if (!scopes.every(scope => session.tokenScopes?.includes(scope))) {
             throw new UserSystemError('missingScope', "Token missing one or more required scopes");
         }
 
@@ -148,7 +148,7 @@ export class UserSystem {
             throw new UserSystemError('invalidEmail', "Invalid email");
         }
 
-        await this.tryConsumeToken(sessionID, token, 'verifyPassword');
+        await this.tryConsumeToken(sessionID, token, ['verifyPassword']);
 
         const user = await this.store.getUser({ by: 'email', email });
         if (user === undefined) {
@@ -175,7 +175,7 @@ export class UserSystem {
             userID: user.id,
             token: await token(),
             tokenExpiresAt: addMinutes(new Date(), 15),
-            tokenScopes: ['forgotPassword'],
+            tokenScopes: ['verifyPassword', 'recoverPassword'],
         });
         return newSession;
     }
@@ -185,7 +185,7 @@ export class UserSystem {
             throw new UserSystemError('invalidPassword', "Invalid password");
         }
 
-        const session = await this.tryConsumeToken(sessionID, token, 'forgotPassword');
+        const session = await this.tryConsumeToken(sessionID, token, ['verifyPassword', 'recoverPassword']);
 
         const user = await this.store.getUser({ by: 'id', id: session.userID });
         if (user === undefined) {
