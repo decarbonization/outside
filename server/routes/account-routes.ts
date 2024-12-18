@@ -28,7 +28,7 @@ import renderSignIn from "../templates/sign-in";
 import renderSignUp from "../templates/sign-up";
 import { env, envFlag } from "../utilities/env";
 import { mapIfNotUndefined, proveString } from "../utilities/maybe";
-import { makeDeps } from "../components/_deps";
+import { makeDeps } from "../hooks/Deps";
 import { fullyQualifiedLinkTo, linkTo } from "./_links";
 
 export interface UserRouteOptions {

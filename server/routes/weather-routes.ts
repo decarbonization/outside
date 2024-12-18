@@ -27,7 +27,7 @@ import renderWeather from "../templates/weather";
 import { envInt } from "../utilities/env";
 import { proveString } from "../utilities/maybe";
 import { cacheControlFor } from "../utilities/weather-utils";
-import { makeDeps } from "../components/_deps";
+import { makeDeps } from "../hooks/Deps";
 import { linkDestination, linkTo } from "./_links";
 
 // TODO: Currently limiting daily forecasts to 7 days because of

@@ -18,7 +18,7 @@
 
 import { i18n } from "i18next";
 import { UserSystemError } from "../../accounts/errors";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 
 export interface ErrorMessageProps {
     readonly error?: unknown

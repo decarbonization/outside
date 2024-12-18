@@ -17,7 +17,7 @@
  */
 
 import { linkTo } from "../../routes/_links";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 import ErrorMessage from "../reusable/ErrorMessage";
 
 export interface SignUpProps {

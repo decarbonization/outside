@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DepsObject } from "../components/_deps";
+import { DepsObject } from "../hooks/Deps";
 import ErrorDetails from "../components/ErrorDetails";
 import renderApp from "./_app";
 

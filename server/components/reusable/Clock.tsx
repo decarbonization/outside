@@ -17,7 +17,7 @@
  */
 
 import classNames from "classnames";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 import { formatDate } from "./Dates";
 
 export interface ClockProps {

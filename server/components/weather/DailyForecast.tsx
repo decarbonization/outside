@@ -17,7 +17,7 @@
  */
 
 import { DailyForecast } from "fruit-company/weather";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 import Condition from "../reusable/Condition";
 import { Weekday } from "../reusable/Dates";
 import Decoration from "../reusable/Decoration";

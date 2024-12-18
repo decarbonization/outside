@@ -18,7 +18,7 @@
 
 import classNames from "classnames";
 import { i18n } from "i18next";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 
 export interface DateProps {
     /**

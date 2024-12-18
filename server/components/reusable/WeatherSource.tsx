@@ -17,7 +17,7 @@
  */
 
 import { Attribution, Weather } from "fruit-company/weather";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 
 export interface WeatherSourceProps {
     readonly weather?: Weather;

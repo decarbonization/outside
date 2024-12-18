@@ -20,7 +20,7 @@ import { differenceInMinutes } from "date-fns";
 import { ForecastPeriodSummary, NextHourForecast } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { chanceFragment, precipitationIntensityFragment, precipitationTypeFragment } from "../../formatting/fragments";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 import PrecipitationChart from "../reusable/PrecipitationChart";
 
 export interface NextHourForecastProps {

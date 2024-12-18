@@ -17,7 +17,7 @@
  */
 
 import { HourlyForecast } from "fruit-company/weather";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 import Condition from "../reusable/Condition";
 import { Hour } from "../reusable/Dates";
 import Precipitation from "../reusable/Precipitation";

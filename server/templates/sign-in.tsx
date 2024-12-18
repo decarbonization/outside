@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DepsObject } from "../components/_deps";
+import { DepsObject } from "../hooks/Deps";
 import SignIn from "../components/accounts/SignIn";
 import renderApp from "./_app";
 

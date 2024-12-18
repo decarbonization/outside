@@ -19,7 +19,7 @@
 import { Request, Response, Router } from "express";
 import renderIndex from "../templates/index";
 import { proveString } from "../utilities/maybe";
-import { makeDeps } from "../components/_deps";
+import { makeDeps } from "../hooks/Deps";
 
 export interface IndexRoutesOptions {
 }

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useDeps } from "./_deps";
+import { useDeps } from "../hooks/Deps";
 
 export default function GlobalFooter() {
     const { i18n } = useDeps();

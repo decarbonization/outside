@@ -18,7 +18,7 @@
 
 import { Account } from "../../accounts/account";
 import { linkTo } from "../../routes/_links";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 import Link from "../reusable/Link";
 
 export interface AccountSettingsProps {

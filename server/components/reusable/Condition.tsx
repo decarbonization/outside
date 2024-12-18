@@ -20,7 +20,7 @@ import classNames from "classnames";
 import { WeatherCondition } from "fruit-company/weather";
 import { weatherConditionFragment } from "../../formatting/fragments";
 import { IconPack, icon } from "../../styling/icon-pack";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 
 const conditionIcons: IconPack<WeatherCondition> = {
     "base": {

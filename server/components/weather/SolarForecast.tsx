@@ -18,7 +18,7 @@
 
 import { DayWeatherConditions } from "fruit-company/weather";
 import { moonPhaseFragment } from "../../formatting/fragments";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 import Clock from "../reusable/Clock";
 import { ShortTime } from "../reusable/Dates";
 import Moon from "../reusable/Moon";

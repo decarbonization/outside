@@ -18,7 +18,7 @@
 
 import classNames from "classnames";
 import { WeatherAlertCollection } from "fruit-company/weather";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 
 export interface WeatherAlertsProps {
     readonly collection?: WeatherAlertCollection;

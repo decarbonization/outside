@@ -17,7 +17,7 @@
  */
 
 import { Account } from "../accounts/account";
-import { DepsObject } from "../components/_deps";
+import { DepsObject } from "../hooks/Deps";
 import AccountSettings from "../components/accounts/AccountSettings";
 import renderApp from "./_app";
 

@@ -22,7 +22,7 @@ import { ForecastMinute, precipitationIntensityFrom } from "fruit-company/weathe
 import { i18n } from "i18next";
 import { percentage } from "../../styling/transforms";
 import { segmentBy } from "../../utilities/array-utils";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 
 export interface PrecipitationChartProps {
     readonly className?: string;

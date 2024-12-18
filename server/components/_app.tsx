@@ -18,7 +18,7 @@
 
 import { ComponentChildren } from "preact";
 import { envStrings } from "../utilities/env";
-import { useDeps } from "./_deps";
+import { useDeps } from "../hooks/Deps";
 import GlobalFooter from "./GlobalFooter";
 import GlobalHeader from "./GlobalHeader";
 

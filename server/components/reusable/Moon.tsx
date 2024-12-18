@@ -20,7 +20,7 @@ import classNames from "classnames";
 import { MoonPhase } from "fruit-company/weather";
 import { moonPhaseFragment } from "../../formatting/fragments";
 import { IconPack, icon } from "../../styling/icon-pack";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 
 const moonIcons: IconPack<MoonPhase> = {
     "base": {

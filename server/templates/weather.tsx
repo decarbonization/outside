@@ -20,7 +20,7 @@ import { Weather } from "fruit-company/weather";
 import { CurrentAirConditions } from "good-breathing/aqi";
 import { LinkDestinationTo } from "../routes/_links";
 import { elementStyleFor } from "../styling/element-style";
-import { DepsObject } from "../components/_deps";
+import { DepsObject } from "../hooks/Deps";
 import CompleteForecast from "../components/weather/CompleteForecast";
 import renderApp from "./_app";
 

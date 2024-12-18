@@ -18,7 +18,7 @@
 
 import { CurrentWeather, DayWeatherConditions } from "fruit-company/weather";
 import { CurrentAirConditions } from "good-breathing/aqi";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 import Condition from "../reusable/Condition";
 import { AQIUnit, CompassDirectionUnit, PercentageUnit, SpeedUnit, TemperatureRangeUnit, TemperatureUnit, UVIndexUnit } from "../reusable/Units";
 

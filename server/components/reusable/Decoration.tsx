@@ -19,7 +19,7 @@
 import classNames from "classnames";
 import { i18n } from "i18next";
 import { icon, IconOptions, IconPack } from "../../styling/icon-pack";
-import { useDeps } from "../_deps";
+import { useDeps } from "../../hooks/Deps";
 
 export type DecorationIconName =
     | 'daytime'

@@ -17,7 +17,7 @@
  */
 
 import { envFlag } from "../utilities/env";
-import { DepsObject } from "../components/_deps";
+import { DepsObject } from "../hooks/Deps";
 import Condition from "../components/reusable/Condition";
 import Link from "../components/reusable/Link";
 import renderApp from "./_app";
