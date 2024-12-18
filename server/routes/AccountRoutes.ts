@@ -295,7 +295,7 @@ async function getSettings(
     res.type('html').send(resp);
 }
 
-export function AccountRoutes(options: UserRouteOptions) {
+export default function AccountRoutes(options: UserRouteOptions) {
     return Router()
         .get('/sign-in', async (req, res) => {
             await getSignIn(options, req, res);

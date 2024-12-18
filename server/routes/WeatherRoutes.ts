@@ -95,7 +95,7 @@ async function getWeather(
     res.type('html').send(resp);
 }
 
-export function WeatherRoutes(options: WeatherRoutesOptions): Router {
+export default function WeatherRoutes(options: WeatherRoutesOptions): Router {
     return Router()
         .get('/weather/:country/:latitude/:longitude/:locality', async (req, res) => {
             await getWeather(options, req, res);

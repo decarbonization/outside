@@ -99,7 +99,7 @@ async function getSearchByCoordinates(
     }
 }
 
-export function SearchRoutes(options: SearchRoutesOptions): Router {
+export default function SearchRoutes(options: SearchRoutesOptions): Router {
     return Router()
         .get('/search', async (req, res) => {
             await getSearchByQuery(options, req, res);

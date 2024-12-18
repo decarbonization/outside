@@ -70,7 +70,7 @@ async function getAppWebManifest(
     res.type('application/manifest+json').send(resp);
 }
 
-export function IndexRoutes(options: IndexRoutesOptions): Router {
+export default function IndexRoutes(options: IndexRoutesOptions): Router {
     return Router()
         .get('/', async (req, res) => {
             await getIndex(options, req, res);

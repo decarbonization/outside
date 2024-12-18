@@ -23,10 +23,10 @@ import { GoogleMapsApiKey } from 'good-breathing';
 import { MailtrapClient } from 'mailtrap';
 import { UserSystem } from '../accounts/system';
 import { ErrorMiddleware } from '../middlewares/error-middleware';
-import { AccountRoutes } from './account-routes';
-import { IndexRoutes } from './index-routes';
-import { SearchRoutes } from './search-routes';
-import { WeatherRoutes } from './weather-routes';
+import AccountRoutes from './AccountRoutes';
+import IndexRoutes from './IndexRoutes';
+import SearchRoutes from './SearchRoutes';
+import WeatherRoutes from './WeatherRoutes';
 
 export interface AllRoutesOptions {
     readonly userSystem: UserSystem;
@@ -37,7 +37,7 @@ export interface AllRoutesOptions {
     readonly staticDir: string;
 }
 
-export function routes({
+export default function routes({
     userSystem,
     mailer,
     mapsToken,

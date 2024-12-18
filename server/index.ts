@@ -35,7 +35,7 @@ import { UserSystem } from './accounts/system';
 import { initSequelize } from './db/init';
 import { ClientSessionStore } from './db/session-store';
 import { accountMiddleware } from './middlewares/account-middleware';
-import { routes } from './routes';
+import routes from './routes';
 import { fullyQualifiedLinkTo } from './routes/_links';
 import { env, envInt, envStrings } from './utilities/env';
 import { setUpShutDownHooks } from './utilities/shut-down';
