@@ -39,6 +39,10 @@
     --differentiate-bg: rgba(0, 102, 228, 0.05);
     --hover-bg: rgba(0, 0, 0, 0.091);
     --focus-bg: rgba(0, 0, 0, 0.091);
+    --light: #517BAD;
+    --moderate: #267AE0;
+    --heavy: #E07A26;
+    --violent: #E31E21;
 }
 
 @media (width < 450px) {
@@ -56,6 +60,10 @@
         --separator: #555;
         --off-color: #eee;
         --differentiate-bg: rgba(77, 157, 255, 0.05);
+        --light: #97b0ce;
+        --moderate: #7eb0ed;
+        --heavy: #edb07e;
+        --violent: #ee7779;
     }
 }
 
@@ -485,27 +493,22 @@ footer.global {
     flex-grow: 1;
     height: var(--chance);
     border-radius: 1vw;
-    background: var(--accent);
 }
 
 .precipitation-chart .minute.light {
-    filter: brightness(120%);
+    background-color: var(--light);
 }
 
 .precipitation-chart .minute.moderate {
-    filter: brightness(110%);
+    background-color: var(--moderate);
 }
 
 .precipitation-chart .minute.heavy {
-    filter: brightness(90%);
-}
-
-.precipitation-chart .minute.extreme {
-    filter: brightness(80%);
+    background-color: var(--heavy);
 }
 
 .precipitation-chart .minute.violent {
-    filter: brightness(70%);
+    background-color: var(--violent);
 }
 
 .next-hour-forecast-minutes {
