@@ -287,6 +287,29 @@ header {
     border-radius: 0.08em;
 }
 
+.intensity {
+    display: inline;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 0.9em;
+}
+
+.intensity.light {
+    background-color: var(--light);
+}
+
+.intensity.moderate {
+    background-color: var(--moderate);
+}
+
+.intensity.heavy {
+    background-color: var(--heavy);
+}
+
+.intensity.violent {
+    background-color: var(--violent);
+}
+
 /* -- Common Text Styles -- */
 
 .callout {
@@ -492,7 +515,7 @@ footer.global {
 .precipitation-chart .minute {
     flex-grow: 1;
     height: var(--chance);
-    border-radius: 1vw;
+    border-radius: 0.1em;
 }
 
 .precipitation-chart .minute.light {
@@ -619,12 +642,13 @@ footer.global {
     margin: 0.3em 0;
 }
 
-.hourly-forecast-reading.conditions .unit {
+.hourly-forecast-reading.conditions > .unit {
     background: var(--page-bg);
     opacity: 0.9;
     font-size: 0.8em;
     padding: 0.1em;
     border-radius: 0.2em;
+    gap: 0.1em;
     position: absolute;
     right: 0.1em;
     bottom: 0.1em;
@@ -692,12 +716,13 @@ footer.global {
     margin: 0.3em 0;
 }
 
-.daily-forecast-reading-condition-block .unit {
+.daily-forecast-reading-condition-block > .unit {
     background: var(--page-bg);
     opacity: 0.9;
     font-size: 0.8em;
     padding: 0.1em;
     border-radius: 0.2em;
+    gap: 0.1em;
     position: absolute;
     right: 0;
     bottom: 0;

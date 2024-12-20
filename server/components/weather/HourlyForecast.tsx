@@ -16,7 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { HourlyForecast } from "fruit-company/weather";
+import { HourlyForecast, HourWeatherConditions, PrecipitationType } from "fruit-company/weather";
+import { i18n } from "i18next";
+import { chanceFragment, precipitationTypeFragment } from "../../formatting/fragments";
+import { formatList } from "../../formatting/lists";
+import { formatDepth } from "../../formatting/units";
 import { useDeps } from "../../hooks/Deps";
 import Condition from "../reusable/Condition";
 import { Hour } from "../reusable/Dates";
@@ -33,6 +37,7 @@ export default function HourlyForecast({ forecast }: HourlyForecastProps) {
     }
     const { i18n } = useDeps();
     const hours = forecast.hours;
+    const summary = precipitationSummary(i18n, hours);
     return (
         <section className="hourly-forecast">
             <h1>{i18n.t("hourlyForecast.title", { count: hours.length })}</h1>
@@ -46,7 +51,7 @@ export default function HourlyForecast({ forecast }: HourlyForecastProps) {
                     <li className="hourly-forecast-reading-group differentiated">
                         <div className="hourly-forecast-reading conditions">
                             <Condition code={hour.conditionCode} daylight={hour.daylight} />
-                            <Precipitation probability={hour.precipitationChance} />
+                            <Precipitation probability={hour.precipitationChance} amount={hour.precipitationAmount} />
                         </div>
                         <div className="hourly-forecast-reading temperature">
                             <TemperatureUnit measurement={hour.temperature} />
@@ -64,6 +69,35 @@ export default function HourlyForecast({ forecast }: HourlyForecastProps) {
                     </li>
                 ))}
             </ol>
+            {summary && (
+                <p className="summary">
+                    {summary}
+                </p>
+            )}
         </section>
     );
+}
+
+function precipitationSummary(i18n: i18n, hours: HourWeatherConditions[]): string | undefined {
+    const types = new Set<PrecipitationType>();
+    let highestChance = 0;
+    let totalPrecipitationAmount = 0;
+    for (const { precipitationType, precipitationChance, precipitationAmount = 0 } of hours) {
+        if (precipitationType === 'clear') {
+            continue;
+        }
+        types.add(precipitationType);
+        highestChance = Math.max(highestChance, precipitationChance);
+        totalPrecipitationAmount += precipitationAmount;
+    }
+    if (types.size === 0 || highestChance <= 0.01 || totalPrecipitationAmount === 0) {
+        return undefined;
+    }
+    const typeFragments = Array.from(types, type => precipitationTypeFragment(type, { i18n, lowercase: true }));
+    return i18n.t('hourlyForecast.summary', {
+        interpolation: { escapeValue: false },
+        chance: chanceFragment(highestChance, { i18n }),
+        depth: formatDepth(totalPrecipitationAmount, { i18n }),
+        conditions: formatList(typeFragments, { i18n }),
+    });
 }

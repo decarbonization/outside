@@ -50,7 +50,7 @@ export default function DailyForecast({ forecast }: DailyForecastProps) {
                         <div className="daily-forecast-reading condition">
                             <div className="daily-forecast-reading-condition-block">
                                 <Condition code={day.conditionCode} />
-                                <Precipitation probability={day.precipitationChance} />
+                                <Precipitation probability={day.precipitationChance} amount={day.precipitationAmount} />
                             </div>
                         </div>
                         <div className="daily-forecast-reading temperature">

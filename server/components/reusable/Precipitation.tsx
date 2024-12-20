@@ -16,7 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DepthUnit, PercentageUnit } from "./Units";
+import classNames from "classnames";
+import { precipitationIntensityFrom } from "fruit-company/weather";
+import { useDeps } from "../../hooks/Deps";
+import { PercentageUnit } from "./Units";
 
 export interface PrecipitationProps {
     readonly probability: number;
@@ -29,9 +32,12 @@ export default function Precipitation({ probability, amount, hideAutomatically =
         return null;
     }
     if (amount !== undefined) {
+        const { i18n } = useDeps();
+        const intensity = precipitationIntensityFrom(amount);
+        const intensityLabel = i18n.t(`forecast.intensity.${intensity}`);
         return (
-            <span>
-                <PercentageUnit measurement={probability} /> <DepthUnit measurement={amount} />
+            <span className="unit h-flow fully centered">
+                <span className={classNames("intensity", intensity)} aria-label={intensityLabel} /><PercentageUnit measurement={probability} />
             </span>
         );
     } else {

@@ -20,6 +20,7 @@ import { differenceInMinutes } from "date-fns";
 import { ForecastPeriodSummary, NextHourForecast } from "fruit-company/weather";
 import { i18n } from "i18next";
 import { chanceFragment, precipitationIntensityFragment, precipitationTypeFragment } from "../../formatting/fragments";
+import { formatList } from "../../formatting/lists";
 import { useDeps } from "../../hooks/Deps";
 import PrecipitationChart from "../reusable/PrecipitationChart";
 
@@ -70,5 +71,5 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string | und
             });
         }
     });
-    return summaryPeriods.join(i18n.t('nextHourForecast.periodJoiner'));
+    return formatList(summaryPeriods, { i18n, autoCapitalize: true });
 }

@@ -30,5 +30,8 @@
         "southWest": "SW",
         "west": "W",
         "northWest": "NW"
-    }
+    },
+
+    "listJoiner": ", ",
+    "listFinalizer": " and "
 }
