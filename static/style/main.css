@@ -618,7 +618,6 @@ footer.global {
 }
 
 .hourly-forecast-main {
-    clear: both;
     padding: var(--v-spacing) 0;
 }
 
@@ -679,10 +678,6 @@ footer.global {
 .daily-forecast-selector:has(option[value=humidity]:checked)~.daily-forecast-main .daily-forecast-reading.humidity,
 .daily-forecast-selector:has(option[value=wind]:checked)~.daily-forecast-main .daily-forecast-reading.wind {
     display: block;
-}
-
-.daily-forecast-main {
-    clear: both;
 }
 
 .daily-forecast-reading-group {

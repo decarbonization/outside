@@ -46,6 +46,11 @@ export default function HourlyForecast({ forecast }: HourlyForecastProps) {
                 <option value="humidity">{i18n.t("forecast.measurementLabels.humidity")}</option>
                 <option value="wind">{i18n.t("forecast.measurementLabels.wind")}</option>
             </select>
+            {summary && (
+                <p className="clear-both summary">
+                    {summary}
+                </p>
+            )}
             <ol className="hourly-forecast-main h-flow orthogonal-scrollable">
                 {hours.map(hour => (
                     <li className="hourly-forecast-reading-group differentiated">
@@ -69,11 +74,6 @@ export default function HourlyForecast({ forecast }: HourlyForecastProps) {
                     </li>
                 ))}
             </ol>
-            {summary && (
-                <p className="summary">
-                    {summary}
-                </p>
-            )}
         </section>
     );
 }
@@ -90,7 +90,7 @@ function precipitationSummary(i18n: i18n, hours: HourWeatherConditions[]): strin
         highestChance = Math.max(highestChance, precipitationChance);
         totalPrecipitationAmount += precipitationAmount;
     }
-    if (types.size === 0 || highestChance <= 0.01 || totalPrecipitationAmount === 0) {
+    if (types.size === 0 || highestChance <= 0.01 || totalPrecipitationAmount <= 1.0) {
         return undefined;
     }
     const typeFragments = Array.from(types, type => precipitationTypeFragment(type, { i18n, lowercase: true }));

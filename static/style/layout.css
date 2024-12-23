@@ -22,6 +22,10 @@
     white-space: nowrap;
 }
 
+.clear-both {
+    clear: both;
+}
+
 /* -- Common Layouts -- */
 
 .h-flow {
