@@ -95,7 +95,6 @@ function precipitationSummary(i18n: i18n, hours: HourWeatherConditions[]): strin
     }
     const typeFragments = Array.from(types, type => precipitationTypeFragment(type, { i18n, lowercase: true }));
     return i18n.t('hourlyForecast.summary', {
-        interpolation: { escapeValue: false },
         chance: chanceFragment(highestChance, { i18n }),
         depth: formatDepth(totalPrecipitationAmount, { i18n }),
         conditions: formatList(typeFragments, { i18n }),

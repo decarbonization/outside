@@ -41,7 +41,6 @@ export function weatherConditionFragment(
     { i18n, lowercase }: FragmentOptions
 ): string {
     return process(i18n.t(`forecast.weatherCondition.${code}`, {
-        interpolation: { escapeValue: false },
         defaultValue: code as string,
     }), {
         i18n,
@@ -54,7 +53,6 @@ export function moonPhaseFragment(
     { i18n, lowercase }: FragmentOptions
 ): string {
     return process(i18n.t(`forecast.moonPhase.${phase}`, {
-        interpolation: { escapeValue: false },
         defaultValue: phase as string,
     }), {
         i18n,
@@ -68,7 +66,6 @@ export function precipitationTypeFragment(
     { i18n, lowercase }: FragmentOptions
 ): string {
     return process(i18n.t(`forecast.precipitationType.${condition}`, {
-        interpolation: { escapeValue: false },
         defaultValue: condition,
     }), {
         i18n,
@@ -82,7 +79,6 @@ export function chanceFragment(
 ): string {
     const chance = probabilityChanceFrom(p);
     return process(i18n.t(`forecast.chance.${chance}`, {
-        interpolation: { escapeValue: false },
         defaultValue: chance,
     }), {
         i18n,
@@ -96,7 +92,6 @@ export function precipitationIntensityFragment(
 ): string {
     const intensity = precipitationIntensityFrom(precipitationIntensity);
     return process(i18n.t(`forecast.intensity.${intensity}`, {
-        interpolation: { escapeValue: false },
         defaultValue: intensity,
     }), {
         i18n,

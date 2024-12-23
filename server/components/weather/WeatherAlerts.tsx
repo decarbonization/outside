@@ -40,7 +40,6 @@ export default function WeatherAlerts({ collection }: WeatherAlertsProps) {
                         <details>
                             <summary>{alert.description}</summary>
                             {i18n.t("weatherAlerts.details", {
-                                interpolation: { escapeValue: false },
                                 agency: alert.source,
                                 effective: alert.effectiveTime,
                                 expires: alert.expireTime,

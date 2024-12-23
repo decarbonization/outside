@@ -64,6 +64,9 @@ i18next
         backend: {
             loadPath: path.join(localesDir, '{{lng}}', '{{ns}}.json'),
         },
+        interpolation: {
+            escapeValue: false,
+        }
     });
 
 const mapsToken = new MapsToken(

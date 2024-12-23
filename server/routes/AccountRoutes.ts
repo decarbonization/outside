@@ -144,7 +144,7 @@ async function postSignUp(
                 }
             ],
             subject: i18n.t("accounts.verificationEmailSubject"),
-            text: i18n.t("accounts.verificationEmailBody", { verifyLink, interpolation: { escapeValue: false } }),
+            text: i18n.t("accounts.verificationEmailBody", { verifyLink }),
             category: "Outside Weather Logins"
         });
 
@@ -212,7 +212,7 @@ async function postForgotPassword(
                 }
             ],
             subject: i18n.t("accounts.forgotPasswordEmailSubject"),
-            text: i18n.t("accounts.forgotPasswordEmailBody", { recoverLink, interpolation: { escapeValue: false } }),
+            text: i18n.t("accounts.forgotPasswordEmailBody", { recoverLink }),
             category: "Outside Weather Logins"
         });
 

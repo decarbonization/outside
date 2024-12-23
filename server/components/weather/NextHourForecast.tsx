@@ -56,7 +56,6 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string | und
     const summaryPeriods = stormyPeriods.map(period => {
         if (period.endTime !== undefined) {
             return i18n.t('nextHourForecast.periodDefinite', {
-                interpolation: { escapeValue: false },
                 chance: chanceFragment(period.precipitationChance, { i18n }),
                 intensity: precipitationIntensityFragment(period.precipitationIntensity, { i18n, lowercase: true }),
                 type: precipitationTypeFragment(period.condition, { i18n, lowercase: true }),
@@ -64,7 +63,6 @@ function summaryText(i18n: i18n, summary: ForecastPeriodSummary[]): string | und
             });
         } else {
             return i18n.t('nextHourForecast.periodIndefinite', {
-                interpolation: { escapeValue: false },
                 chance: chanceFragment(period.precipitationChance, { i18n }),
                 intensity: precipitationIntensityFragment(period.precipitationIntensity, { i18n, lowercase: true }),
                 type: precipitationTypeFragment(period.condition, { i18n, lowercase: true }),
