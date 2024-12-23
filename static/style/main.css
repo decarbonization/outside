@@ -31,6 +31,7 @@
     --card-columns: repeat(4, 25%);
 
     --page-bg: #fcfcfc;
+    --chrome-bg: rgba(252, 252, 252, 0.9);
     --accent: #0066e4;
     --accent-inactive: #737373;
     --separator: #aaa;
@@ -55,6 +56,7 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --page-bg: #222;
+        --chrome-bg: rgba(34, 34, 34, 0.9);
         --accent: #4d9dff;
         --accent-inactive: #a6a6a6;
         --separator: #555;
@@ -372,10 +374,16 @@ header {
 /* -- Page Chrome -- */
 
 header.global {
+    position: sticky;
+    top: 0;
+    padding: var(--v-spacing) var(--h-spacing);
+    background-color: var(--chrome-bg);
+    backdrop-filter: blur(10px);
+}
+
+header.global nav {
     max-width: var(--content-width);
-    margin: var(--v-spacing) auto;
-    padding: 0 var(--h-spacing);
-    align-items: center;
+    margin: 0 auto;
 }
 
 header .logo {

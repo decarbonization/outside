@@ -51,7 +51,7 @@ export default function HourlyForecast({ forecast }: HourlyForecastProps) {
                     {summary}
                 </p>
             )}
-            <ol className="hourly-forecast-main h-flow orthogonal-scrollable">
+            <ol className="hourly-forecast-main clear-both h-flow orthogonal-scrollable">
                 {hours.map(hour => (
                     <li className="hourly-forecast-reading-group differentiated">
                         <div className="hourly-forecast-reading conditions">
