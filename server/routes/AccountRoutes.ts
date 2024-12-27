@@ -21,14 +21,16 @@ import { Request, Response, Router } from "express";
 import { MailtrapClient } from "mailtrap";
 import { UserSystemError } from "../accounts/errors";
 import { UserSystem } from "../accounts/system";
+import sendForgotPasswordEmail from "../email/sendForgotPasswordEmail";
+import sendVerifyEmail from "../email/sendVerifyEmail";
+import { makeDeps } from "../hooks/Deps";
 import renderAccountSettings from "../templates/renderAccountSettings";
 import renderForgotPassword from "../templates/renderForgotPassword";
 import renderForgotPasswordRecover from "../templates/renderForgotPasswordRecover";
 import renderSignIn from "../templates/renderSignIn";
 import renderSignUp from "../templates/renderSignUp";
-import { env, envFlag } from "../utilities/env";
+import { envFlag } from "../utilities/env";
 import { mapIfNotUndefined, proveString } from "../utilities/maybe";
-import { makeDeps } from "../hooks/Deps";
 import { fullyQualifiedLinkTo, linkTo } from "./_links";
 
 export interface UserRouteOptions {
@@ -133,20 +135,7 @@ async function postSignUp(
 
         const i18n = req.i18n;
         const verifyLink = fullyQualifiedLinkTo({ where: "signUpVerify", token: session.token! });
-        await mailer.send({
-            from: {
-                email: env("MAILTRAP_SENDER"),
-                name: i18n.t('appName'),
-            },
-            to: [
-                {
-                    email
-                }
-            ],
-            subject: i18n.t("accounts.verificationEmailSubject"),
-            text: i18n.t("accounts.verificationEmailBody", { verifyLink }),
-            category: "Outside Weather Logins"
-        });
+        await sendVerifyEmail({ mailer, i18n, email, verifyLink });
 
         const deps = await makeDeps({ req });
         const resp = renderSignUp({ deps, email, signedUp: true });
@@ -201,20 +190,7 @@ async function postForgotPassword(
 
         const i18n = req.i18n;
         const recoverLink = fullyQualifiedLinkTo({ where: "forgotPasswordRecover", sessionID: session.id, token: session.token! });
-        await mailer.send({
-            from: {
-                email: env("MAILTRAP_SENDER"),
-                name: i18n.t('appName'),
-            },
-            to: [
-                {
-                    email
-                }
-            ],
-            subject: i18n.t("accounts.forgotPasswordEmailSubject"),
-            text: i18n.t("accounts.forgotPasswordEmailBody", { recoverLink }),
-            category: "Outside Weather Logins"
-        });
+        await sendForgotPasswordEmail({ mailer, i18n, email, recoverLink });
 
         const deps = await makeDeps({ req });
         const resp = renderForgotPassword({ deps, email, sent: true });
