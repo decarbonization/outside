@@ -21,6 +21,7 @@ import { Request, Response, Router } from "express";
 import { MailtrapClient } from "mailtrap";
 import { UserSystemError } from "../accounts/errors";
 import { UserSystem } from "../accounts/system";
+import { AccountChange } from "../components/accounts/AccountSettings";
 import sendForgotPasswordEmail from "../email/sendForgotPasswordEmail";
 import sendVerifyEmail from "../email/sendVerifyEmail";
 import { makeDeps } from "../hooks/Deps";
@@ -271,6 +272,45 @@ async function getSettings(
     res.type('html').send(resp);
 }
 
+async function postSettings(
+    { userSystem }: UserRouteOptions,
+    req: Request<{ oldPassword?: string, newPasword?: string, confirmNewPassword?: string }>,
+    res: Response
+): Promise<void> {
+    const userAccount = req.userAccount;
+    if (userAccount === undefined) {
+        res.redirect(linkTo({ where: "index" }));
+        return;
+    }
+
+    try {
+        const changes: AccountChange[] = [];
+
+        const oldPassword = proveString(req.body.oldPassword);
+        if (oldPassword !== undefined) {
+            const newPassword = proveString(req.body.newPassword);
+            if (newPassword === undefined) {
+                throw new Error("Missing new password");
+            }
+            const confirmNewPassword = proveString(req.body.confirmNewPassword);
+            if (confirmNewPassword === undefined || newPassword !== confirmNewPassword) {
+                throw new Error("New passwords do not match");
+            }
+            await userSystem.changePassword(userAccount.userID, oldPassword, newPassword);
+
+            changes.push('password');
+        }
+
+        const deps = await makeDeps({ req });
+        const resp = renderAccountSettings({ deps, userAccount, changes });
+        res.type('html').send(resp);
+    } catch (error) {
+        const deps = await makeDeps({ req });
+        const resp = renderAccountSettings({ deps, userAccount, error });
+        res.status(401).type('html').send(resp);
+    }
+}
+
 export default function AccountRoutes(options: UserRouteOptions) {
     return Router()
         .get('/sign-in', async (req, res) => {
@@ -305,5 +345,8 @@ export default function AccountRoutes(options: UserRouteOptions) {
         })
         .get('/account', async (req, res) => {
             await getSettings(options, req, res);
+        })
+        .post('/account', urlencoded({ extended: true }), async (req, res) => {
+            await postSettings(options, req, res);
         });
 }

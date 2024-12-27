@@ -20,12 +20,19 @@ import { Account } from "../../accounts/account";
 import { linkTo } from "../../routes/_links";
 import { useDeps } from "../../hooks/Deps";
 import Link from "../reusable/Link";
+import ErrorMessage from "../reusable/ErrorMessage";
+
+export type AccountChange =
+    | 'password';
 
 export interface AccountSettingsProps {
     readonly userAccount: Account;
+    readonly error?: unknown;
+    readonly success?: boolean;
+    readonly changes?: AccountChange[];
 }
 
-export default function AccountSettings({ userAccount }: AccountSettingsProps) {
+export default function AccountSettings({ userAccount, error, changes }: AccountSettingsProps) {
     const { i18n } = useDeps();
     return (
         <section className="account-settings">
@@ -34,7 +41,26 @@ export default function AccountSettings({ userAccount }: AccountSettingsProps) {
                 <form method="post" action={linkTo({ where: "accountSettings" })} className="v-flow spacing outset-top">
                     <label for="email">{i18n.t('accounts.emailLabel')}</label>
                     <input type="email" id="email" name="email" value={userAccount.email} disabled />
+
+                    <label for="oldPassword">{i18n.t('accounts.oldPasswordLabel')}</label>
+                    <input type="password" id="oldPassword" name="oldPassword" />
+
+                    <label for="newPassword">{i18n.t('accounts.newPasswordLabel')}</label>
+                    <input type="password" id="newPassword" name="newPassword" />
+
+                    <label for="confirmNewPassword">{i18n.t('accounts.confirmNewPasswordLabel')}</label>
+                    <input type="password" id="confirmNewPassword" name="confirmNewPassword" />
+
+                    <button type="submit" className="bordered-button">
+                        {i18n.t('accounts.submit')}
+                    </button>
                 </form>
+                <ErrorMessage error={error} />
+                {changes?.map(change => (
+                    <p className="message">
+                        {i18n.t(`accounts.changes.${change}`)}
+                    </p>
+                ))}
                 <Link where="signOut">{i18n.t('accounts.signOut')}</Link>
             </div>
         </section>

@@ -21,7 +21,7 @@ import { Account } from "./account";
 import { isValidEmail } from "./email";
 import { UserSystemError } from "./errors";
 import { checkPassword, hashPassword, isValidPassword, isValidToken, token } from "./password";
-import { SessionID, SessionSchema, SessionTokenScope } from "./schemas";
+import { SessionID, SessionSchema, SessionTokenScope, UserID, UserSchema } from "./schemas";
 import { AccountStore } from "./store";
 
 export interface UserSystemOptions {
@@ -198,6 +198,36 @@ export class UserSystem {
         })
         
         return session;
+    }
+
+    async changePassword(
+        userID: UserID,
+        oldPassword: string,
+        newPassword: string
+    ): Promise<UserSchema> {
+        if (!isValidPassword(oldPassword)) {
+            throw new UserSystemError('invalidPassword', "Old password invalid");
+        }
+        if (!isValidPassword(newPassword)) {
+            throw new UserSystemError('invalidPassword', "New password invalid");
+        }
+
+        const user = await this.store.getUser({ by: 'id', id: userID });
+        if (user === undefined) {
+            throw new UserSystemError('unknownUser', "No user");
+        }
+
+        for (const salt of this.salts) {
+            if (user.password === await hashPassword(oldPassword, salt)) {
+                const updatedUser = {
+                    ...user,
+                    password: await hashPassword(newPassword, this.primarySalt),
+                };
+                await this.store.updateUser(updatedUser);
+                return updatedUser;
+            }
+        }
+        throw new UserSystemError('incorrectPassword', "Old password is wrong");
     }
 
     async getAccount(sessionID: SessionID | undefined): Promise<Account | undefined> {

@@ -17,18 +17,22 @@
  */
 
 import { Account } from "../accounts/account";
+import AccountSettings, { AccountChange } from "../components/accounts/AccountSettings";
 import { DepsObject } from "../hooks/Deps";
-import AccountSettings from "../components/accounts/AccountSettings";
 import renderApp from "./_renderApp";
 
 export interface AccountSettingsOptions {
     readonly deps: DepsObject;
     readonly userAccount: Account;
+    readonly error?: unknown;
+    readonly changes?: AccountChange[];
 }
 
-export default function renderAccountSettings({ deps, userAccount }: AccountSettingsOptions): string {
+export default function renderAccountSettings({ deps, userAccount, error, changes }: AccountSettingsOptions): string {
     return renderApp({ deps }, (
         <AccountSettings
-            userAccount={userAccount} />
+            userAccount={userAccount}
+            error={error}
+            changes={changes} />
     ));
 }

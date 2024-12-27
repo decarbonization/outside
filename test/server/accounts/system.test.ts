@@ -192,6 +192,36 @@ describe("accounts#system module", () => {
                 expect(afterUser?.password).not.toStrictEqual(beforeUser?.password)
             });
         });
+
+        describe("#changePassword", () => {
+            it("should require the old password to be valid", async () => {
+                const [_, subject] = makeUserSystem();
+                await expect(subject.changePassword(0, "password", "V1r@l1ty")).rejects.toThrowError();
+            });
+
+            it("should require the new password to be valid", async () => {
+                const [_, subject] = makeUserSystem();
+                await expect(subject.changePassword(0, "R3@ch0ut", "password")).rejects.toThrowError();
+            });
+
+            it("should require the user to exist", async () => {
+                const [_, subject] = makeUserSystem();
+                await expect(subject.changePassword(-1, "R3@ch0ut", "V1r@l1ty")).rejects.toThrowError();
+            });
+
+            it("should require the old password to match", async () => {
+                const [_, subject] = makeUserSystem();
+                await expect(subject.changePassword(-1, "N0tR3@l!", "V1r@l1ty")).rejects.toThrowError();
+            });
+
+            it("should update the user's password", async () => {
+                const [store, subject] = makeUserSystem();
+                const beforeUser = await store.getUser({ by: "id", id: 0 });
+                await subject.changePassword(0, "R3@ch0ut", "V1r@l1ty")
+                const afterUser = await store.getUser({ by: "id", id: 0 });
+                expect(afterUser?.password).not.toStrictEqual(beforeUser?.password)
+            });
+        });
     });
 });
 
