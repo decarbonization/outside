@@ -16,15 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { z } from "zod";
+
+const schema = z.string().email();
+
 export type ValidEmail = string & { readonly _ValidEmail: unique symbol };
 
 export function isValidEmail(email: string): email is ValidEmail {
-    const atSymbol = email.indexOf('@');
-    if (atSymbol === -1) {
-        return false;
-    }
-    if (email.lastIndexOf('@') !== atSymbol) {
-        return false;
-    }
-    return true;
+    return schema.safeParse(email).success;
 }

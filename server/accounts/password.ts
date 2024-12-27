@@ -16,47 +16,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const passwordSymbols = /[!@#$%^&*'()[\]\-_:]/;
-const passwordUppercaseLetters = /[A-Z]/;
-const passwordLowercaseLetters = /[a-z]/;
-const passwordNumbers = /[0-9]/;
-const tokenSymbols = /[0-9]|[a-f]]/;
+import { z } from "zod";
+
+const passwordSchema = z.string()
+    .min(8)
+    .max(64)
+    .regex(/[!@#$%^&*'()[\]\-_:]/, { message: "Must contain a symbol" })
+    .regex(/[A-Z]/, { message: "Must contain an uppercase letter" })
+    .regex(/[a-z]/, { message: "Must contain a lowercase letter" })
+    .regex(/[0-9]/, { message: "Must contain a number" });
 
 export type ValidPassword = string & { readonly _ValidPassword: unique symbol };
 
-export type ValidToken = string & { readonly _ValidToken: unique symbol };
-
-
 export function isValidPassword(password: string): password is ValidPassword {
-    if (password.length < 8) {
-        return false;
-    }
-    if (password.length > 64) {
-        return false;
-    }
-    if (!passwordSymbols.test(password)) {
-        return false;
-    }
-    if (!passwordUppercaseLetters.test(password)) {
-        return false;
-    }
-    if (!passwordLowercaseLetters.test(password)) {
-        return false;
-    }
-    if (!passwordNumbers.test(password)) {
-        return false;
-    }
-    return true;
+    return passwordSchema.safeParse(password).success;
 }
 
+const tokenSchema = z.string()
+    .length(128)
+    .regex(/^([0-9]|[a-f])+$/);
+
+export type ValidToken = string & { readonly _ValidToken: unique symbol };
+
 export function isValidToken(token: string): token is ValidToken {
-    if (token.length !== 128) {
-        return false;
-    }
-    if (!tokenSymbols.test(token)) {
-        return false;
-    }
-    return true;
+    return tokenSchema.safeParse(token).success;
 }
 
 export type HashedPassword = string & { readonly _HashedPassword: unique symbol };
@@ -73,15 +56,14 @@ export async function hashPassword(password: ValidPassword, salt: string): Promi
 }
 
 export async function token(): Promise<ValidToken> {
-    const bytes = new Uint8Array(64);
-    crypto.getRandomValues(bytes);
+    const bytes = crypto.getRandomValues(new Uint8Array(64));
     const token = bytesToString(bytes);
     return token as unknown as ValidToken;
 }
 
 export async function checkPassword(
-    userPassword: HashedPassword, 
-    submittedPassword: ValidPassword, 
+    userPassword: HashedPassword,
+    submittedPassword: ValidPassword,
     salts: string[],
 ): Promise<boolean> {
     if (salts.length === 0) {
