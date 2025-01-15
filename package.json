@@ -28,7 +28,7 @@
     "dotenv": "^16.4.5",
     "express": "^5.0.1",
     "express-session": "^1.18.1",
-    "fruit-company": "0.2.0",
+    "fruit-company": "0.3.0",
     "geo-tz": "^8.1.2",
     "good-breathing": "0.0.2",
     "http-terminator": "^3.2.0",
