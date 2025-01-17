@@ -1,0 +1,60 @@
+{
+  "name": "outside",
+  "type": "module",
+  "version": "2.0.0",
+  "description": "A simple weather app built on Apple's WeatherKit REST service.",
+  "scripts": {
+    "clean": "npx rimraf dist",
+    "dev": "npx tsx watch --exclude \"./src/**/*\" server/index.ts",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "npx vite build --outDir dist/client",
+    "build:server": "npx vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "build:digitalocean": "npm install --include=dev && npm run build && npm ci",
+    "start:digitalocean": "node ./dist/server/index.js",
+    "preview": "npx cross-env NODE_ENV=production npx tsx server/index.ts"
+  },
+  "author": "Peter Kevin Contreras",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.33.0",
+    "classnames": "^2.5.1",
+    "compression": "^1.7.5",
+    "convert": "^5.7.0",
+    "date-fns": "^4.1.0",
+    "express": "^5.0.1",
+    "express-csp-header": "^6.0.0",
+    "fruit-company": "^0.3.0",
+    "geo-tz": "^8.1.2",
+    "good-breathing": "^0.0.2",
+    "http-terminator": "^3.2.0",
+    "i18next": "^24.2.1",
+    "i18next-fs-backend": "^2.6.0",
+    "i18next-http-backend": "^3.0.1",
+    "i18next-http-middleware": "^3.7.1",
+    "its-it": "^0.2.0",
+    "mailtrap": "^3.4.0",
+    "pg": "^8.13.1",
+    "preact": "^10.25.4",
+    "preact-iso": "^2.8.1",
+    "preact-render-to-string": "^6.5.12",
+    "serene-front": "^0.2.1",
+    "sirv": "^3.0.0",
+    "sql-template-tag": "^5.2.1",
+    "tsx": "^4.19.2",
+    "uuid": "^11.0.5",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.9.4",
+    "@types/express": "^5.0.0",
+    "@types/pg": "^8.11.10",
+    "cross-env": "^7.0.3",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.7"
+  },
+  "engines": {
+    "node": ">=20.0",
+    "npm": ">=10.5.0"
+  }
+}

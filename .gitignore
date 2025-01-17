@@ -1,0 +1,8 @@
+node_modules
+*.log
+*.gz
+dist
+.env
+coverage
+static/script/client.js
+.DS_Store

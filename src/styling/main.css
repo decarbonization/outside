@@ -1,0 +1,754 @@
+/*
+ * outside weather app
+ * Copyright (C) 2024  MAINTAINERS
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/* -- Global Styles -- */
+
+:root {
+    --font-sans-serif: "Play", sans-serif;
+    --font-serif: "Rokkitt", serif;
+    --font-monospace: "Kode Mono", monospace;
+
+    font-family: var(--font-sans-serif);
+
+    --content-width: calc(780px - (var(--h-spacing) * 2));
+    --v-spacing: 1rem;
+    --h-spacing: 1rem;
+    --card-columns: repeat(4, 25%);
+
+    --page-bg: #fcfcfc;
+    --chrome-bg: rgba(252, 252, 252, 0.9);
+    --accent: #0066e4;
+    --accent-inactive: #737373;
+    --separator: #aaa;
+    --off-color: #111;
+    --transition-timing: cubic-bezier(.28, .84, .58, .98);
+    --differentiate-bg: rgba(0, 102, 228, 0.05);
+    --hover-bg: rgba(0, 0, 0, 0.091);
+    --focus-bg: rgba(0, 0, 0, 0.091);
+    --light: #267AE0;
+    --moderate: #517BAD;
+    --heavy: #E07A26;
+    --violent: #E31E21;
+}
+
+@media (width < 450px) {
+    :root {
+        font-size: 14px;
+        --card-columns: repeat(2, 50%);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --page-bg: #222;
+        --chrome-bg: rgba(34, 34, 34, 0.9);
+        --accent: #4d9dff;
+        --accent-inactive: #a6a6a6;
+        --separator: #555;
+        --off-color: #eee;
+        --differentiate-bg: rgba(77, 157, 255, 0.05);
+        --light: #7eb0ed;
+        --moderate: #97b0ce;
+        --heavy: #edb07e;
+        --violent: #ee7779;
+    }
+}
+
+body {
+    background: var(--page-bg);
+}
+
+a,
+a:visited {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+main {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: calc(var(--v-spacing) * 0.5) var(--h-spacing);
+}
+
+section {
+    margin: var(--v-spacing) 0;
+}
+
+header {
+    font-weight: bold;
+}
+
+footer {
+    font-size: 0.9em;
+}
+
+button,
+select,
+.button-like {
+    font: inherit;
+    appearance: none;
+    border: none;
+    background: none;
+    color: var(--accent);
+    padding: 0.3em;
+    border-radius: 0.1em;
+}
+
+button:active,
+select:active,
+.button-like:active {
+    opacity: 0.8;
+}
+
+button:disabled,
+select:disabled,
+.button-like:disabled {
+    color: var(--accent-inactive);
+}
+
+button:focus,
+select:focus,
+.button-like:focus {
+    outline: 2px solid var(--accent);
+    background-color: var(--focus-bg);
+}
+
+.bordered-button {
+    background-color: var(--accent);
+    color: white !important;
+    padding: 0.5em 1em;
+    border-radius: 0.3em;
+}
+
+.bordered-button:disabled {
+    background-color: var(--accent-inactive);
+}
+
+.bordered-button:focus {
+    background-color: var(--accent);
+}
+
+input[type="search"],
+input[type="text"],
+textarea {
+    font: inherit;
+
+    padding: var(--h-spacing) var(--v-spacing);
+    background: var(--page-bg);
+    border: 2px solid var(--separator);
+    border-radius: 8px;
+}
+
+input[type="search"]:focus,
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+pre {
+    font-family: var(--font-monospace);
+}
+
+.unit {
+    font-family: var(--font-monospace);
+}
+
+.unit-range .high {
+    font-weight: bolder;
+}
+
+.unit-range .low {
+    font-weight: lighter;
+}
+
+.unit-range.compact .high,
+.unit-range.compact .low {
+    display: inline;
+    vertical-align: middle;
+}
+
+.unit-range.compact .high {
+    padding-right: 0.3em;
+}
+
+.unit-range.compact .low {
+    font-size: 0.9em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header {
+    font-family: var(--font-serif);
+}
+
+.differentiated {
+    border-radius: .25rem;
+    transition: var(--transition-timing) background-color .25s;
+}
+
+.differentiated:first-child {
+    background: var(--differentiate-bg);
+}
+
+.differentiated:hover {
+    background-color: var(--hover-bg);
+    box-shadow: inset 0 0 1px .5px rgba(255, 255, 255, 0.18), 0 0 1px .25px rgba(0, 0, 0, 0.095);
+}
+
+.clock-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.clock-face {
+    user-select: none;
+    width: 8em;
+    height: 8em;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--separator);
+    background-color: var(--page-bg);
+}
+
+.clock-face::after {
+    content: '';
+    position: absolute;
+    width: 0.25em;
+    height: 0.25em;
+
+    background-color: var(--off-color);
+    border-radius: 50%;
+}
+
+.clock-numeral {
+    position: absolute;
+    transform: rotate(calc(30deg * var(--n)));
+    inset: 0.5em;
+    text-align: center;
+    font-weight: bold;
+}
+
+.clock-hand {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    transform: rotate(var(--degrees, 0deg));
+}
+.clock-hand::before {
+    content: '';
+    position: absolute;
+}
+
+.hour.clock-hand::before {
+    background-color: var(--off-color);
+    width: 0.15em;
+    height: 2em;
+    border-radius: 0.15em;
+}
+
+.minute.clock-hand::before {
+    background-color: var(--off-color);
+    width: 0.15em;
+    height: 3.3em;
+    border-radius: 0.15em;
+}
+
+.second.clock-hand::before {
+    background-color: var(--accent);
+    width: 0.08em;
+    height: 3.3em;
+    border-radius: 0.08em;
+}
+
+.intensity {
+    display: inline;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 0.9em;
+}
+
+.intensity.light {
+    background-color: var(--light);
+}
+
+.intensity.moderate {
+    background-color: var(--moderate);
+}
+
+.intensity.heavy {
+    background-color: var(--heavy);
+}
+
+.intensity.violent {
+    background-color: var(--violent);
+}
+
+/* -- Common Text Styles -- */
+
+.callout {
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.sidekick {
+    font-size: 2em;
+    font-weight: bold;
+    line-height: 1.5rem;
+}
+
+.hero {
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 2.5rem;
+}
+
+.superhero {
+    font-size: 6em;
+    font-weight: bold;
+    line-height: 5rem;
+}
+
+/* -- Common Layouts -- */
+
+.h-flow.spacing,
+.v-flow.spacing {
+    gap: var(--v-spacing) var(--h-spacing);
+}
+
+.card-grid {
+    padding: var(--v-spacing) 0;
+    grid-template-columns: var(--card-columns);
+}
+
+.outset-top {
+    margin-top: var(--h-spacing);
+}
+
+.outset-bottom {
+    margin-bottom: var(--h-spacing);
+}
+
+/* -- Scrollable Areas -- */
+
+.orthogonal-scrollable.start {
+    mask-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 5%, white 95%, white 100%);
+}
+
+.orthogonal-scrollable.end {
+    mask-image: linear-gradient(to right, white 0%, white 5%, white 95%, rgba(255, 255, 255, 0) 100%);
+}
+
+.orthogonal-scrollable.start.end {
+    mask-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, white 5%, white 95%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* -- Page Chrome -- */
+
+header.global {
+    position: sticky;
+    top: 0;
+    z-index: 99999;
+    padding: var(--v-spacing) var(--h-spacing);
+    background-color: var(--chrome-bg);
+    backdrop-filter: blur(10px);
+}
+
+header.global nav {
+    max-width: var(--content-width);
+    margin: 0 auto;
+}
+
+header .logo {
+    font-size: 0;
+}
+
+header .logo::before {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-image: image-set(url(/image/icon.png) 1x,
+            url(/image/icon@2x.png) 2x,
+            url(/image/icon@3x.png) 3x);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.place-search-form {
+    flex-grow: 1;
+    font-weight: normal;
+
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: left;
+    gap: 0.5em;
+
+    padding: 0.5em;
+    background: var(--page-bg);
+    border: 1px solid var(--separator);
+    border-radius: 0.5em;
+}
+
+.place-search-form:has(input[type="search"]:focus) {
+    border-color: var(--accent);
+}
+
+.place-search-form input[type="search"] {
+    width: 0;
+    flex-grow: 1;
+
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    height: fit-content;
+}
+
+.place-search-form button {
+    padding: 0;
+}
+
+.place-search-location {
+    font-size: 0;
+}
+
+.place-search-location::after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-size: auto;
+    background-image: image-set(url(/image/use-location.png) 1x,
+            url(/image/use-location@2x.png) 2x,
+            url(/image/use-location@3x.png) 3x);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+footer.global {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: var(--v-spacing) var(--h-spacing);
+    text-align: center;
+}
+
+/* -- Current Forecast -- */
+
+.current-forecast {
+    text-align: center;
+}
+
+.current-forecast .unit.gust {
+    display: block;
+    font-size: 0.6em;
+}
+
+.current-forecast .unit.gust::before {
+    content: "༄";
+    padding-right: 0.3em;
+}
+
+.current-forecast .unit.context {
+    display: block;
+    font-size: 0.6em;
+}
+
+/* -- Next Hour Forecast -- */
+
+.precipitation-chart {
+    position: relative;
+    height: 6em;
+}
+
+.precipitation-chart section {
+    height: 100%;
+    flex-grow: 1;
+}
+
+.precipitation-chart .y-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    align-self: center;
+}
+
+.precipitation-chart .group {
+    height: calc(100% - 2em);
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: end;
+    justify-content: center;
+    gap: 0 0.1em;
+    border-top: 1px solid var(--separator);
+    border-bottom: 1px solid var(--separator);
+}
+
+.precipitation-chart .group:not(:last-child) {
+    padding-right: 0.1em;
+}
+
+.precipitation-chart section:not(:last-child) .group {
+    border-right: 1px dashed var(--separator);
+}
+
+.precipitation-chart .minute {
+    flex-grow: 1;
+    height: var(--chance);
+    border-radius: 0.1em;
+}
+
+.precipitation-chart .minute.light {
+    background-color: var(--light);
+}
+
+.precipitation-chart .minute.moderate {
+    background-color: var(--moderate);
+}
+
+.precipitation-chart .minute.heavy {
+    background-color: var(--heavy);
+}
+
+.precipitation-chart .minute.violent {
+    background-color: var(--violent);
+}
+
+.next-hour-forecast-minutes {
+    height: 5em;
+}
+
+.next-hour-forecast-minutes::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(var(--separator), var(--separator)) no-repeat center/100% 0.5px,
+        linear-gradient(var(--separator), var(--separator)) no-repeat top/100% 0.5px,
+        linear-gradient(var(--separator), var(--separator)) no-repeat bottom/100% 0.5px;
+}
+
+/* -- Weather Alerts -- */
+
+.weather-alert details {
+    cursor: default;
+    background: #ff6700;
+    color: #fff;
+    padding: 0.1em 0.5em;
+    border-radius: 0.5em;
+}
+
+.weather-alert details summary {
+    font-size: 1.1em;
+    font-weight: bolder;
+}
+
+.weather-alert details[open] summary {
+    margin-bottom: 0.5em;
+}
+
+.weather-alert:not(:last-child) {
+    margin-bottom: var(--h-spacing);
+}
+
+.weather-alert details a {
+    display: block;
+    margin: 0.5em 0;
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* -- Hourly Forecast -- */
+
+.hourly-forecast h1 {
+    float: left;
+}
+
+.hourly-forecast-selector {
+    float: right;
+    text-align: end;
+}
+
+.hourly-forecast-main .hourly-forecast-reading.temperature,
+.hourly-forecast-main .hourly-forecast-reading.humidity,
+.hourly-forecast-main .hourly-forecast-reading.wind {
+    display: none;
+}
+
+.hourly-forecast-main .hourly-forecast-reading.wind {
+    font-size: 0.8em;
+}
+
+.hourly-forecast-main .hourly-forecast-reading.wind .unit.gust::before {
+    content: "༄";
+    padding-right: 0.3em;
+}
+
+.hourly-forecast-main .hourly-forecast-reading.wind .unit.gust {
+    display: block;
+    font-size: 0.6em;
+}
+
+.hourly-forecast-selector:has(option[value=temperature]:checked)~.hourly-forecast-main .hourly-forecast-reading.temperature,
+.hourly-forecast-selector:has(option[value=humidity]:checked)~.hourly-forecast-main .hourly-forecast-reading.humidity,
+.hourly-forecast-selector:has(option[value=wind]:checked)~.hourly-forecast-main .hourly-forecast-reading.wind {
+    display: block;
+}
+
+.hourly-forecast-main {
+    padding: var(--v-spacing) 0;
+}
+
+.hourly-forecast-reading-group {
+    min-width: 4rem;
+    min-height: 3.5rem;
+    text-align: center;
+    padding: calc(var(--v-spacing)/2.5) calc(var(--h-spacing)/2.5);
+}
+
+.hourly-forecast-reading {
+    white-space: nowrap;
+}
+
+.hourly-forecast-reading.conditions {
+    position: relative;
+}
+
+.hourly-forecast-reading.conditions .icon {
+    font-size: 2em;
+    margin: 0.3em 0;
+}
+
+.hourly-forecast-reading.conditions > .unit {
+    background: var(--page-bg);
+    opacity: 0.9;
+    font-size: 0.8em;
+    padding: 0.1em;
+    border-radius: 0.2em;
+    gap: 0.1em;
+    position: absolute;
+    right: 0.1em;
+    bottom: 0.1em;
+}
+
+.hourly-forecast-reading.hour {
+    font-weight: bold;
+}
+
+/* -- Daily Forecast -- */
+
+.daily-forecast h1 {
+    float: left;
+}
+
+.daily-forecast-selector {
+    float: right;
+    text-align: end;
+}
+
+.daily-forecast-main .daily-forecast-reading.temperature,
+.daily-forecast-main .daily-forecast-reading.humidity,
+.daily-forecast-main .daily-forecast-reading.wind {
+    display: none;
+}
+
+.daily-forecast-selector:has(option[value=temperature]:checked)~.daily-forecast-main .daily-forecast-reading.temperature,
+.daily-forecast-selector:has(option[value=humidity]:checked)~.daily-forecast-main .daily-forecast-reading.humidity,
+.daily-forecast-selector:has(option[value=wind]:checked)~.daily-forecast-main .daily-forecast-reading.wind {
+    display: block;
+}
+
+.daily-forecast-reading-group {
+    padding: var(--h-spacing) var(--v-spacing);
+}
+
+.daily-forecast-reading.day {
+    font-weight: bold;
+    font-size: 1.5em;
+    align-self: flex-start;
+}
+
+.daily-forecast-reading.wind .unit.gust::before {
+    content: "༄";
+    padding-right: 0.3em;
+}
+
+.daily-forecast-reading.wind .unit.gust {
+    display: block;
+    font-size: 0.7em;
+}
+
+.daily-forecast-reading-condition-block {
+    position: relative;
+    text-align: center;
+    display: inline-block;
+}
+
+.daily-forecast-reading-condition-block .icon {
+    font-size: 2.5em;
+    margin: 0.3em 0;
+}
+
+.daily-forecast-reading-condition-block > .unit {
+    background: var(--page-bg);
+    opacity: 0.9;
+    font-size: 0.8em;
+    padding: 0.1em;
+    border-radius: 0.2em;
+    gap: 0.1em;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+/* Solar Forecast */
+
+.solar-forecast-reading-group {
+    padding: var(--h-spacing) var(--v-spacing);
+}
+
+.solar-forecast-reading-group header {
+    font-weight: bold;
+    font-size: 1.5em;
+    align-self: flex-start;
+}
+
+.solar-forecast-reading-group .icon {
+    font-size: 2.5em;
+    margin: 0.3em 0;
+}
+
+.solar-forecast-reading-group .clock-face {
+    font-size: 0.5em;
+} 

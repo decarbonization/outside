@@ -1,0 +1,5 @@
+{
+    "vite.devCommand": "npm run dev",
+    "vite.port": 5173,
+    "vite.browserType": "system"
+}

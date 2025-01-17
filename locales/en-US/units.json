@@ -1,0 +1,37 @@
+{
+    "placeholder": "--",
+    "highLabel": "Hi ",
+    "lowLabel": "Lo ",
+
+    "percentage": "{{value, number(maximumFractionDigits: 0; style: percent)}}",
+    "uvIndex": "{{value, number(maximumFractionDigits: 0)}}",
+    "aqi": "{{value, number(maximumFractionDigits: 0)}}",
+    
+    "celsius": "{{value, number(maximumFractionDigits: 1)}}°C",
+    "kilometers": "{{value, number(maximumFractionDigits: 1)}}km",
+    "meters": "{{value, number(maximumFractionDigits: 0)}}m",
+    "millibars": "{{value, number(maximumFractionDigits: 0)}}mb",
+    "kilometersPerHour": "{{value, number(maximumFractionDigits: 0)}}km/h",
+    "millimeters": "{{value, number(maximumFractionDigits: 1)}}mm",
+
+    "fahrenheit": "{{value, number(maximumFractionDigits: 0)}}°F",
+    "miles": "{{value, number(maximumFractionDigits: 0)}}mi",
+    "feet": "{{value, number(maximumFractionDigits: 0)}}ft",
+    "inHg": "{{value, number(maximumFractionDigits: 0)}}inHg",
+    "milesPerHour": "{{value, number(maximumFractionDigits: 0)}}mph",
+    "inches": "{{value, number(maximumFractionDigits: 1)}}in",
+
+    "compassDirection": {
+        "north": "N",
+        "northEast": "NE",
+        "east": "E",
+        "southEast": "SE",
+        "south": "S",
+        "southWest": "SW",
+        "west": "W",
+        "northWest": "NW"
+    },
+
+    "listJoiner": ", ",
+    "listFinalizer": " and "
+}

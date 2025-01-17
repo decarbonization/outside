@@ -1,0 +1,190 @@
+{
+    "appName": "Outside",
+    "appDescription": "Prepare for all occasions with comprehensive, high density weather forecasts accessible from any device with a modern web browser.",
+    "appByline": "A Swamp Monkey Co Project",
+    "appPoweredBy": "Powered By",
+    "errorTitle": "Error",
+    "placeSearch": {
+        "inputLabel": "How\u2018s the weather outside in…",
+        "useCurrentLocation": "How\u2018s the weather outside where I am?"
+    },
+    "accounts": {
+        "account": "Account",
+        "me": "Me",
+
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "confirmPasswordLabel": "Confirm Password",
+        "oldPasswordLabel": "Old Password",
+        "newPasswordLabel": "New Password",
+        "confirmNewPasswordLabel": "Confirm New Password",
+
+        "forgotPassword": "Forgot Password",
+        "forgotPasswordExplanation": "Enter your email to receive a link to reset your password.",
+        
+        "signIn": "Sign In",
+        "signOut": "Sign Out",
+        "signUp": "Sign Up",
+        "submit": "Submit",
+
+        "verificationEmailBody": "Thank you for signing up for the Outside weather app. Use the link below to verify your email address:\n\n<{{verifyLink}}>\n\nOutside\nA Swamp Monkey Project\n",
+        "verificationEmailSubject": "Please verify your email address",
+
+        "forgotPasswordEmailBody": "Use the link below to reset your password:\n\n<{{recoverLink}}>\n\nOutside\nA Swamp Monkey Project\n",
+        "forgotPasswordEmailSubject": "Reset your password",
+
+        "emailSent": "Email sent, check your inbox. If you haven't received an email after a few minutes, check your spam folder.",
+
+        "changes": {
+            "password": "Updated password"
+        },
+        
+        "errors": {
+            "invalidEmail": "Not a valid email address",
+            "duplicateEmail": "Email address already in use",
+            "invalidPassword": "Not a valid password",
+            "incorrectPassword": "Incorrect password",
+            "mismatchedPasswords": "Passwords do not match",
+            "unknownUser": "Account is unknown",
+            "unknownSession": "Session is unknown",
+            "expiredSession": "Session expired",
+            "missingScope": "Insufficient authorization",
+            "userAlreadyVerified": "Account has already been verified"
+        }
+    },
+    "forecast": {
+        "measurementLabels": {
+            "temperature": "Temperature",
+            "humidity": "Humidity",
+            "dewPoint": "Dew\u00A0Point",
+            "uvIndex": "UV\u00A0Index",
+            "wind": "Wind",
+            "windGusts": "Gusts",
+            "visibility": "Visibility",
+            "cloudCover": "Cloud\u00A0Cover",
+            "pressure": "Pressure",
+            "feelsLike": "Feels\u00A0Like",
+            "moonPhase": "Moon Phase",
+            "aqi": "AQI",
+            "daytime": "Daytime",
+            "overnight": "Overnight",
+            "trendingUp": "Trending\u00A0Up",
+            "trendingDown": "Trending\u00A0Down"
+        },
+        "weatherCondition": {
+            "BlowingDust": "Blowing\u00A0Dust",
+            "Clear": "Clear",
+            "Cloudy": "Cloudy",
+            "Foggy": "Foggy",
+            "Haze": "Haze",
+            "MostlyClear": "Mostly\u00A0Clear",
+            "MostlyCloudy": "Mostly\u00A0Cloudy",
+            "PartlyCloudy": "Partly\u00A0Cloudy",
+            "Smoky": "Smoky",
+            "Breezy": "Breezy",
+            "Windy": "Windy",
+            "Drizzle": "Drizzle",
+            "HeavyRain": "Heavy\u00A0Rain",
+            "IsolatedThunderstorms": "Isolated\u00A0Thunderstorms",
+            "Rain": "Rain",
+            "SunShowers": "Sun\u00A0Showers",
+            "ScatteredThunderstorms": "Scattered\u00A0Thunderstorms",
+            "StrongStorms": "StrongStorms",
+            "Thunderstorms": "Thunderstorms",
+            "Frigid": "Frigid",
+            "Hail": "Hail",
+            "Hot": "Hot",
+            "Flurries": "Flurries",
+            "Sleet": "Sleet",
+            "Snow": "Snow",
+            "SunFlurries": "Sun\u00A0Flurries",
+            "WintryMix": "Wintry\u00A0Mix",
+            "Blizzard": "Blizzard",
+            "BlowingSnow": "Blowing\u00A0Snow",
+            "FreezingDrizzle": "Freezing\u00A0Drizzle",
+            "FreezingRain": "Freezing\u00A0Rain",
+            "HeavySnow": "Heavy\u00A0Snow",
+            "Hurricane": "Hurricane",
+            "TropicalStorm": "Tropical\u00A0Storm"
+        },
+        "pressureTrend": {
+            "rising": "Rising",
+            "falling": "Falling",
+            "steady": "Steady"
+        },
+        "moonPhase": {
+            "new": "New",
+            "waxingCrescent": "Waxing\u00A0Crescent",
+            "firstQuarter": "First\u00A0Quarter",
+            "full": "Full",
+            "waxingGibbous": "Waxing\u00A0Gibbous",
+            "waningGibbous": "Waning\u00A0Gibbous",
+            "thirdQuarter": "Third\u00A0Quarter",
+            "waningCrescent": "Waning\u00A0Crescent"
+        },
+        "precipitationType": {
+            "clear": "Clear",
+            "precipitation": "Precipitation",
+            "rain": "Rain",
+            "snow": "Snow",
+            "sleet": "Sleet",
+            "hail": "Hail",
+            "mixed": "Wintry\u00A0Mixed"
+        },
+        "chance": {
+            "none": "0% chance",
+            "slight": "Slight chance",
+            "possible": "Chance",
+            "likely": "High chance",
+            "certain": "100% chance"
+        },
+        "comfort": {
+            "tooLow": "Too Low",
+            "fair": "Fair",
+            "good": "Good",
+            "tooHigh": "Too High"
+        },
+        "intensity": {
+            "light": "light",
+            "moderate": "moderate",
+            "heavy": "heavy",
+            "violent": "violent"
+        },
+        "risk": {
+            "low": "Low",
+            "moderate": "Moderate",
+            "high": "High",
+            "veryHigh": "Very\u00A0High",
+            "extreme": "Extreme"
+        },
+        "lastUpdated": "Last Updated {{when, datetime(timeStyle: 'short'; dateStyle: 'short')}}"
+    },
+    "weatherAlerts": {
+        "title": "Weather Alerts",
+        "moreInfo": "More Info…",
+        "details": "Issued by {{agency}}. Effective from {{effective, datetime(timeStyle: 'short'; dateStyle: 'short')}} until {{expires, datetime(timeStyle: 'short'; dateStyle: 'short')}}."
+    },
+    "dailyForecast": {
+        "title": "{{count, number}} Day Forecast",
+        "dayNightSeparator": "\u00A0/\u00A0"
+    },
+    "nextHourForecast": {
+        "periodIndefinite": "{{chance}} of {{intensity}} {{type}}",
+        "periodDefinite": "{{chance}} of {{intensity}} {{type}} lasting for {{duration, number}}M",
+        "xLabelNow": "Now",
+        "xLabel": "{{minutes}}M",
+        "yLabel": "Chance"
+    },
+    "hourlyForecast": {
+        "title": "{{count, number}} Hour Forecast",
+        "summary": "{{chance}} of {{depth}} of {{conditions}}"
+    },
+    "solarForecast": {
+        "title": "Solar Forecast",
+        "sunrise": "Sunrise",
+        "sunset": "Sunset",
+        "moonrise": "Moonrise",
+        "moonset": "Moonset",
+        "moonPhase": "Moon Phase"
+    }
+}
