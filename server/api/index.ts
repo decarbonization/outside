@@ -18,12 +18,14 @@
 
 import { Router } from "express";
 import { DepsObject } from "../bootstrap/deps";
+import ErrorMiddleware from "../middleware/ErrorMiddleware";
+import AccountRoutes from "./AccountRoutes";
 import SearchRoutes from "./SearchRoutes";
 import WeatherRoutes from "./WeatherRoutes";
-import ErrorMiddleware from "../middleware/ErrorMiddleware";
 
 export default function api(deps: DepsObject): Router {
     return Router()
+        .use(AccountRoutes(deps))
         .use(SearchRoutes(deps))
         .use(WeatherRoutes(deps))
         .use(ErrorMiddleware({})); //< Must come last!;

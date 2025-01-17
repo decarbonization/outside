@@ -19,6 +19,7 @@
 import i18next from 'i18next';
 import { ErrorBoundary, lazy, LocationProvider, Route, Router } from 'preact-iso';
 import { useMemo } from 'preact/hooks';
+import { GetAccountResponseBody } from './api/types';
 import { DepsObject, DepsProvider } from './hooks/Deps';
 import HomePage from './routes/HomePage';
 import WeatherPage from './routes/WeatherPage'; // TODO: Why can't this be lazy?
@@ -31,12 +32,16 @@ const SignUpPage = lazy(() => import('./routes/SignUpPage'));
 
 // TODO: GET /sign-up/verify
 
-export default function App() {
+export interface AppProps {
+    readonly account?: GetAccountResponseBody;
+}
+
+export default function App({ account }: AppProps) {
     const deps = useMemo<DepsObject>(() => ({
         i18n: i18next,
-        isUserLoggedIn: true,
+        isUserLoggedIn: account !== undefined,
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    }), []);
+    }), [account]);
     return (
         <DepsProvider deps={deps}>
             <LocationProvider>

@@ -19,6 +19,8 @@
 import { Express } from "express";
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { ViteDevServer } from "vite";
+import { Account } from "../accounts/account";
 
 export interface PrepareRenderingOptions {
     readonly app: Express;
@@ -27,12 +29,25 @@ export interface PrepareRenderingOptions {
     readonly isProduction?: boolean;
 }
 
+export interface PreparedRendering {
+    readonly vite?: ViteDevServer;
+    readonly prerender: (url: string) => Promise<PrerenderResult>;
+}
+
+export interface PrerenderResult {
+    readonly template: string;
+    readonly render: (
+        url: string,
+        account?: Account
+    ) => Promise<{ html: string, links?: Set<string> }>
+}
+
 export default async function prepareRendering({
     app,
     base,
     appDir,
     isProduction = process.env.NODE_ENV === 'production'
-}: PrepareRenderingOptions) {
+}: PrepareRenderingOptions): Promise<PreparedRendering> {
     const distDir = path.join(appDir, 'dist');
     if (!isProduction) {
         const { createServer } = await import('vite');

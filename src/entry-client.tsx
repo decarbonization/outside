@@ -23,6 +23,7 @@ import App from './app';
 import './styling/icons.css';
 import './styling/layout.css';
 import './styling/main.css';
+import { getAccount } from './api/fetches';
 
 // NOTE: This is initialized in the server/index.tsx for entry-server.tsx
 await i18next.use(HttpApi).init({
@@ -38,4 +39,6 @@ await i18next.use(HttpApi).init({
     },
 });
 
-hydrate(<App />, document.getElementById('app')!);
+const account = await getAccount().catch(() => undefined);
+
+hydrate(<App account={account} />, document.getElementById('app')!);

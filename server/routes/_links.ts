@@ -19,7 +19,8 @@
 import { ifNotUndef } from "its-it/nullable";
 import { LinkDestination, linkTo } from "../../src/routes/_links";
 
-export { LinkDestination, linkTo } from "../../src/routes/_links";
+export { linkTo } from "../../src/routes/_links";
+export type { LinkDestination } from "../../src/routes/_links";
 
 export function fullyQualifiedLinkTo(destination: LinkDestination): string {
     const base = ifNotUndef(process.env["HOST"], host => `https://${host}`)

@@ -16,7 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json } from "body-parser";
+import bodyParser from "body-parser";
+console.log(bodyParser);
 import { Request, Response, Router } from "express";
 import "i18next-http-middleware";
 import { ifNotUndef } from "its-it/nullable";
@@ -201,28 +202,28 @@ async function postAccount(
 
 export default function AccountRoutes(options: UserRouteOptions) {
     return Router()
-        .post('/api/sign-in', json(), async (req, res) => {
+        .post('/api/sign-in', bodyParser.json(), async (req, res) => {
             await postSignIn(options, req, res);
         })
         .post('/api/sign-out', async (req, res) => {
             await postSignOut(options, req, res);
         })
-        .post('/api/sign-up', json(), async (req, res) => {
+        .post('/api/sign-up', bodyParser.json(), async (req, res) => {
             await postSignUp(options, req, res);
         })
-        .post('/api/sign-up/verify', json(), async (req, res) => {
+        .post('/api/sign-up/verify', bodyParser.json(), async (req, res) => {
             await postVerify(options, req, res);
         })
-        .post('/api/forgot-password', json(), async (req, res) => {
+        .post('/api/forgot-password', bodyParser.json(), async (req, res) => {
             await postForgotPassword(options, req, res);
         })
-        .post('/api/forgot-password/recover', json(), async (req, res) => {
+        .post('/api/forgot-password/recover', bodyParser.json(), async (req, res) => {
             await postForgotPasswordRecover(options, req, res);
         })
         .get('/api/account', async (req, res) => {
             await getAccount(options, req, res);
         })
-        .post('/api/account', json(), async (req, res) => {
+        .post('/api/account', bodyParser.json(), async (req, res) => {
             await postAccount(options, req, res);
         });
 }

@@ -108,7 +108,7 @@ app.use('*all', async (req, res) => {
 
         const { template, render } = await prerender(url);
 
-        const rendered = await render(url)
+        const rendered = await render(url, req.userAccount);
 
         const html = template
             .replace(`<!--app-html-->`, rendered.html ?? '')
