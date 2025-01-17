@@ -17,11 +17,19 @@
  */
 
 import i18next from 'i18next';
-import { ErrorBoundary, LocationProvider, Route, Router } from 'preact-iso';
+import { ErrorBoundary, lazy, LocationProvider, Route, Router } from 'preact-iso';
 import { useMemo } from 'preact/hooks';
 import { DepsObject, DepsProvider } from './hooks/Deps';
 import HomePage from './routes/HomePage';
 import WeatherPage from './routes/WeatherPage'; // TODO: Why can't this be lazy?
+
+const AccountPage = lazy(() => import('./routes/AccountPage'));
+const ForgotPasswordPage = lazy(() => import('./routes/ForgotPasswordPage'));
+const ForgotPasswordRecoverPage = lazy(() => import('./routes/ForgotPasswordRecoverPage'));
+const SignInPage = lazy(() => import('./routes/SignInPage'));
+const SignUpPage = lazy(() => import('./routes/SignUpPage'));
+
+// TODO: GET /sign-up/verify
 
 export default function App() {
     const deps = useMemo<DepsObject>(() => ({
@@ -36,6 +44,11 @@ export default function App() {
                     <Router>
                         <Route path="/" component={HomePage} />
                         <Route path="/weather/:country/:latitude/:longitude/:locality" component={WeatherPage} />
+                        <Route path="/sign-in" component={SignInPage} />
+                        <Route path="/sign-up" component={SignUpPage} />
+                        <Route path="/forgot-password" component={ForgotPasswordPage} />
+                        <Route path="/forgot-password/recover" component={ForgotPasswordRecoverPage} />
+                        <Route path="/account" component={AccountPage} />
                     </Router>
                 </ErrorBoundary>
             </LocationProvider>

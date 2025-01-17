@@ -84,6 +84,10 @@ export async function signIn(body: SignInRequestBody): Promise<SignInResponseBod
     return await POST('/api/sign-in', body);
 }
 
+export async function signOut(): Promise<void> {
+    return await POST('/api/sign-out', undefined);
+}
+
 export async function signUp(body: SignUpRequestBody): Promise<SignUpResponseBody> {
     return await POST('/api/sign-up', body);
 }

@@ -57,6 +57,19 @@ async function postSignIn(
     res.json({ id: session.userID });
 }
 
+async function postSignOut(
+    { userSystem }: UserRouteOptions,
+    req: Request,
+    res: Response
+): Promise<void> {
+    const account = req.userAccount;
+    if (account !== undefined) {
+        await userSystem.signOut(account.sessionID);
+        req.session.sid = undefined;
+        console.info(`Ended session <${account.sessionID}>`);
+    }
+}
+
 async function postSignUp(
     { userSystem, mailer }: UserRouteOptions,
     req: Request<object, any, { email?: string, password?: string, confirm_password?: string }>,
@@ -190,6 +203,9 @@ export default function AccountRoutes(options: UserRouteOptions) {
     return Router()
         .post('/api/sign-in', json(), async (req, res) => {
             await postSignIn(options, req, res);
+        })
+        .post('/api/sign-out', async (req, res) => {
+            await postSignOut(options, req, res);
         })
         .post('/api/sign-up', json(), async (req, res) => {
             await postSignUp(options, req, res);
