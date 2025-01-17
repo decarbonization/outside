@@ -23,6 +23,7 @@ import AppFooter from "../components/AppFooter";
 import { parseWeather, Weather } from "fruit-company/weather";
 import { CurrentAirConditions, parseCurrentAirConditions } from "good-breathing/aqi";
 import CompleteForecast from "../components/weather/CompleteForecast";
+import { getCurrentAirConditions, getWeather } from "../api/fetches";
 
 export default function WeatherPage() {
     const { params: { country, latitude, longitude, locality } } = useRoute();
@@ -34,12 +35,12 @@ export default function WeatherPage() {
         }
         (async () => {
             console.log(`Fetching weather for ${country} ${latitude} ${longitude}`);
-            const [weatherResponse, airResponse] = await Promise.all([
-                fetch(`/api/weather/${country}/${latitude}/${longitude}`),
-                fetch(`/api/air/${country}/${latitude}/${longitude}`),
+            const [weather, air] = await Promise.all([
+                getWeather(country, latitude, longitude),
+                getCurrentAirConditions(country, latitude, longitude),
             ]);
-            setWeather(parseWeather(await weatherResponse.text()));
-            setAir(parseCurrentAirConditions(await airResponse.text()));
+            setWeather(weather);
+            setAir(air);
         })();
     }, [country, latitude, longitude, setWeather, setAir]);
 

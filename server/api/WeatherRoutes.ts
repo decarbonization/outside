@@ -24,6 +24,7 @@ import "i18next-http-middleware";
 import { fulfill } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { DepsObject } from "../bootstrap/deps";
+import "../middleware/AccountMiddleware";
 import { envInt } from "../utilities/env";
 import { cacheControlFor, timezoneFor } from "../utilities/weather-utils";
 
@@ -35,10 +36,10 @@ async function getWeather(
     req: Request<{ country: string, latitude: string, longitude: string }>,
     res: Response
 ): Promise<void> {
-    // if (req.userAccount === undefined) {
-    //     res.redirect(linkTo({ where: "signIn" }));
-    //     return;
-    // }
+    if (req.userAccount === undefined) {
+        res.status(401).json({ message: "Not signed in" });
+        return;
+    }
     const language = req.i18n.resolvedLanguage ?? req.language;
     const location = new LocationCoordinates(
         LocationCoordinates.parseCoordinate(req.params.latitude),
@@ -74,10 +75,10 @@ async function getAirConditions(
     req: Request<{ country: string, latitude: string, longitude: string }>,
     res: Response
 ): Promise<void> {
-    // if (req.userAccount === undefined) {
-    //     res.redirect(linkTo({ where: "signIn" }));
-    //     return;
-    // }
+    if (req.userAccount === undefined) {
+        res.status(401).json({ message: "Not signed in" });
+        return;
+    }
     const language = req.i18n.resolvedLanguage ?? req.language;
     const location = new LocationCoordinates(
         LocationCoordinates.parseCoordinate(req.params.latitude),

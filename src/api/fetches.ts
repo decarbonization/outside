@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { parseWeather, Weather } from "fruit-company/weather";
+import { CurrentAirConditions, parseCurrentAirConditions } from "good-breathing/aqi";
 import {
     ChangeAccountRequestBody,
     ChangeAccountResponseBody,
@@ -104,4 +106,52 @@ export async function getAccount(): Promise<GetAccountResponseBody> {
 
 export async function changeAccount(body: ChangeAccountRequestBody): Promise<ChangeAccountResponseBody> {
     return await POST('/api/account', body);
+}
+
+export async function getWeather(
+    country: string, 
+    latitude: string, 
+    longitude: string
+): Promise<Weather> {
+    const route = `/api/weather/${country}/${latitude}/${longitude}`;
+    const response = await fetch(route, {
+        credentials: "same-origin",
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+        },
+    });
+    if (!response.ok) {
+        try {
+            const errorResponse = await response.json() as ErrorResponseBody;
+            throw new Error(`${route}: ${errorResponse.message}`);
+        } catch {
+            throw new Error(`${route}: Unknown Error`);
+        }
+    }
+    return parseWeather(await response.text());
+}
+
+export async function getCurrentAirConditions(
+    country: string, 
+    latitude: string, 
+    longitude: string
+): Promise<CurrentAirConditions> {
+    const route = `/api/air/${country}/${latitude}/${longitude}`;
+    const response = await fetch(route, {
+        credentials: "same-origin",
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+        },
+    });
+    if (!response.ok) {
+        try {
+            const errorResponse = await response.json() as ErrorResponseBody;
+            throw new Error(`${route}: ${errorResponse.message}`);
+        } catch {
+            throw new Error(`${route}: Unknown Error`);
+        }
+    }
+    return parseCurrentAirConditions(await response.text());
 }
