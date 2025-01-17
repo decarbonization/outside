@@ -11,7 +11,8 @@
     "build:server": "npx vite build --ssr src/entry-server.tsx --outDir dist/server",
     "build:digitalocean": "npm install --include=dev && npm run build && npm ci",
     "start:digitalocean": "node ./dist/server/index.js",
-    "preview": "npx cross-env NODE_ENV=production npx tsx server/index.ts"
+    "preview": "npx cross-env NODE_ENV=production npx tsx server/index.ts",
+    "test": "npx vitest"
   },
   "author": "Peter Kevin Contreras",
   "license": "GPL-3.0-only",
@@ -51,7 +52,8 @@
     "cross-env": "^7.0.3",
     "rimraf": "^6.0.1",
     "typescript": "~5.6.2",
-    "vite": "^6.0.7"
+    "vite": "^6.0.7",
+    "vitest": "^3.0.2"
   },
   "engines": {
     "node": ">=20.0",
