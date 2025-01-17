@@ -24,6 +24,7 @@
     "date-fns": "^4.1.0",
     "express": "^5.0.1",
     "express-csp-header": "^6.0.0",
+    "express-session": "^1.18.1",
     "fruit-company": "^0.3.0",
     "geo-tz": "^8.1.2",
     "good-breathing": "^0.0.2",
@@ -48,6 +49,7 @@
   "devDependencies": {
     "@preact/preset-vite": "^2.9.4",
     "@types/express": "^5.0.0",
+    "@types/express-session": "^1.18.1",
     "@types/pg": "^8.11.10",
     "cross-env": "^7.0.3",
     "rimraf": "^6.0.1",

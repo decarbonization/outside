@@ -1,6 +1,6 @@
 /*
  * outside weather app
- * Copyright (C) 2024-2025  MAINTAINERS
+ * Copyright (C) 2024  MAINTAINERS
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Router } from "express";
-import { DepsObject } from "../bootstrap/deps";
-import SearchRoutes from "./SearchRoutes";
-import WeatherRoutes from "./WeatherRoutes";
-import ErrorMiddleware from "../middleware/ErrorMiddleware";
+import { ErrorRequestHandler } from "express";
 
-export default function api(deps: DepsObject): Router {
-    return Router()
-        .use(SearchRoutes(deps))
-        .use(WeatherRoutes(deps))
-        .use(ErrorMiddleware({})); //< Must come last!;
+export interface ErrorMiddlewareOptions {
+
+}
+
+export default function ErrorMiddleware({ }: ErrorMiddlewareOptions): ErrorRequestHandler {
+    return async (error: Error, req, res, _next): Promise<void> => {
+        console.error(`${req.method} ${req.url}: ${error.message}`, error.stack);
+        res.status(500).json({
+            "type": error.constructor.name,
+            "message": error.message,
+        });
+    };
 }

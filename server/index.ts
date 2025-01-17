@@ -16,8 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { milliseconds } from 'date-fns';
 import express from 'express';
 import { expressCspHeader, INLINE, NONE, SELF } from 'express-csp-header';
+import session from 'express-session';
 import { createHttpTerminator } from 'http-terminator';
 import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
@@ -27,7 +29,9 @@ import path from 'node:path';
 import api from './api';
 import prepareDeps from "./bootstrap/deps";
 import prepareRendering from './bootstrap/rendering';
-import { env, envInt } from './utilities/env';
+import AccountMiddleware from './middleware/AccountMiddleware';
+import { env, envInt, envStrings } from './utilities/env';
+import { ClientSessionStore } from './utilities/session-store';
 import { setUpShutDownHooks } from './utilities/shut-down';
 
 process.on('unhandledRejection', (reason: Error | any) => {
@@ -79,6 +83,16 @@ app.use('/locales', express.static(localesDir));
 app.use(handleI18n(i18next));
 
 // Serve API
+app.use(session({
+    store: new ClientSessionStore(),
+    secret: envStrings("SESSION_SECRETS"),
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: milliseconds({ days: 30 }),
+    },
+}));
+app.use(AccountMiddleware(deps));
 app.use(api(deps));
 
 // Serve HTML

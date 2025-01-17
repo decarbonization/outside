@@ -16,6 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+-- TABLE public.client_sessions --
+
+CREATE TABLE public.client_sessions (
+    id character varying(255) NOT NULL,
+    "createdAt" timestamp(6) with time zone NOT NULL,
+    "updatedAt" timestamp(6) with time zone NOT NULL,
+    data json NOT NULL
+);
+
 
 -- TABLE public.user_sessions --
 
