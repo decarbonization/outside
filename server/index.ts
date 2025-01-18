@@ -24,6 +24,7 @@ import { createHttpTerminator } from 'http-terminator';
 import i18next from "i18next";
 import i18nextBackend, { FsBackendOptions } from 'i18next-fs-backend';
 import { handle as handleI18n, LanguageDetector } from "i18next-http-middleware";
+import { ifNotUndef } from 'its-it/nullable';
 import http from "node:http";
 import path from 'node:path';
 import api from './api';
@@ -97,7 +98,7 @@ app.use(api(deps));
 
 // Serve HTML
 const base = env('BASE', '/');
-const { vite, prerender } = await prepareRendering({
+const { vite, renderHTML } = await prepareRendering({
     app,
     base,
     appDir,
@@ -105,14 +106,13 @@ const { vite, prerender } = await prepareRendering({
 app.use('*all', async (req, res) => {
     try {
         const url = req.originalUrl.replace(base, '')
-
-        const { template, render } = await prerender(url);
-
-        const rendered = await render(url, req.userAccount);
-
-        const html = template
-            .replace(`<!--app-html-->`, rendered.html ?? '')
-
+        const html = await renderHTML(
+            url,
+            ifNotUndef(req.userAccount, (act) => ({
+                id: act.userID,
+                email: act.email,
+            }))
+        );
         res.status(200).set({ 'Content-Type': 'text/html' }).send(html)
     } catch (e) {
         vite?.ssrFixStacktrace(e)

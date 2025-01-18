@@ -20,7 +20,11 @@ import { Express } from "express";
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { ViteDevServer } from "vite";
-import { Account } from "../accounts/account";
+import type { render } from "../../src/entry-server";
+
+export type Render = typeof render;
+
+export type RenderHTML = (...params: Parameters<Render>) => Promise<string>;
 
 export interface PrepareRenderingOptions {
     readonly app: Express;
@@ -31,15 +35,18 @@ export interface PrepareRenderingOptions {
 
 export interface PreparedRendering {
     readonly vite?: ViteDevServer;
-    readonly prerender: (url: string) => Promise<PrerenderResult>;
+    readonly renderHTML: RenderHTML;
 }
 
-export interface PrerenderResult {
-    readonly template: string;
-    readonly render: (
-        url: string,
-        account?: Account
-    ) => Promise<{ html: string, links?: Set<string> }>
+async function doRenderHTML(
+    template: string,
+    render: Render,
+    ...params: Parameters<Render>
+): Promise<string> {
+    const rendered = await render(...params);
+    const html = template
+        .replace(`<!--app-html-->`, rendered.html ?? '');
+    return html;
 }
 
 export default async function prepareRendering({
@@ -58,13 +65,14 @@ export default async function prepareRendering({
         });
         app.use(vite.middlewares);
 
-        const prerender = async (url: string) => {
+        const renderHTML = async (...params: Parameters<Render>) => {
+            const url = params[0];
             const rawTemplate = await fs.readFile(path.join(appDir, 'index.html'), 'utf-8')
             const template = await vite.transformIndexHtml(url, rawTemplate)
             const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
-            return { template, render };
+            return await doRenderHTML(template, render, ...params);
         };
-        return { vite, prerender };
+        return { vite, renderHTML };
     } else {
         const { default: compression } = await import('compression');
         const { default: sirv } = await import('sirv');
@@ -73,9 +81,9 @@ export default async function prepareRendering({
 
         const template = await fs.readFile(path.join(distDir, 'client', 'index.html'), 'utf-8');
         const { render } = await import(path.join(distDir, 'server', 'entry-server.js'));
-        const prerender = async (_url: string) => {
-            return { template, render };
+        const renderHTML = async (...params: Parameters<Render>) => {
+            return await doRenderHTML(template, render, ...params);
         }
-        return { prerender };
+        return { renderHTML };
     }
 }
