@@ -106,13 +106,13 @@ const { vite, renderHTML } = await prepareRendering({
 app.use('*all', async (req, res) => {
     try {
         const url = req.originalUrl.replace(base, '')
-        const html = await renderHTML(
-            url,
-            ifNotUndef(req.userAccount, (act) => ({
-                id: act.userID,
-                email: act.email,
-            }))
-        );
+        const html = await renderHTML(url, {
+            ssrSession: {
+                isLoggedIn: req.userAccount !== undefined,
+                userID: req.userAccount?.userID,
+                email: req.userAccount?.email,
+            },
+        });
         res.status(200).set({ 'Content-Type': 'text/html' }).send(html)
     } catch (e) {
         vite?.ssrFixStacktrace(e)

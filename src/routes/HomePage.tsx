@@ -20,9 +20,11 @@ import AppFooter from '../components/AppFooter';
 import Condition from '../components/reusable/Condition';
 import Link from '../components/reusable/Link';
 import { useDeps } from '../hooks/Deps';
+import { useSession } from '../hooks/Session';
 
 export default function HomePage() {
-    const { i18n, isUserLoggedIn } = useDeps();
+    const { i18n } = useDeps();
+    const { isLoggedIn } = useSession();
     return (
         <>
             <main>
@@ -37,7 +39,7 @@ export default function HomePage() {
                     </p>
                 </section>
                 <section className="cta outset-top h-flow centered spacing">
-                    {isUserLoggedIn ? (
+                    {isLoggedIn ? (
                         <button className="bordered-button use-current-location" type="button" disabled>
                             {i18n.t('placeSearch.useCurrentLocation')}
                         </button>

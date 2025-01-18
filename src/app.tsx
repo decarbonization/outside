@@ -23,6 +23,10 @@ import { GetAccountResponseBody } from './api/types';
 import { DepsObject, DepsProvider } from './hooks/Deps';
 import HomePage from './routes/HomePage';
 import WeatherPage from './routes/WeatherPage'; // TODO: Why can't this be lazy?
+import useFetch from './hooks/Fetch';
+import { getAccount } from './api/fetches';
+import { SessionObject, SessionProvider } from './hooks/Session';
+import { ifNotUndef } from 'its-it/nullable';
 
 const AccountPage = lazy(() => import('./routes/AccountPage'));
 const ForgotPasswordPage = lazy(() => import('./routes/ForgotPasswordPage'));
@@ -33,30 +37,49 @@ const SignUpPage = lazy(() => import('./routes/SignUpPage'));
 // TODO: GET /sign-up/verify
 
 export interface AppProps {
-    readonly account?: GetAccountResponseBody;
+    readonly ssrSession?: SessionObject;
 }
 
-export default function App({ account }: AppProps) {
+export default function App({ ssrSession }: AppProps) {
+    const { data: session } = useFetch<SessionObject>({
+        initialValue: ssrSession,
+        fetchKey: ['getAccount'],
+        fetchFn: async () => {
+            try {
+                const account = await getAccount();
+                return {
+                    isLoggedIn: true,
+                    userID: account.id,
+                    email: account.email,
+                };
+            } catch {
+                return {
+                    isLoggedIn: false,
+                };
+            }
+        },
+    });
     const deps = useMemo<DepsObject>(() => ({
         i18n: i18next,
-        isUserLoggedIn: account !== undefined,
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    }), [account]);
+    }), []);
     return (
-        <DepsProvider deps={deps}>
-            <LocationProvider>
-                <ErrorBoundary>
-                    <Router>
-                        <Route path="/" component={HomePage} />
-                        <Route path="/weather/:country/:latitude/:longitude/:locality" component={WeatherPage} />
-                        <Route path="/sign-in" component={SignInPage} />
-                        <Route path="/sign-up" component={SignUpPage} />
-                        <Route path="/forgot-password" component={ForgotPasswordPage} />
-                        <Route path="/forgot-password/recover" component={ForgotPasswordRecoverPage} />
-                        <Route path="/account" component={AccountPage} />
-                    </Router>
-                </ErrorBoundary>
-            </LocationProvider>
-        </DepsProvider>
+        <SessionProvider session={session}>
+            <DepsProvider deps={deps}>
+                <LocationProvider>
+                    <ErrorBoundary>
+                        <Router>
+                            <Route path="/" component={HomePage} />
+                            <Route path="/weather/:country/:latitude/:longitude/:locality" component={WeatherPage} />
+                            <Route path="/sign-in" component={SignInPage} />
+                            <Route path="/sign-up" component={SignUpPage} />
+                            <Route path="/forgot-password" component={ForgotPasswordPage} />
+                            <Route path="/forgot-password/recover" component={ForgotPasswordRecoverPage} />
+                            <Route path="/account" component={AccountPage} />
+                        </Router>
+                    </ErrorBoundary>
+                </LocationProvider>
+            </DepsProvider>
+        </SessionProvider>
     );
 }

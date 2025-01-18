@@ -19,6 +19,7 @@
 import { linkTo } from "../routes/_links";
 import { useDeps } from "../hooks/Deps";
 import Link from "./reusable/Link";
+import { useSession } from "../hooks/Session";
 
 export interface NavigationBarProps {
     readonly searchQuery?: string;
@@ -26,14 +27,15 @@ export interface NavigationBarProps {
 }
 
 export default function NavigationBar({ searchQuery, searchDisabled }: NavigationBarProps) {
-    const { i18n, isUserLoggedIn } = useDeps();
+    const { i18n } = useDeps();
+    const { isLoggedIn } = useSession();
     return (
         <header className="global">
             <nav className="h-flow spacing fully centered">
                 <Link where="index" noRedirect className="logo">
                     {i18n.t('appName')}
                 </Link>
-                {isUserLoggedIn ? (
+                {isLoggedIn ? (
                     <>
                         <form className="place-search-form" action={linkTo({ where: "searchByQuery" })} method="GET">
                             <button class="place-search-location use-current-location" type="button" disabled>

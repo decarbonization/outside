@@ -28,12 +28,6 @@ export interface DepsObject {
      * The internationalization object.
      */
     readonly i18n: i18n;
-
-    /**
-     * Whether the user is signed in.
-     */
-    readonly isUserLoggedIn: boolean;
-
     /**
      * The currently active time zone 
      */

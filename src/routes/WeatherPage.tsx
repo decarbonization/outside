@@ -16,14 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Weather } from "fruit-company/weather";
+import { CurrentAirConditions } from "good-breathing/aqi";
 import { useRoute } from "preact-iso";
 import { useEffect, useState } from "preact/hooks";
-import NavigationBar from "../components/NavigationBar";
-import AppFooter from "../components/AppFooter";
-import { parseWeather, Weather } from "fruit-company/weather";
-import { CurrentAirConditions, parseCurrentAirConditions } from "good-breathing/aqi";
-import CompleteForecast from "../components/weather/CompleteForecast";
 import { getCurrentAirConditions, getWeather } from "../api/fetches";
+import AppFooter from "../components/AppFooter";
+import NavigationBar from "../components/NavigationBar";
+import CompleteForecast from "../components/weather/CompleteForecast";
 
 export default function WeatherPage() {
     const { params: { country, latitude, longitude, locality } } = useRoute();

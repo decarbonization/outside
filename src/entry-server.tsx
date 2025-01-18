@@ -18,13 +18,14 @@
 
 import { prerender } from 'preact-iso';
 import { locationStub } from 'preact-iso/prerender';
-import App from './app';
-import { GetAccountResponseBody } from './api/types';
+import App, { AppProps } from './app';
+
+export type RenderProps = AppProps;
 
 export async function render(
     url: string,
-    account?: GetAccountResponseBody
+    props: RenderProps
 ) {
     locationStub(url);
-    return await prerender(<App account={account} />);
+    return await prerender(<App {...props} />);
 }

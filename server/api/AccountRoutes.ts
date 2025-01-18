@@ -17,7 +17,6 @@
  */
 
 import bodyParser from "body-parser";
-console.log(bodyParser);
 import { Request, Response, Router } from "express";
 import "i18next-http-middleware";
 import { ifNotUndef } from "its-it/nullable";
