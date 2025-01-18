@@ -16,33 +16,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Weather } from "fruit-company/weather";
-import { CurrentAirConditions } from "good-breathing/aqi";
 import { useRoute } from "preact-iso";
-import { useEffect, useState } from "preact/hooks";
 import { getCurrentAirConditions, getWeather } from "../api/fetches";
 import AppFooter from "../components/AppFooter";
 import NavigationBar from "../components/NavigationBar";
 import CompleteForecast from "../components/weather/CompleteForecast";
+import useFetch from "../hooks/Fetch";
 
 export default function WeatherPage() {
     const { params: { country, latitude, longitude, locality } } = useRoute();
-    const [weather, setWeather] = useState<Weather | undefined>(undefined);
-    const [air, setAir] = useState<CurrentAirConditions | undefined>(undefined);
-    useEffect(() => {
-        if (import.meta.env.SSR) {
-            return;
-        }
-        (async () => {
-            console.log(`Fetching weather for ${country} ${latitude} ${longitude}`);
-            const [weather, air] = await Promise.all([
-                getWeather(country, latitude, longitude),
-                getCurrentAirConditions(country, latitude, longitude),
-            ]);
-            setWeather(weather);
-            setAir(air);
-        })();
-    }, [country, latitude, longitude, setWeather, setAir]);
+    
+    const { data: weather } = useFetch({
+        isEnabled: !import.meta.env.SSR,
+        fetchKey: ["getWeather", country, latitude, longitude],
+        fetchFn: () => getWeather(country, latitude, longitude),
+    });
+    
+    const { data: air } = useFetch({
+        isEnabled: !import.meta.env.SSR,
+        fetchKey: ["getCurrentAirConditions", country, latitude, longitude],
+        fetchFn: () => getCurrentAirConditions(country, latitude, longitude),
+    });
 
     return (
         <>

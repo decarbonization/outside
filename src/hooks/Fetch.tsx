@@ -22,6 +22,7 @@ export type FetchKey = (string | number | boolean | symbol | undefined | null)[]
 
 export interface UseFetchProps<T> {
     readonly initialValue?: T;
+    readonly isEnabled?: boolean;
     readonly fetchKey: FetchKey;
     readonly fetchFn: () => Promise<T>;
 }
@@ -42,6 +43,7 @@ export function invalidateFetch(invalidatedKey: FetchKey) {
 
 export default function useFetch<T>({
     initialValue,
+    isEnabled = true,
     fetchKey,
     fetchFn,
 }: UseFetchProps<T>): UseFetchResult<T> {
@@ -65,7 +67,7 @@ export default function useFetch<T>({
     const fetch = useCallback(fetchFn, fetchKey);
     
     useEffect(() => {
-        if (!result.isPending) {
+        if (!isEnabled || !result.isPending) {
             return;
         }
         (async () => {
@@ -94,7 +96,7 @@ export default function useFetch<T>({
                 console.log("useFetch.failed");
             }
         })();
-    }, [result, setResult, fetch]);
+    }, [isEnabled, result, setResult, fetch]);
 
     useEffect(() => {
         const invalidationListener = (invalidatedKey: FetchKey) => {
