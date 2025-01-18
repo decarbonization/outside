@@ -18,28 +18,34 @@
 
 import { useCallback, useEffect, useState } from "preact/hooks";
 
+export type FetchKey = (string | number | boolean | symbol | undefined | null)[];
+
 export interface UseFetchProps<T> {
     readonly initialValue?: T;
-    readonly fetchKey: (string | number | boolean | symbol | undefined | null)[];
+    readonly fetchKey: FetchKey;
     readonly fetchFn: () => Promise<T>;
 }
 
-export type FetchResult<T> =
+export type UseFetchResult<T> =
     | { isPending: true, isFetching: false, data: undefined, error: undefined }
     | { isPending: false, isFetching: true, data: undefined, error: undefined }
     | { isPending: false, isFetching: false, data: T, error: undefined }
     | { isPending: false, isFetching: false, data: undefined, error: Error };
 
-export type UseFetchResult<T> = FetchResult<T> & {
-    invalidate: () => void,
-};
+const invalidateListeners: ((invalidatedKey: FetchKey) => void)[] = [];
+
+export function invalidateFetch(invalidatedKey: FetchKey) {
+    for (const invalidateListener of invalidateListeners) {
+        invalidateListener(invalidatedKey);
+    }
+}
 
 export default function useFetch<T>({
     initialValue,
     fetchKey,
     fetchFn,
 }: UseFetchProps<T>): UseFetchResult<T> {
-    const [result, setResult] = useState<FetchResult<T>>(() => {
+    const [result, setResult] = useState<UseFetchResult<T>>(() => {
         if (initialValue !== undefined) {
             return {
                 isPending: false,
@@ -56,15 +62,8 @@ export default function useFetch<T>({
             };
         }
     });
-    const invalidate = useCallback(() => {
-        setResult({
-            isPending: true,
-            isFetching: false,
-            data: undefined,
-            error: undefined,
-        });
-    }, [setResult]);
     const fetch = useCallback(fetchFn, fetchKey);
+    
     useEffect(() => {
         if (!result.isPending) {
             return;
@@ -76,7 +75,7 @@ export default function useFetch<T>({
                 data: undefined,
                 error: undefined,
             });
-            console.log("useEffect.fetching");
+            console.log("useFetch.fetching");
             try {
                 setResult({
                     isPending: false,
@@ -84,7 +83,7 @@ export default function useFetch<T>({
                     data: await fetch(),
                     error: undefined,
                 });
-                console.log("useEffect.completed");
+                console.log("useFetch.completed");
             } catch (e) {
                 setResult({
                     isPending: false,
@@ -92,12 +91,30 @@ export default function useFetch<T>({
                     data: undefined,
                     error: e instanceof Error ? e : new Error(`e`),
                 });
-                console.log("useEffect.failed");
+                console.log("useFetch.failed");
             }
         })();
     }, [result, setResult, fetch]);
-    return {
-        ...result,
-        invalidate,
-    };
+
+    useEffect(() => {
+        const invalidationListener = (invalidatedKey: FetchKey) => {
+            if (fetchKey !== invalidatedKey) {
+                return;
+            }
+            setResult({
+                isPending: true,
+                isFetching: false,
+                data: undefined,
+                error: undefined,
+            });
+        };
+        invalidateListeners.push(invalidationListener);
+
+        return () => {
+            const toRemove = invalidateListeners.indexOf(invalidationListener);
+            invalidateListeners.splice(toRemove, 1);
+        };
+    }, [fetchKey, setResult]);
+
+    return result;
 }
