@@ -16,16 +16,39 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { useLocation } from "preact-iso";
+import { signIn } from "../api/fetches";
 import Link from "../components/reusable/Link";
 import { useDeps } from "../hooks/Deps";
+import { invalidateFetch } from "../hooks/Fetch";
+import { linkTo } from "./_links";
 
 export default function SignInPage() {
     const { i18n } = useDeps();
+    const location = useLocation();
     return (
         <section className="sign-in">
             <h1>{i18n.t("accounts.signIn")}</h1>
             <form
                 className="v-flow spacing outset-top"
+                onSubmit={async e => {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    const form = e.currentTarget;
+                    if (!form.reportValidity()) {
+                        return;
+                    }
+            
+                    const formData = new FormData(form);
+                    await signIn({
+                        email: formData.get("email") as string,
+                        password: formData.get("password") as string,
+                    });
+                    invalidateFetch(["getAccount"]);
+                    location.route(linkTo({ where: "index" }), true);
+        
+                }}
             >
                 <label for="email">{i18n.t('accounts.emailLabel')}</label>
                 <input type="email" id="email" name="email" required />
