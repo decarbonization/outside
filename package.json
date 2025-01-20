@@ -34,7 +34,7 @@
     "i18next-fs-backend": "^2.6.0",
     "i18next-http-backend": "^3.0.1",
     "i18next-http-middleware": "^3.7.1",
-    "its-it": "^0.2.0",
+    "its-it": "^0.3.0",
     "mailtrap": "^3.4.0",
     "pg": "^8.13.1",
     "preact": "^10.25.4",

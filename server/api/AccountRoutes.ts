@@ -19,6 +19,7 @@
 import bodyParser from "body-parser";
 import { Request, Response, Router } from "express";
 import "i18next-http-middleware";
+import { cast } from "its-it/cast";
 import { ifNotUndef } from "its-it/nullable";
 import { MailtrapClient } from "mailtrap";
 import { UserSystemError } from "../accounts/errors";
@@ -27,7 +28,6 @@ import sendForgotPasswordEmail from "../email/sendForgotPasswordEmail";
 import sendVerifyEmail from "../email/sendVerifyEmail";
 import "../middleware/AccountMiddleware";
 import { fullyQualifiedLinkTo } from "../routes/_links";
-import { proveString } from "../utilities/maybe";
 
 type AccountChange =
     | 'password';
@@ -129,11 +129,11 @@ async function postForgotPasswordRecover(
     req: Request<{ password?: string, confirm_password?: string }>,
     res: Response
 ): Promise<void> {
-    const sessionID = ifNotUndef(proveString(req.query["sid"]), sid => Number(sid));
+    const sessionID = ifNotUndef(cast(req.query["sid"], 'string'), sid => Number(sid));
     if (sessionID === undefined) {
         throw new Error("Missing sid");
     }
-    const token = proveString(req.query["token"]);
+    const token = cast(req.query["token"], 'string');
     if (token === undefined) {
         throw new Error("Missing token");
     }
@@ -181,13 +181,13 @@ async function postAccount(
 
     const changes: AccountChange[] = [];
 
-    const oldPassword = proveString(req.body.oldPassword);
+    const oldPassword = cast(req.body.oldPassword, 'string');
     if (oldPassword !== undefined) {
-        const newPassword = proveString(req.body.newPassword);
+        const newPassword = cast(req.body.newPassword, 'string');
         if (newPassword === undefined) {
             throw new Error("Missing new password");
         }
-        const confirmNewPassword = proveString(req.body.confirmNewPassword);
+        const confirmNewPassword = cast(req.body.confirmNewPassword, 'string');
         if (confirmNewPassword === undefined || newPassword !== confirmNewPassword) {
             throw new Error("New passwords do not match");
         }
